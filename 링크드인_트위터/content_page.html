@@ -594,11 +594,12 @@
         </div>
         <div class="filter-chips">
             <div class="chip active" data-filter="all" onclick="filterNews('all', this)">전체</div>
-            <div class="chip" data-filter="wallet" onclick="filterNews('wallet', this)">지갑/월렛</div>
+            <div class="chip" data-filter="hw-wallet" onclick="filterNews('hw-wallet', this)">하드웨어 지갑</div>
+            <div class="chip" data-filter="sw-wallet" onclick="filterNews('sw-wallet', this)">소프트웨어 지갑</div>
             <div class="chip" data-filter="security" onclick="filterNews('security', this)">보안/해킹</div>
             <div class="chip" data-filter="defi" onclick="filterNews('defi', this)">DeFi</div>
-            <div class="chip" data-filter="nft" onclick="filterNews('nft', this)">NFT</div>
             <div class="chip" data-filter="regulation" onclick="filterNews('regulation', this)">규제/법률</div>
+            <div class="chip" data-filter="competitor" onclick="filterNews('competitor', this)">경쟁사 동향</div>
         </div>
         <div class="news-grid" id="newsGrid">
             <div class="loading">
@@ -763,10 +764,11 @@
     };
 
     const FILTER_KEYWORDS = {
-        wallet: ['wallet', 'ledger', 'trezor', 'tangem', 'coldcard', 'keystone', 'hardware wallet', 'cold storage', 'hot wallet', 'metamask', 'phantom', 'dcent', 'd\'cent', 'seed phrase', 'private key', 'self-custody'],
+        'hw-wallet': ['ledger', 'trezor', 'tangem', 'coldcard', 'keystone', 'hardware wallet', 'cold storage', 'cold wallet', 'dcent', 'd\'cent', 'ngrave', 'bitbox', 'ellipal', 'safepal', 'secux', 'gridplus', 'lattice1', 'seed phrase', 'recovery phrase', 'secure element', 'air-gapped', 'airgap'],
+        'sw-wallet': ['metamask', 'phantom', 'rainbow', 'rabby', 'zerion', 'trust wallet', 'coinbase wallet', 'hot wallet', 'browser wallet', 'mobile wallet', 'self-custody', 'private key', 'wallet connect', 'walletconnect'],
         security: ['hack', 'exploit', 'vulnerability', 'security', 'breach', 'phishing', 'scam', 'stolen', 'attack', 'drain', 'rug pull', 'malware'],
         defi: ['defi', 'dex', 'swap', 'liquidity', 'yield', 'lending', 'borrow', 'aave', 'uniswap', 'compound', 'staking', 'tvl'],
-        nft: ['nft', 'opensea', 'blur', 'collectible', 'mint', 'pfp', 'erc-721', 'erc721'],
+        competitor: ['ledger', 'trezor', 'tangem', 'coldcard', 'keystone', 'ngrave', 'bitbox', 'ellipal', 'safepal', 'secux', 'gridplus', 'lattice1'],
         regulation: ['regulation', 'sec', 'law', 'compliance', 'ban', 'legal', 'court', 'lawsuit', 'policy', 'government', 'regulator', 'congress', 'bill'],
     };
 
@@ -807,6 +809,13 @@
         { name: 'Unchained', url: 'https://unchainedcrypto.com/feed/' },
         { name: 'CryptoSlate', url: 'https://cryptoslate.com/feed/' },
         { name: 'BeInCrypto', url: 'https://beincrypto.com/feed/' },
+        // 경쟁사 X(트위터) 계정
+        { name: 'Ledger (X)', url: 'https://nitter.privacydev.net/Ledger/rss' },
+        { name: 'Trezor (X)', url: 'https://nitter.privacydev.net/Trezor/rss' },
+        { name: 'Tangem (X)', url: 'https://nitter.privacydev.net/tangaboreal/rss' },
+        { name: 'Keystone (X)', url: 'https://nitter.privacydev.net/KeystoneWallet/rss' },
+        { name: 'NGRAVE (X)', url: 'https://nitter.privacydev.net/AirgapSecurity/rss' },
+        { name: 'GridPlus (X)', url: 'https://nitter.privacydev.net/GridPlus/rss' },
     ];
 
     // 5분마다 자동 새로고침
