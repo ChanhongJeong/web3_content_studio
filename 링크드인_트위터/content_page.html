@@ -801,7 +801,18 @@
         { name: 'CoinTelegraph', url: 'https://cointelegraph.com/rss' },
         { name: 'Decrypt', url: 'https://decrypt.co/feed' },
         { name: 'The Block', url: 'https://www.theblock.co/rss.xml' },
+        { name: 'Bitcoin Magazine', url: 'https://bitcoinmagazine.com/feed' },
+        { name: 'Blockworks', url: 'https://blockworks.co/feed' },
+        { name: 'DL News', url: 'https://www.dlnews.com/arc/outboundfeeds/rss/' },
+        { name: 'Unchained', url: 'https://unchainedcrypto.com/feed/' },
+        { name: 'CryptoSlate', url: 'https://cryptoslate.com/feed/' },
+        { name: 'BeInCrypto', url: 'https://beincrypto.com/feed/' },
     ];
+
+    // 5분마다 자동 새로고침
+    setInterval(() => {
+        fetchAllNews();
+    }, 5 * 60 * 1000);
 
     async function fetchRSS(feed) {
         try {
