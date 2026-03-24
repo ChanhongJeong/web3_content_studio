@@ -252,6 +252,27 @@
             content: '𝕏 ';
         }
 
+        /* 한국어 요약 */
+        .ko-summary {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(108, 92, 231, 0.08);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 6px 6px 0;
+            font-size: 13px;
+        }
+
+        .ko-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .ko-desc {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
         /* News Cards */
         .news-grid {
             display: grid;
@@ -903,10 +924,10 @@
         { name: 'SecuX', handle: 'SecuXwallet' },
     ];
 
-    const NITTER_INSTANCES = [
-        'https://nitter.privacydev.net',
-        'https://nitter.poast.org',
-        'https://nitter.woodland.cafe',
+    const RSSHUB_INSTANCES = [
+        'https://rsshub.app',
+        'https://rsshub.rssforever.com',
+        'https://rsshub.feeded.xyz',
     ];
 
     // 5분마다 자동 새로고침
@@ -941,16 +962,16 @@
     }
 
     async function fetchXAccount(account) {
-        for (const instance of NITTER_INSTANCES) {
+        for (const instance of RSSHUB_INSTANCES) {
             try {
-                const url = `${instance}/${account.handle}/rss`;
+                const url = `${instance}/twitter/user/${account.handle}`;
                 const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&api_key=okvw2a7g0emvxtydobjxibkowdlker7e449diahy&count=10`;
                 const res = await fetch(apiUrl);
                 const data = await res.json();
                 if (data.status === 'ok' && data.items && data.items.length > 0) {
                     return data.items.map(item => ({
                         title: stripHtml(item.title || item.description || '').substring(0, 200),
-                        link: `https://x.com/${account.handle}/status/${(item.link || '').split('/').pop()}`,
+                        link: item.link || `https://x.com/${account.handle}`,
                         source: `${account.name} (X)`,
                         pubDate: new Date(item.pubDate),
                         description: stripHtml(item.description || '').substring(0, 300),
@@ -962,6 +983,40 @@
             }
         }
         return [];
+    }
+
+    // 한국어 번역 (MyMemory API - 무료)
+    const translateCache = {};
+    async function translateToKo(text) {
+        if (!text || text.length < 5) return '';
+        const short = text.substring(0, 400);
+        if (translateCache[short]) return translateCache[short];
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(short)}&langpair=en|ko`);
+            const data = await res.json();
+            if (data.responseStatus === 200 && data.responseData) {
+                const translated = data.responseData.translatedText;
+                translateCache[short] = translated;
+                return translated;
+            }
+        } catch (e) {}
+        return '';
+    }
+
+    async function translateNewsItem(el, title, description) {
+        const [koTitle, koDesc] = await Promise.all([
+            translateToKo(title),
+            translateToKo(description),
+        ]);
+        const koHtml = document.createElement('div');
+        koHtml.className = 'ko-summary';
+        let content = '';
+        if (koTitle) content += `<div class="ko-title">${koTitle}</div>`;
+        if (koDesc) content += `<div class="ko-desc">${koDesc}</div>`;
+        if (content) {
+            koHtml.innerHTML = content;
+            el.querySelector('.news-text-area').appendChild(koHtml);
+        }
     }
 
     function getImportanceScore(article) {
@@ -1051,21 +1106,20 @@
         // TOP 5 중요 뉴스 선정
         const scored = news.map((n, i) => ({ ...n, score: getImportanceScore(n), originalIndex: i }));
         const top5 = [...scored].sort((a, b) => b.score - a.score).slice(0, 5);
-        const top5Indices = new Set(top5.map(n => n.originalIndex));
 
         let html = '';
 
         // TOP 5 섹션
-        html += '<div class="top-news-section">';
-        html += '<div class="top-news-header">TOP 5 주요 뉴스</div>';
-        html += '<div class="top-news-list">';
+        html += `<div class="top-news-section">`;
+        html += `<div class="top-news-header">TOP 5 주요 뉴스</div>`;
+        html += `<div class="top-news-list">`;
         top5.forEach((n, rank) => {
             const timeAgo = getTimeAgo(n.pubDate);
             const sourceClass = n.isX ? 'source x-source' : 'source';
-            html += `
-                <div class="top-news-card" onclick="window.open('${n.link}', '_blank')">
+            const safeLink = n.link.replace(/'/g, "\\'");
+            html += `<div class="top-news-card" data-title="${encodeURIComponent(n.title)}" data-desc="${encodeURIComponent(n.description)}" onclick="window.open('${safeLink}', '_blank')">
                     <div class="top-rank">${rank + 1}</div>
-                    <div class="top-news-content">
+                    <div class="top-news-content news-text-area">
                         <div class="${sourceClass}">${n.source}</div>
                         <h3>${n.title}</h3>
                         <div class="meta">${timeAgo}</div>
@@ -1073,19 +1127,19 @@
                     <div class="actions">
                         <button class="use-btn" onclick="event.stopPropagation(); selectNews(${n.originalIndex})">글 작성</button>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
-        html += '</div></div>';
+        html += `</div></div>`;
 
-        // 나머지 뉴스
-        html += '<div class="all-news-header">전체 뉴스</div>';
-        html += news.slice(0, 50).map((n, i) => {
+        // 전체 뉴스
+        html += `<div class="all-news-header">전체 뉴스</div>`;
+        const newsSlice = news.slice(0, 50);
+        newsSlice.forEach((n, i) => {
             const timeAgo = getTimeAgo(n.pubDate);
             const sourceClass = n.isX ? 'source x-source' : 'source';
-            return `
-                <div class="news-card" onclick="window.open('${n.link}', '_blank')">
-                    <div>
+            const safeLink = n.link.replace(/'/g, "\\'");
+            html += `<div class="news-card" data-title="${encodeURIComponent(n.title)}" data-desc="${encodeURIComponent(n.description)}" onclick="window.open('${safeLink}', '_blank')">
+                    <div class="news-text-area">
                         <div class="${sourceClass}">${n.source}</div>
                         <h3>${n.title}</h3>
                         <div class="meta">${timeAgo} &middot; ${n.description.substring(0, 100)}${n.description.length > 100 ? '...' : ''}</div>
@@ -1093,11 +1147,20 @@
                     <div class="actions">
                         <button class="use-btn" onclick="event.stopPropagation(); selectNews(${i})">글 작성</button>
                     </div>
-                </div>
-            `;
-        }).join('');
+                </div>`;
+        });
 
         grid.innerHTML = html;
+
+        // 비동기로 한국어 번역 추가 (TOP 5 + 첫 20개)
+        const cards = grid.querySelectorAll('.top-news-card, .news-card');
+        cards.forEach((card, idx) => {
+            if (idx < 25) {
+                const title = decodeURIComponent(card.dataset.title || '');
+                const desc = decodeURIComponent(card.dataset.desc || '');
+                translateNewsItem(card, title, desc);
+            }
+        });
     }
 
     function getTimeAgo(date) {
