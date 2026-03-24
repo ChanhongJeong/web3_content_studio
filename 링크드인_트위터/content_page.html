@@ -273,6 +273,58 @@
             line-height: 1.5;
         }
 
+        /* 경쟁사 카드 */
+        .competitor-section {
+            margin-bottom: 20px;
+        }
+
+        .competitor-desc {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .competitor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .competitor-card:hover {
+            border-color: #1d9bf0;
+            background: rgba(29, 155, 240, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .competitor-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .competitor-handle {
+            font-size: 13px;
+            color: #1d9bf0;
+            margin-bottom: 8px;
+        }
+
+        .competitor-info {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
         /* News Cards */
         .news-grid {
             display: grid;
@@ -924,10 +976,17 @@
         { name: 'SecuX', handle: 'SecuXwallet' },
     ];
 
-    const RSSHUB_INSTANCES = [
-        'https://rsshub.app',
-        'https://rsshub.rssforever.com',
-        'https://rsshub.feeded.xyz',
+    const COMPETITOR_X_LINKS = [
+        { name: 'Ledger', handle: 'Ledger', desc: '프랑스 기반 HW 지갑, Nano S/X/Stax' },
+        { name: 'Trezor', handle: 'Trezor', desc: '체코 기반 HW 지갑, Model One/T/Safe' },
+        { name: 'Tangem', handle: 'tangem', desc: '카드형 HW 지갑, NFC 기반' },
+        { name: 'Keystone', handle: 'KeystoneWallet', desc: 'Air-gapped QR코드 기반 HW 지갑' },
+        { name: 'NGRAVE', handle: 'AirgapSecurity', desc: '벨기에 기반 Air-gapped HW 지갑' },
+        { name: 'GridPlus', handle: 'GridPlus', desc: 'Lattice1 HW 지갑, SafeCard' },
+        { name: 'SafePal', handle: 'iSafePal', desc: 'Binance 투자 HW/SW 지갑' },
+        { name: 'SecuX', handle: 'SecuXwallet', desc: '대만 기반 HW 지갑' },
+        { name: 'Ellipal', handle: 'AirdropELLIPAL', desc: 'Air-gapped 터치스크린 HW 지갑' },
+        { name: 'BitBox', handle: 'BitaborealHQ', desc: '스위스 기반 미니멀 HW 지갑' },
     ];
 
     // 5분마다 자동 새로고침
@@ -961,28 +1020,57 @@
         return tmp.textContent || tmp.innerText || '';
     }
 
-    async function fetchXAccount(account) {
-        for (const instance of RSSHUB_INSTANCES) {
-            try {
-                const url = `${instance}/twitter/user/${account.handle}`;
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&api_key=okvw2a7g0emvxtydobjxibkowdlker7e449diahy&count=10`;
-                const res = await fetch(apiUrl);
-                const data = await res.json();
-                if (data.status === 'ok' && data.items && data.items.length > 0) {
-                    return data.items.map(item => ({
-                        title: stripHtml(item.title || item.description || '').substring(0, 200),
-                        link: item.link || `https://x.com/${account.handle}`,
-                        source: `${account.name} (X)`,
-                        pubDate: new Date(item.pubDate),
-                        description: stripHtml(item.description || '').substring(0, 300),
-                        isX: true,
-                    }));
-                }
-            } catch (e) {
-                continue;
-            }
+    function renderCompetitorCards() {
+        const grid = document.getElementById('newsGrid');
+        let html = '<div class="competitor-section">';
+        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터) 바로가기</div>';
+        html += '<div class="competitor-desc">각 카드를 클릭하면 경쟁사의 최신 X 게시물을 확인할 수 있습니다.</div>';
+        html += '<div class="competitor-grid">';
+        COMPETITOR_X_LINKS.forEach(c => {
+            html += `<div class="competitor-card" onclick="window.open('https://x.com/${c.handle}', '_blank')">
+                <div class="competitor-name">𝕏 ${c.name}</div>
+                <div class="competitor-handle">@${c.handle}</div>
+                <div class="competitor-info">${c.desc}</div>
+            </div>`;
+        });
+        html += '</div></div>';
+
+        // 기사 기반 경쟁사 뉴스도 아래에 표시
+        const competitorNews = allNews.filter(n => {
+            const text = (n.title + ' ' + n.description).toLowerCase();
+            return FILTER_KEYWORDS['competitor'].some(k => text.includes(k));
+        });
+
+        if (competitorNews.length > 0) {
+            html += '<div class="all-news-header" style="margin-top:24px;">경쟁사 관련 기사</div>';
+            competitorNews.slice(0, 20).forEach((n, i) => {
+                const timeAgo = getTimeAgo(n.pubDate);
+                const safeLink = n.link.replace(/'/g, "\\'");
+                const idx = allNews.indexOf(n);
+                html += `<div class="news-card" data-title="${encodeURIComponent(n.title)}" data-desc="${encodeURIComponent(n.description)}" onclick="window.open('${safeLink}', '_blank')">
+                    <div class="news-text-area">
+                        <div class="source">${n.source}</div>
+                        <h3>${n.title}</h3>
+                        <div class="meta">${timeAgo} &middot; ${n.description.substring(0, 100)}${n.description.length > 100 ? '...' : ''}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="use-btn" onclick="event.stopPropagation(); selectNews(${idx})">글 작성</button>
+                    </div>
+                </div>`;
+            });
         }
-        return [];
+
+        grid.innerHTML = html;
+
+        // 번역
+        const cards = grid.querySelectorAll('.news-card');
+        cards.forEach((card, idx) => {
+            if (idx < 10) {
+                const title = decodeURIComponent(card.dataset.title || '');
+                const desc = decodeURIComponent(card.dataset.desc || '');
+                translateNewsItem(card, title, desc);
+            }
+        });
     }
 
     // 한국어 번역 (MyMemory API - 무료)
@@ -1047,15 +1135,12 @@
         const grid = document.getElementById('newsGrid');
         grid.innerHTML = '<div class="loading"><div class="spinner"></div>뉴스를 불러오는 중...</div>';
 
-        const [newsResults, xResults] = await Promise.all([
-            Promise.allSettled(RSS_FEEDS.map(f => fetchRSS(f))),
-            Promise.allSettled(X_ACCOUNTS.map(a => fetchXAccount(a))),
-        ]);
+        const newsResults = await Promise.allSettled(RSS_FEEDS.map(f => fetchRSS(f)));
 
-        allNews = [
-            ...newsResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
-            ...xResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
-        ].sort((a, b) => b.pubDate - a.pubDate);
+        allNews = newsResults
+            .filter(r => r.status === 'fulfilled')
+            .flatMap(r => r.value)
+            .sort((a, b) => b.pubDate - a.pubDate);
 
         if (allNews.length === 0) {
             grid.innerHTML = '<div class="empty-state"><p>뉴스를 불러올 수 없습니다. 네트워크 연결을 확인하세요.</p></div>';
@@ -1093,7 +1178,11 @@
         currentFilter = filter;
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
-        renderNews(filterNewsList(allNews));
+        if (filter === 'competitor') {
+            renderCompetitorCards();
+        } else {
+            renderNews(filterNewsList(allNews));
+        }
     }
 
     function renderNews(news) {
