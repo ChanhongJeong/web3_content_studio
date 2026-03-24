@@ -805,7 +805,7 @@
 
     async function fetchRSS(feed) {
         try {
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&count=30`;
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&api_key=okvw2a7g0emvxtydobjxibkowdlker7e449diahy&count=30`;
             const res = await fetch(apiUrl);
             const data = await res.json();
             if (data.status === 'ok' && data.items) {

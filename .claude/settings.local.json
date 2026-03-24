@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 salary_calculator.py)",
+      "Bash(chmod +x \"/Users/aioteuleoseuteu/Desktop/클로드/연봉계산기.command\")",
+      "Bash(open \"/Users/aioteuleoseuteu/Desktop/클로드/index.html\")"
+    ]
+  }
+}
