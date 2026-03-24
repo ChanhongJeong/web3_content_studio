@@ -325,6 +325,41 @@
             line-height: 1.4;
         }
 
+        .competitor-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .competitor-tab {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .competitor-tab:hover,
+        .competitor-tab.active {
+            border-color: #1d9bf0;
+            color: #1d9bf0;
+            background: rgba(29, 155, 240, 0.1);
+        }
+
+        .competitor-timeline-area {
+            margin-bottom: 20px;
+        }
+
+        .competitor-timeline {
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
         /* News Cards */
         .news-grid {
             display: grid;
@@ -724,6 +759,7 @@
             word-break: break-word;
         }
     </style>
+    <script async src="https://platform.twitter.com/widgets.js"></script>
 </head>
 <body>
 
@@ -1023,17 +1059,24 @@
     function renderCompetitorCards() {
         const grid = document.getElementById('newsGrid');
         let html = '<div class="competitor-section">';
-        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터) 바로가기</div>';
-        html += '<div class="competitor-desc">각 카드를 클릭하면 경쟁사의 최신 X 게시물을 확인할 수 있습니다.</div>';
-        html += '<div class="competitor-grid">';
-        COMPETITOR_X_LINKS.forEach(c => {
-            html += `<div class="competitor-card" onclick="window.open('https://x.com/${c.handle}', '_blank')">
-                <div class="competitor-name">𝕏 ${c.name}</div>
-                <div class="competitor-handle">@${c.handle}</div>
-                <div class="competitor-info">${c.desc}</div>
-            </div>`;
+        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터) 최신 게시물</div>';
+        html += '<div class="competitor-desc">경쟁사 탭을 클릭하면 해당 계정의 최신 트윗을 볼 수 있습니다.</div>';
+
+        // 경쟁사 선택 탭
+        html += '<div class="competitor-tabs">';
+        COMPETITOR_X_LINKS.forEach((c, i) => {
+            html += `<div class="competitor-tab ${i === 0 ? 'active' : ''}" onclick="showCompetitorTimeline('${c.handle}', '${c.name}', this)">${c.name}</div>`;
         });
-        html += '</div></div>';
+        html += '</div>';
+
+        // 타임라인 영역
+        html += '<div class="competitor-timeline-area">';
+        html += `<div id="competitorTimeline" class="competitor-timeline">
+            <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter" data-height="600" href="https://twitter.com/${COMPETITOR_X_LINKS[0].handle}">@${COMPETITOR_X_LINKS[0].handle}의 트윗</a>
+        </div>`;
+        html += '</div>';
+
+        html += '</div>';
 
         // 기사 기반 경쟁사 뉴스도 아래에 표시
         const competitorNews = allNews.filter(n => {
@@ -1062,15 +1105,32 @@
 
         grid.innerHTML = html;
 
+        // X 위젯 로드
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(grid);
+        }
+
         // 번역
-        const cards = grid.querySelectorAll('.news-card');
-        cards.forEach((card, idx) => {
+        const newsCards = grid.querySelectorAll('.news-card');
+        newsCards.forEach((card, idx) => {
             if (idx < 10) {
                 const title = decodeURIComponent(card.dataset.title || '');
                 const desc = decodeURIComponent(card.dataset.desc || '');
                 translateNewsItem(card, title, desc);
             }
         });
+    }
+
+    function showCompetitorTimeline(handle, name, el) {
+        document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+
+        const container = document.getElementById('competitorTimeline');
+        container.innerHTML = `<a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter" data-height="600" href="https://twitter.com/${handle}">@${handle}의 트윗</a>`;
+
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(container);
+        }
     }
 
     // 한국어 번역 (MyMemory API - 무료)
