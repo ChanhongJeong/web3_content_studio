@@ -159,6 +159,13 @@
                 </div>
             </div>
             <div class="input-group">
+                <label>비과세액 (식대 등)</label>
+                <div class="input-row">
+                    <input type="number" id="nonTaxable" value="20" min="0" step="1">
+                    <span class="unit">만원</span>
+                </div>
+            </div>
+            <div class="input-group">
                 <label>20세 이하 자녀 수</label>
                 <div class="input-row">
                     <select id="children">
@@ -260,12 +267,14 @@
             const child = parseInt(document.getElementById('children').value);
             if (!annual || annual <= 0) return;
 
+            const nonTax = parseFloat(document.getElementById('nonTaxable').value) * 10000;
             const monthly = annual / 12;
-            const pension = Math.min(monthly * 0.045, 298890);
-            const health = monthly * 0.03545;
+            const taxableMonthly = monthly - nonTax;
+            const pension = Math.min(taxableMonthly * 0.045, 298890);
+            const health = taxableMonthly * 0.03545;
             const longterm = health * 0.1295;
-            const employ = monthly * 0.009;
-            const incomeTax = estimateIncomeTax(monthly, dep, child);
+            const employ = taxableMonthly * 0.009;
+            const incomeTax = estimateIncomeTax(taxableMonthly, dep, child);
             const localTax = incomeTax * 0.1;
             const totalDed = pension + health + longterm + employ + incomeTax + localTax;
             const net = monthly - totalDed;
