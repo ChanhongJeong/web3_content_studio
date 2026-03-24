@@ -172,6 +172,86 @@
             background: rgba(108, 92, 231, 0.1);
         }
 
+        /* TOP 5 Section */
+        .top-news-section {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .top-news-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-news-header::before {
+            content: '🔥';
+        }
+
+        .top-news-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .top-news-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .top-news-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-hover);
+            transform: translateX(4px);
+        }
+
+        .top-rank {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .top-news-content {
+            flex: 1;
+        }
+
+        .top-news-content h3 {
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        .all-news-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .x-source {
+            color: #1d9bf0 !important;
+        }
+
+        .x-source::before {
+            content: '𝕏 ';
+        }
+
         /* News Cards */
         .news-grid {
             display: grid;
@@ -809,13 +889,24 @@
         { name: 'Unchained', url: 'https://unchainedcrypto.com/feed/' },
         { name: 'CryptoSlate', url: 'https://cryptoslate.com/feed/' },
         { name: 'BeInCrypto', url: 'https://beincrypto.com/feed/' },
-        // 경쟁사 X(트위터) 계정
-        { name: 'Ledger (X)', url: 'https://nitter.privacydev.net/Ledger/rss' },
-        { name: 'Trezor (X)', url: 'https://nitter.privacydev.net/Trezor/rss' },
-        { name: 'Tangem (X)', url: 'https://nitter.privacydev.net/tangaboreal/rss' },
-        { name: 'Keystone (X)', url: 'https://nitter.privacydev.net/KeystoneWallet/rss' },
-        { name: 'NGRAVE (X)', url: 'https://nitter.privacydev.net/AirgapSecurity/rss' },
-        { name: 'GridPlus (X)', url: 'https://nitter.privacydev.net/GridPlus/rss' },
+    ];
+
+    // 경쟁사 X(트위터) 계정
+    const X_ACCOUNTS = [
+        { name: 'Ledger', handle: 'Ledger' },
+        { name: 'Trezor', handle: 'Trezor' },
+        { name: 'Tangem', handle: 'tangaboreal' },
+        { name: 'Keystone', handle: 'KeystoneWallet' },
+        { name: 'NGRAVE', handle: 'AirgapSecurity' },
+        { name: 'GridPlus', handle: 'GridPlus' },
+        { name: 'SafePal', handle: 'iSafePal' },
+        { name: 'SecuX', handle: 'SecuXwallet' },
+    ];
+
+    const NITTER_INSTANCES = [
+        'https://nitter.privacydev.net',
+        'https://nitter.poast.org',
+        'https://nitter.woodland.cafe',
     ];
 
     // 5분마다 자동 새로고침
@@ -849,15 +940,67 @@
         return tmp.textContent || tmp.innerText || '';
     }
 
+    async function fetchXAccount(account) {
+        for (const instance of NITTER_INSTANCES) {
+            try {
+                const url = `${instance}/${account.handle}/rss`;
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&api_key=okvw2a7g0emvxtydobjxibkowdlker7e449diahy&count=10`;
+                const res = await fetch(apiUrl);
+                const data = await res.json();
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    return data.items.map(item => ({
+                        title: stripHtml(item.title || item.description || '').substring(0, 200),
+                        link: `https://x.com/${account.handle}/status/${(item.link || '').split('/').pop()}`,
+                        source: `${account.name} (X)`,
+                        pubDate: new Date(item.pubDate),
+                        description: stripHtml(item.description || '').substring(0, 300),
+                        isX: true,
+                    }));
+                }
+            } catch (e) {
+                continue;
+            }
+        }
+        return [];
+    }
+
+    function getImportanceScore(article) {
+        let score = 0;
+        const text = (article.title + ' ' + article.description).toLowerCase();
+
+        // 주요 키워드 가중치
+        const highImpact = ['hack', 'exploit', 'breach', 'stolen', 'vulnerability', 'breaking', 'launch', 'partnership', 'acquisition', 'billion', 'million', 'regulation', 'sec ', 'ban', 'approve'];
+        const medImpact = ['wallet', 'ledger', 'trezor', 'security', 'update', 'release', 'new', 'first', 'major', 'critical'];
+
+        highImpact.forEach(k => { if (text.includes(k)) score += 3; });
+        medImpact.forEach(k => { if (text.includes(k)) score += 1; });
+
+        // 최신일수록 가중치
+        const hoursAgo = (Date.now() - article.pubDate.getTime()) / (1000 * 60 * 60);
+        if (hoursAgo < 3) score += 5;
+        else if (hoursAgo < 6) score += 3;
+        else if (hoursAgo < 12) score += 1;
+
+        // 주요 매체 가중치
+        const topSources = ['coindesk', 'cointelegraph', 'the block', 'blockworks'];
+        if (topSources.some(s => article.source.toLowerCase().includes(s))) score += 2;
+
+        return score;
+    }
+
     async function fetchAllNews() {
         const grid = document.getElementById('newsGrid');
         grid.innerHTML = '<div class="loading"><div class="spinner"></div>뉴스를 불러오는 중...</div>';
 
-        const results = await Promise.allSettled(RSS_FEEDS.map(f => fetchRSS(f)));
-        allNews = results
-            .filter(r => r.status === 'fulfilled')
-            .flatMap(r => r.value)
-            .sort((a, b) => b.pubDate - a.pubDate);
+        const [newsResults, xResults] = await Promise.all([
+            Promise.allSettled(RSS_FEEDS.map(f => fetchRSS(f))),
+            Promise.allSettled(X_ACCOUNTS.map(a => fetchXAccount(a))),
+        ]);
+
+        allNews = [
+            ...newsResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
+            ...xResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
+        ].sort((a, b) => b.pubDate - a.pubDate);
 
         if (allNews.length === 0) {
             grid.innerHTML = '<div class="empty-state"><p>뉴스를 불러올 수 없습니다. 네트워크 연결을 확인하세요.</p></div>';
@@ -905,12 +1048,45 @@
             return;
         }
 
-        grid.innerHTML = news.slice(0, 50).map((n, i) => {
+        // TOP 5 중요 뉴스 선정
+        const scored = news.map((n, i) => ({ ...n, score: getImportanceScore(n), originalIndex: i }));
+        const top5 = [...scored].sort((a, b) => b.score - a.score).slice(0, 5);
+        const top5Indices = new Set(top5.map(n => n.originalIndex));
+
+        let html = '';
+
+        // TOP 5 섹션
+        html += '<div class="top-news-section">';
+        html += '<div class="top-news-header">TOP 5 주요 뉴스</div>';
+        html += '<div class="top-news-list">';
+        top5.forEach((n, rank) => {
             const timeAgo = getTimeAgo(n.pubDate);
+            const sourceClass = n.isX ? 'source x-source' : 'source';
+            html += `
+                <div class="top-news-card" onclick="window.open('${n.link}', '_blank')">
+                    <div class="top-rank">${rank + 1}</div>
+                    <div class="top-news-content">
+                        <div class="${sourceClass}">${n.source}</div>
+                        <h3>${n.title}</h3>
+                        <div class="meta">${timeAgo}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="use-btn" onclick="event.stopPropagation(); selectNews(${n.originalIndex})">글 작성</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div></div>';
+
+        // 나머지 뉴스
+        html += '<div class="all-news-header">전체 뉴스</div>';
+        html += news.slice(0, 50).map((n, i) => {
+            const timeAgo = getTimeAgo(n.pubDate);
+            const sourceClass = n.isX ? 'source x-source' : 'source';
             return `
                 <div class="news-card" onclick="window.open('${n.link}', '_blank')">
                     <div>
-                        <div class="source">${n.source}</div>
+                        <div class="${sourceClass}">${n.source}</div>
                         <h3>${n.title}</h3>
                         <div class="meta">${timeAgo} &middot; ${n.description.substring(0, 100)}${n.description.length > 100 ? '...' : ''}</div>
                     </div>
@@ -920,6 +1096,8 @@
                 </div>
             `;
         }).join('');
+
+        grid.innerHTML = html;
     }
 
     function getTimeAgo(date) {
