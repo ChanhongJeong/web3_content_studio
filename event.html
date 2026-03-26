@@ -495,7 +495,7 @@
 
   function sendToSheet(email, prize) {
     if (!GOOGLE_SHEET_URL) return;
-    const data = {
+    const params = new URLSearchParams({
       email: email,
       type: prize.type,
       detail: prize.type === 'coupon' ? prize.discount + '% 할인' :
@@ -503,13 +503,8 @@
               prize.type === 'crypto' ? '$' + prize.amount + ' USDC' : '꽝',
       code: prize.code || '-',
       timestamp: new Date().toLocaleString('ko-KR')
-    };
-    fetch(GOOGLE_SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(() => {});
+    });
+    fetch(GOOGLE_SHEET_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
   }
 
   // === localStorage 키 ===
