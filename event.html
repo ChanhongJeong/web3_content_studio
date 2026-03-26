@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎰 D'CENT 만우절 럭키 슬롯 이벤트</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @keyframes neonPulse {
+    0%, 100% { text-shadow: 0 0 10px #b388ff, 0 0 20px #b388ff, 0 0 40px #7c4dff; }
+    50% { text-shadow: 0 0 5px #b388ff, 0 0 10px #b388ff, 0 0 20px #7c4dff; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes spin {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  @keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  body {
+    font-family: -apple-system, 'Pretendard', 'Noto Sans KR', sans-serif;
+    background: linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #1a0533 100%);
+    min-height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    animation: neonPulse 2s ease-in-out infinite;
+    line-height: 1.3;
+  }
+
+  h1 .gold { color: #ffd700; }
+
+  .subtitle {
+    color: #b388ff;
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  /* 이메일 입력 섹션 */
+  .email-section {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(179,136,255,0.3);
+    border-radius: 20px;
+    padding: 30px 24px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.6s ease;
+  }
+
+  .email-section h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .email-section p {
+    color: #a0a0c0;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(179,136,255,0.3);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .input-group input:focus {
+    border-color: #b388ff;
+  }
+
+  .input-group input::placeholder {
+    color: #666;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #7c4dff, #b388ff);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124,77,255,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(124,77,255,0.6);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .error-msg {
+    color: #ff6b6b;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 20px;
+  }
+
+  /* 슬롯머신 섹션 */
+  .slot-section {
+    display: none;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .slot-machine {
+    background: linear-gradient(180deg, #2a1a4e, #1a0f33);
+    border: 3px solid #ffd700;
+    border-radius: 24px;
+    padding: 24px 16px;
+    margin: 20px 0;
+    box-shadow: 0 0 30px rgba(255,215,0,0.2), inset 0 0 30px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slot-machine::before {
+    content: '🎰 LUCKY SLOT 🎰';
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffd700;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+
+  .reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .reel-wrapper {
+    width: 90px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,215,0,0.4);
+    position: relative;
+  }
+
+  .reel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: none;
+  }
+
+  .reel .symbol {
+    width: 90px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    flex-shrink: 0;
+  }
+
+  .reel.spinning {
+    animation: spin 0.15s linear infinite;
+  }
+
+  .spin-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    color: #1a0533;
+    letter-spacing: 4px;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+    transition: all 0.3s;
+  }
+
+  .spin-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(255,215,0,0.6);
+  }
+
+  .spin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* 결과 섹션 */
+  .result-section {
+    display: none;
+    animation: fadeIn 0.5s ease;
+    margin-top: 24px;
+  }
+
+  .result-card {
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .result-card.win {
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(124,77,255,0.15));
+    border: 2px solid #ffd700;
+  }
+
+  .result-card.lose {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+
+  .result-emoji {
+    font-size: 64px;
+    margin-bottom: 12px;
+    animation: float 2s ease-in-out infinite;
+  }
+
+  .result-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .result-card.win .result-title {
+    color: #ffd700;
+  }
+
+  .result-desc {
+    color: #b0b0d0;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .coupon-code {
+    background: rgba(0,0,0,0.4);
+    border: 2px dashed #ffd700;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .coupon-code:hover {
+    background: rgba(255,215,0,0.1);
+  }
+
+  .coupon-hint {
+    font-size: 12px;
+    color: #888;
+  }
+
+  /* 리워드 정보 */
+  .prizes-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0;
+  }
+
+  .prize-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .prize-item .emoji { font-size: 28px; margin-bottom: 6px; }
+  .prize-item .name { font-size: 12px; color: #b0b0d0; }
+  .prize-item .detail { font-size: 11px; color: #777; margin-top: 4px; }
+
+  /* 풀 상태 */
+  .pool-status {
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    color: #ffd700;
+    margin-top: 20px;
+  }
+
+  .pool-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .pool-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ff6b6b);
+    border-radius: 3px;
+    transition: width 0.5s;
+  }
+
+  /* 컨페티 */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confetti-fall 3s linear forwards;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* 이미 참여한 경우 */
+  .already-done {
+    display: none;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .already-done .result-card {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="badge">🎪 APRIL FOOLS EVENT</div>
+  <h1>D'CENT <span class="gold">럭키 슬롯</span></h1>
+  <p class="subtitle">만우절 특별 이벤트! 슬롯을 돌려<br>할인쿠폰, 가스패스, 크립토 바우처를 받아가세요 🎉</p>
+
+  <!-- 리워드 안내 -->
+  <div class="prizes-info">
+    <div class="prize-item">
+      <div class="emoji">🎫</div>
+      <div class="name">할인 쿠폰</div>
+      <div class="detail">최대 50% OFF</div>
+    </div>
+    <div class="prize-item">
+      <div class="emoji">⛽</div>
+      <div class="name">가스패스</div>
+      <div class="detail">$10 상당</div>
+    </div>
+    <div class="prize-item">
+      <div class="emoji">💰</div>
+      <div class="name">크립토 바우처</div>
+      <div class="detail">USDC 지급</div>
+    </div>
+    <div class="prize-item">
+      <div class="emoji">🍀</div>
+      <div class="name">???</div>
+      <div class="detail">행운을 빌어요</div>
+    </div>
+  </div>
+
+  <!-- 이메일 입력 -->
+  <div class="email-section" id="emailSection">
+    <h2>🎟️ 참여하기</h2>
+    <p>이메일 주소를 입력하고 행운의 슬롯을 돌려보세요!<br>(이메일 1개당 1회 참여 가능)</p>
+    <div class="input-group">
+      <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <button class="btn btn-primary" id="emailBtn" onclick="submitEmail()">🎰 슬롯머신 도전!</button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <!-- 슬롯머신 -->
+  <div class="slot-section" id="slotSection">
+    <p style="color:#b388ff; font-size:14px; margin-bottom:8px;" id="playerEmail"></p>
+    <div class="slot-machine">
+      <div class="reels-container">
+        <div class="reel-wrapper">
+          <div class="reel" id="reel1"></div>
+        </div>
+        <div class="reel-wrapper">
+          <div class="reel" id="reel2"></div>
+        </div>
+        <div class="reel-wrapper">
+          <div class="reel" id="reel3"></div>
+        </div>
+      </div>
+      <button class="spin-btn" id="spinBtn" onclick="spin()">🎰 SPIN!</button>
+    </div>
+
+    <!-- USDC 풀 상태 -->
+    <div class="pool-status">
+      💰 크립토 바우처 풀: <strong><span id="poolRemain">$500</span></strong> / $500 남음
+      <div class="pool-bar">
+        <div class="pool-bar-fill" id="poolBar" style="width:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div class="result-section" id="resultSection"></div>
+
+  <!-- 이미 참여 -->
+  <div class="already-done" id="alreadyDone"></div>
+
+  <div class="footer">
+    ※ 본 이벤트는 D'CENT 만우절 특별 이벤트입니다.<br>
+    ※ 쿠폰/바우처는 이메일로 발송됩니다.<br>
+    ※ 크립토 바우처는 총 $500 소진 시 조기 종료됩니다.<br>
+    © 2026 D'CENT. All rights reserved.
+  </div>
+</div>
+
+<script>
+  // === 심볼 정의 ===
+  const SYMBOLS = ['🎫', '⛽', '💰', '💀', '🎲', '🔮', '🎪', '🃏'];
+  const PRIZE_SYMBOLS = { coupon: '🎫', gaspass: '⛽', crypto: '💰', lose: '💀' };
+
+  // === 확률 설정 ===
+  const PROBS = { coupon: 0.55, gaspass: 0.20, lose: 0.20, crypto: 0.05 };
+
+  // === Google Sheets 연동 ===
+  // ⚠️ 아래 URL을 Google Apps Script 배포 URL로 교체하세요!
+  const GOOGLE_SHEET_URL = '';
+
+  function sendToSheet(email, prize) {
+    if (!GOOGLE_SHEET_URL) return;
+    const data = {
+      email: email,
+      type: prize.type,
+      detail: prize.type === 'coupon' ? prize.discount + '% 할인' :
+              prize.type === 'gaspass' ? '$' + prize.amount :
+              prize.type === 'crypto' ? '$' + prize.amount + ' USDC' : '꽝',
+      code: prize.code || '-',
+      timestamp: new Date().toLocaleString('ko-KR')
+    };
+    fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(() => {});
+  }
+
+  // === localStorage 키 ===
+  const STORAGE_EMAILS = 'dcent_event_emails';
+  const STORAGE_POOL = 'dcent_event_usdc_pool';
+
+  // === 초기화 ===
+  function getEmailDB() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_EMAILS)) || {}; }
+    catch { return {}; }
+  }
+
+  function saveEmailDB(db) {
+    localStorage.setItem(STORAGE_EMAILS, JSON.stringify(db));
+  }
+
+  function getPool() {
+    const v = localStorage.getItem(STORAGE_POOL);
+    return v === null ? 500 : parseFloat(v);
+  }
+
+  function savePool(v) {
+    localStorage.setItem(STORAGE_POOL, String(v));
+  }
+
+  function updatePoolUI() {
+    const remain = getPool();
+    document.getElementById('poolRemain').textContent = '$' + remain.toFixed(0);
+    document.getElementById('poolBar').style.width = ((remain / 500) * 100) + '%';
+  }
+
+  // === 쿠폰코드 생성 ===
+  function genCode(prefix) {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = prefix + '-';
+    for (let i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+
+  // === 당첨 결정 ===
+  function decidePrize() {
+    const pool = getPool();
+    const rand = Math.random();
+    let cumulative = 0;
+
+    // USDC 풀 소진 시 crypto 제외하고 재분배
+    let probs = { ...PROBS };
+    if (pool <= 0) {
+      const cryptoProb = probs.crypto;
+      delete probs.crypto;
+      const total = Object.values(probs).reduce((a, b) => a + b, 0);
+      for (let k in probs) probs[k] = probs[k] / total;
+    }
+
+    for (const [prize, prob] of Object.entries(probs)) {
+      cumulative += prob;
+      if (rand <= cumulative) {
+        // 상세 결정
+        if (prize === 'coupon') {
+          // 20%~50% 할인 (5% 단위)
+          const discounts = [20, 25, 30, 35, 40, 45, 50];
+          // 낮은 할인율에 가중치
+          const weights = [25, 22, 18, 14, 10, 7, 4];
+          const totalW = weights.reduce((a, b) => a + b, 0);
+          let r = Math.random() * totalW, acc = 0;
+          let discount = 20;
+          for (let i = 0; i < weights.length; i++) {
+            acc += weights[i];
+            if (r <= acc) { discount = discounts[i]; break; }
+          }
+          return { type: 'coupon', discount, code: genCode('DCNT' + discount) };
+        }
+        if (prize === 'gaspass') {
+          return { type: 'gaspass', amount: 10, code: genCode('GAS') };
+        }
+        if (prize === 'crypto') {
+          // $5~$50 랜덤 (5 단위)
+          const amounts = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+          const weights = [30, 22, 16, 10, 7, 5, 4, 3, 2, 1];
+          const totalW = weights.reduce((a, b) => a + b, 0);
+          let r = Math.random() * totalW, acc = 0;
+          let amount = 5;
+          for (let i = 0; i < weights.length; i++) {
+            acc += weights[i];
+            if (r <= acc) { amount = amounts[i]; break; }
+          }
+          // 풀 잔액 체크
+          if (amount > pool) amount = Math.floor(pool / 5) * 5;
+          if (amount <= 0) {
+            // 풀 소진 → 쿠폰으로 대체
+            return { type: 'coupon', discount: 30, code: genCode('DCNT30') };
+          }
+          savePool(pool - amount);
+          return { type: 'crypto', amount, code: genCode('USDC') };
+        }
+        return { type: 'lose' };
+      }
+    }
+    return { type: 'lose' };
+  }
+
+  // === 릴 초기화 ===
+  function initReels() {
+    for (let i = 1; i <= 3; i++) {
+      const reel = document.getElementById('reel' + i);
+      reel.innerHTML = '';
+      // 여러 심볼 채움
+      for (let j = 0; j < 20; j++) {
+        const sym = document.createElement('div');
+        sym.className = 'symbol';
+        sym.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+        reel.appendChild(sym);
+      }
+    }
+  }
+
+  // === 이메일 제출 ===
+  function submitEmail() {
+    const input = document.getElementById('emailInput');
+    const email = input.value.trim().toLowerCase();
+    const errorEl = document.getElementById('errorMsg');
+
+    if (!email) {
+      errorEl.textContent = '이메일 주소를 입력해주세요.';
+      input.style.animation = 'shake 0.3s';
+      setTimeout(() => input.style.animation = '', 300);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errorEl.textContent = '올바른 이메일 형식이 아닙니다.';
+      return;
+    }
+
+    const db = getEmailDB();
+    if (db[email]) {
+      errorEl.textContent = '';
+      // 이미 참여한 이메일 → 결과 다시 보여주기
+      showAlreadyDone(email, db[email]);
+      return;
+    }
+
+    errorEl.textContent = '';
+    document.getElementById('emailSection').style.display = 'none';
+    document.getElementById('slotSection').style.display = 'block';
+    document.getElementById('playerEmail').textContent = '🎟️ ' + email;
+    document.getElementById('slotSection').dataset.email = email;
+
+    initReels();
+    updatePoolUI();
+  }
+
+  // === 이미 참여한 경우 ===
+  function showAlreadyDone(email, prize) {
+    document.getElementById('emailSection').style.display = 'none';
+    const el = document.getElementById('alreadyDone');
+    el.style.display = 'block';
+
+    let html = '<div class="result-card ' + (prize.type !== 'lose' ? 'win' : 'lose') + '">';
+    html += '<div class="result-emoji">🔁</div>';
+    html += '<div class="result-title">이미 참여하셨습니다!</div>';
+    html += '<div class="result-desc">' + email + '<br><br>';
+
+    if (prize.type === 'coupon') {
+      html += '당첨 내역: 🎫 ' + prize.discount + '% 할인 쿠폰<br>';
+      html += '쿠폰 코드: <strong>' + prize.code + '</strong>';
+    } else if (prize.type === 'gaspass') {
+      html += '당첨 내역: ⛽ 가스패스 $' + prize.amount + '<br>';
+      html += '코드: <strong>' + prize.code + '</strong>';
+    } else if (prize.type === 'crypto') {
+      html += '당첨 내역: 💰 크립토 바우처 $' + prize.amount + ' USDC<br>';
+      html += '코드: <strong>' + prize.code + '</strong>';
+    } else {
+      html += '결과: 꽝 💀';
+    }
+
+    html += '</div></div>';
+    el.innerHTML = html;
+  }
+
+  // === 스핀 ===
+  let isSpinning = false;
+
+  function spin() {
+    if (isSpinning) return;
+    isSpinning = true;
+
+    const spinBtn = document.getElementById('spinBtn');
+    spinBtn.disabled = true;
+    spinBtn.textContent = '🎰 돌리는 중...';
+
+    const prize = decidePrize();
+    const email = document.getElementById('slotSection').dataset.email;
+
+    // DB 저장 (localStorage + Google Sheets)
+    const db = getEmailDB();
+    db[email] = prize;
+    saveEmailDB(db);
+    sendToSheet(email, prize);
+
+    // 최종 심볼 결정
+    const finalSymbol = PRIZE_SYMBOLS[prize.type];
+    const loseSymbols = ['💀', '🎲', '🃏'];
+
+    // 릴 애니메이션
+    const reels = [
+      document.getElementById('reel1'),
+      document.getElementById('reel2'),
+      document.getElementById('reel3')
+    ];
+
+    // 스피닝 시작
+    reels.forEach(reel => {
+      reel.innerHTML = '';
+      const syms = [...SYMBOLS, ...SYMBOLS, ...SYMBOLS];
+      syms.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'symbol';
+        div.textContent = s;
+        reel.appendChild(div);
+      });
+      reel.style.transition = 'none';
+      reel.style.transform = 'translateY(0)';
+    });
+
+    // 각 릴 스피닝 시작
+    const intervals = reels.map(reel => {
+      return setInterval(() => {
+        reel.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+          const div = document.createElement('div');
+          div.className = 'symbol';
+          div.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+          reel.appendChild(div);
+        }
+      }, 80);
+    });
+
+    // 순차 정지
+    function stopReel(index, symbol, delay) {
+      setTimeout(() => {
+        clearInterval(intervals[index]);
+        reels[index].innerHTML = '';
+        const div = document.createElement('div');
+        div.className = 'symbol';
+        div.textContent = symbol;
+        div.style.animation = 'fadeIn 0.3s ease';
+        reels[index].appendChild(div);
+      }, delay);
+    }
+
+    if (prize.type === 'lose') {
+      stopReel(0, loseSymbols[0], 1200);
+      stopReel(1, loseSymbols[1], 2000);
+      stopReel(2, loseSymbols[2], 2800);
+    } else {
+      stopReel(0, finalSymbol, 1200);
+      stopReel(1, finalSymbol, 2000);
+      stopReel(2, finalSymbol, 2800);
+    }
+
+    // 결과 표시
+    setTimeout(() => {
+      isSpinning = false;
+      updatePoolUI();
+      showResult(prize);
+    }, 3200);
+  }
+
+  // === 결과 표시 ===
+  function showResult(prize) {
+    const el = document.getElementById('resultSection');
+    el.style.display = 'block';
+
+    let html = '';
+
+    if (prize.type === 'coupon') {
+      launchConfetti();
+      html = `
+        <div class="result-card win">
+          <div class="result-emoji">🎫</div>
+          <div class="result-title">🎉 축하합니다!</div>
+          <div class="result-desc">
+            D'CENT 하드웨어 지갑<br>
+            <strong style="font-size:28px; color:#ffd700;">${prize.discount}% 할인 쿠폰</strong> 당첨!
+          </div>
+          <div class="coupon-code" onclick="copyCode(this)">${prize.code}</div>
+          <div class="coupon-hint">👆 터치하여 코드 복사</div>
+        </div>`;
+    } else if (prize.type === 'gaspass') {
+      launchConfetti();
+      html = `
+        <div class="result-card win">
+          <div class="result-emoji">⛽</div>
+          <div class="result-title">🎉 축하합니다!</div>
+          <div class="result-desc">
+            D'CENT 가스패스<br>
+            <strong style="font-size:28px; color:#ffd700;">$${prize.amount} 상당</strong> 당첨!
+          </div>
+          <div class="coupon-code" onclick="copyCode(this)">${prize.code}</div>
+          <div class="coupon-hint">👆 터치하여 코드 복사</div>
+        </div>`;
+    } else if (prize.type === 'crypto') {
+      launchConfetti();
+      html = `
+        <div class="result-card win">
+          <div class="result-emoji">💰</div>
+          <div class="result-title">🎉 잭팟!! 축하합니다!</div>
+          <div class="result-desc">
+            크립토 바우처<br>
+            <strong style="font-size:28px; color:#ffd700;">$${prize.amount} USDC</strong> 당첨!<br>
+            <span style="font-size:12px; color:#aaa;">입력하신 이메일로 바우처가 발송됩니다.</span>
+          </div>
+          <div class="coupon-code" onclick="copyCode(this)">${prize.code}</div>
+          <div class="coupon-hint">👆 터치하여 코드 복사</div>
+        </div>`;
+    } else {
+      html = `
+        <div class="result-card lose">
+          <div class="result-emoji">😅</div>
+          <div class="result-title">아쉽게도 꽝!</div>
+          <div class="result-desc">
+            다음 기회에 다시 도전해보세요!<br>
+            <span style="font-size:12px; color:#aaa;">만우절이니까 한 번 웃고 넘어가요 🤡</span>
+          </div>
+        </div>`;
+    }
+
+    el.innerHTML = html;
+    document.getElementById('spinBtn').style.display = 'none';
+  }
+
+  // === 코드 복사 ===
+  function copyCode(el) {
+    navigator.clipboard.writeText(el.textContent).then(() => {
+      const orig = el.textContent;
+      el.textContent = '✅ 복사 완료!';
+      el.style.color = '#00e676';
+      setTimeout(() => {
+        el.textContent = orig;
+        el.style.color = '#ffd700';
+      }, 1500);
+    });
+  }
+
+  // === 컨페티 ===
+  function launchConfetti() {
+    const colors = ['#ffd700', '#ff6b6b', '#7c4dff', '#00e676', '#ff9800', '#e91e63'];
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const conf = document.createElement('div');
+        conf.className = 'confetti';
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.background = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.width = (Math.random() * 8 + 5) + 'px';
+        conf.style.height = (Math.random() * 8 + 5) + 'px';
+        conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 4000);
+      }, i * 50);
+    }
+  }
+
+  // === 엔터키 지원 ===
+  document.getElementById('emailInput').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') submitEmail();
+  });
+
+  // === 초기 풀 상태 세팅 ===
+  if (localStorage.getItem(STORAGE_POOL) === null) {
+    savePool(500);
+  }
+</script>
+
+</body>
+</html>
