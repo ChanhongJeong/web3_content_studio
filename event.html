@@ -504,7 +504,7 @@
       code: prize.code || '-',
       timestamp: new Date().toLocaleString('ko-KR')
     });
-    fetch(GOOGLE_SHEET_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
+    new Image().src = GOOGLE_SHEET_URL + '?' + params.toString();
   }
 
   // === localStorage 키 ===
