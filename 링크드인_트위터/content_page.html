@@ -1153,12 +1153,12 @@
         { name: 'SafePal', handle: 'SafePal' },
     ];
 
-    async function loadGeminiSummaries(container) {
+    function loadGeminiSummaries(container) {
         const cards = container.querySelectorAll('.tweet-card[data-rawtext]');
-        for (const card of cards) {
+        cards.forEach(card => {
             const rawText = decodeURIComponent(card.dataset.rawtext || '');
             const handle = card.dataset.handle || '';
-            if (!rawText || rawText.length < 10) continue;
+            if (!rawText || rawText.length < 5) return;
 
             const placeholder = document.createElement('div');
             placeholder.className = 'ko-summary';
@@ -1166,19 +1166,18 @@
             const tweetBody = card.querySelector('.tweet-body');
             if (tweetBody) tweetBody.after(placeholder);
 
-            try {
-                const url = `${TWITTER_PROXY_URL}?action=summarize&handle=${handle}&text=${encodeURIComponent(rawText)}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                if (data.success && data.summary) {
-                    placeholder.innerHTML = `<div class="ko-title" style="white-space:pre-line;">${data.summary}</div>`;
-                } else {
-                    placeholder.remove();
-                }
-            } catch (e) {
-                placeholder.remove();
-            }
-        }
+            // 각 트윗 독립적으로 비동기 호출 (하나 실패해도 나머지 영향 X)
+            fetch(`${TWITTER_PROXY_URL}?action=summarize&handle=${handle}&text=${encodeURIComponent(rawText)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.summary) {
+                        placeholder.innerHTML = `<div class="ko-title" style="white-space:pre-line;">${data.summary}</div>`;
+                    } else {
+                        placeholder.remove();
+                    }
+                })
+                .catch(() => placeholder.remove());
+        });
     }
 
     async function showCompetitorTimeline(handle, name, el) {
