@@ -30,16 +30,13 @@ function doGet(e) {
     if (action === 'tweets') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const tweets = getTweets(handle, parseInt(e.parameter.count) || 5);
-      // 한번에 모든 트윗 요약 (API 호출 1번으로 최적화)
-      try {
-        var summaries = batchSummarizeTweets(tweets, handle);
-        for (var si = 0; si < tweets.length && si < summaries.length; si++) {
-          tweets[si].ko_summary = summaries[si];
-        }
-      } catch (err) {
-        // 요약 실패해도 트윗은 반환
-      }
       return jsonResponse({ success: true, handle: handle, tweets: tweets });
+    } else if (action === 'batch-summarize') {
+      // 트윗 요약 별도 호출
+      if (!handle) return jsonResponse({ error: 'handle parameter required' });
+      var tweets2 = getTweets(handle, parseInt(e.parameter.count) || 5);
+      var summaries = batchSummarizeTweets(tweets2, handle);
+      return jsonResponse({ success: true, summaries: summaries });
     } else if (action === 'summarize') {
       var text = e.parameter.text || '';
       var h = handle || '';

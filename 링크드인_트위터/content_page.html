@@ -1171,6 +1171,29 @@
         });
     }
 
+    async function fetchBatchSummaries(handle, count, container) {
+        try {
+            const url = `${TWITTER_PROXY_URL}?action=batch-summarize&handle=${handle}&count=${count}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.success && data.summaries) {
+                const cards = container.querySelectorAll('.tweet-card');
+                cards.forEach((card, i) => {
+                    if (i < data.summaries.length && data.summaries[i]) {
+                        const existing = card.querySelector('.ko-summary');
+                        if (!existing) {
+                            const summary = document.createElement('div');
+                            summary.className = 'ko-summary';
+                            summary.innerHTML = `<div class="ko-title" style="white-space:pre-line;">${data.summaries[i]}</div>`;
+                            const tweetBody = card.querySelector('.tweet-body');
+                            if (tweetBody) tweetBody.after(summary);
+                        }
+                    }
+                });
+            }
+        } catch (e) {}
+    }
+
     async function showCompetitorTimeline(handle, name, el) {
         document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
@@ -1189,6 +1212,9 @@
 
         const tweets = await fetchCompetitorTweets(handle, 5);
         container.innerHTML = renderTweetCards(tweets, handle, name);
+
+        // 요약은 백그라운드로
+        fetchBatchSummaries(handle, 5, container);
     }
 
     // ===== Twitter 프록시 설정 =====
