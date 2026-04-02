@@ -869,7 +869,6 @@
             word-break: break-word;
         }
     </style>
-    <script async src="https://platform.twitter.com/widgets.js"></script>
 </head>
 <body>
 
@@ -1174,22 +1173,117 @@
         { name: 'SafePal', handle: 'iSafePal' },
     ];
 
-    function showCompetitorTimeline(handle, name, el) {
+    async function showCompetitorTimeline(handle, name, el) {
         document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
 
         const container = document.getElementById('competitorTimeline');
-        container.innerHTML = `<a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders" data-tweet-limit="5" data-height="600" href="https://twitter.com/${handle}">@${handle}의 트윗 로딩 중...</a>`;
 
-        if (window.twttr && window.twttr.widgets) {
-            window.twttr.widgets.load(container);
+        if (!TWITTER_PROXY_URL) {
+            container.innerHTML = `<div class="tweet-error">
+                <p>프록시 URL을 설정하면 여기에 @${handle}의 최신 트윗이 표시됩니다.</p>
+                <a href="https://x.com/${handle}" target="_blank" class="tweet-open-btn">X에서 @${handle} 직접 보기 →</a>
+            </div>`;
+            return;
         }
+
+        container.innerHTML = '<div class="tweet-loading"><div class="spinner"></div>@' + handle + ' 트윗을 불러오는 중...</div>';
+
+        const tweets = await fetchCompetitorTweets(handle, 5);
+        container.innerHTML = renderTweetCards(tweets, handle, name);
+    }
+
+    // ===== Twitter 프록시 설정 =====
+    // Google Apps Script 배포 URL을 여기에 붙여넣기
+    const TWITTER_PROXY_URL = ''; // TODO: GAS 배포 URL 입력
+
+    const tweetCache = {};
+
+    async function fetchCompetitorTweets(handle, count = 5) {
+        if (tweetCache[handle]) return tweetCache[handle];
+        if (!TWITTER_PROXY_URL) return null;
+
+        try {
+            const url = `${TWITTER_PROXY_URL}?action=tweets&handle=${handle}&count=${count}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.success && data.tweets) {
+                tweetCache[handle] = data.tweets;
+                return data.tweets;
+            }
+        } catch (e) {
+            console.warn(`Failed to fetch tweets for ${handle}:`, e);
+        }
+        return null;
+    }
+
+    function renderTweetCards(tweets, handle, name) {
+        if (!tweets || tweets.length === 0) {
+            return `<div class="tweet-error">
+                <p>트윗을 불러올 수 없습니다.</p>
+                <a href="https://x.com/${handle}" target="_blank" class="tweet-open-btn">X에서 @${handle} 직접 보기 →</a>
+            </div>`;
+        }
+
+        let html = '';
+        tweets.forEach(t => {
+            const timeAgo = getTimeAgo(new Date(t.created_at));
+            const profileImg = t.profile_image || '';
+            const tweetUrl = `https://x.com/${t.handle}/status/${t.id}`;
+
+            // 텍스트 처리: t.co 링크 제거, @멘션/해시태그 링크화
+            let body = t.text
+                .replace(/https?:\/\/t\.co\/\w+/g, '')
+                .trim()
+                .replace(/@(\w+)/g, '<a href="https://x.com/$1" target="_blank" onclick="event.stopPropagation()">@$1</a>')
+                .replace(/#(\w+)/g, '<a href="https://x.com/search?q=%23$1" target="_blank" onclick="event.stopPropagation()">#$1</a>');
+
+            // 미디어
+            let mediaHtml = '';
+            if (t.media && t.media.length > 0) {
+                t.media.forEach(m => {
+                    if (m.type === 'photo') {
+                        mediaHtml += `<img src="${m.url}" loading="lazy" style="max-width:100%;border-radius:12px;margin-top:10px;">`;
+                    }
+                });
+            }
+
+            // 아바타
+            const avatarHtml = profileImg
+                ? `<img src="${profileImg}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
+                : `<div class="tweet-avatar">${(t.name || name).charAt(0)}</div>`;
+
+            html += `<div class="tweet-card" onclick="window.open('${tweetUrl}', '_blank')">
+                <div class="tweet-header">
+                    ${avatarHtml}
+                    <div>
+                        <div class="tweet-author-name">${t.name || name}</div>
+                        <div class="tweet-author-handle">@${t.handle || handle}</div>
+                    </div>
+                    <div class="tweet-time">${timeAgo}</div>
+                </div>
+                <div class="tweet-body">${body}${mediaHtml}</div>
+                <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--text-muted);">
+                    <span>💬 ${t.reply_count || 0}</span>
+                    <span>🔁 ${t.retweet_count || 0}</span>
+                    <span>❤️ ${t.favorite_count || 0}</span>
+                </div>
+            </div>`;
+        });
+        return html;
     }
 
     function renderCompetitorCards() {
         const grid = document.getElementById('newsGrid');
         let html = '<div class="competitor-section">';
         html += '<div class="top-news-header" style="margin-bottom:12px;">경쟁사 X(트위터) 최신 포스트</div>';
+
+        if (!TWITTER_PROXY_URL) {
+            html += '<div class="tweet-error" style="margin-bottom:16px;padding:20px;background:var(--bg-card);border-radius:12px;border:1px solid var(--border);">';
+            html += '<p style="margin-bottom:8px;">⚠️ Twitter 프록시가 설정되지 않았습니다.</p>';
+            html += '<p style="font-size:12px;color:var(--text-muted);">twitter_proxy_gas.js를 Google Apps Script에 배포하고,<br>content_page.html의 TWITTER_PROXY_URL에 URL을 입력하세요.</p>';
+            html += '</div>';
+        }
 
         // 경쟁사 선택 탭
         html += '<div class="competitor-tabs">';
