@@ -370,14 +370,18 @@ IMPORTANT RULES:
 - 마지막에 가볍게 질문이나 생각거리 던지기
 - 해시태그 3-4개
 
-=== POST 3: Image metadata ===
-- title: max 50 chars English, catchy headline for the card image
-- subtitle: max 30 chars
-- category: "WALLET NEWS" or "SECURITY ALERT" or "TECH UPDATE" or "MARKET INSIGHT" or "OPINION"
-- theme: pick one that matches the mood - "purple" (neutral/tech), "cyan" (positive/innovation), "coral" (warning/security), "green" (growth/bullish), "gold" (money/market), "dark" (serious/somber)
+=== POST 3: Image prompt for AI image generation ===
+Generate a detailed image generation prompt (in English) for a social media post image that matches the mood and content of the posts you wrote above.
+The prompt should describe:
+- Visual style (e.g. dark futuristic, clean minimal, neon cyberpunk, editorial photo style)
+- Key visual elements that represent the topic (e.g. broken shield for security breach, coins flowing for DeFi)
+- Color mood matching the content emotion
+- Composition suitable for social media card (16:9 ratio)
+- Make it look professional and eye-catching, NOT generic stock photo style
+- Do NOT include any text/typography in the image - the image should be purely visual
 
 === OUTPUT (strict JSON only, no markdown, no code fences) ===
-{"x": "...", "linkedin": "...", "image": {"title": "...", "subtitle": "...", "category": "...", "theme": "..."}}`;
+{"x": "...", "linkedin": "...", "imagePrompt": "detailed image generation prompt here"}`;
 
   var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
@@ -400,7 +404,7 @@ IMPORTANT RULES:
       return posts;
     }
   }
-  return { x: '', linkedin: '', image: { title: '', subtitle: '', category: 'WALLET NEWS', theme: 'purple' } };
+  return { x: '', linkedin: '', imagePrompt: '' };
 }
 
 function testFetch() {

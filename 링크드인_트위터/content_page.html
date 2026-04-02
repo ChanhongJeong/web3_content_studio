@@ -988,31 +988,14 @@
             </div>
         </div>
 
-        <!-- 자동 이미지 카드 -->
+        <!-- 이미지 프롬프트 -->
         <div class="composer" style="margin-top:20px;">
             <div class="composer-header">
-                <h2>이미지 카드</h2>
-                <button class="btn btn-primary btn-small" onclick="downloadImage()">다운로드 (PNG)</button>
+                <h2>이미지 생성 프롬프트</h2>
+                <button class="btn btn-success btn-small" onclick="copyImagePrompt()">프롬프트 복사</button>
             </div>
-            <div class="canvas-preview" style="margin-top:12px;">
-                <canvas id="cardCanvas" width="1200" height="675"></canvas>
-            </div>
-            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center;">
-                <span style="font-size:12px;color:var(--text-secondary);">크기:</span>
-                <select id="imgSize" onchange="resizeCanvas(); renderCanvas();" style="padding:4px 8px;background:var(--bg-primary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:12px;">
-                    <option value="1200x675">X (1200x675)</option>
-                    <option value="1200x1200">LinkedIn (1200x1200)</option>
-                </select>
-                <span style="font-size:12px;color:var(--text-secondary);margin-left:8px;">테마:</span>
-                <div style="display:flex;gap:4px;">
-                    <div class="color-opt active" style="width:24px;height:24px;background:linear-gradient(135deg,#6c5ce7,#a855f7);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="purple" onclick="setTheme('purple', this)"></div>
-                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#00cec9,#0984e3);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="cyan" onclick="setTheme('cyan', this)"></div>
-                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#e17055,#fd79a8);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="coral" onclick="setTheme('coral', this)"></div>
-                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#00b894,#55efc4);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="green" onclick="setTheme('green', this)"></div>
-                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#fdcb6e,#e17055);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="gold" onclick="setTheme('gold', this)"></div>
-                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#2d3436,#636e72);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="dark" onclick="setTheme('dark', this)"></div>
-                </div>
-            </div>
+            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">AI가 글에 맞는 이미지 프롬프트를 생성합니다. 복사해서 나노바나나에 붙여넣기하세요.</div>
+            <textarea id="imagePrompt" readonly placeholder="글 작성 후 이미지 프롬프트가 자동으로 생성됩니다..." style="width:100%;min-height:100px;margin-top:12px;padding:14px;background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:13px;line-height:1.6;resize:vertical;font-family:inherit;"></textarea>
         </div>
     </div>
 
@@ -1712,19 +1695,9 @@
                 }
                 document.getElementById('liPost').value = liText;
 
-                // 이미지 카드 자동 설정
-                if (data.posts.image) {
-                    const img = data.posts.image;
-                    if (img.title) document.getElementById('imgTitle').value = img.title;
-                    if (img.subtitle) document.getElementById('imgSubtitle').value = img.subtitle;
-                    if (img.category) document.getElementById('imgCategory').value = img.category;
-                    if (img.theme && THEMES[img.theme]) {
-                        selectedTheme = img.theme;
-                        document.querySelectorAll('.color-opt').forEach(c => {
-                            c.style.borderColor = c.dataset.color === img.theme ? 'white' : 'transparent';
-                        });
-                    }
-                    renderCanvas();
+                // 이미지 프롬프트 설정
+                if (data.posts.imagePrompt) {
+                    document.getElementById('imagePrompt').value = data.posts.imagePrompt;
                 }
             }
         } catch (e) {
@@ -1805,6 +1778,12 @@
     function copyText(id) {
         const text = document.getElementById(id).value;
         navigator.clipboard.writeText(text).then(() => showToast('복사되었습니다!'));
+    }
+
+    function copyImagePrompt() {
+        const text = document.getElementById('imagePrompt').value;
+        if (!text) { showToast('프롬프트가 없습니다'); return; }
+        navigator.clipboard.writeText(text).then(() => showToast('프롬프트 복사됨!'));
     }
 
     function copyAndOpen(id, platform) {
