@@ -376,14 +376,15 @@ IMPORTANT RULES:
 - 해시태그 3-4개
 
 === POST 3: Image prompt for AI image generation ===
-Generate a detailed image generation prompt (in English) for a social media post image that matches the mood and content of the posts you wrote above.
-The prompt should describe:
-- Visual style (e.g. dark futuristic, clean minimal, neon cyberpunk, editorial photo style)
-- Key visual elements that represent the topic (e.g. broken shield for security breach, coins flowing for DeFi)
-- Color mood matching the content emotion
-- Composition suitable for social media card (16:9 ratio)
-- Make it look professional and eye-catching, NOT generic stock photo style
-- Do NOT include any text/typography in the image - the image should be purely visual
+Generate a SHORT image prompt (2-3 sentences max) for a Twitter/X header image.
+CRITICAL RULES:
+- Photorealistic editorial photography style (like Bloomberg, Reuters, WSJ article photos)
+- NOT AI-looking, NOT 3D renders, NOT digital art, NOT neon/cyberpunk
+- Real-world objects, real lighting, real textures
+- Directly related to the specific content of the posts (not generic crypto imagery)
+- Clean, minimal composition, 16:9 landscape
+- No text, no typography, no logos
+- Professional, could pass as a real photograph
 
 === OUTPUT (strict JSON only, no markdown, no code fences) ===
 {"x": "...", "linkedin": "...", "imagePrompt": "detailed image generation prompt here"}`;
@@ -421,7 +422,7 @@ function generateImage(prompt) {
       method: 'post',
       contentType: 'application/json',
       payload: JSON.stringify({
-        contents: [{parts: [{text: 'Generate an image: ' + prompt}]}],
+        contents: [{parts: [{text: prompt + '\n\nIMPORTANT: Photorealistic editorial style. NOT AI-looking, NOT 3D render, NOT digital art. Think Bloomberg, Reuters, or WSJ article header photo. Clean, professional, minimal. 16:9 landscape ratio. No text or typography in the image.'}]}],
         generationConfig: {responseModalities: ['IMAGE']}
       }),
       muteHttpExceptions: true
