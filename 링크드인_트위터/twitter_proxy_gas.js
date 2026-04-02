@@ -412,29 +412,33 @@ The prompt should describe:
   return { x: '', linkedin: '', imagePrompt: '' };
 }
 
-// Imagen 3 이미지 생성
+// Gemini 2.5 Flash Image 이미지 생성
 function generateImage(prompt) {
   if (!GEMINI_API_KEY || !prompt) return null;
 
   try {
-    var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=' + GEMINI_API_KEY, {
+    var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=' + GEMINI_API_KEY, {
       method: 'post',
       contentType: 'application/json',
       payload: JSON.stringify({
-        instances: [{ prompt: prompt }],
-        parameters: { sampleCount: 1, aspectRatio: '16:9', outputOptions: { mimeType: 'image/jpeg' } }
+        contents: [{parts: [{text: 'Generate an image: ' + prompt}]}],
+        generationConfig: {responseModalities: ['IMAGE']}
       }),
       muteHttpExceptions: true
     });
 
     var data = JSON.parse(resp.getContentText());
-    if (data.predictions && data.predictions[0] && data.predictions[0].bytesBase64Encoded) {
-      return data.predictions[0].bytesBase64Encoded;
+    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+      var parts = data.candidates[0].content.parts;
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].inlineData && parts[i].inlineData.data) {
+          return parts[i].inlineData.data; // base64 이미지
+        }
+      }
     }
 
-    // 다른 응답 형식 시도
     if (data.error) {
-      Logger.log('Imagen error: ' + data.error.message);
+      Logger.log('Image error: ' + data.error.message);
     }
   } catch (e) {
     Logger.log('Image gen error: ' + e.message);
