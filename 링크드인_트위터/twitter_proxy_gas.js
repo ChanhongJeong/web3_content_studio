@@ -13,7 +13,8 @@
 
 const BEARER = 'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
 const BEARER_DECODED = decodeURIComponent(BEARER);
-const GEMINI_API_KEY = ''; // ← 여기에 Gemini API 키 직접 입력
+// Gemini API 키는 GAS 프로젝트 설정 > 스크립트 속성 > GEMINI_KEY에 저장
+const GEMINI_API_KEY = PropertiesService.getScriptProperties().getProperty('GEMINI_KEY') || '';
 
 const USER_TWEETS_HASH = 'V1ze5q3ijDS1VeLwLY0m7g';
 const USER_BY_SCREEN_NAME_HASH = 'xmU6X_CKVnQ5lSrCbAmJsg';
@@ -88,7 +89,7 @@ function batchSummarizeTweets(tweets, handle) {
 
   var prompt = '다음 트윗들을 각각 한국어로 요약+해석해줘. 각 트윗마다 정확히 2줄만:\n요약: [1줄]\n해석: [하드웨어 지갑/Web3 업계 관점 1줄]\n\n트윗 사이에 빈 줄 넣어서 구분해줘.\n\n' + tweetList;
 
-  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
@@ -116,7 +117,7 @@ function summarizeTweet(text, handle) {
 
   var prompt = '다음 트윗을 한국어로 1줄 요약 + 하드웨어 지갑/Web3 업계 관점에서 1줄 해석해줘. 각각 1줄씩만, 아주 간결하게.\n형식:\n요약: [내용]\n해석: [내용]\n\n트윗 (@' + handle + '): ' + text;
 
-  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
@@ -378,7 +379,7 @@ IMPORTANT RULES:
 === OUTPUT (strict JSON only, no markdown, no code fences) ===
 {"x": "...", "linkedin": "...", "image": {"title": "...", "subtitle": "...", "category": "...", "theme": "..."}}`;
 
-  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({
