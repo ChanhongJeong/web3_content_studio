@@ -881,7 +881,6 @@
 <div class="tabs">
     <div class="tab active" data-tab="news">뉴스 피드</div>
     <div class="tab" data-tab="compose">글 작성하기</div>
-    <div class="tab" data-tab="image">이미지 생성</div>
 </div>
 
 <div class="main">
@@ -986,61 +985,41 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Tab 3: Image Generator -->
-    <div class="tab-content" id="tab-image">
-        <div class="image-generator">
-            <div class="image-controls">
-                <div class="form-group">
-                    <label>제목 (메인 텍스트)</label>
-                    <input type="text" id="imgTitle" placeholder="예: Ledger, 새로운 보안 취약점 발견" oninput="renderCanvas()">
-                </div>
-                <div class="form-group">
-                    <label>부제목</label>
-                    <input type="text" id="imgSubtitle" placeholder="예: 하드웨어 지갑 보안의 현주소" oninput="renderCanvas()">
-                </div>
-                <div class="form-group">
-                    <label>카테고리 태그</label>
-                    <select id="imgCategory" onchange="renderCanvas()">
-                        <option value="WALLET NEWS">WALLET NEWS</option>
-                        <option value="SECURITY ALERT">SECURITY ALERT</option>
-                        <option value="TECH UPDATE">TECH UPDATE</option>
-                        <option value="MARKET INSIGHT">MARKET INSIGHT</option>
-                        <option value="WEEKLY RECAP">WEEKLY RECAP</option>
-                        <option value="OPINION">OPINION</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>작성자 이름</label>
-                    <input type="text" id="imgAuthor" value="Tani @Tani_9325" oninput="renderCanvas()">
-                </div>
-                <div class="form-group">
-                    <label>테마 색상</label>
-                    <div class="color-options">
-                        <div class="color-opt active" style="background: linear-gradient(135deg, #6c5ce7, #a855f7)" data-color="purple" onclick="setTheme('purple', this)"></div>
-                        <div class="color-opt" style="background: linear-gradient(135deg, #00cec9, #0984e3)" data-color="cyan" onclick="setTheme('cyan', this)"></div>
-                        <div class="color-opt" style="background: linear-gradient(135deg, #e17055, #fd79a8)" data-color="coral" onclick="setTheme('coral', this)"></div>
-                        <div class="color-opt" style="background: linear-gradient(135deg, #00b894, #55efc4)" data-color="green" onclick="setTheme('green', this)"></div>
-                        <div class="color-opt" style="background: linear-gradient(135deg, #fdcb6e, #e17055)" data-color="gold" onclick="setTheme('gold', this)"></div>
-                        <div class="color-opt" style="background: linear-gradient(135deg, #2d3436, #636e72)" data-color="dark" onclick="setTheme('dark', this)"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>이미지 크기</label>
-                    <select id="imgSize" onchange="resizeCanvas(); renderCanvas();">
-                        <option value="1200x675">X/트위터 (1200x675)</option>
-                        <option value="1200x1200">LinkedIn 정사각형 (1200x1200)</option>
-                        <option value="1080x1080">Instagram (1080x1080)</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" onclick="downloadImage()" style="margin-top:8px;">이미지 다운로드 (PNG)</button>
+        <!-- 자동 이미지 카드 -->
+        <div class="composer" style="margin-top:20px;">
+            <div class="composer-header">
+                <h2>이미지 카드</h2>
+                <button class="btn btn-primary btn-small" onclick="downloadImage()">다운로드 (PNG)</button>
             </div>
-
-            <div class="canvas-preview">
+            <div class="canvas-preview" style="margin-top:12px;">
                 <canvas id="cardCanvas" width="1200" height="675"></canvas>
             </div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center;">
+                <span style="font-size:12px;color:var(--text-secondary);">크기:</span>
+                <select id="imgSize" onchange="resizeCanvas(); renderCanvas();" style="padding:4px 8px;background:var(--bg-primary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:12px;">
+                    <option value="1200x675">X (1200x675)</option>
+                    <option value="1200x1200">LinkedIn (1200x1200)</option>
+                </select>
+                <span style="font-size:12px;color:var(--text-secondary);margin-left:8px;">테마:</span>
+                <div style="display:flex;gap:4px;">
+                    <div class="color-opt active" style="width:24px;height:24px;background:linear-gradient(135deg,#6c5ce7,#a855f7);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="purple" onclick="setTheme('purple', this)"></div>
+                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#00cec9,#0984e3);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="cyan" onclick="setTheme('cyan', this)"></div>
+                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#e17055,#fd79a8);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="coral" onclick="setTheme('coral', this)"></div>
+                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#00b894,#55efc4);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="green" onclick="setTheme('green', this)"></div>
+                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#fdcb6e,#e17055);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="gold" onclick="setTheme('gold', this)"></div>
+                    <div class="color-opt" style="width:24px;height:24px;background:linear-gradient(135deg,#2d3436,#636e72);border-radius:6px;cursor:pointer;border:2px solid transparent;" data-color="dark" onclick="setTheme('dark', this)"></div>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <!-- Hidden inputs for image (used by renderCanvas) -->
+    <div style="display:none;">
+        <input type="text" id="imgTitle" value="">
+        <input type="text" id="imgSubtitle" value="">
+        <select id="imgCategory"><option value="WALLET NEWS">WALLET NEWS</option><option value="SECURITY ALERT">SECURITY ALERT</option><option value="TECH UPDATE">TECH UPDATE</option><option value="MARKET INSIGHT">MARKET INSIGHT</option><option value="OPINION">OPINION</option></select>
+        <input type="text" id="imgAuthor" value="Tani @Tani_9325">
     </div>
 </div>
 
@@ -1718,7 +1697,6 @@
 
             if (data.success && data.posts) {
                 let xText = data.posts.x || '';
-                // 원본 링크 첨부
                 if (currentSourceLink && !xText.includes(currentSourceLink)) {
                     xText += '\n\n' + currentSourceLink;
                 }
@@ -1729,6 +1707,21 @@
                     liText += '\n\n' + currentSourceLink;
                 }
                 document.getElementById('liPost').value = liText;
+
+                // 이미지 카드 자동 설정
+                if (data.posts.image) {
+                    const img = data.posts.image;
+                    if (img.title) document.getElementById('imgTitle').value = img.title;
+                    if (img.subtitle) document.getElementById('imgSubtitle').value = img.subtitle;
+                    if (img.category) document.getElementById('imgCategory').value = img.category;
+                    if (img.theme && THEMES[img.theme]) {
+                        selectedTheme = img.theme;
+                        document.querySelectorAll('.color-opt').forEach(c => {
+                            c.style.borderColor = c.dataset.color === img.theme ? 'white' : 'transparent';
+                        });
+                    }
+                    renderCanvas();
+                }
             }
         } catch (e) {
             document.getElementById('xPost').value = `${title}\n\nWorth watching.\n\n#Web3 #Crypto`;

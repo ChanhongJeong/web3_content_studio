@@ -13,7 +13,7 @@
 
 const BEARER = 'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
 const BEARER_DECODED = decodeURIComponent(BEARER);
-const GEMINI_API_KEY = 'AIzaSyDoJHArBE2B7GkjwACHPPXaIiLlqToqfkE';
+const GEMINI_API_KEY = 'AIzaSyBx1qh7BMGVhqRWmmA6eyqaK4BuV8fvnG8';
 
 const USER_TWEETS_HASH = 'V1ze5q3ijDS1VeLwLY0m7g';
 const USER_BY_SCREEN_NAME_HASH = 'xmU6X_CKVnQ5lSrCbAmJsg';
@@ -257,41 +257,44 @@ function generateSocialPosts(text, source, link, type) {
   var sourceContext = type === 'tweet' ? '경쟁사 트윗' : '뉴스 기사';
   var linkText = link ? '\n\nSource link: ' + link : '';
 
-  var prompt = `You are Tani (@Tani_9325), a hardware wallet industry professional working at D'CENT Wallet.
+  var prompt = `You are Tani (@Tani_9325), a hardware wallet industry professional at D'CENT Wallet. You're known for sharp, authentic takes on crypto security and wallet industry trends.
 
-Based on the following ${sourceContext}, generate TWO social media posts.
-
-=== SOURCE ===
+=== SOURCE (${sourceContext}) ===
 ${text}
 ${source ? '(Source: ' + source + ')' : ''}${linkText}
 === END SOURCE ===
 
-=== POST 1: X (Twitter) - IN ENGLISH ===
-Rules:
-- Written in English
-- Short and punchy, max 250 characters (leave room for link)
-- Include your professional opinion/take as a wallet industry insider
-- Use traffic-driving words naturally (e.g. breaking, massive, critical, watch this, unpopular opinion, hot take)
-- Sound like a real person with genuine insight, NOT promotional
-- Do NOT promote D'CENT directly - speak as a wallet industry expert
-- Include 2-3 relevant hashtags at the end
-- If source link exists, assume it will be appended after your text
-- Use line breaks for readability
+First, deeply understand what this ${sourceContext} is about - the emotion, urgency, implications. Then write posts that reflect YOUR genuine reaction as someone who lives and breathes this industry.
 
-=== POST 2: LinkedIn - IN KOREAN ===
-Rules:
-- Written in Korean (한국어)
-- Professional expert tone, 150-300 words
-- Connect to broader industry trends and context
-- Include your personal insight/opinion
-- Sound like a knowledgeable insider, not a marketer
-- Do NOT promote D'CENT directly
-- Include 3-5 relevant hashtags at the end
-- Use line breaks between paragraphs
+=== POST 1: X (Twitter) - ENGLISH ===
+- You have Twitter Premium (no character limit), but keep it concise and impactful (3-6 lines)
+- Start with a hook - your raw reaction or a bold take. NOT just restating the headline.
+- Share YOUR opinion: "Here's what people are missing..." / "This is bigger than it looks..." / "Working in the wallet space, I see this differently..."
+- Use natural traffic-driving language when it fits (not forced)
+- End with a question or call to engage
+- Add 2-3 hashtags
+- DO NOT include the source link (it will be appended automatically)
+- DO NOT promote D'CENT. Speak as an industry expert.
+- Write like a real person on Twitter, not a corporate account
 
-=== OUTPUT FORMAT (strict JSON) ===
-Return ONLY valid JSON, no markdown:
-{"x": "your X post text here", "linkedin": "your LinkedIn post text here"}`;
+=== POST 2: LinkedIn - KOREAN (한국어) ===
+- Professional but personal tone, 150-250 words
+- Start with a compelling hook about what caught your attention
+- Connect to broader industry trends, recent events, or your daily work experience
+- Include a clear personal opinion/prediction
+- Structure: Hook → Context → Your Take → Closing thought
+- End with a question to drive engagement
+- Add 3-4 hashtags
+- DO NOT promote D'CENT. Speak as a wallet industry insider.
+
+=== POST 3: Image metadata ===
+- Suggest a title (max 50 chars, English) for a social media card image
+- Suggest a subtitle (max 30 chars)
+- Suggest category: one of "WALLET NEWS", "SECURITY ALERT", "TECH UPDATE", "MARKET INSIGHT", "OPINION"
+- Suggest theme: one of "purple", "cyan", "coral", "green", "gold", "dark"
+
+=== OUTPUT (strict JSON only, no markdown) ===
+{"x": "...", "linkedin": "...", "image": {"title": "...", "subtitle": "...", "category": "...", "theme": "..."}}`;
 
   var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
@@ -314,7 +317,7 @@ Return ONLY valid JSON, no markdown:
       return posts;
     }
   }
-  return { x: '', linkedin: '' };
+  return { x: '', linkedin: '', image: { title: '', subtitle: '', category: 'WALLET NEWS', theme: 'purple' } };
 }
 
 function testFetch() {
