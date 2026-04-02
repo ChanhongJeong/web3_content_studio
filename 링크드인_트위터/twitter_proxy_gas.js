@@ -53,12 +53,16 @@ function doGet(e) {
       var type = e.parameter.type || 'news';
       if (!text) return jsonResponse({ error: 'text parameter required' });
       var posts = generateSocialPosts(text, source, link, type);
-      // 이미지 생성
-      var imageBase64 = null;
-      if (posts.imagePrompt) {
-        imageBase64 = generateImage(posts.imagePrompt);
+      return jsonResponse({ success: true, posts: posts });
+    } else if (action === 'generate-image') {
+      // 별도 이미지 생성
+      var prompt = e.parameter.prompt || '';
+      if (!prompt) return jsonResponse({ error: 'prompt parameter required' });
+      var imageBase64 = generateImage(prompt);
+      if (imageBase64) {
+        return jsonResponse({ success: true, image: imageBase64 });
       }
-      return jsonResponse({ success: true, posts: posts, image: imageBase64 });
+      return jsonResponse({ success: false, error: 'Image generation failed' });
     } else if (action === 'multi') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const handles = handle.split(',');
