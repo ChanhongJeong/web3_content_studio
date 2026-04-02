@@ -1133,12 +1133,27 @@
         }
     }
 
-    // 한국어 번역 (MyMemory API - 무료)
+    // 한국어 번역 (다중 API fallback)
     const translateCache = {};
     async function translateToKo(text) {
         if (!text || text.length < 5) return '';
         const short = text.substring(0, 400);
         if (translateCache[short]) return translateCache[short];
+
+        // 1차: Google Translate 무료 API
+        try {
+            const gRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=${encodeURIComponent(short)}`);
+            const gData = await gRes.json();
+            if (gData && gData[0]) {
+                const translated = gData[0].map(s => s[0]).join('');
+                if (translated) {
+                    translateCache[short] = translated;
+                    return translated;
+                }
+            }
+        } catch (e) {}
+
+        // 2차: MyMemory API
         try {
             const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(short)}&langpair=en|ko`);
             const data = await res.json();
@@ -1152,18 +1167,20 @@
     }
 
     async function translateNewsItem(el, title, description) {
-        const [koTitle, koDesc] = await Promise.all([
-            translateToKo(title),
-            translateToKo(description),
-        ]);
-        const koHtml = document.createElement('div');
-        koHtml.className = 'ko-summary';
-        let content = '';
-        if (koTitle) content += `<div class="ko-title">${koTitle}</div>`;
-        if (koDesc) content += `<div class="ko-desc">${koDesc}</div>`;
-        if (content) {
-            koHtml.innerHTML = content;
-            el.querySelector('.news-text-area').appendChild(koHtml);
+        // 로딩 표시
+        const textArea = el.querySelector('.news-text-area');
+        if (!textArea) return;
+        const placeholder = document.createElement('div');
+        placeholder.className = 'ko-summary';
+        placeholder.innerHTML = '<div class="ko-desc" style="opacity:0.5">번역 중...</div>';
+        textArea.appendChild(placeholder);
+
+        const koTitle = await translateToKo(title);
+
+        if (koTitle) {
+            placeholder.innerHTML = `<div class="ko-title">${koTitle}</div>`;
+        } else {
+            placeholder.remove();
         }
     }
 
