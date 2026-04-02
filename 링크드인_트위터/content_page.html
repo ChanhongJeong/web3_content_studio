@@ -910,8 +910,13 @@
     <!-- Tab 2: Compose -->
     <div class="tab-content" id="tab-compose">
         <div id="selectedNewsBar" class="selected-news" style="display:none;">
-            <div class="label">선택된 뉴스</div>
-            <div id="selectedNewsTitle"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <div class="label">선택된 뉴스</div>
+                    <div id="selectedNewsTitle"></div>
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="goToNewsFeed()" style="flex-shrink:0;">기사 변경</button>
+            </div>
         </div>
 
         <div class="topic-input-group">
@@ -1895,6 +1900,13 @@
         link.href = img.src;
         link.click();
         showToast('이미지 다운로드!');
+    }
+
+    function goToNewsFeed() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector('[data-tab="news"]').classList.add('active');
+        document.getElementById('tab-news').classList.add('active');
     }
 
     function copyImagePrompt() {
