@@ -949,7 +949,8 @@
                     <span class="hashtag" onclick="addHashtag('xPost', '#dcent')">#dcent</span>
                 </div>
                 <div class="composer-actions">
-                    <button class="btn btn-success btn-small" onclick="copyText('xPost')">복사하기</button>
+                    <button class="btn btn-success btn-small" onclick="copyAndOpen('xPost', 'x')">복사 + X 열기</button>
+                    <button class="btn btn-success btn-small" onclick="copyText('xPost')">복사만</button>
                     <button class="btn btn-secondary btn-small" onclick="clearComposer('xPost')">초기화</button>
                 </div>
                 <div class="preview-card" id="xPreview">
@@ -980,7 +981,8 @@
                     <span class="hashtag" onclick="addHashtag('liPost', '#Fintech')">#Fintech</span>
                 </div>
                 <div class="composer-actions">
-                    <button class="btn btn-success btn-small" onclick="copyText('liPost')">복사하기</button>
+                    <button class="btn btn-success btn-small" onclick="copyAndOpen('liPost', 'linkedin')">복사 + LinkedIn 열기</button>
+                    <button class="btn btn-success btn-small" onclick="copyText('liPost')">복사만</button>
                     <button class="btn btn-secondary btn-small" onclick="clearComposer('liPost')">초기화</button>
                 </div>
             </div>
@@ -1803,6 +1805,21 @@
     function copyText(id) {
         const text = document.getElementById(id).value;
         navigator.clipboard.writeText(text).then(() => showToast('복사되었습니다!'));
+    }
+
+    function copyAndOpen(id, platform) {
+        const text = document.getElementById(id).value;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('복사됨! 붙여넣기만 하세요');
+            if (platform === 'x') {
+                // X 글쓰기 페이지 (텍스트 자동 입력)
+                const encoded = encodeURIComponent(text);
+                window.open(`https://x.com/intent/tweet?text=${encoded}`, '_blank');
+            } else if (platform === 'linkedin') {
+                // LinkedIn 글쓰기 페이지
+                window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank');
+            }
+        });
     }
 
     function clearComposer(id) {
