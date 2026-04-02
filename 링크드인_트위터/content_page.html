@@ -988,14 +988,19 @@
             </div>
         </div>
 
-        <!-- 이미지 프롬프트 -->
+        <!-- AI 생성 이미지 -->
         <div class="composer" style="margin-top:20px;">
             <div class="composer-header">
-                <h2>이미지 생성 프롬프트</h2>
-                <button class="btn btn-success btn-small" onclick="copyImagePrompt()">프롬프트 복사</button>
+                <h2>AI 생성 이미지</h2>
+                <div style="display:flex;gap:6px;">
+                    <button class="btn btn-primary btn-small" onclick="downloadAIImage()">다운로드 (PNG)</button>
+                    <button class="btn btn-secondary btn-small" onclick="copyImagePrompt()">프롬프트 복사</button>
+                </div>
             </div>
-            <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">AI가 글에 맞는 이미지 프롬프트를 생성합니다. 복사해서 나노바나나에 붙여넣기하세요.</div>
-            <textarea id="imagePrompt" readonly placeholder="글 작성 후 이미지 프롬프트가 자동으로 생성됩니다..." style="width:100%;min-height:100px;margin-top:12px;padding:14px;background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:13px;line-height:1.6;resize:vertical;font-family:inherit;"></textarea>
+            <div id="aiImageArea" style="margin-top:12px;text-align:center;min-height:100px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:center;">
+                <span style="color:var(--text-muted);font-size:13px;">글 작성 후 이미지가 자동으로 생성됩니다</span>
+            </div>
+            <textarea id="imagePrompt" readonly placeholder="" style="width:100%;min-height:60px;margin-top:8px;padding:10px;background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-size:11px;line-height:1.4;resize:vertical;font-family:inherit;"></textarea>
         </div>
     </div>
 
@@ -1660,6 +1665,8 @@
         // 로딩 표시
         document.getElementById('xPost').value = 'AI가 글을 작성 중...';
         document.getElementById('liPost').value = 'AI가 글을 작성 중...';
+        document.getElementById('aiImageArea').innerHTML = '<div class="tweet-loading"><div class="spinner"></div>글 + 이미지 생성 중...</div>';
+        document.getElementById('imagePrompt').value = '';
         updateXCount();
         updateLiCount();
 
@@ -1695,9 +1702,17 @@
                 }
                 document.getElementById('liPost').value = liText;
 
-                // 이미지 프롬프트 설정
+                // 이미지 프롬프트
                 if (data.posts.imagePrompt) {
                     document.getElementById('imagePrompt').value = data.posts.imagePrompt;
+                }
+
+                // AI 생성 이미지
+                const imgArea = document.getElementById('aiImageArea');
+                if (data.image) {
+                    imgArea.innerHTML = `<img id="aiGeneratedImg" src="data:image/jpeg;base64,${data.image}" style="max-width:100%;border-radius:12px;">`;
+                } else {
+                    imgArea.innerHTML = '<span style="color:var(--text-muted);font-size:13px;">이미지 생성 실패 - 프롬프트를 복사해서 나노바나나에서 직접 생성하세요</span>';
                 }
             }
         } catch (e) {
@@ -1778,6 +1793,18 @@
     function copyText(id) {
         const text = document.getElementById(id).value;
         navigator.clipboard.writeText(text).then(() => showToast('복사되었습니다!'));
+    }
+
+    function downloadAIImage() {
+        const img = document.getElementById('aiGeneratedImg');
+        if (!img) { showToast('이미지가 없습니다'); return; }
+        const link = document.createElement('a');
+        const today = new Date();
+        const dateStr = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+        link.download = `web3_post_${dateStr}.jpg`;
+        link.href = img.src;
+        link.click();
+        showToast('이미지 다운로드!');
     }
 
     function copyImagePrompt() {

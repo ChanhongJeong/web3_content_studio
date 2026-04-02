@@ -47,14 +47,18 @@ function doGet(e) {
       var summary = summarizeTweet(text, h);
       return jsonResponse({ success: true, summary: summary });
     } else if (action === 'compose') {
-      // 기사/트윗 기반 X + LinkedIn 글 자동 생성
       var text = e.parameter.text || '';
       var source = e.parameter.source || '';
       var link = e.parameter.link || '';
-      var type = e.parameter.type || 'news'; // news or tweet
+      var type = e.parameter.type || 'news';
       if (!text) return jsonResponse({ error: 'text parameter required' });
       var posts = generateSocialPosts(text, source, link, type);
-      return jsonResponse({ success: true, posts: posts });
+      // 이미지 생성
+      var imageBase64 = null;
+      if (posts.imagePrompt) {
+        imageBase64 = generateImage(posts.imagePrompt);
+      }
+      return jsonResponse({ success: true, posts: posts, image: imageBase64 });
     } else if (action === 'multi') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const handles = handle.split(',');
@@ -407,6 +411,36 @@ The prompt should describe:
   return { x: '', linkedin: '', imagePrompt: '' };
 }
 
+// Imagen 3 이미지 생성
+function generateImage(prompt) {
+  if (!GEMINI_API_KEY || !prompt) return null;
+
+  try {
+    var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=' + GEMINI_API_KEY, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify({
+        instances: [{ prompt: prompt }],
+        parameters: { sampleCount: 1, aspectRatio: '16:9', outputOptions: { mimeType: 'image/jpeg' } }
+      }),
+      muteHttpExceptions: true
+    });
+
+    var data = JSON.parse(resp.getContentText());
+    if (data.predictions && data.predictions[0] && data.predictions[0].bytesBase64Encoded) {
+      return data.predictions[0].bytesBase64Encoded;
+    }
+
+    // 다른 응답 형식 시도
+    if (data.error) {
+      Logger.log('Imagen error: ' + data.error.message);
+    }
+  } catch (e) {
+    Logger.log('Image gen error: ' + e.message);
+  }
+  return null;
+}
+
 function testFetch() {
   var tweets = getTweets('Ledger', 3);
   tweets.forEach(function(t) {
@@ -429,7 +463,7 @@ function testGemini() {
     var posts = generateSocialPosts('Crypto hack losses reach $52 million in March according to PeckShield report', 'The Block', 'https://example.com', 'news');
     Logger.log('X post: ' + (posts.x || 'EMPTY').substring(0, 100));
     Logger.log('LinkedIn: ' + (posts.linkedin || 'EMPTY').substring(0, 100));
-    Logger.log('Image: ' + JSON.stringify(posts.image || {}));
+    Logger.log('ImagePrompt: ' + (posts.imagePrompt || 'EMPTY').substring(0, 100));
   } catch (e) {
     Logger.log('Compose error: ' + e.message);
   }
