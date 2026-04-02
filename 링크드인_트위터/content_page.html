@@ -357,7 +357,113 @@
         .competitor-timeline {
             border-radius: 12px;
             overflow: hidden;
-            min-height: 300px;
+            min-height: 200px;
+        }
+
+        /* 트윗 카드 */
+        .tweet-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tweet-card:hover {
+            border-color: #1d9bf0;
+            background: rgba(29, 155, 240, 0.05);
+        }
+
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tweet-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1d9bf0, #1a8cd8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .tweet-author-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .tweet-author-handle {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .tweet-time {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .tweet-body {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .tweet-body a {
+            color: #1d9bf0;
+            text-decoration: none;
+        }
+
+        .tweet-body img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .tweet-loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .tweet-error {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+        }
+
+        .tweet-error a {
+            color: #1d9bf0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .tweet-open-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 20px;
+            background: rgba(29, 155, 240, 0.15);
+            color: #1d9bf0;
+            border: 1px solid rgba(29, 155, 240, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .tweet-open-btn:hover {
+            background: rgba(29, 155, 240, 0.3);
         }
 
         /* News Cards */
@@ -1068,32 +1174,38 @@
         { name: 'SafePal', handle: 'iSafePal' },
     ];
 
+    function openAllCompetitorX() {
+        MAIN_COMPETITORS.forEach(c => {
+            window.open(`https://x.com/${c.handle}`, '_blank');
+        });
+    }
+
     function renderCompetitorCards() {
         const grid = document.getElementById('newsGrid');
         let html = '<div class="competitor-section">';
-        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터) 최신 게시물</div>';
-        html += '<div class="competitor-desc">경쟁사 탭을 클릭하면 해당 계정의 최신 트윗을 볼 수 있습니다.</div>';
+        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터)</div>';
 
-        // 경쟁사 선택 탭 (5개만)
-        html += '<div class="competitor-tabs">';
-        MAIN_COMPETITORS.forEach((c, i) => {
-            html += `<div class="competitor-tab ${i === 0 ? 'active' : ''}" onclick="showCompetitorTimeline('${c.handle}', '${c.name}', this)">${c.name}</div>`;
-        });
-        html += '</div>';
-
-        // 타임라인 영역 - iframe 방식
-        html += '<div class="competitor-timeline-area">';
-        html += `<div id="competitorTimeline" class="competitor-timeline">
-            <iframe src="https://syndication.twitter.com/srv/timeline-profile/screen-name/${MAIN_COMPETITORS[0].handle}?dnt=true&embedId=twitter-widget-comp&theme=dark&showReplies=false"
-                style="width:100%;height:600px;border:none;border-radius:12px;background:#15202b;"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                loading="lazy"></iframe>
-            <div style="margin-top:8px;text-align:center;">
-                <a href="https://x.com/${MAIN_COMPETITORS[0].handle}" target="_blank" style="color:#1d9bf0;font-size:13px;text-decoration:none;">X에서 @${MAIN_COMPETITORS[0].handle} 직접 보기 →</a>
-            </div>
+        // 모두 열기 버튼
+        html += `<div style="margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="openAllCompetitorX()" style="display:flex;align-items:center;gap:6px;">
+                <span style="font-weight:900;">𝕏</span> 경쟁사 5개 한번에 열기
+            </button>
+            <span style="color:var(--text-muted);font-size:12px;">클릭하면 5개 탭이 동시에 열립니다</span>
         </div>`;
-        html += '</div>';
 
+        // 개별 카드
+        html += '<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px; margin-bottom:24px;">';
+        MAIN_COMPETITORS.forEach(c => {
+            html += `<div class="tweet-card" onclick="window.open('https://x.com/${c.handle}', '_blank')" style="margin-bottom:0;">
+                <div class="tweet-header" style="margin-bottom:0;">
+                    <div class="tweet-avatar">${c.name.charAt(0)}</div>
+                    <div>
+                        <div class="tweet-author-name">${c.name}</div>
+                        <div class="tweet-author-handle">@${c.handle}</div>
+                    </div>
+                </div>
+            </div>`;
+        });
         html += '</div>';
 
         // 기사 기반 경쟁사 뉴스도 아래에 표시
@@ -1123,11 +1235,6 @@
 
         grid.innerHTML = html;
 
-        // X 위젯 로드
-        if (window.twttr && window.twttr.widgets) {
-            window.twttr.widgets.load(grid);
-        }
-
         // 번역
         const newsCards = grid.querySelectorAll('.news-card');
         newsCards.forEach((card, idx) => {
@@ -1137,21 +1244,7 @@
                 translateNewsItem(card, title, desc);
             }
         });
-    }
 
-    function showCompetitorTimeline(handle, name, el) {
-        document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-
-        const container = document.getElementById('competitorTimeline');
-        container.innerHTML = `
-            <iframe src="https://syndication.twitter.com/srv/timeline-profile/screen-name/${handle}?dnt=true&embedId=twitter-widget-comp&theme=dark&showReplies=false"
-                style="width:100%;height:600px;border:none;border-radius:12px;background:#15202b;"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-                loading="lazy"></iframe>
-            <div style="margin-top:8px;text-align:center;">
-                <a href="https://x.com/${handle}" target="_blank" style="color:#1d9bf0;font-size:13px;text-decoration:none;">X에서 @${handle} 직접 보기 →</a>
-            </div>`;
     }
 
     // 한국어 번역 (다중 API fallback)
