@@ -1177,7 +1177,7 @@
     async function translateTweetCards(container) {
         const cards = container.querySelectorAll('.tweet-card');
         cards.forEach(async (card) => {
-            const rawText = card.dataset.rawtext;
+            const rawText = decodeURIComponent(card.dataset.rawtext || '');
             if (!rawText || rawText.length < 10) return;
             const koText = await translateToKo(rawText);
             if (koText) {
