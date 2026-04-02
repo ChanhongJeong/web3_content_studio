@@ -892,12 +892,12 @@
         </div>
         <div class="filter-chips">
             <div class="chip active" data-filter="all" onclick="filterNews('all', this)">전체</div>
+            <div class="chip" data-filter="competitor" onclick="filterNews('competitor', this)">경쟁사 동향</div>
             <div class="chip" data-filter="hw-wallet" onclick="filterNews('hw-wallet', this)">하드웨어 지갑</div>
             <div class="chip" data-filter="sw-wallet" onclick="filterNews('sw-wallet', this)">소프트웨어 지갑</div>
             <div class="chip" data-filter="security" onclick="filterNews('security', this)">보안/해킹</div>
             <div class="chip" data-filter="defi" onclick="filterNews('defi', this)">DeFi</div>
             <div class="chip" data-filter="regulation" onclick="filterNews('regulation', this)">규제/법률</div>
-            <div class="chip" data-filter="competitor" onclick="filterNews('competitor', this)">경쟁사 동향</div>
         </div>
         <div class="news-grid" id="newsGrid">
             <div class="loading">
@@ -1170,7 +1170,7 @@
         { name: 'Trezor', handle: 'Trezor' },
         { name: 'Tangem', handle: 'tangem' },
         { name: 'Keystone', handle: 'KeystoneWallet' },
-        { name: 'SafePal', handle: 'iSafePal' },
+        { name: 'SecuX', handle: 'SecuXwallet' },
     ];
 
     async function showCompetitorTimeline(handle, name, el) {
@@ -1217,6 +1217,20 @@
         return null;
     }
 
+    function selectTweetForCompose(text, handle) {
+        // 트윗 내용으로 글 작성 탭으로 이동
+        document.getElementById('selectedNewsBar').style.display = 'block';
+        document.getElementById('selectedNewsTitle').textContent = `@${handle}: ${text.substring(0, 80)}...`;
+        document.getElementById('customTopic').value = text;
+
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector('[data-tab="compose"]').classList.add('active');
+        document.getElementById('tab-compose').classList.add('active');
+
+        generatePosts(text, '', `@${handle} on X`);
+    }
+
     function renderTweetCards(tweets, handle, name) {
         if (!tweets || tweets.length === 0) {
             return `<div class="tweet-error">
@@ -1226,7 +1240,7 @@
         }
 
         let html = '';
-        tweets.forEach(t => {
+        tweets.forEach((t, idx) => {
             const timeAgo = getTimeAgo(new Date(t.created_at));
             const profileImg = t.profile_image || '';
             const tweetUrl = `https://x.com/${t.handle}/status/${t.id}`;
@@ -1235,15 +1249,16 @@
             let body = t.text
                 .replace(/https?:\/\/t\.co\/\w+/g, '')
                 .trim()
+                .replace(/\n/g, '<br>')
                 .replace(/@(\w+)/g, '<a href="https://x.com/$1" target="_blank" onclick="event.stopPropagation()">@$1</a>')
                 .replace(/#(\w+)/g, '<a href="https://x.com/search?q=%23$1" target="_blank" onclick="event.stopPropagation()">#$1</a>');
 
-            // 미디어
+            // 미디어 (최대 높이 제한)
             let mediaHtml = '';
             if (t.media && t.media.length > 0) {
                 t.media.forEach(m => {
                     if (m.type === 'photo') {
-                        mediaHtml += `<img src="${m.url}" loading="lazy" style="max-width:100%;border-radius:12px;margin-top:10px;">`;
+                        mediaHtml += `<img src="${m.url}" loading="lazy" style="max-width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin-top:10px;">`;
                     }
                 });
             }
@@ -1253,6 +1268,10 @@
                 ? `<img src="${profileImg}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
                 : `<div class="tweet-avatar">${(t.name || name).charAt(0)}</div>`;
 
+            // 글작성용 원본 텍스트 (HTML 태그 없이)
+            const rawText = t.text.replace(/https?:\/\/t\.co\/\w+/g, '').trim();
+            const safeText = rawText.replace(/'/g, "\\'").replace(/\n/g, '\\n');
+
             html += `<div class="tweet-card" onclick="window.open('${tweetUrl}', '_blank')">
                 <div class="tweet-header">
                     ${avatarHtml}
@@ -1261,6 +1280,7 @@
                         <div class="tweet-author-handle">@${t.handle || handle}</div>
                     </div>
                     <div class="tweet-time">${timeAgo}</div>
+                    <button class="use-btn" onclick="event.stopPropagation(); selectTweetForCompose('${safeText}', '${t.handle || handle}')">글 작성</button>
                 </div>
                 <div class="tweet-body">${body}${mediaHtml}</div>
                 <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--text-muted);">
