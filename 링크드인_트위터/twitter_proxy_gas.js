@@ -29,16 +29,14 @@ function doGet(e) {
     if (action === 'tweets') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const tweets = getTweets(handle, parseInt(e.parameter.count) || 5);
-      // Gemini로 요약 추가
-      const tweetsWithSummary = tweets.map(function(t) {
-        try {
-          t.ko_summary = summarizeTweet(t.text, t.handle);
-        } catch (err) {
-          t.ko_summary = null;
-        }
-        return t;
-      });
-      return jsonResponse({ success: true, handle: handle, tweets: tweetsWithSummary });
+      return jsonResponse({ success: true, handle: handle, tweets: tweets });
+    } else if (action === 'summarize') {
+      // 개별 트윗 요약 (비동기로 호출)
+      var text = e.parameter.text || '';
+      var h = handle || '';
+      if (!text) return jsonResponse({ error: 'text parameter required' });
+      var summary = summarizeTweet(text, h);
+      return jsonResponse({ success: true, summary: summary });
     } else if (action === 'multi') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const handles = handle.split(',');

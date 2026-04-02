@@ -1174,9 +1174,32 @@
         { name: 'SafePal', handle: 'SafePal' },
     ];
 
-    function renderGeminiSummary(container) {
-        // GAS 프록시가 이미 ko_summary를 포함해서 반환하므로, 렌더링 시 바로 표시
-        // renderTweetCards에서 처리
+    async function loadGeminiSummaries(container) {
+        const cards = container.querySelectorAll('.tweet-card[data-rawtext]');
+        for (const card of cards) {
+            const rawText = decodeURIComponent(card.dataset.rawtext || '');
+            const handle = card.dataset.handle || '';
+            if (!rawText || rawText.length < 10) continue;
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'ko-summary';
+            placeholder.innerHTML = '<div class="ko-desc" style="opacity:0.5">AI 요약 중...</div>';
+            const tweetBody = card.querySelector('.tweet-body');
+            if (tweetBody) tweetBody.after(placeholder);
+
+            try {
+                const url = `${TWITTER_PROXY_URL}?action=summarize&handle=${handle}&text=${encodeURIComponent(rawText)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.success && data.summary) {
+                    placeholder.innerHTML = `<div class="ko-title" style="white-space:pre-line;">${data.summary}</div>`;
+                } else {
+                    placeholder.remove();
+                }
+            } catch (e) {
+                placeholder.remove();
+            }
+        }
     }
 
     async function showCompetitorTimeline(handle, name, el) {
@@ -1197,6 +1220,8 @@
 
         const tweets = await fetchCompetitorTweets(handle, 5);
         container.innerHTML = renderTweetCards(tweets, handle, name);
+        // 트윗 먼저 보여주고, AI 요약은 백그라운드로
+        loadGeminiSummaries(container);
     }
 
     // ===== Twitter 프록시 설정 =====
@@ -1278,7 +1303,7 @@
             const rawText = t.text.replace(/https?:\/\/t\.co\/\w+/g, '').trim();
             const safeText = rawText.replace(/'/g, "\\'").replace(/\n/g, '\\n');
 
-            html += `<div class="tweet-card" data-rawtext="${encodeURIComponent(rawText)}" onclick="window.open('${tweetUrl}', '_blank')">
+            html += `<div class="tweet-card" data-rawtext="${encodeURIComponent(rawText)}" data-handle="${t.handle || handle}" onclick="window.open('${tweetUrl}', '_blank')">
                 <div class="tweet-header">
                     ${avatarHtml}
                     <div>
@@ -1289,7 +1314,6 @@
                     <button class="use-btn" onclick="event.stopPropagation(); selectTweetForCompose('${safeText}', '${t.handle || handle}')">글 작성</button>
                 </div>
                 <div class="tweet-body">${body}${mediaHtml}</div>
-                ${t.ko_summary ? `<div class="ko-summary" style="margin-top:10px;"><div class="ko-title" style="white-space:pre-line;">${t.ko_summary}</div></div>` : ''}
                 <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--text-muted);">
                     <span>💬 ${t.reply_count || 0}</span>
                     <span>🔁 ${t.retweet_count || 0}</span>
