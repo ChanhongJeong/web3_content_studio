@@ -517,21 +517,22 @@
             flex-shrink: 0;
         }
 
-        .news-card .use-btn, .top-news-card .use-btn {
+        .use-btn {
             padding: 6px 12px;
-            background: rgba(108, 92, 231, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(108, 92, 231, 0.3);
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            border: none;
             border-radius: 6px;
             font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
         }
 
-        .news-card .use-btn:hover, .top-news-card .use-btn:hover {
-            background: rgba(108, 92, 231, 0.3);
-            border-color: var(--accent);
+        .use-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
         .loading {
@@ -1173,6 +1174,21 @@
         { name: 'SafePal', handle: 'SafePal' },
     ];
 
+    async function translateTweetCards(container) {
+        const cards = container.querySelectorAll('.tweet-card');
+        cards.forEach(async (card) => {
+            const rawText = card.dataset.rawtext;
+            if (!rawText || rawText.length < 10) return;
+            const koText = await translateToKo(rawText);
+            if (koText) {
+                const summary = document.createElement('div');
+                summary.className = 'ko-summary';
+                summary.innerHTML = `<div class="ko-title">${koText}</div>`;
+                card.querySelector('.tweet-body').after(summary);
+            }
+        });
+    }
+
     async function showCompetitorTimeline(handle, name, el) {
         document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
@@ -1191,6 +1207,7 @@
 
         const tweets = await fetchCompetitorTweets(handle, 5);
         container.innerHTML = renderTweetCards(tweets, handle, name);
+        translateTweetCards(container);
     }
 
     // ===== Twitter 프록시 설정 =====
@@ -1272,7 +1289,7 @@
             const rawText = t.text.replace(/https?:\/\/t\.co\/\w+/g, '').trim();
             const safeText = rawText.replace(/'/g, "\\'").replace(/\n/g, '\\n');
 
-            html += `<div class="tweet-card" onclick="window.open('${tweetUrl}', '_blank')">
+            html += `<div class="tweet-card" data-rawtext="${encodeURIComponent(rawText)}" onclick="window.open('${tweetUrl}', '_blank')">
                 <div class="tweet-header">
                     ${avatarHtml}
                     <div>
