@@ -1249,7 +1249,6 @@
     }
 
     function selectTweetForCompose(text, handle) {
-        // 트윗 내용으로 글 작성 탭으로 이동
         document.getElementById('selectedNewsBar').style.display = 'block';
         document.getElementById('selectedNewsTitle').textContent = `@${handle}: ${text.substring(0, 80)}...`;
         document.getElementById('customTopic').value = text;
@@ -1259,7 +1258,8 @@
         document.querySelector('[data-tab="compose"]').classList.add('active');
         document.getElementById('tab-compose').classList.add('active');
 
-        generatePosts(text, '', `@${handle} on X`);
+        const tweetLink = `https://x.com/${handle}`;
+        generatePosts(text, '', `@${handle}`, tweetLink, 'tweet');
     }
 
     function renderTweetCards(tweets, handle, name) {
@@ -1675,41 +1675,68 @@
         document.querySelector('[data-tab="compose"]').classList.add('active');
         document.getElementById('tab-compose').classList.add('active');
 
-        generatePosts(selectedNews.title, selectedNews.description, selectedNews.source);
+        generatePosts(selectedNews.title, selectedNews.description, selectedNews.source, selectedNews.link, 'news');
     }
 
-    // ===== Post Generation =====
+    // ===== Post Generation (Gemini AI) =====
+    let currentSourceLink = '';
+
     function generateFromTopic() {
         const topic = document.getElementById('customTopic').value.trim();
         if (!topic) return;
-        generatePosts(topic, '', '');
+        generatePosts(topic, '', '', '', 'news');
     }
 
-    function generatePosts(title, description, source) {
-        // X Post
-        const xTemplates = [
-            `${title}\n\n지갑 업계에서 주목할 만한 소식.\n\n개인적으로 이건 셀프커스터디의 중요성을 다시 한번 보여주는 사례라고 생각합니다.\n\n여러분은 어떻게 생각하시나요?\n\n#Web3 #CryptoWallet #HardwareWallet`,
-            `${title}\n\n이 이슈가 중요한 이유:\n\n1) 사용자 자산 보안에 직접적 영향\n2) 지갑 생태계 전체의 방향성을 보여줌\n3) 우리가 주목해야 할 트렌드\n\n#Crypto #Web3`,
-            `${title}\n\n하드웨어 지갑 업계에서 일하면서 느끼는 건, 이런 변화가 결국 사용자에게 더 안전한 환경을 만든다는 것.\n\n#HardwareWallet #CryptoSecurity`,
-        ];
+    async function generatePosts(title, description, source, link, type) {
+        const fullText = description ? `${title}\n\n${description}` : title;
+        currentSourceLink = link || '';
 
-        // LinkedIn Post
-        const liTemplates = [
-            `${title}\n\n오늘 Web3 지갑 업계에서 주목할 만한 소식이 나왔습니다.\n\n${description ? description + '\n\n' : ''}하드웨어 지갑 업계에서 근무하면서 이런 변화를 가까이에서 지켜보고 있는데, 몇 가지 생각을 공유하고 싶습니다.\n\n1. 보안의 관점에서 이 변화는 긍정적입니다\n2. 사용자 경험(UX) 측면에서도 개선의 여지가 보입니다\n3. 장기적으로 셀프커스터디(Self-custody)의 중요성이 더욱 부각될 것입니다\n\n이 업계가 성숙해가는 과정에서, 가장 중요한 것은 결국 사용자의 자산을 안전하게 보호하는 것이라고 생각합니다.\n\n여러분의 의견은 어떠신가요?\n\n#Web3 #Blockchain #HardwareWallet #CryptoWallet #DigitalAssets`,
-        ];
-
-        const xPost = xTemplates[Math.floor(Math.random() * xTemplates.length)];
-        const liPost = liTemplates[0];
-
-        document.getElementById('xPost').value = xPost;
-        document.getElementById('liPost').value = liPost;
+        // 로딩 표시
+        document.getElementById('xPost').value = 'AI가 글을 작성 중...';
+        document.getElementById('liPost').value = 'AI가 글을 작성 중...';
         updateXCount();
         updateLiCount();
 
-        // Also set image title
+        // 이미지 제목 설정
         document.getElementById('imgTitle').value = title;
         if (source) document.getElementById('imgSubtitle').value = `via ${source}`;
         renderCanvas();
+
+        if (!TWITTER_PROXY_URL) {
+            // 프록시 없으면 기본 템플릿
+            document.getElementById('xPost').value = `${title}\n\nWorth watching from a wallet industry perspective.\n\n#Web3 #CryptoWallet`;
+            document.getElementById('liPost').value = `${title}\n\n지갑 업계 관점에서 주목할 만한 소식입니다.\n\n#Web3 #HardwareWallet`;
+            updateXCount();
+            updateLiCount();
+            return;
+        }
+
+        try {
+            const url = `${TWITTER_PROXY_URL}?action=compose&text=${encodeURIComponent(fullText)}&source=${encodeURIComponent(source)}&link=${encodeURIComponent(link || '')}&type=${type || 'news'}`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (data.success && data.posts) {
+                let xText = data.posts.x || '';
+                // 원본 링크 첨부
+                if (currentSourceLink && !xText.includes(currentSourceLink)) {
+                    xText += '\n\n' + currentSourceLink;
+                }
+                document.getElementById('xPost').value = xText;
+
+                let liText = data.posts.linkedin || '';
+                if (currentSourceLink && !liText.includes(currentSourceLink)) {
+                    liText += '\n\n' + currentSourceLink;
+                }
+                document.getElementById('liPost').value = liText;
+            }
+        } catch (e) {
+            document.getElementById('xPost').value = `${title}\n\nWorth watching.\n\n#Web3 #Crypto`;
+            document.getElementById('liPost').value = `${title}\n\n주목할 만한 소식입니다.\n\n#Web3`;
+        }
+
+        updateXCount();
+        updateLiCount();
     }
 
     // ===== Templates =====

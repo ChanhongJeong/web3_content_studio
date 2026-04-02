@@ -37,6 +37,15 @@ function doGet(e) {
       if (!text) return jsonResponse({ error: 'text parameter required' });
       var summary = summarizeTweet(text, h);
       return jsonResponse({ success: true, summary: summary });
+    } else if (action === 'compose') {
+      // 기사/트윗 기반 X + LinkedIn 글 자동 생성
+      var text = e.parameter.text || '';
+      var source = e.parameter.source || '';
+      var link = e.parameter.link || '';
+      var type = e.parameter.type || 'news'; // news or tweet
+      if (!text) return jsonResponse({ error: 'text parameter required' });
+      var posts = generateSocialPosts(text, source, link, type);
+      return jsonResponse({ success: true, posts: posts });
     } else if (action === 'multi') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const handles = handle.split(',');
@@ -238,6 +247,76 @@ function extractMedia(legacy) {
 }
 
 // 테스트용 함수 (Apps Script 에디터에서 직접 실행)
+// X + LinkedIn 글 자동 생성
+function generateSocialPosts(text, source, link, type) {
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'compose_' + Utilities.base64Encode(text.substring(0, 80));
+  var cached = cache.get(cacheKey);
+  if (cached) return JSON.parse(cached);
+
+  var sourceContext = type === 'tweet' ? '경쟁사 트윗' : '뉴스 기사';
+  var linkText = link ? '\n\nSource link: ' + link : '';
+
+  var prompt = `You are Tani (@Tani_9325), a hardware wallet industry professional working at D'CENT Wallet.
+
+Based on the following ${sourceContext}, generate TWO social media posts.
+
+=== SOURCE ===
+${text}
+${source ? '(Source: ' + source + ')' : ''}${linkText}
+=== END SOURCE ===
+
+=== POST 1: X (Twitter) - IN ENGLISH ===
+Rules:
+- Written in English
+- Short and punchy, max 250 characters (leave room for link)
+- Include your professional opinion/take as a wallet industry insider
+- Use traffic-driving words naturally (e.g. breaking, massive, critical, watch this, unpopular opinion, hot take)
+- Sound like a real person with genuine insight, NOT promotional
+- Do NOT promote D'CENT directly - speak as a wallet industry expert
+- Include 2-3 relevant hashtags at the end
+- If source link exists, assume it will be appended after your text
+- Use line breaks for readability
+
+=== POST 2: LinkedIn - IN KOREAN ===
+Rules:
+- Written in Korean (한국어)
+- Professional expert tone, 150-300 words
+- Connect to broader industry trends and context
+- Include your personal insight/opinion
+- Sound like a knowledgeable insider, not a marketer
+- Do NOT promote D'CENT directly
+- Include 3-5 relevant hashtags at the end
+- Use line breaks between paragraphs
+
+=== OUTPUT FORMAT (strict JSON) ===
+Return ONLY valid JSON, no markdown:
+{"x": "your X post text here", "linkedin": "your LinkedIn post text here"}`;
+
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.9 }
+    }),
+    muteHttpExceptions: true
+  });
+
+  var data = JSON.parse(resp.getContentText());
+  if (data.candidates && data.candidates[0]) {
+    var raw = data.candidates[0].content.parts[0].text;
+    // JSON 추출 (```json ... ``` 감싸져 있을 수 있음)
+    var jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      var posts = JSON.parse(jsonMatch[0]);
+      cache.put(cacheKey, JSON.stringify(posts), 60 * 30); // 30분 캐시
+      return posts;
+    }
+  }
+  return { x: '', linkedin: '' };
+}
+
 function testFetch() {
   var tweets = getTweets('Ledger', 3);
   tweets.forEach(function(t) {
