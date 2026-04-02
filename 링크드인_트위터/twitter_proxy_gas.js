@@ -199,9 +199,21 @@ function getTweets(screenName, count) {
           var legacy = item.legacy || {};
           var userLegacy = (item.core && item.core.user_results && item.core.user_results.result && item.core.user_results.result.legacy) || {};
 
-          if (legacy.full_text) {
+          // RT인 경우 원본 트윗의 전체 텍스트 사용
+          var fullText = legacy.full_text || '';
+          if (legacy.retweeted_status_result && legacy.retweeted_status_result.result) {
+            var rtItem = legacy.retweeted_status_result.result;
+            if (rtItem.__typename === 'TweetWithVisibilityResults') rtItem = rtItem.tweet || rtItem;
+            var rtLegacy = rtItem.legacy || {};
+            var rtUser = (rtItem.core && rtItem.core.user_results && rtItem.core.user_results.result && rtItem.core.user_results.result.legacy) || {};
+            if (rtLegacy.full_text) {
+              fullText = 'RT @' + (rtUser.screen_name || '') + ': ' + rtLegacy.full_text;
+            }
+          }
+
+          if (fullText) {
             tweets.push({
-              text: legacy.full_text,
+              text: fullText,
               created_at: legacy.created_at,
               id: legacy.id_str,
               name: userLegacy.name || screenName,

@@ -1254,11 +1254,15 @@
             const profileImg = t.profile_image || '';
             const tweetUrl = `https://x.com/${t.handle}/status/${t.id}`;
 
-            // 텍스트 처리: t.co 링크 제거, @멘션/해시태그 링크화
-            let body = t.text
-                .replace(/https?:\/\/t\.co\/\w+/g, '')
-                .trim()
+            // 텍스트 처리: 미디어 있으면 마지막 t.co만 제거, 나머지 t.co는 링크로 변환
+            let body = t.text;
+            // 미디어가 있는 경우 마지막 t.co 링크(미디어 URL)만 제거
+            if (t.media && t.media.length > 0) {
+                body = body.replace(/\s*https?:\/\/t\.co\/\w+\s*$/, '');
+            }
+            body = body.trim()
                 .replace(/\n/g, '<br>')
+                .replace(/(https?:\/\/t\.co\/\w+)/g, '<a href="$1" target="_blank" onclick="event.stopPropagation()" style="color:#1d9bf0;">Link</a>')
                 .replace(/@(\w+)/g, '<a href="https://x.com/$1" target="_blank" onclick="event.stopPropagation()">@$1</a>')
                 .replace(/#(\w+)/g, '<a href="https://x.com/search?q=%23$1" target="_blank" onclick="event.stopPropagation()">#$1</a>');
 
