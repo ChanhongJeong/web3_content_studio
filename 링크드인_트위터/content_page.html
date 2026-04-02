@@ -1817,7 +1817,8 @@
 
     async function generateAIImage() {
         const prompt = document.getElementById('imagePrompt').value;
-        if (!prompt) { showToast('먼저 글을 작성해주세요'); return; }
+        const xPost = document.getElementById('xPost').value;
+        if (!prompt && !xPost) { showToast('먼저 글을 작성해주세요'); return; }
 
         const imgArea = document.getElementById('aiImageArea');
         const btn = document.getElementById('genImageBtn');
@@ -1826,7 +1827,7 @@
         imgArea.innerHTML = '<div class="tweet-loading"><div class="spinner"></div>이미지 생성 중... (30초~1분)</div>';
 
         try {
-            const url = `${TWITTER_PROXY_URL}?action=generate-image&prompt=${encodeURIComponent(prompt)}`;
+            const url = `${TWITTER_PROXY_URL}?action=generate-image&prompt=${encodeURIComponent(prompt)}&xpost=${encodeURIComponent(xPost)}`;
             const res = await fetch(url);
             const data = await res.json();
 

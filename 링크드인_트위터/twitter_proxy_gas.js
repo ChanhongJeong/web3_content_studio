@@ -52,10 +52,15 @@ function doGet(e) {
       var posts = generateSocialPosts(text, source, link, type);
       return jsonResponse({ success: true, posts: posts });
     } else if (action === 'generate-image') {
-      // 별도 이미지 생성
       var prompt = e.parameter.prompt || '';
-      if (!prompt) return jsonResponse({ error: 'prompt parameter required' });
-      var imageBase64 = generateImage(prompt);
+      var xPost = e.parameter.xpost || '';
+      if (!prompt && !xPost) return jsonResponse({ error: 'prompt or xpost parameter required' });
+      // X 글 내용을 이미지 프롬프트에 반영
+      var fullPrompt = prompt;
+      if (xPost) {
+        fullPrompt = 'Create a social media header image for this tweet:\n"' + xPost.substring(0, 300) + '"\n\nStyle: ' + (prompt || 'Professional editorial photography, photorealistic, clean minimal composition, real-world objects and lighting. NOT AI-looking, NOT 3D, NOT digital art. Like a Bloomberg or Reuters article photo. No text or typography in the image.');
+      }
+      var imageBase64 = generateImage(fullPrompt);
       if (imageBase64) {
         return jsonResponse({ success: true, image: imageBase64 });
       }
