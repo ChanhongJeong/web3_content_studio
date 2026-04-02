@@ -1698,10 +1698,9 @@
         updateXCount();
         updateLiCount();
 
-        // 이미지 제목 설정
-        document.getElementById('imgTitle').value = title;
-        if (source) document.getElementById('imgSubtitle').value = `via ${source}`;
-        renderCanvas();
+        // 이미지 관련 hidden input (호환성)
+        const imgTitleEl = document.getElementById('imgTitle');
+        if (imgTitleEl) imgTitleEl.value = title;
 
         if (!TWITTER_PROXY_URL) {
             // 프록시 없으면 기본 템플릿
@@ -1902,14 +1901,17 @@
     }
 
     function resizeCanvas() {
-        const size = document.getElementById('imgSize').value.split('x');
+        const sizeEl = document.getElementById('imgSize');
         const canvas = document.getElementById('cardCanvas');
+        if (!sizeEl || !canvas) return;
+        const size = sizeEl.value.split('x');
         canvas.width = parseInt(size[0]);
         canvas.height = parseInt(size[1]);
     }
 
     function renderCanvas() {
         const canvas = document.getElementById('cardCanvas');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const w = canvas.width;
         const h = canvas.height;
