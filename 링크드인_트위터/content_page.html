@@ -1174,19 +1174,9 @@
         { name: 'SafePal', handle: 'SafePal' },
     ];
 
-    async function translateTweetCards(container) {
-        const cards = container.querySelectorAll('.tweet-card');
-        cards.forEach(async (card) => {
-            const rawText = decodeURIComponent(card.dataset.rawtext || '');
-            if (!rawText || rawText.length < 10) return;
-            const koText = await translateToKo(rawText);
-            if (koText) {
-                const summary = document.createElement('div');
-                summary.className = 'ko-summary';
-                summary.innerHTML = `<div class="ko-title">${koText}</div>`;
-                card.querySelector('.tweet-body').after(summary);
-            }
-        });
+    function renderGeminiSummary(container) {
+        // GAS 프록시가 이미 ko_summary를 포함해서 반환하므로, 렌더링 시 바로 표시
+        // renderTweetCards에서 처리
     }
 
     async function showCompetitorTimeline(handle, name, el) {
@@ -1207,7 +1197,6 @@
 
         const tweets = await fetchCompetitorTweets(handle, 5);
         container.innerHTML = renderTweetCards(tweets, handle, name);
-        translateTweetCards(container);
     }
 
     // ===== Twitter 프록시 설정 =====
@@ -1300,6 +1289,7 @@
                     <button class="use-btn" onclick="event.stopPropagation(); selectTweetForCompose('${safeText}', '${t.handle || handle}')">글 작성</button>
                 </div>
                 <div class="tweet-body">${body}${mediaHtml}</div>
+                ${t.ko_summary ? `<div class="ko-summary" style="margin-top:10px;"><div class="ko-title" style="white-space:pre-line;">${t.ko_summary}</div></div>` : ''}
                 <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--text-muted);">
                     <span>💬 ${t.reply_count || 0}</span>
                     <span>🔁 ${t.retweet_count || 0}</span>
