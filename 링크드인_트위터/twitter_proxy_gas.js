@@ -434,3 +434,14 @@ function testGemini() {
     Logger.log('Compose error: ' + e.message);
   }
 }
+
+function testDirect() {
+  Logger.log('Key: ' + (GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 10) + '...' : 'EMPTY'));
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({contents: [{parts: [{text: 'Say hi in Korean, one word'}]}]}),
+    muteHttpExceptions: true
+  });
+  Logger.log(resp.getContentText().substring(0, 500));
+}
