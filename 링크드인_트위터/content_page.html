@@ -1174,38 +1174,33 @@
         { name: 'SafePal', handle: 'iSafePal' },
     ];
 
-    function openAllCompetitorX() {
-        MAIN_COMPETITORS.forEach(c => {
-            window.open(`https://x.com/${c.handle}`, '_blank');
-        });
+    function showCompetitorTimeline(handle, name, el) {
+        document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+
+        const container = document.getElementById('competitorTimeline');
+        container.innerHTML = `<a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders" data-tweet-limit="5" data-height="600" href="https://twitter.com/${handle}">@${handle}의 트윗 로딩 중...</a>`;
+
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(container);
+        }
     }
 
     function renderCompetitorCards() {
         const grid = document.getElementById('newsGrid');
         let html = '<div class="competitor-section">';
-        html += '<div class="top-news-header" style="margin-bottom:8px;">경쟁사 X(트위터)</div>';
+        html += '<div class="top-news-header" style="margin-bottom:12px;">경쟁사 X(트위터) 최신 포스트</div>';
 
-        // 모두 열기 버튼
-        html += `<div style="margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="openAllCompetitorX()" style="display:flex;align-items:center;gap:6px;">
-                <span style="font-weight:900;">𝕏</span> 경쟁사 5개 한번에 열기
-            </button>
-            <span style="color:var(--text-muted);font-size:12px;">클릭하면 5개 탭이 동시에 열립니다</span>
-        </div>`;
-
-        // 개별 카드
-        html += '<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px; margin-bottom:24px;">';
-        MAIN_COMPETITORS.forEach(c => {
-            html += `<div class="tweet-card" onclick="window.open('https://x.com/${c.handle}', '_blank')" style="margin-bottom:0;">
-                <div class="tweet-header" style="margin-bottom:0;">
-                    <div class="tweet-avatar">${c.name.charAt(0)}</div>
-                    <div>
-                        <div class="tweet-author-name">${c.name}</div>
-                        <div class="tweet-author-handle">@${c.handle}</div>
-                    </div>
-                </div>
-            </div>`;
+        // 경쟁사 선택 탭
+        html += '<div class="competitor-tabs">';
+        MAIN_COMPETITORS.forEach((c, i) => {
+            html += `<div class="competitor-tab ${i === 0 ? 'active' : ''}" onclick="showCompetitorTimeline('${c.handle}', '${c.name}', this)">${c.name}</div>`;
         });
+        html += '</div>';
+
+        // 타임라인 영역
+        html += '<div class="competitor-timeline-area">';
+        html += `<div id="competitorTimeline" class="competitor-timeline"></div>`;
         html += '</div>';
 
         // 기사 기반 경쟁사 뉴스도 아래에 표시
@@ -1245,6 +1240,8 @@
             }
         });
 
+        // 첫 번째 경쟁사 타임라인 자동 로드
+        showCompetitorTimeline(MAIN_COMPETITORS[0].handle, MAIN_COMPETITORS[0].name, document.querySelector('.competitor-tab'));
     }
 
     // 한국어 번역 (다중 API fallback)
