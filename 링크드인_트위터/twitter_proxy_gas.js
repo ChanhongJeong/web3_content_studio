@@ -366,3 +366,24 @@ function testFetch() {
     Logger.log('[' + t.created_at + '] @' + t.handle + ': ' + t.text.substring(0, 100));
   });
 }
+
+function testGemini() {
+  Logger.log('=== Testing Gemini API ===');
+  Logger.log('API Key: ' + (GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 10) + '...' : 'EMPTY!'));
+
+  try {
+    var result = summarizeTweet('Cash-to-Stablecoin now supports BASE. Stack stablecoins in Ledger Wallet quickly via BASE.', 'Ledger');
+    Logger.log('Summary result: ' + result);
+  } catch (e) {
+    Logger.log('Summary error: ' + e.message);
+  }
+
+  try {
+    var posts = generateSocialPosts('Crypto hack losses reach $52 million in March according to PeckShield report', 'The Block', 'https://example.com', 'news');
+    Logger.log('X post: ' + (posts.x || 'EMPTY').substring(0, 100));
+    Logger.log('LinkedIn: ' + (posts.linkedin || 'EMPTY').substring(0, 100));
+    Logger.log('Image: ' + JSON.stringify(posts.image || {}));
+  } catch (e) {
+    Logger.log('Compose error: ' + e.message);
+  }
+}
