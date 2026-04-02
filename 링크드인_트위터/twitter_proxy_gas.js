@@ -29,9 +29,17 @@ function doGet(e) {
     if (action === 'tweets') {
       if (!handle) return jsonResponse({ error: 'handle parameter required' });
       const tweets = getTweets(handle, parseInt(e.parameter.count) || 5);
+      // 한번에 모든 트윗 요약 (API 호출 1번으로 최적화)
+      try {
+        var summaries = batchSummarizeTweets(tweets, handle);
+        for (var si = 0; si < tweets.length && si < summaries.length; si++) {
+          tweets[si].ko_summary = summaries[si];
+        }
+      } catch (err) {
+        // 요약 실패해도 트윗은 반환
+      }
       return jsonResponse({ success: true, handle: handle, tweets: tweets });
     } else if (action === 'summarize') {
-      // 개별 트윗 요약 (비동기로 호출)
       var text = e.parameter.text || '';
       var h = handle || '';
       if (!text) return jsonResponse({ error: 'text parameter required' });
@@ -65,7 +73,41 @@ function doGet(e) {
   }
 }
 
-// Gemini 요약
+// Gemini 일괄 요약 (API 1번 호출로 모든 트윗 요약)
+function batchSummarizeTweets(tweets, handle) {
+  if (!tweets || tweets.length === 0 || !GEMINI_API_KEY) return [];
+
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'batch_' + handle + '_' + tweets.length;
+  var cached = cache.get(cacheKey);
+  if (cached) return JSON.parse(cached);
+
+  var tweetList = tweets.map(function(t, i) {
+    return (i + 1) + '. @' + (t.handle || handle) + ': ' + t.text.substring(0, 200);
+  }).join('\n\n');
+
+  var prompt = '다음 트윗들을 각각 한국어로 요약+해석해줘. 각 트윗마다 정확히 2줄만:\n요약: [1줄]\n해석: [하드웨어 지갑/Web3 업계 관점 1줄]\n\n트윗 사이에 빈 줄 넣어서 구분해줘.\n\n' + tweetList;
+
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+    muteHttpExceptions: true
+  });
+
+  var data = JSON.parse(resp.getContentText());
+  if (data.candidates && data.candidates[0]) {
+    var text = data.candidates[0].content.parts[0].text;
+    // 빈 줄로 분리
+    var blocks = text.split(/\n\s*\n/).filter(function(b) { return b.trim().length > 0; });
+    var summaries = blocks.map(function(b) { return b.trim(); });
+    cache.put(cacheKey, JSON.stringify(summaries), 60 * 10);
+    return summaries;
+  }
+  return [];
+}
+
+// Gemini 개별 요약
 function summarizeTweet(text, handle) {
   var cache = CacheService.getScriptCache();
   var cacheKey = 'summary_' + Utilities.base64Encode(text.substring(0, 100));
@@ -74,7 +116,7 @@ function summarizeTweet(text, handle) {
 
   var prompt = '다음 트윗을 한국어로 1줄 요약 + 하드웨어 지갑/Web3 업계 관점에서 1줄 해석해줘. 각각 1줄씩만, 아주 간결하게.\n형식:\n요약: [내용]\n해석: [내용]\n\n트윗 (@' + handle + '): ' + text;
 
-  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
@@ -336,7 +378,7 @@ IMPORTANT RULES:
 === OUTPUT (strict JSON only, no markdown, no code fences) ===
 {"x": "...", "linkedin": "...", "image": {"title": "...", "subtitle": "...", "category": "...", "theme": "..."}}`;
 
-  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_API_KEY, {
+  var resp = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY, {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({

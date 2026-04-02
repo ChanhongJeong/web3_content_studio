@@ -1198,8 +1198,6 @@
 
         const tweets = await fetchCompetitorTweets(handle, 5);
         container.innerHTML = renderTweetCards(tweets, handle, name);
-        // 트윗 먼저 보여주고, AI 요약은 백그라운드로
-        loadGeminiSummaries(container);
     }
 
     // ===== Twitter 프록시 설정 =====
@@ -1296,6 +1294,7 @@
                     <button class="use-btn" onclick="event.stopPropagation(); selectTweetForCompose('${safeText}', '${t.handle || handle}')">글 작성</button>
                 </div>
                 <div class="tweet-body">${body}${mediaHtml}</div>
+                ${t.ko_summary ? `<div class="ko-summary" style="margin-top:10px;"><div class="ko-title" style="white-space:pre-line;">${t.ko_summary}</div></div>` : ''}
                 <div style="display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--text-muted);">
                     <span>💬 ${t.reply_count || 0}</span>
                     <span>🔁 ${t.retweet_count || 0}</span>
