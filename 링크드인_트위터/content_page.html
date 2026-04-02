@@ -360,6 +360,61 @@
             min-height: 300px;
         }
 
+        /* 경쟁사 트윗 피드 (메인) */
+        .competitor-feed-section {
+            background: linear-gradient(135deg, rgba(29, 155, 240, 0.08), rgba(29, 155, 240, 0.03));
+            border: 1px solid rgba(29, 155, 240, 0.25);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .competitor-feed-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1d9bf0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .competitor-feed-header::before {
+            content: '𝕏';
+            font-weight: 900;
+        }
+
+        .competitor-feed-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .competitor-feed-tab {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .competitor-feed-tab:hover,
+        .competitor-feed-tab.active {
+            border-color: #1d9bf0;
+            color: #1d9bf0;
+            background: rgba(29, 155, 240, 0.1);
+        }
+
+        .competitor-feed-timeline {
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
         /* News Cards */
         .news-grid {
             display: grid;
@@ -1121,6 +1176,18 @@
         });
     }
 
+    function switchMainCompetitor(handle, name, el) {
+        document.querySelectorAll('.competitor-feed-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+
+        const container = document.getElementById('mainCompetitorTimeline');
+        container.innerHTML = `<a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter" data-tweet-limit="5" data-height="500" href="https://twitter.com/${handle}">@${handle}의 트윗</a>`;
+
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(container);
+        }
+    }
+
     function showCompetitorTimeline(handle, name, el) {
         document.querySelectorAll('.competitor-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
@@ -1165,6 +1232,54 @@
             koHtml.innerHTML = content;
             el.querySelector('.news-text-area').appendChild(koHtml);
         }
+    }
+
+    // ===== 중복 제거: 유사한 기사 그룹핑 =====
+    function getSignificantWords(title) {
+        const stopWords = new Set(['the','a','an','in','on','at','to','for','of','and','or','is','are','was','were','has','been','with','from','by','as','its','it','that','this','will','can','may','new','says','amid','after','over','into','about','than','more','up','out','how','why','what','when','who','where','could','would','should','not','but','all','their','have','had','be','do','does','did','just','now','also','most','some','other','no','so','if','your','our','we','they','he','she','his','her','us','warns','users','report','reports','according']);
+        return title.toLowerCase()
+            .replace(/[^a-z0-9\s]/g, '')
+            .split(/\s+/)
+            .filter(w => w.length > 2 && !stopWords.has(w));
+    }
+
+    function areSimilarArticles(a, b) {
+        const wordsA = getSignificantWords(a.title);
+        const wordsB = getSignificantWords(b.title);
+        if (wordsA.length === 0 || wordsB.length === 0) return false;
+
+        const setA = new Set(wordsA);
+        const shared = wordsB.filter(w => setA.has(w)).length;
+        const minLen = Math.min(wordsA.length, wordsB.length);
+
+        // 핵심 단어 50% 이상 겹치면 유사 기사
+        return shared / minLen >= 0.5;
+    }
+
+    function deduplicateTop(scoredArticles, count) {
+        const selected = [];
+        const used = new Set();
+
+        for (const article of scoredArticles) {
+            if (used.has(article)) continue;
+
+            // 이미 선택된 기사와 유사한지 확인
+            const isDuplicate = selected.some(sel => areSimilarArticles(sel, article));
+            if (isDuplicate) continue;
+
+            selected.push(article);
+
+            // 유사한 기사들을 전부 used에 추가
+            for (const other of scoredArticles) {
+                if (!used.has(other) && areSimilarArticles(article, other)) {
+                    used.add(other);
+                }
+            }
+
+            if (selected.length >= count) break;
+        }
+
+        return selected;
     }
 
     function getImportanceScore(article) {
@@ -1252,9 +1367,10 @@
             return;
         }
 
-        // TOP 5 중요 뉴스 선정
+        // TOP 5 중요 뉴스 선정 (중복 제거)
         const scored = news.map((n, i) => ({ ...n, score: getImportanceScore(n), originalIndex: i }));
-        const top5 = [...scored].sort((a, b) => b.score - a.score).slice(0, 5);
+        const sortedByScore = [...scored].sort((a, b) => b.score - a.score);
+        const top5 = deduplicateTop(sortedByScore, 5);
 
         let html = '';
 
@@ -1279,6 +1395,27 @@
                 </div>`;
         });
         html += `</div></div>`;
+
+        // 경쟁사 최신 트윗 섹션
+        const MAIN_COMPETITORS = [
+            { name: 'Ledger', handle: 'Ledger' },
+            { name: 'Trezor', handle: 'Trezor' },
+            { name: 'Tangem', handle: 'tangem' },
+            { name: 'Keystone', handle: 'KeystoneWallet' },
+            { name: 'SafePal', handle: 'iSafePal' },
+        ];
+
+        html += `<div class="competitor-feed-section">`;
+        html += `<div class="competitor-feed-header">경쟁사 최신 트윗</div>`;
+        html += `<div class="competitor-feed-tabs">`;
+        MAIN_COMPETITORS.forEach((c, i) => {
+            html += `<div class="competitor-feed-tab ${i === 0 ? 'active' : ''}" onclick="switchMainCompetitor('${c.handle}', '${c.name}', this)">${c.name}</div>`;
+        });
+        html += `</div>`;
+        html += `<div id="mainCompetitorTimeline" class="competitor-feed-timeline">
+            <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter" data-tweet-limit="5" data-height="500" href="https://twitter.com/${MAIN_COMPETITORS[0].handle}">@${MAIN_COMPETITORS[0].handle}의 트윗</a>
+        </div>`;
+        html += `</div>`;
 
         // 전체 뉴스
         html += `<div class="all-news-header">전체 뉴스</div>`;
@@ -1310,6 +1447,11 @@
                 translateNewsItem(card, title, desc);
             }
         });
+
+        // Twitter 위젯 로드 (경쟁사 타임라인)
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(grid);
+        }
     }
 
     function getTimeAgo(date) {
