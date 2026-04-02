@@ -1884,19 +1884,7 @@
                 ctx.shadowBlur = 10;
                 wrapText(ctx, title, 50, 460, 1100, 44);
 
-                // 4) 출처
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = 'rgba(255,255,255,0.6)';
-                ctx.font = '16px -apple-system, sans-serif';
-                const source = selectedNews?.source || '';
-                if (source) ctx.fillText('출처: ' + source, 50, 580);
-
-                // 5) 작성자 + 날짜
-                ctx.fillText('Tani @Tani_9325', 50, 608);
-                const today = new Date();
-                const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
-                const dateW = ctx.measureText(dateStr).width;
-                ctx.fillText(dateStr, 1150 - dateW, 608);
 
                 // Canvas를 이미지로 표시
                 const imgArea = document.getElementById('aiImageArea');
