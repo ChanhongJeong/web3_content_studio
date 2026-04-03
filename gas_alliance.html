@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no, initial-scale=1.0">
+<title>DApp Discovery</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1a1a1a; max-width: 480px; margin: 0 auto; min-height: 100vh; background: #fff;
+  }
+  .search-bar { display: flex; align-items: center; padding: 10px 16px; gap: 10px; }
+  .search-bar-left, .search-bar-right {
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  }
+  .search-input {
+    flex: 1; background: #f2f3f5; border: none; border-radius: 8px;
+    padding: 11px 14px; font-size: 14px; color: #aaa; outline: none;
+  }
+
+  /* Banner */
+  .gas-alliance-banner {
+    margin: 8px 16px 0;
+    background: linear-gradient(135deg, #1b2a4a 0%, #223561 50%, #2a4073 100%);
+    border-radius: 12px; padding: 20px; color: #fff;
+    position: relative; overflow: hidden;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .gas-banner-left { flex: 1; position: relative; z-index: 1; }
+  .gas-banner-subtitle { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+  .gas-banner-title { font-size: 18px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
+  .gas-banner-title em { font-style: normal; color: #836EF9; }
+  .gas-banner-btn {
+    display: inline-block; background: #836EF9; color: #fff;
+    font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  }
+  .gas-banner-right {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .banner-logo-wrap {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(160deg, #836EF9, #6B54E8);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(131,110,249,0.3);
+  }
+  .monad-logo-label { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 500; }
+  .gas-alliance-banner::after {
+    content: ''; position: absolute; top: -40px; right: -20px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(131,110,249,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .banner-dots { display: flex; justify-content: center; gap: 5px; padding: 10px 0 4px; }
+  .banner-dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; }
+  .banner-dot.active { background: #836EF9; width: 16px; border-radius: 3px; }
+
+  /* Monad Featured */
+  .monad-featured {
+    margin: 12px 16px; background: linear-gradient(135deg, #f5f3ff, #ede8ff);
+    border-radius: 14px; padding: 16px; border: 1px solid #e4ddff;
+  }
+  .monad-featured-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .mf-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(160deg, #836EF9, #6B54E8);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .monad-featured-title { font-size: 15px; font-weight: 700; }
+  .monad-featured-subtitle { font-size: 11px; color: #836EF9; font-weight: 600; }
+  .monad-featured-badge {
+    margin-left: auto; background: #836EF9; color: #fff;
+    font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+  }
+  .monad-featured-stats {
+    display: flex; background: #fff; border-radius: 10px; overflow: hidden; margin-bottom: 14px;
+  }
+  .monad-stat { flex: 1; text-align: center; padding: 10px 8px; }
+  .monad-stat + .monad-stat { border-left: 1px solid #f0ecff; }
+  .monad-stat-value { font-size: 17px; font-weight: 800; color: #836EF9; }
+  .monad-stat-label { font-size: 10px; color: #999; margin-top: 2px; }
+
+  /* Gas Pass */
+  .gas-pass-section {
+    background: #fff; border-radius: 10px; padding: 14px; border: 1px dashed #c4b5fd;
+  }
+  .gas-pass-title {
+    font-size: 13px; font-weight: 700; color: #5b44c4; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .gas-pass-step { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
+  .gas-pass-step + .gas-pass-step { border-top: 1px solid #f0ecff; }
+  .step-number {
+    width: 22px; height: 22px; border-radius: 50%; background: #836EF9; color: #fff;
+    font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .step-content { flex: 1; }
+  .step-label { font-size: 12px; font-weight: 600; color: #333; }
+  .step-desc { font-size: 11px; color: #999; margin-top: 2px; }
+  .step-progress { margin-top: 6px; background: #f0ecff; border-radius: 4px; height: 6px; overflow: hidden; }
+  .step-progress-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #836EF9, #a78bfa); }
+  .step-status { font-size: 10px; color: #836EF9; font-weight: 600; margin-top: 3px; }
+
+  /* Alliance */
+  .alliance-section { padding: 0 16px; margin-top: 8px; margin-bottom: 8px; }
+  .alliance-section-header {
+    display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px;
+  }
+  .alliance-section-title { font-size: 16px; font-weight: 700; }
+  .alliance-section-more { font-size: 13px; color: #aaa; }
+  .alliance-scroll {
+    display: flex; gap: 10px; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px;
+  }
+  .alliance-scroll::-webkit-scrollbar { display: none; }
+  .alliance-card {
+    min-width: 120px; background: #f7f8fa; border-radius: 14px;
+    padding: 14px 12px; display: flex; flex-direction: column;
+    align-items: center; gap: 6px; position: relative; border: 1px solid #eef0f2;
+  }
+  .alliance-card.hl { background: linear-gradient(135deg, #f5f3ff, #ede8ff); border-color: #d4ccff; }
+  .alliance-card .gas-tag {
+    position: absolute; top: 6px; right: 6px; background: #3cc87c; color: #fff;
+    font-size: 8px; font-weight: 700; padding: 2px 5px; border-radius: 4px;
+  }
+  .ac-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .ac-icon svg, .ac-icon img { width: 44px; height: 44px; }
+  .alliance-card-name { font-size: 12px; font-weight: 600; color: #333; }
+  .alliance-card-count { font-size: 10px; color: #aaa; }
+
+  .section-heading { padding: 18px 16px 8px; font-size: 20px; font-weight: 700; }
+  .category-tabs {
+    display: flex; padding: 0 16px; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .category-tabs::-webkit-scrollbar { display: none; }
+  .category-tab {
+    padding: 10px 14px; font-size: 14px; color: #aaa; white-space: nowrap;
+    cursor: pointer; background: none; border: none;
+    border-bottom: 2px solid transparent; font-family: inherit;
+  }
+  .category-tab.active { color: #2a7df2; border-bottom-color: #2a7df2; font-weight: 600; }
+  .tabs-line { height: 1px; background: #f0f0f0; margin: 0 16px; }
+
+  .dapp-list { padding: 4px 16px; }
+  .dapp-item {
+    display: flex; align-items: center; padding: 14px 0; gap: 14px;
+    border-bottom: 1px solid #f2f3f5;
+  }
+  .dapp-item:last-child { border-bottom: none; }
+  .dapp-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .dapp-icon svg { width: 48px; height: 48px; border-radius: 14px; }
+  .dapp-info { flex: 1; min-width: 0; }
+  .dapp-name-row { display: flex; align-items: center; gap: 6px; }
+  .dapp-name { font-size: 15px; font-weight: 600; }
+  .dapp-tag { font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+  .tag-dex { background: #fff4e6; color: #d97a1f; }
+  .tag-lending { background: #fde8ec; color: #c93a54; }
+  .tag-bridge { background: #f0ebf8; color: #7b56b5; }
+  .tag-staking { background: #e6f4f1; color: #1a8a6e; }
+  .tag-oracle { background: #fef3e2; color: #b87a1a; }
+  .tag-perp { background: #e8eaf6; color: #3949ab; }
+  .tag-infra { background: #f2f3f5; color: #555; }
+  .tag-defi { background: #eaf7ee; color: #2e9e54; }
+  .dapp-desc {
+    font-size: 12px; color: #999; margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dapp-meta { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
+  .chain-dot { width: 16px; height: 16px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+  .chain-dot svg { width: 16px; height: 16px; }
+  .dapp-gas-free { font-size: 10px; color: #3cc87c; font-weight: 600; }
+  .dapp-fav { font-size: 20px; color: #ddd; cursor: pointer; flex-shrink: 0; }
+
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px; background: #fff;
+    border-top: 1px solid #eee; display: flex;
+    justify-content: space-around; padding: 6px 0 26px; z-index: 100;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 3px; font-size: 10px; color: #bbb; cursor: pointer;
+  }
+  .nav-item.active { color: #2a7df2; }
+  .nav-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .content-spacer { height: 80px; }
+</style>
+</head>
+<body>
+
+<div class="search-bar">
+  <div class="search-bar-left">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+    </svg>
+  </div>
+  <input class="search-input" type="text" placeholder="Network name, symbol, contract ad..." readonly>
+  <div class="search-bar-right">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  </div>
+</div>
+
+<!-- Banner -->
+<div class="gas-alliance-banner">
+  <div class="gas-banner-left">
+    <div class="gas-banner-subtitle">Gas Alliance Network</div>
+    <div class="gas-banner-title">Gas Free Transactions<br>on <em>Monad</em></div>
+    <div class="gas-banner-btn">Join Now →</div>
+  </div>
+  <div class="gas-banner-right">
+    <div class="banner-logo-wrap">
+      <svg width="38" height="38" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="#fff" stroke-width="6"/><path d="M30 70 L30 30 L50 55 L70 30 L70 70" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="monad-logo-label">Featured</div>
+  </div>
+</div>
+<div class="banner-dots">
+  <div class="banner-dot active"></div><div class="banner-dot"></div><div class="banner-dot"></div><div class="banner-dot"></div>
+</div>
+
+<!-- Monad Featured + Gas Pass -->
+<div class="monad-featured">
+  <div class="monad-featured-header">
+    <div class="mf-icon">
+      <svg width="22" height="22" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="#fff" stroke-width="8"/><path d="M30 70 L30 30 L50 55 L70 30 L70 70" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="monad-featured-title">Monad</div>
+      <div class="monad-featured-subtitle">Gas Alliance Partner</div>
+    </div>
+    <div class="monad-featured-badge">GAS FREE</div>
+  </div>
+  <div class="monad-featured-stats">
+    <div class="monad-stat"><div class="monad-stat-value">10k+</div><div class="monad-stat-label">TPS</div></div>
+    <div class="monad-stat"><div class="monad-stat-value">$0</div><div class="monad-stat-label">Gas Fee</div></div>
+    <div class="monad-stat"><div class="monad-stat-value">15+</div><div class="monad-stat-label">DApps</div></div>
+  </div>
+  <div class="gas-pass-section">
+    <div class="gas-pass-title"><span>🎟️</span> How to Get a Free Gas Pass</div>
+    <div class="gas-pass-step">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-label">Swap 5+ times on Monad</div>
+        <div class="step-desc">Complete at least 5 swap transactions on Monad chain</div>
+        <div class="step-progress"><div class="step-progress-bar" style="width:60%;"></div></div>
+        <div class="step-status">3 / 5 completed</div>
+      </div>
+    </div>
+    <div class="gas-pass-step">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-label">Hold 1,000+ MON</div>
+        <div class="step-desc">Maintain a balance of at least 1,000 MON in your wallet</div>
+        <div class="step-progress"><div class="step-progress-bar" style="width:0%;"></div></div>
+        <div class="step-status">0 / 1,000 MON</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alliance Networks -->
+<div class="alliance-section">
+  <div class="alliance-section-header">
+    <div class="alliance-section-title">Alliance Networks</div>
+    <div class="alliance-section-more">View All ›</div>
+  </div>
+  <div class="alliance-scroll">
+    <!-- Monad -->
+    <div class="alliance-card hl">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><circle cx="50" cy="50" r="38" fill="none" stroke="#fff" stroke-width="4"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="alliance-card-name">Monad</div>
+      <div class="alliance-card-count">15 DApps</div>
+    </div>
+    <!-- Polygon -->
+    <div class="alliance-card">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#7B3FE4"/><path d="M64 38.5L54 32.7c-1.2-.7-2.8-.7-4 0L40 38.5c-1.2.7-2 2-2 3.4v11.6c0 1.4.8 2.7 2 3.4l10 5.8c1.2.7 2.8.7 4 0l10-5.8c1.2-.7 2-2 2-3.4V41.9c0-1.4-.8-2.7-2-3.4z" fill="none" stroke="#fff" stroke-width="3.5"/><path d="M56 48l-6 3.5L44 48v-7l6-3.5 6 3.5z" fill="#fff"/></svg></div>
+      <div class="alliance-card-name">Polygon</div>
+      <div class="alliance-card-count">12 DApps</div>
+    </div>
+    <!-- Optimism -->
+    <div class="alliance-card">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#FF0420"/><text x="50" y="58" text-anchor="middle" fill="#fff" font-size="28" font-weight="800" font-family="Arial,sans-serif">OP</text></svg></div>
+      <div class="alliance-card-name">Optimism</div>
+      <div class="alliance-card-count">8 DApps</div>
+    </div>
+    <!-- Arbitrum -->
+    <div class="alliance-card">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#213147"/><path d="M50 25L28 62h9l13-24 13 24h9L50 25z" fill="#28A0F0"/><path d="M50 25L37 49l13 24 13-24L50 25z" fill="#fff"/></svg></div>
+      <div class="alliance-card-name">Arbitrum</div>
+      <div class="alliance-card-count">10 DApps</div>
+    </div>
+    <!-- Base -->
+    <div class="alliance-card">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#0052FF"/><circle cx="50" cy="50" r="28" fill="#fff"/><circle cx="50" cy="50" r="28" fill="none" stroke="#0052FF" stroke-width="0"/><path d="M50 22a28 28 0 1 0 0 56 28 28 0 0 0 0-56zm0 47a19 19 0 1 1 0-38 19 19 0 0 1 14.5 6.7H53v5h16.3A19 19 0 0 1 50 69z" fill="#0052FF"/></svg></div>
+      <div class="alliance-card-name">Base</div>
+      <div class="alliance-card-count">6 DApps</div>
+    </div>
+    <!-- zkSync -->
+    <div class="alliance-card">
+      <div class="gas-tag">GAS FREE</div>
+      <div class="ac-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#1E69FF"/><path d="M30 50l20-18v12h20L50 62v-12H30z" fill="#fff"/></svg></div>
+      <div class="alliance-card-name">zkSync</div>
+      <div class="alliance-card-count">5 DApps</div>
+    </div>
+  </div>
+</div>
+
+<!-- DApp Discovery -->
+<div class="section-heading">DApp Discovery</div>
+<div class="category-tabs">
+  <button class="category-tab">Favorite</button>
+  <button class="category-tab active">All</button>
+  <button class="category-tab">DeFi</button>
+  <button class="category-tab">Staking</button>
+  <button class="category-tab">Bridge</button>
+  <button class="category-tab">Infra</button>
+</div>
+<div class="tabs-line"></div>
+
+<div class="dapp-list">
+
+  <!-- Kuru -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#836EF9"/><text x="50" y="40" text-anchor="middle" fill="#fff" font-size="20" font-weight="800" font-family="Arial">KU</text><text x="50" y="66" text-anchor="middle" fill="#fff" font-size="20" font-weight="800" font-family="Arial">RU</text></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Kuru</span><span class="dapp-tag tag-dex">DEX</span></div>
+      <div class="dapp-desc">On-chain order book DEX built natively on Monad</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Curvance -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1a1a3e"/><path d="M25 65 Q50 20 75 65" fill="none" stroke="#a78bfa" stroke-width="6" stroke-linecap="round"/><path d="M32 65 Q50 30 68 65" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Curvance</span><span class="dapp-tag tag-lending">Lending</span></div>
+      <div class="dapp-desc">Optimized lending & leverage protocol on Monad</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Pyth -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#242235"/><path d="M40 75V35h15c8 0 13 5 13 12s-5 12-13 12H48v16h-8z" fill="#E6DAFE"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Pyth Network</span><span class="dapp-tag tag-oracle">Oracle</span></div>
+      <div class="dapp-desc">High-fidelity oracle feeds powering Monad DeFi</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Wormhole -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#0d0d17"/><circle cx="50" cy="50" r="22" fill="none" stroke="#fff" stroke-width="3"/><circle cx="50" cy="50" r="14" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#fff"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Wormhole</span><span class="dapp-tag tag-bridge">Bridge</span></div>
+      <div class="dapp-desc">Cross-chain messaging & bridging to Monad</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#213147"/><path d="M50 28L35 58h8l7-13 7 13h8L50 28z" fill="#28A0F0"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#FF0420"/><text x="50" y="58" text-anchor="middle" fill="#fff" font-size="32" font-weight="800" font-family="Arial">O</text></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Uniswap -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#FF007A"/><path d="M42 30c-2 0-3 1-3 3v34c0 2 1 3 3 3h2c2 0 3-1 3-3V33c0-2-1-3-3-3h-2z" fill="#fff" opacity="0.9"/><path d="M55 40c-2 0-3 1-3 3v24c0 2 1 3 3 3h2c2 0 3-1 3-3V43c0-2-1-3-3-3h-2z" fill="#fff" opacity="0.9"/><circle cx="58" cy="33" r="5" fill="#fff" opacity="0.9"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Uniswap</span><span class="dapp-tag tag-dex">DEX</span></div>
+      <div class="dapp-desc">Swap tokens with zero gas on alliance networks</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#7B3FE4"/><path d="M56 48l-6 3.5L44 48v-7l6-3.5 6 3.5z" fill="#fff"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#213147"/><path d="M50 28L35 58h8l7-13 7 13h8L50 28z" fill="#28A0F0"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Aave -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#2EBAC6"/><path d="M50 25L30 72h10l5-12h10l5 12h10L50 25zm0 20l6 15H44l6-15z" fill="#fff"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Aave</span><span class="dapp-tag tag-lending">Lending</span></div>
+      <div class="dapp-desc">Lend & borrow assets with no gas costs</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#7B3FE4"/><path d="M56 48l-6 3.5L44 48v-7l6-3.5 6 3.5z" fill="#fff"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- LayerZero -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#0a0a0a"/><path d="M50 28L25 72h14l11-20 11 20h14L50 28z" fill="#fff"/><path d="M50 42L42 58h16L50 42z" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">LayerZero</span><span class="dapp-tag tag-infra">Infra</span></div>
+      <div class="dapp-desc">Omnichain interoperability protocol</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#0052FF"/><circle cx="50" cy="50" r="18" fill="#fff"/><path d="M50 32a18 18 0 1 0 0 36 18 18 0 0 0 13-5.5H53v-4h14A18 18 0 0 0 50 32z" fill="#0052FF"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Lido -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#00A3FF"/><path d="M50 22l-18 28 18 11 18-11L50 22z" fill="#fff"/><path d="M50 66l-18-11L50 78l18-23L50 66z" fill="#fff" opacity="0.7"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Lido</span><span class="dapp-tag tag-staking">Staking</span></div>
+      <div class="dapp-desc">Liquid staking protocol, stake with zero gas</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#7B3FE4"/><path d="M56 48l-6 3.5L44 48v-7l6-3.5 6 3.5z" fill="#fff"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- Stargate -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1a1a2e"/><polygon points="50,22 56,42 77,42 60,54 66,74 50,62 34,74 40,54 23,42 44,42" fill="#fff"/></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">Stargate</span><span class="dapp-tag tag-bridge">Bridge</span></div>
+      <div class="dapp-desc">Cross-chain native asset bridge</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#FF0420"/><text x="50" y="58" text-anchor="middle" fill="#fff" font-size="32" font-weight="800" font-family="Arial">O</text></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#213147"/><path d="M50 28L35 58h8l7-13 7 13h8L50 28z" fill="#28A0F0"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+  <!-- GMX -->
+  <div class="dapp-item">
+    <div class="dapp-icon">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#2d42fc"/><text x="50" y="58" text-anchor="middle" fill="#fff" font-size="26" font-weight="800" font-family="Arial,sans-serif">GMX</text></svg>
+    </div>
+    <div class="dapp-info">
+      <div class="dapp-name-row"><span class="dapp-name">GMX</span><span class="dapp-tag tag-perp">Perps</span></div>
+      <div class="dapp-desc">Decentralized perpetual exchange, zero gas</div>
+      <div class="dapp-meta">
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#836EF9"/><path d="M33 65 L33 35 L50 52 L67 35 L67 65" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chain-dot"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#213147"/><path d="M50 28L35 58h8l7-13 7 13h8L50 28z" fill="#28A0F0"/></svg></div>
+        <span class="dapp-gas-free">Gas Free</span>
+      </div>
+    </div>
+    <div class="dapp-fav">☆</div>
+  </div>
+
+</div>
+
+<div class="content-spacer"></div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div class="nav-item">
+    <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg></div>
+    <span>My Wallet</span>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></div>
+    <span>Insight</span>
+  </div>
+  <div class="nav-item active">
+    <div class="nav-icon" style="background:linear-gradient(160deg,#4fc882,#1a9d5a);border-radius:50%;width:40px;height:40px;margin-top:-14px;display:flex;align-items:center;justify-content:center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M7 16l-4-4 4-4"/><path d="M17 8l4 4-4 4"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+    </div>
+    <span>Discovery</span>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+    <span>Alliance</span>
+  </div>
+  <div class="nav-item">
+    <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+    <span>Settings</span>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.category-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.dapp-fav').forEach(fav => {
+    fav.addEventListener('click', () => {
+      fav.textContent = fav.textContent === '☆' ? '★' : '☆';
+      fav.style.color = fav.textContent === '★' ? '#ffd600' : '#ddd';
+    });
+  });
+</script>
+
+</body>
+</html>
