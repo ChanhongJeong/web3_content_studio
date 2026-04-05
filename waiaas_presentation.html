@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAIaaS — Beyond Storage, Into Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --dark: #111111;
+    --card: #1E1E1E;
+    --card-hover: #2A2A2A;
+    --gray: #888888;
+    --light-gray: #AAAAAA;
+    --white: #FFFFFF;
+    --green: #4ADE80;
+    --green-dark: #0A1F0A;
+    --red: #EF4444;
+    --red-dark: #1C0000;
+    --yellow: #FACC15;
+    --blue: #60A5FA;
+    --slide-w: 1280px;
+    --slide-h: 720px;
+  }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow: hidden;
+  }
+
+  .presentation {
+    width: var(--slide-w);
+    height: var(--slide-h);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+  }
+
+  .slide {
+    width: var(--slide-w);
+    height: var(--slide-h);
+    position: absolute;
+    top: 0; left: 0;
+    background: var(--black);
+    padding: 50px 60px;
+    display: none;
+    flex-direction: column;
+    color: var(--white);
+  }
+  .slide.active { display: flex; }
+
+  /* Logo — SVG (transparent) */
+  .logo-wrap {
+    position: absolute !important;
+    top: 20px; left: 24px;
+    z-index: 20 !important;
+  }
+  .logo-wrap img {
+    height: 30px;
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute;
+    bottom: 16px; left: 0; right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.5px;
+  }
+
+  /* Navigation */
+  .nav-hint {
+    position: fixed;
+    bottom: 15px; right: 20px;
+    color: #444;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
+  }
+  .slide-counter {
+    position: fixed;
+    bottom: 15px; left: 20px;
+    color: #444;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
+  }
+
+  /* Common elements */
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .yellow { color: var(--yellow); }
+  .blue { color: var(--blue); }
+  .gray { color: var(--gray); }
+  .bold { font-weight: 700; }
+  .light { font-weight: 300; }
+
+  h1 { font-size: 48px; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; }
+  h2 { font-size: 38px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+  h3 { font-size: 24px; font-weight: 600; line-height: 1.3; }
+
+  .subtitle { font-size: 18px; color: var(--gray); font-weight: 300; line-height: 1.5; }
+  .tiny { font-size: 12px; color: var(--gray); }
+
+  .divider {
+    width: 200px;
+    height: 2px;
+    background: var(--green);
+    margin: 12px 0;
+  }
+
+  /* Smooth slide transition */
+  .slide { transition: opacity 0.3s ease; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge-red { background: var(--red); color: #000; }
+  .badge-yellow { background: var(--yellow); color: #000; }
+
+  /* Slide background — shared */
+  .slide:has(.slide-bg) {
+    background: transparent;
+  }
+  .slide-bg {
+    position: absolute;
+    top: -50px; left: -60px; right: -60px; bottom: -50px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .slide-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) saturate(0.8);
+  }
+  .slide-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(100deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,15,8,0.3) 100%);
+  }
+  .slide-bg ~ *:not(.footer) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 1 — Cover                    */
+  /* ═══════════════════════════════════ */
+  .s1-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  /* 전체 배경: AI 네트워크 이미지 */
+  .s1-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) saturate(0.8);
+  }
+  /* 왼쪽 텍스트 읽기 위한 어두운 그라데이션 */
+  .s1-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(100deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.6) 45%, rgba(0,15,8,0.2) 100%);
+  }
+  .s1-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+  }
+  .s1-left {
+    flex: 1;
+    padding-top: 20px;
+  }
+  .s1-left h1 { font-size: 54px; line-height: 1.15; }
+  .s1-right {
+    width: 460px;
+    height: 540px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  /* 오른쪽: D'CENT 지갑 + AI 합성 */
+  .s1-composite {
+    position: relative;
+    width: 420px; height: 500px;
+  }
+  /* AI 뇌 배경 */
+  .s1-ai-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .s1-ai-layer img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+  /* D'CENT 지갑 — 가운데 아래 배치 */
+  .s1-wallet-layer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    height: 320px;
+    filter: drop-shadow(0 10px 40px rgba(74,222,128,0.3)) drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+  }
+  /* 지갑 뒤 글로우 */
+  .s1-wallet-glow {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(74,222,128,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  /* 글로우 테두리 */
+  .s1-composite::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    border-radius: 2px;
+    z-index: 5;
+  }
+  .s1-composite::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    border: 1.5px solid rgba(74,222,128,0.15);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 2 — On-Chain Shift           */
+  /* ═══════════════════════════════════ */
+  .s2-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 50px;
+    margin-top: -10px;
+  }
+  .s2-left { flex: 1; }
+  .s2-left .s2-section { margin-bottom: 28px; }
+  .s2-left .s2-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--gray); margin-bottom: 4px;
+  }
+  .s2-left .s2-big { font-size: 52px; font-weight: 900; line-height: 1.1; }
+  .s2-left .s2-desc { font-size: 18px; color: var(--light-gray); margin-top: 10px; line-height: 1.8; }
+  .s2-divider {
+    display: flex; align-items: center; gap: 12px; margin: 20px 0;
+  }
+  .s2-divider .line { flex: 1; height: 1px; background: #333; }
+  .s2-divider .arrow { font-size: 20px; color: var(--green); }
+  .s2-right {
+    width: 480px; height: 520px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .s2-img-card {
+    flex: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+  .s2-img-card img { width: 100%; height: 100%; object-fit: cover; }
+  .s2-img-card .s2-img-label {
+    position: absolute; bottom: 12px; left: 16px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 4px 10px;
+    background: rgba(0,0,0,0.6); border-radius: 6px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 3 — Evolution                */
+  /* ═══════════════════════════════════ */
+  .s3-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 50px;
+    margin-top: -10px;
+  }
+  .s3-left { flex: 1; }
+  .s3-left .s3-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--gray); margin-bottom: 4px;
+  }
+  .s3-left .s3-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s3-left .s3-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s3-left .s3-bottom-quote {
+    margin-top: 28px;
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 20px 24px;
+    background: rgba(30,30,30,0.8);
+    border-radius: 12px;
+    border-left: 3px solid var(--green);
+    font-weight: 500;
+  }
+  .s3-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .s3-gen-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .s3-card {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 18px 16px;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .s3-card-sm {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .s3-card-lg {
+    flex: 2.2;
+    border: 2px solid var(--green);
+    background: linear-gradient(180deg, rgba(10,31,10,0.9) 0%, rgba(30,30,30,0.9) 100%);
+    padding: 20px;
+  }
+  .s3-card .gen-num { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .s3-card .gen-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .s3-card .gen-desc { font-size: 13px; color: var(--white); opacity: 0.7; line-height: 1.5; }
+  .s3-card-lg .gen-num { font-size: 20px; }
+  .s3-card-lg .gen-title { font-size: 22px; }
+  .s3-card-lg .gen-desc { font-size: 13px; color: var(--light-gray); }
+  .s3-arrow { display: flex; align-items: center; font-size: 16px; color: #444; }
+  .s3-product-imgs {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 14px;
+    position: relative;
+  }
+  .s3-product-imgs img {
+    object-fit: contain;
+    filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
+    border-radius: 8px;
+  }
+  .s3-product-imgs img.s3-hw {
+    height: 95px;
+    position: relative;
+    z-index: 2;
+    margin-right: -18px;
+  }
+  .s3-product-imgs img.s3-app {
+    height: 115px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 4 — 3rd Gen                  */
+  /* ═══════════════════════════════════ */
+  .s4-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 45px;
+    margin-top: -10px;
+  }
+  .s4-left { flex: 1; }
+  .s4-left .s4-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--gray); margin-bottom: 4px;
+  }
+  .s4-left .s4-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s4-left .s4-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s4-left .s4-bottom-quote {
+    margin-top: 24px;
+    font-size: 17px;
+    line-height: 1.6;
+    padding: 18px 22px;
+    background: rgba(30,30,30,0.8);
+    border-radius: 12px;
+    border-left: 3px solid var(--green);
+    font-weight: 500;
+  }
+  .s4-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .s4-card {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .s4-card .s4-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .s4-card .s4-info { flex: 1; }
+  .s4-card .name { font-size: 17px; font-weight: 700; color: var(--green); }
+  .s4-card .sub { font-size: 13px; color: var(--white); margin-top: 2px; }
+  .s4-card .feat { font-size: 12px; color: var(--light-gray); margin-top: 6px; line-height: 1.5; }
+  .s4-card .s4-date {
+    font-size: 10px; color: var(--gray);
+    background: rgba(255,255,255,0.08);
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 5 — Danger                   */
+  /* ═══════════════════════════════════ */
+  .s5-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 45px;
+    margin-top: -10px;
+  }
+  .s5-left { flex: 1; }
+  .s5-left .s5-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--red); margin-bottom: 4px;
+  }
+  .s5-left .s5-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s5-left .s5-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s5-danger-box {
+    margin-top: 24px;
+    background: rgba(28,0,0,0.85);
+    border: 2px solid var(--red);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .s5-danger-box h3 { color: var(--red); font-size: 20px; line-height: 1.4; }
+  .s5-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .s5-boundary {
+    background: rgba(20,20,20,0.85);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .s5-boundary .label { font-size: 11px; color: var(--gray); text-align: center; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .s5-boxes { display: flex; gap: 12px; align-items: center; justify-content: center; }
+  .s5-box {
+    background: rgba(34,34,34,0.9);
+    border-radius: 10px;
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .s5-box.agent { border: 1.5px solid #555; }
+  .s5-box.key { border: 1.5px solid var(--red); color: var(--red); }
+  .s5-arrow-lr { color: var(--yellow); font-size: 22px; font-weight: 700; }
+  .s5-case {
+    background: rgba(30,30,30,0.85);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .s5-case .s5-case-stat {
+    font-size: 28px; font-weight: 900; color: var(--red);
+    flex-shrink: 0; min-width: 80px; text-align: center;
+  }
+  .s5-case .s5-case-info .name { font-size: 15px; font-weight: 700; }
+  .s5-case .s5-case-info .unit { font-size: 12px; color: var(--light-gray); margin-top: 2px; }
+  .s5-consequence { text-align: center; font-size: 20px; font-weight: 700; margin-top: auto; padding-top: 10px; }
+  .s5-sub { text-align: center; font-size: 13px; color: var(--gray); margin-top: 6px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 6 — Threats                  */
+  /* ═══════════════════════════════════ */
+  .s6-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 45px;
+    margin-top: -10px;
+  }
+  .s6-left { flex: 1; }
+  .s6-left .s6-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--red); margin-bottom: 4px;
+  }
+  .s6-left .s6-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s6-left .s6-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s6-left .s6-stat-highlight {
+    margin-top: 24px;
+    padding: 18px 22px;
+    background: rgba(28,0,0,0.8);
+    border: 1.5px solid var(--red);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .s6-left .s6-stat-highlight .s6-stat-num { font-size: 42px; font-weight: 900; color: var(--red); }
+  .s6-left .s6-stat-highlight .s6-stat-desc { font-size: 13px; color: var(--light-gray); margin-top: 4px; }
+  .s6-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .s6-card {
+    background: rgba(30,30,30,0.85);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+  }
+  .s6-card .s6-icon {
+    font-size: 24px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .s6-card .s6-icon.crit { background: rgba(239,68,68,0.15); }
+  .s6-card .s6-icon.high { background: rgba(250,204,21,0.15); }
+  .s6-card .s6-info { flex: 1; }
+  .s6-card .name { font-size: 15px; font-weight: 700; }
+  .s6-card .stat { font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .s6-card .unit { font-size: 12px; color: var(--light-gray); margin-top: 2px; }
+  .s6-card .badge { flex-shrink: 0; align-self: flex-start; }
+  .s6-core {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 7 — WAIaaS Principle         */
+  /* ═══════════════════════════════════ */
+  .s7-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 45px;
+    margin-top: -10px;
+  }
+  .s7-left { flex: 1; }
+  .s7-left .s7-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s7-left .s7-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s7-quote {
+    margin-top: 20px;
+    background: rgba(10,31,10,0.85);
+    border: 2px solid var(--green);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1.5;
+  }
+  .s7-left .s7-arch {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--light-gray);
+    line-height: 1.7;
+  }
+  .s7-left .s7-arch span.tag {
+    display: inline-block;
+    background: rgba(74,222,128,0.12);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .s7-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .s7-role {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .s7-role.owner { border: 1.5px solid var(--green); }
+  .s7-role .role-icon {
+    font-size: 28px;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .s7-role .role-info { flex: 1; }
+  .s7-role .role-name { font-size: 17px; font-weight: 800; }
+  .s7-role .role-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .s7-role .role-desc { font-size: 13px; color: var(--light-gray); line-height: 1.6; margin-top: 8px; }
+  .s7-bottom { text-align: center; margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 500; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 8 — Pipeline                 */
+  /* ═══════════════════════════════════ */
+  .s8-content {
+    display: flex;
+    gap: 40px;
+    height: 100%;
+    margin-top: -10px;
+  }
+  .s8-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .s8-left .s8-label-top {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s8-left .s8-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  /* Pipeline vertical */
+  .s8-pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 20px;
+  }
+  .s8-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .s8-num {
+    width: 32px; height: 32px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .s8-step-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .s8-step-desc {
+    font-size: 12px;
+    color: var(--gray);
+    margin-left: 4px;
+  }
+  .s8-connector {
+    width: 2px;
+    height: 12px;
+    background: rgba(74,222,128,0.3);
+    margin-left: 15px;
+  }
+
+  .s8-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+  .s8-right h3 {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+  .s8-tiers { display: flex; flex-direction: column; gap: 10px; }
+  .s8-tier {
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: rgba(30,30,30,0.85);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .s8-tier .tier-bar {
+    width: 5px;
+    height: 44px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .s8-tier .tier-info { flex: 1; }
+  .s8-tier .tier-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .s8-tier .tier-desc { font-size: 12px; color: var(--light-gray); margin-top: 2px; }
+  .s8-tier .tier-amount { font-size: 24px; font-weight: 900; flex-shrink: 0; }
+  .s8-emergency {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .s8-em-item {
+    flex: 1;
+    background: rgba(28,0,0,0.6);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .s8-em-item .em-icon { font-size: 20px; margin-bottom: 4px; }
+  .s8-em-item .em-name { font-size: 13px; font-weight: 700; color: var(--red); }
+  .s8-em-item .em-desc { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 9 — Comparison               */
+  /* ═══════════════════════════════════ */
+  .s9-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+    margin-top: -10px;
+  }
+  .s9-left { flex: 1; }
+  .s9-left .s9-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s9-left .s9-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s9-compare {
+    display: flex; gap: 12px; margin-top: 20px; align-items: stretch;
+  }
+  .s9-box {
+    border-radius: 12px;
+    padding: 18px 20px;
+    flex: 1;
+    text-align: center;
+  }
+  .s9-box.old { background: rgba(28,0,0,0.8); border: 1.5px solid var(--red); }
+  .s9-box.new { background: rgba(10,31,10,0.8); border: 1.5px solid var(--green); }
+  .s9-box .label { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+  .s9-box .result { font-size: 20px; font-weight: 900; margin: 4px 0; line-height: 1.3; }
+  .s9-box .desc { font-size: 11px; color: var(--gray); }
+  .s9-vs { display: flex; align-items: center; font-size: 14px; color: #555; font-weight: 700; }
+  .s9-url {
+    margin-top: 20px;
+    padding: 14px 20px;
+    background: rgba(30,30,30,0.85);
+    border-radius: 10px;
+    border: 1px solid rgba(74,222,128,0.2);
+    font-family: 'Courier New', monospace;
+  }
+  .s9-url .s9-url-label { font-size: 11px; color: var(--gray); margin-bottom: 4px; }
+  .s9-url .s9-url-link { font-size: 20px; font-weight: 700; color: var(--green); }
+  .s9-right {
+    width: 500px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .s9-site-frame {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(74,222,128,0.2);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .s9-site-bar {
+    background: #1a1a1a;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #333;
+  }
+  .s9-site-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .s9-site-url-bar {
+    flex: 1;
+    background: #0d0d0d;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--gray);
+    font-family: 'Inter', sans-serif;
+    margin-left: 6px;
+  }
+  .s9-site-frame img {
+    width: 100%;
+    display: block;
+  }
+  /* QR code shared style */
+  .qr-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .qr-wrap img.qr {
+    width: 80px; height: 80px;
+    border-radius: 6px;
+    background: #fff;
+    padding: 4px;
+  }
+  .qr-wrap .qr-text {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .qr-wrap .qr-text .qr-link {
+    color: var(--green);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  /* CSS mock of waiaas.ai */
+  .s9-site-mock {
+    background: #0c0c0c;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    min-height: 340px;
+  }
+  .s9-site-mock .s9m-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    font-size: 9px;
+    color: #666;
+  }
+  .s9-site-mock .s9m-nav .s9m-logo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ADE80;
+    margin-right: auto;
+  }
+  .s9-site-mock .s9m-nav .s9m-logo span { color: #666; }
+  .s9-site-mock .s9m-hero {
+    text-align: center;
+    margin: 16px 0;
+  }
+  .s9-site-mock .s9m-hero h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #e0e0e0;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+  .s9-site-mock .s9m-hero h4 span { color: #4ADE80; }
+  .s9-site-mock .s9m-hero p {
+    font-size: 8px;
+    color: #777;
+    margin-top: 8px;
+    line-height: 1.5;
+    font-family: 'Inter', sans-serif;
+  }
+  .s9-site-mock .s9m-cmd {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 10px;
+    color: #ccc;
+    margin: 12px auto;
+    width: fit-content;
+  }
+  .s9-site-mock .s9m-cmd span { color: #4ADE80; }
+  .s9-site-mock .s9m-section {
+    font-size: 8px;
+    color: #555;
+    text-align: center;
+    margin: 14px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .s9-site-mock .s9m-section span { color: #4ADE80; }
+  .s9-site-mock .s9m-cards {
+    display: flex;
+    gap: 6px;
+  }
+  .s9-site-mock .s9m-card {
+    flex: 1;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 8px;
+  }
+  .s9-site-mock .s9m-card .s9m-tag {
+    display: inline-block;
+    font-size: 6px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid;
+    margin-bottom: 4px;
+    font-family: 'Courier New', monospace;
+  }
+  .s9-site-mock .s9m-card .s9m-card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #ddd;
+    margin-bottom: 3px;
+  }
+  .s9-site-mock .s9m-card .s9m-card-desc {
+    font-size: 7px;
+    color: #666;
+    line-height: 1.4;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 10 — Closing                 */
+  /* ═══════════════════════════════════ */
+  .s10-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  }
+  .s10-thankyou {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--green) 0%, #60A5FA 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .s10-subtitle {
+    font-size: 22px;
+    color: var(--light-gray);
+    font-weight: 300;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .s10-divider {
+    width: 300px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    margin: 28px auto;
+  }
+  .s10-waiaas {
+    background: rgba(10,31,10,0.85);
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    padding: 16px 32px;
+    display: inline-block;
+  }
+  .s10-waiaas .s10-waiaas-name {
+    font-size: 18px; font-weight: 700; color: var(--green);
+  }
+  .s10-waiaas .s10-waiaas-url {
+    font-size: 14px; color: var(--light-gray); margin-top: 4px;
+    font-family: 'Courier New', monospace;
+  }
+  .s10-contact-grid {
+    display: flex;
+    gap: 60px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+  .s10-contact-item {
+    background: rgba(30,30,30,0.85);
+    border-radius: 10px;
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 180px;
+  }
+  .s10-contact-item .s10-c-label {
+    font-size: 10px; color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .s10-contact-item .s10-c-value {
+    font-size: 16px; font-weight: 600;
+  }
+  .s10-contact-item .s10-c-sub {
+    font-size: 12px; color: var(--gray); margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="presentation" id="pres">
+
+<!-- ═══════════ SLIDE 1 — Cover ═══════════ -->
+<div class="slide active" data-slide="1">
+  <!-- 전체 배경: AI 네트워크 이미지 -->
+  <div class="s1-bg">
+    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1400&q=80" alt="">
+  </div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s1-content">
+    <div class="s1-left">
+      <h1>Beyond Storage,<br>Into <span class="green">Intelligence</span></h1>
+      <p style="font-size:22px; color:var(--light-gray); font-weight:300; margin-top:28px">The Evolving Role of Wallets in the AI Era</p>
+      <div class="divider" style="margin-top:28px; width:260px"></div>
+      <p style="font-size:22px; margin-top:18px; font-weight:600">Tani Jeong &nbsp;|&nbsp; BD Lead</p>
+      <p style="font-size:17px; color:var(--gray); margin-top:6px">D'CENT Wallet (IoTrust) &nbsp;•&nbsp; April 2026</p>
+    </div>
+    <div class="s1-right">
+      <div class="s1-composite">
+        <div class="s1-ai-layer">
+          <img src="slide1_cover.png" alt="D'CENT Wallet + AI" style="opacity:1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 2 — On-Chain ═══════════ -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <h2 style="text-align:center;margin-top:5px">Crypto's Center of Gravity Is Moving <span class="green">On-Chain</span></h2>
+  <div class="s2-content">
+    <div class="s2-left">
+      <!-- CEX -->
+      <div class="s2-section">
+        <div class="s2-label">Exchange-Centric</div>
+        <div class="s2-big" style="color:#555">CEX</div>
+        <div class="s2-desc">•  Centralized exchanges as the primary gateway<br>•  Assets held by intermediaries<br>•  "Not your keys, not your coins"</div>
+      </div>
+      <!-- Divider -->
+      <div class="s2-divider">
+        <div class="line"></div>
+        <div class="arrow">▼</div>
+        <div class="line"></div>
+      </div>
+      <!-- Wallet -->
+      <div class="s2-section">
+        <div class="s2-label" style="color:var(--green)">The Present</div>
+        <div class="s2-big">WALLET</div>
+        <div class="s2-desc">•  Assets fully controlled by users<br>•  Direct interaction with protocols<br>•  Action happens on-chain</div>
+      </div>
+    </div>
+    <div class="s2-right">
+      <div class="s2-img-card" style="opacity:0.7">
+        <img src="slide2_cex.png" alt="">
+        <div class="s2-img-label gray">The Past</div>
+      </div>
+      <div class="s2-img-card" style="border:1px solid rgba(74,222,128,0.2)">
+        <img src="slide2_wallet.png" alt="">
+        <div class="s2-img-label green">The Present</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 3 — Evolution ═══════════ -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s3-content">
+    <div class="s3-left">
+      <div class="s3-label">Wallet Evolution</div>
+      <div class="s3-big">Leading the<br>Era of <span class="green">Action</span></div>
+      <div class="s3-desc">
+        •  Wallets are evolving beyond simple storage<br>
+        •  The next leap: AI-powered decision-making
+      </div>
+      <div class="s3-bottom-quote">
+        As a pioneer of the <span class="green bold">Action Wallet</span>,<br>
+        D'CENT is now bridging to the<br>
+        <span class="green bold">3rd & 4th generation</span> — the AI wallet era.
+      </div>
+    </div>
+    <div class="s3-right">
+      <!-- Row 1: 1st Gen + 2nd Gen (big) -->
+      <div class="s3-gen-row">
+        <div class="s3-card s3-card-sm" style="opacity:0.9">
+          <div class="gen-num" style="color:#6ee7a0">1st <span style="color:var(--white)">Gen</span></div>
+          <div class="gen-title">Storage<br>Wallet</div>
+          <div class="gen-desc">Built for custody.<br>Store & hold only.</div>
+        </div>
+        <div class="s3-card s3-card-lg">
+          <div class="gen-num green">2nd <span style="color:var(--white)">Gen</span> <span style="background:var(--green);color:#000;font-size:11px;padding:2px 8px;border-radius:4px;margin-left:6px;vertical-align:middle">NOW</span></div>
+          <div class="gen-title">Action Wallet</div>
+          <div class="gen-desc">Swap, DeFi, DApp Browser,<br>GasPass, NFT — all in-wallet</div>
+          <div class="s3-product-imgs">
+            <img class="s3-hw" src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669e1fa168365e119da14a01_biometric%401-570x640.webp" alt="D'CENT Biometric">
+            <img class="s3-app" src="https://3989759490-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M50hxCNYm5Y8rdrUs_k-887967055%2Fuploads%2FrwOVFn7rmyEiHtEjw63T%2FMoblie%20app-eng.png?alt=media&token=04b24bc3-526f-44d7-bc1c-6145b959bdc1" alt="D'CENT App">
+          </div>
+        </div>
+      </div>
+      <!-- Row 2: 3rd Gen + 4th Gen -->
+      <div class="s3-gen-row">
+        <div class="s3-card s3-card-sm" style="opacity:0.9">
+          <div class="gen-num" style="color:#6ee7a0">3rd <span style="color:var(--white)">Gen</span></div>
+          <div class="gen-title">Intelligence<br>Wallet</div>
+          <div class="gen-desc">AI assists<br>decision-making.</div>
+        </div>
+        <div class="s3-card s3-card-sm" style="opacity:0.85">
+          <div class="gen-num" style="color:#6ee7a0">4th <span style="color:var(--white)">Gen</span></div>
+          <div class="gen-title">Autonomous<br>Wallet</div>
+          <div class="gen-desc">AI acts on the<br>user's behalf.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 4 — 3rd Gen Here ═══════════ -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s4-content">
+    <div class="s4-left">
+      <div class="s4-label">3rd Generation</div>
+      <div class="s4-big">The AI Wallet<br>Era Is <span class="green">Here</span></div>
+      <div class="s4-desc">
+        •  Major wallets already shipping AI agents<br>
+        •  Autonomous trading, DeFi, portfolio management<br>
+        •  $7.8B → $52.6B market by 2030 (46% CAGR)
+      </div>
+      <div class="s4-bottom-quote">
+        Industry consensus:<br>
+        <span class="green bold">"Every AI agent deserves a wallet."</span>
+      </div>
+    </div>
+    <div class="s4-right">
+      <div class="s4-card">
+        <img class="s4-icon" src="https://altcoinsbox.com/wp-content/uploads/2023/03/trust-wallet-logo.png" alt="Trust Wallet">
+        <div class="s4-info">
+          <div class="name">Trust Wallet — TWAK</div>
+          <div class="sub">AI agents trade across 25+ chains for 220M users</div>
+          <div class="feat">Agent wallet mode + WalletConnect approval flow</div>
+        </div>
+        <div class="s4-date">Mar 2026</div>
+      </div>
+      <div class="s4-card">
+        <img class="s4-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Coinbase.svg" alt="Coinbase" style="background:#fff;padding:6px;border-radius:10px">
+        <div class="s4-info">
+          <div class="name">Coinbase — Agentic Wallets</div>
+          <div class="sub">Non-custodial agent wallets in TEE environments</div>
+          <div class="feat">AgentKit + OpenAI SDK + gasless transactions</div>
+        </div>
+        <div class="s4-date">Feb 2026</div>
+      </div>
+      <div class="s4-card">
+        <img class="s4-icon" src="https://upload.wikimedia.org/wikipedia/en/b/b9/Solana_logo.png" alt="Solana">
+        <div class="s4-info">
+          <div class="name">Solana — Agent Kit (SendAI)</div>
+          <div class="sub">60+ on-chain actions for AI agents</div>
+          <div class="feat">Jupiter, Lulo, Drift integration</div>
+        </div>
+        <div class="s4-date">Early 2025</div>
+      </div>
+      <div class="s4-card">
+        <img class="s4-icon" src="https://cryptologos.cc/logos/bnb-bnb-logo.png" alt="BNB">
+        <div class="s4-info">
+          <div class="name">BNB Chain — ERC-8004</div>
+          <div class="sub">On-chain identity & wallets for AI agents</div>
+          <div class="feat">Non-Fungible Agents (NFA) standard</div>
+        </div>
+        <div class="s4-date">Feb 2026</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 5 — Danger ═══════════ -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s5-content">
+    <div class="s5-left">
+      <div class="s5-label">Critical Problem</div>
+      <div class="s5-big">But the Current<br>Design Is <span class="red">Dangerous</span></div>
+      <div class="s5-desc">
+        •  AI agents hold private keys directly<br>
+        •  One compromised agent = entire wallet drained<br>
+        •  No isolation between agent and key
+      </div>
+      <div class="s5-danger-box">
+        <h3>Agent & Private Key share<br>the <span style="text-decoration:underline">same trust boundary</span></h3>
+      </div>
+    </div>
+    <div class="s5-right">
+      <div class="s5-boundary">
+        <div class="label">Current Architecture</div>
+        <div class="s5-boxes">
+          <div class="s5-box agent">AI Agent</div>
+          <div class="s5-arrow-lr">⟷</div>
+          <div class="s5-box key">Private Key</div>
+        </div>
+      </div>
+      <div class="s5-case">
+        <div class="s5-case-stat">$40M</div>
+        <div class="s5-case-info">
+          <div class="name">Step Finance (Jan 2026)</div>
+          <div class="unit">Agent over-permissions drained 261K SOL from treasury</div>
+        </div>
+      </div>
+      <div class="s5-case">
+        <div class="s5-case-stat">700+</div>
+        <div class="s5-case-info">
+          <div class="name">Salesloft-Drift OAuth Breach</div>
+          <div class="unit">Single chatbot integration compromised 700 Salesforce orgs</div>
+        </div>
+      </div>
+      <div class="s5-case">
+        <div class="s5-case-stat">87%</div>
+        <div class="s5-case-info">
+          <div class="name">Cascading Agent Failure</div>
+          <div class="unit">One compromised agent poisons downstream decisions in 4 hours</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="s5-consequence">Agent compromised → <span class="red">Key stolen → Wallet drained</span></div>
+  <div class="s5-sub">This is not theoretical. It's already happening.</div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 6 — Threats ═══════════ -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s6-content">
+    <div class="s6-left">
+      <div class="s6-label">Attack Surface</div>
+      <div class="s6-big">Threats That<br>Are <span class="red">Already Real</span></div>
+      <div class="s6-desc">
+        •  43% of MCP servers have command injection flaws<br>
+        •  72% attack success rate on tool poisoning<br>
+        •  88% of orgs using AI agents faced incidents
+      </div>
+      <div class="s6-stat-highlight">
+        <div class="s6-stat-num">$45M+</div>
+        <div class="s6-stat-desc">Total losses from AI agent exploits in 2025–2026</div>
+      </div>
+    </div>
+    <div class="s6-right">
+      <div class="s6-card">
+        <div class="s6-icon crit">⚠️</div>
+        <div class="s6-info">
+          <div class="name">MCP Tool Poisoning</div>
+          <div class="stat red">Hidden instructions in tool descriptions</div>
+          <div class="unit">Invisible to users, hijacks agent behavior & exfiltrates data</div>
+        </div>
+        <span class="badge badge-red">CRITICAL</span>
+      </div>
+      <div class="s6-card">
+        <div class="s6-icon crit">💀</div>
+        <div class="s6-info">
+          <div class="name">OpenClaw Supply Chain</div>
+          <div class="stat red">12% of ClawHub skills were malicious</div>
+          <div class="unit">1,184 packages compromised — 1 in 5 infected</div>
+        </div>
+        <span class="badge badge-red">CRITICAL</span>
+      </div>
+      <div class="s6-card">
+        <div class="s6-icon high">🔓</div>
+        <div class="s6-info">
+          <div class="name">npm Agent Hijack (Mar 2026)</div>
+          <div class="stat yellow">axios supply chain attack</div>
+          <div class="unit">RAT deployed through AI coding agents running npm install</div>
+        </div>
+        <span class="badge badge-yellow">HIGH</span>
+      </div>
+      <div class="s6-card">
+        <div class="s6-icon high">🧠</div>
+        <div class="s6-info">
+          <div class="name">Memory Poisoning</div>
+          <div class="stat yellow">Persistent false beliefs injected</div>
+          <div class="unit">Agent's long-term memory corrupted via poisoned data sources</div>
+        </div>
+        <span class="badge badge-yellow">HIGH</span>
+      </div>
+    </div>
+  </div>
+  <div class="s6-core">Without structural isolation, <span class="yellow">no amount of detection can prevent key theft.</span></div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 7 — WAIaaS Principle ═══════════ -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s7-content">
+    <div class="s7-left">
+      <div class="s7-label">The Solution</div>
+      <div class="s7-big"><span class="green">WAIaaS</span><br>One Principle</div>
+      <div class="s7-quote">"An agent can USE a wallet,<br>but never OWN it."</div>
+      <div class="s7-arch">
+        <span class="tag">MCP</span> <span class="tag">REST API</span> <span class="tag">TypeScript SDK</span><br>
+        Self-hosted daemon · Encrypted keys (Argon2id)<br>
+        Default-deny policy · 8 EVM chains + Solana · 13+ DeFi protocols
+      </div>
+    </div>
+    <div class="s7-right">
+      <div class="s7-role">
+        <div class="role-icon">⚙️</div>
+        <div class="role-info">
+          <div class="role-name">OPERATOR</div>
+          <div class="role-sub">Daemon Admin</div>
+          <div class="role-desc">Runs local daemon with master password<br>Sets policies: ALLOWED_TOKENS, CONTRACT_WHITELIST<br>Issues JWT session tokens to agents</div>
+        </div>
+      </div>
+      <div class="s7-role owner">
+        <div class="role-icon">👤</div>
+        <div class="role-info">
+          <div class="role-name">OWNER</div>
+          <div class="role-sub">Fund Owner (Human)</div>
+          <div class="role-desc">Approves high-value txns via WalletConnect / Telegram<br>Kill Switch & recovery control<br>External wallet: D'CENT, MetaMask</div>
+        </div>
+      </div>
+      <div class="s7-role">
+        <div class="role-icon">🤖</div>
+        <div class="role-info">
+          <div class="role-name">AGENT</div>
+          <div class="role-sub">AI Agent (Claude, GPT, Custom)</div>
+          <div class="role-desc">JWT session token only — time-limited access<br>Can query balances & request transactions<br><strong style="color:var(--green)">ZERO access to private key</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="s7-bottom">Private keys encrypted at rest with <span class="green bold">sodium-native (libsodium)</span> in local SQLite. Agents never touch them.</div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 8 — Pipeline ═══════════ -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s8-content">
+    <div class="s8-left">
+      <div class="s8-label-top">How It Works</div>
+      <div class="s8-big">6-Stage Security<br><span class="green">Pipeline</span></div>
+      <div class="s8-pipeline">
+        <div class="s8-step"><div class="s8-num">1</div><span class="s8-step-label">Request Validation</span><span class="s8-step-desc">— JWT auth + format check</span></div>
+        <div class="s8-connector"></div>
+        <div class="s8-step"><div class="s8-num">2</div><span class="s8-step-label">USD Price Evaluation</span><span class="s8-step-desc">— real-time oracle</span></div>
+        <div class="s8-connector"></div>
+        <div class="s8-step"><div class="s8-num">3</div><span class="s8-step-label">Policy Enforcement</span><span class="s8-step-desc">— default-deny rules</span></div>
+        <div class="s8-connector"></div>
+        <div class="s8-step"><div class="s8-num">4</div><span class="s8-step-label">Approve / Queue</span><span class="s8-step-desc">— tier-based routing</span></div>
+        <div class="s8-connector"></div>
+        <div class="s8-step"><div class="s8-num">5</div><span class="s8-step-label">Signing</span><span class="s8-step-desc">— local daemon only</span></div>
+        <div class="s8-connector"></div>
+        <div class="s8-step"><div class="s8-num">6</div><span class="s8-step-label">Broadcast</span><span class="s8-step-desc">— on-chain confirmation</span></div>
+      </div>
+    </div>
+    <div class="s8-right">
+      <h3>4-Tier Transaction <span class="green">Security</span></h3>
+      <div class="s8-tiers">
+        <div class="s8-tier">
+          <div class="tier-bar" style="background:var(--green)"></div>
+          <div class="tier-info">
+            <div class="tier-name green">INSTANT</div>
+            <div class="tier-desc">Execute immediately — micro transactions</div>
+          </div>
+          <div class="tier-amount green">≤$10</div>
+        </div>
+        <div class="s8-tier">
+          <div class="tier-bar" style="background:var(--blue)"></div>
+          <div class="tier-info">
+            <div class="tier-name blue">NOTIFY</div>
+            <div class="tier-desc">Execute + push notification to owner</div>
+          </div>
+          <div class="tier-amount blue">≤$100</div>
+        </div>
+        <div class="s8-tier">
+          <div class="tier-bar" style="background:var(--yellow)"></div>
+          <div class="tier-info">
+            <div class="tier-name yellow">DELAY</div>
+            <div class="tier-desc">5-minute delay — owner can cancel</div>
+          </div>
+          <div class="tier-amount yellow">≤$500</div>
+        </div>
+        <div class="s8-tier">
+          <div class="tier-bar" style="background:var(--red)"></div>
+          <div class="tier-info">
+            <div class="tier-name red">APPROVAL</div>
+            <div class="tier-desc">Owner signature required via WalletConnect</div>
+          </div>
+          <div class="tier-amount red">&gt;$500</div>
+        </div>
+      </div>
+      <div class="s8-emergency">
+        <div class="s8-em-item">
+          <div class="em-icon">🛑</div>
+          <div class="em-name">AutoStop</div>
+          <div class="em-desc">Auto-freeze on anomaly</div>
+        </div>
+        <div class="s8-em-item">
+          <div class="em-icon">⚡</div>
+          <div class="em-name">Kill Switch</div>
+          <div class="em-desc">Instant full lockdown</div>
+        </div>
+        <div class="s8-em-item">
+          <div class="em-icon">🔔</div>
+          <div class="em-name">Alerts</div>
+          <div class="em-desc">Telegram / Discord / Slack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 9 — Comparison ═══════════ -->
+<div class="slide" data-slide="9">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s9-content">
+    <div class="s9-left">
+      <div class="s9-label">Why WAIaaS</div>
+      <div class="s9-big">Legacy Model<br>vs <span class="green">WAIaaS</span></div>
+      <div class="s9-compare">
+        <div class="s9-box old">
+          <div class="label" style="color:var(--red)">❌ Legacy</div>
+          <div class="result red">Agent compromised<br>= Wallet drained</div>
+          <div class="desc">Key & agent share trust boundary</div>
+        </div>
+        <div class="s9-vs">vs</div>
+        <div class="s9-box new">
+          <div class="label" style="color:var(--green)">✅ WAIaaS</div>
+          <div class="result green">Agent compromised<br>≠ Wallet drained</div>
+          <div class="desc">Key structurally isolated</div>
+        </div>
+      </div>
+      <div class="s9-url">
+        <div class="qr-wrap">
+          <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://waiaas.ai&bgcolor=ffffff&color=000000" alt="QR">
+          <div class="qr-text">
+            <div class="qr-link">waiaas.ai</div>
+            Scan to visit →
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s9-right">
+      <div class="s9-site-frame">
+        <div class="s9-site-bar">
+          <div class="s9-site-dot" style="background:#ff5f57"></div>
+          <div class="s9-site-dot" style="background:#febc2e"></div>
+          <div class="s9-site-dot" style="background:#28c840"></div>
+          <div class="s9-site-url-bar">waiaas.ai</div>
+        </div>
+        <div class="s9-site-mock">
+          <div class="s9m-nav">
+            <div class="s9m-logo"><span>&gt; </span>WAIaaS</div>
+            [GitHub] [npm] [Docker] [Docs]
+          </div>
+          <div class="s9m-hero">
+            <h4>Self-hosted Wallet-as-a-Service<br>for <span>AI Agents</span></h4>
+            <p>A local daemon that gives AI agents secure, policy-controlled<br>access to crypto wallets across EVM and Solana chains.</p>
+          </div>
+          <div class="s9m-cmd"><span>$ </span>npm install -g @waiaas/cli</div>
+          <div class="s9m-section"><span>##</span> CORE CAPABILITIES</div>
+          <div class="s9m-cards">
+            <div class="s9m-card">
+              <div class="s9m-tag" style="color:#60A5FA;border-color:#60A5FA">MULTI-CHAIN</div>
+              <div class="s9m-card-title">EVM + Solana</div>
+              <div class="s9m-card-desc">8 EVM networks plus Solana. Native tokens, ERC-20/SPL, and NFTs.</div>
+            </div>
+            <div class="s9m-card">
+              <div class="s9m-tag" style="color:#4ADE80;border-color:#4ADE80">DEFI</div>
+              <div class="s9m-card-title">13+ Protocols</div>
+              <div class="s9m-card-desc">Jupiter, 0x, LI.FI, Lido, Aave V3, Kamino, Pendle, Drift, Hyperliquid</div>
+            </div>
+            <div class="s9m-card">
+              <div class="s9m-tag" style="color:#E879F9;border-color:#E879F9">SECURITY</div>
+              <div class="s9m-card-title">3-Layer Model</div>
+              <div class="s9m-card-desc">Session auth (JWT) + time-delay & owner approval + kill switch.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 10 — Closing ═══════════ -->
+<div class="slide" data-slide="10">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s10-wrap">
+    <div class="s10-thankyou">Thank You</div>
+    <div class="s10-subtitle">From <span class="green bold">Action</span> to <span class="green bold">Intelligence</span><br>Where wallets don't just execute — they think.</div>
+    <div class="s10-divider"></div>
+    <div class="s10-waiaas">
+      <div class="s10-waiaas-name">WAIaaS — Wallet AI as a Service</div>
+      <div class="s10-waiaas-url">waiaas.ai</div>
+    </div>
+    <div class="s10-contact-grid">
+      <div class="s10-contact-item" style="padding:20px 32px">
+        <div class="s10-c-label">Telegram</div>
+        <div class="s10-c-value green" style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:18px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#4ADE80"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          @tani_9325
+        </div>
+        <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://t.me/tani_9325&bgcolor=ffffff&color=000000" alt="QR" style="width:100px;height:100px;border-radius:8px;background:#fff;padding:4px;margin-top:12px">
+      </div>
+      <div class="s10-contact-item" style="padding:20px 32px">
+        <div class="s10-c-label">Website</div>
+        <div class="s10-c-value green" style="font-size:18px">waiaas.ai</div>
+        <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://waiaas.ai&bgcolor=ffffff&color=000000" alt="QR" style="width:100px;height:100px;border-radius:8px;background:#fff;padding:4px;margin-top:12px">
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+</div>
+
+<div class="slide-counter" id="counter">1 / 10</div>
+<div class="nav-hint">← → Arrow keys to navigate</div>
+
+<script>
+  var current = 1;
+  var total = 10;
+
+  function showSlide(n) {
+    if (n < 1) n = 1;
+    if (n > total) n = total;
+    current = n;
+    document.querySelectorAll('.slide').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    document.querySelector('[data-slide="' + n + '"]').classList.add('active');
+    document.getElementById('counter').textContent = n + ' / ' + total;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); showSlide(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); showSlide(current - 1); }
+    if (e.key === 'Home') showSlide(1);
+    if (e.key === 'End') showSlide(total);
+  });
+
+  // Click navigation
+  document.querySelector('.presentation').addEventListener('click', function(e) {
+    var rect = this.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    if (x > rect.width / 2) showSlide(current + 1);
+    else showSlide(current - 1);
+  });
+</script>
+
+</body>
+</html>
