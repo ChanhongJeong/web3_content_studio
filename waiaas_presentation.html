@@ -1725,7 +1725,9 @@
     var h = Math.min(window.innerHeight, document.documentElement.clientHeight);
     var scaleX = w / 1280;
     var scaleY = h / 720;
-    var scale = Math.min(scaleX, scaleY, 1);
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
+    var scale = Math.min(scaleX, scaleY);
+    if (!isFs && scale > 1) scale = 1;
     var offsetX = (w - 1280 * scale) / 2;
     var offsetY = (h - 720 * scale) / 2;
     pres.style.transform = 'scale(' + scale + ')';
