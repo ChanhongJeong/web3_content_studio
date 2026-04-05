@@ -1721,14 +1721,8 @@
   function fitToScreen() {
     var pres = document.getElementById('pres');
     var isFs = document.fullscreenElement || document.webkitFullscreenElement || window.mobileExpand;
-    var w, h;
-    if (isFs) {
-      w = screen.width;
-      h = screen.height;
-    } else {
-      w = Math.min(window.innerWidth, document.documentElement.clientWidth);
-      h = Math.min(window.innerHeight, document.documentElement.clientHeight);
-    }
+    var w = window.innerWidth;
+    var h = window.innerHeight;
     var scaleX = w / 1280;
     var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
