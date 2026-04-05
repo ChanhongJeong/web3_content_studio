@@ -87,6 +87,27 @@
     font-family: 'Inter', sans-serif;
     z-index: 100;
   }
+  .fullscreen-btn {
+    position: fixed;
+    top: 18px; right: 20px;
+    z-index: 100;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #888;
+    font-size: 18px;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .fullscreen-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
   .slide-counter {
     position: fixed;
     bottom: 15px; left: 20px;
@@ -1584,7 +1605,8 @@
 </div>
 
 <div class="slide-counter" id="counter">1 / 10</div>
-<div class="nav-hint">← → Navigate &nbsp;|&nbsp; F Fullscreen</div>
+<div class="nav-hint">← → Navigate</div>
+<button class="fullscreen-btn" id="fsBtn" title="Fullscreen">⛶</button>
 
 <script>
   var current = 1;
@@ -1626,6 +1648,23 @@
     var x = e.clientX - rect.left;
     if (x > rect.width / 2) showSlide(current + 1);
     else showSlide(current - 1);
+  });
+
+  // Fullscreen button
+  function toggleFullscreen() {
+    var el = document.documentElement;
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
+    if (!isFs) {
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  }
+  document.getElementById('fsBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleFullscreen();
   });
 </script>
 
