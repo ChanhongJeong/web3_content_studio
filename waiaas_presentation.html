@@ -1721,23 +1721,25 @@
   // Responsive scaling — always fit to screen
   function fitToScreen() {
     var pres = document.getElementById('pres');
-    var w = window.innerWidth;
-    var h = window.innerHeight;
+    var w = Math.min(window.innerWidth, document.documentElement.clientWidth);
+    var h = Math.min(window.innerHeight, document.documentElement.clientHeight);
     var scaleX = w / 1280;
     var scaleY = h / 720;
-    var scale = Math.min(scaleX, scaleY);
-    // 항상 화면에 맞추되 원본보다 크게는 안 함
-    if (scale > 1) scale = 1;
+    var scale = Math.min(scaleX, scaleY, 1);
     var offsetX = (w - 1280 * scale) / 2;
     var offsetY = (h - 720 * scale) / 2;
     pres.style.transform = 'scale(' + scale + ')';
     pres.style.left = Math.max(0, offsetX) + 'px';
     pres.style.top = Math.max(0, offsetY) + 'px';
   }
+  // 여러 시점에서 fitToScreen 호출하여 확실하게 적용
   fitToScreen();
+  window.addEventListener('load', fitToScreen);
   window.addEventListener('resize', fitToScreen);
   window.addEventListener('orientationchange', function() {
-    setTimeout(fitToScreen, 200);
+    setTimeout(fitToScreen, 100);
+    setTimeout(fitToScreen, 300);
+    setTimeout(fitToScreen, 500);
   });
 
   // Fullscreen button
