@@ -1721,18 +1721,15 @@
   function fitToScreen() {
     var pres = document.getElementById('pres');
     var nativeFs = document.fullscreenElement || document.webkitFullscreenElement;
-    var isFs = nativeFs || window.mobileExpand;
+    var expand = nativeFs || window.mobileExpand;
     var w = window.innerWidth;
     var h = window.innerHeight;
-    // 모바일 확대 모드: screen 크기 사용
-    if (window.mobileExpand && !nativeFs) {
-      w = screen.availWidth;
-      h = screen.availHeight;
-    }
     var scaleX = w / 1280;
     var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
-    if (!isFs && scale > 1) scale = 1;
+    // 일반 모드: 화면이 작으면 축소, 크면 원본(1배) 유지
+    // 전체화면/확대 모드: 화면에 꽉 채움 (1배 초과 확대 허용)
+    if (!expand && scale > 1) scale = 1;
     var offsetX = (w - 1280 * scale) / 2;
     var offsetY = (h - 720 * scale) / 2;
     pres.style.transform = 'scale(' + scale + ')';
