@@ -1720,11 +1720,17 @@
   // Responsive scaling — always fit to screen
   function fitToScreen() {
     var pres = document.getElementById('pres');
-    var w = Math.min(window.innerWidth, document.documentElement.clientWidth);
-    var h = Math.min(window.innerHeight, document.documentElement.clientHeight);
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement || window.mobileExpand;
+    var w, h;
+    if (isFs) {
+      w = screen.width;
+      h = screen.height;
+    } else {
+      w = Math.min(window.innerWidth, document.documentElement.clientWidth);
+      h = Math.min(window.innerHeight, document.documentElement.clientHeight);
+    }
     var scaleX = w / 1280;
     var scaleY = h / 720;
-    var isFs = document.fullscreenElement || document.webkitFullscreenElement || window.mobileExpand;
     var scale = Math.min(scaleX, scaleY);
     if (!isFs && scale > 1) scale = 1;
     var offsetX = (w - 1280 * scale) / 2;
@@ -1767,9 +1773,16 @@
     toggleFullscreen();
   });
 
-  // Also re-fit after any fullscreen change
-  document.addEventListener('fullscreenchange', function() { setTimeout(fitToScreen, 100); });
-  document.addEventListener('webkitfullscreenchange', function() { setTimeout(fitToScreen, 100); });
+  // Re-fit after fullscreen change — multiple attempts to catch async timing
+  function onFsChange() {
+    fitToScreen();
+    setTimeout(fitToScreen, 50);
+    setTimeout(fitToScreen, 150);
+    setTimeout(fitToScreen, 300);
+    setTimeout(fitToScreen, 500);
+  }
+  document.addEventListener('fullscreenchange', onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
 </script>
 
 </body>
