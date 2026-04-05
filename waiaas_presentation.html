@@ -1731,26 +1731,30 @@
     setTimeout(fitToScreen, 200);
   });
 
-  // Fullscreen events
-  document.addEventListener('fullscreenchange', fitToScreen);
-  document.addEventListener('webkitfullscreenchange', fitToScreen);
-
   // Fullscreen button
   function toggleFullscreen() {
     var el = document.documentElement;
+    // Try native fullscreen first
     var isFs = document.fullscreenElement || document.webkitFullscreenElement;
     if (!isFs) {
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      if (el.requestFullscreen) { el.requestFullscreen(); return; }
+      else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); return; }
     } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      if (document.exitFullscreen) { document.exitFullscreen(); return; }
+      else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); return; }
     }
+    // Fallback for mobile (iOS etc) — hide browser UI hints
+    window.scrollTo(0, 1);
+    fitToScreen();
   }
   document.getElementById('fsBtn').addEventListener('click', function(e) {
     e.stopPropagation();
     toggleFullscreen();
   });
+
+  // Also re-fit after any fullscreen change
+  document.addEventListener('fullscreenchange', function() { setTimeout(fitToScreen, 100); });
+  document.addEventListener('webkitfullscreenchange', function() { setTimeout(fitToScreen, 100); });
 </script>
 
 </body>
