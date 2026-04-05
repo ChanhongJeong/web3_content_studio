@@ -1726,11 +1726,14 @@
     var scaleX = w / 1280;
     var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
+    // 모바일(1024px 이하)에서는 축소만, PC에서는 확대도 허용
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
+    if (w <= 1024 && !isFs && scale > 1) scale = 1;
     var offsetX = (w - 1280 * scale) / 2;
     var offsetY = (h - 720 * scale) / 2;
     pres.style.transform = 'scale(' + scale + ')';
-    pres.style.left = offsetX + 'px';
-    pres.style.top = offsetY + 'px';
+    pres.style.left = Math.max(0, offsetX) + 'px';
+    pres.style.top = Math.max(0, offsetY) + 'px';
   }
   fitToScreen();
   window.addEventListener('resize', fitToScreen);
