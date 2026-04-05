@@ -1694,36 +1694,21 @@
     }
   }, { passive: true });
 
-  // Responsive scaling
+  // Responsive scaling — always fit to screen
   function fitToScreen() {
     var pres = document.getElementById('pres');
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
     var scaleX = window.innerWidth / 1280;
     var scaleY = window.innerHeight / 720;
     var scale = Math.min(scaleX, scaleY);
-    if (scale < 1) {
-      pres.style.transform = 'scale(' + scale + ')';
-    } else {
-      pres.style.transform = '';
-    }
+    pres.style.transform = 'scale(' + scale + ')';
   }
   fitToScreen();
   window.addEventListener('resize', fitToScreen);
 
-  // Fullscreen scaling
-  function scalePresentation() {
-    var pres = document.getElementById('pres');
-    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
-    if (isFs) {
-      var scaleX = window.innerWidth / 1280;
-      var scaleY = window.innerHeight / 720;
-      var scale = Math.min(scaleX, scaleY);
-      pres.style.transform = 'scale(' + scale + ')';
-    } else {
-      pres.style.transform = '';
-    }
-  }
-  document.addEventListener('fullscreenchange', scalePresentation);
-  document.addEventListener('webkitfullscreenchange', scalePresentation);
+  // Fullscreen events
+  document.addEventListener('fullscreenchange', fitToScreen);
+  document.addEventListener('webkitfullscreenchange', fitToScreen);
 
   // Fullscreen button
   function toggleFullscreen() {
