@@ -1720,9 +1720,15 @@
   // Responsive scaling — always fit to screen
   function fitToScreen() {
     var pres = document.getElementById('pres');
-    var isFs = document.fullscreenElement || document.webkitFullscreenElement || window.mobileExpand;
+    var nativeFs = document.fullscreenElement || document.webkitFullscreenElement;
+    var isFs = nativeFs || window.mobileExpand;
     var w = window.innerWidth;
     var h = window.innerHeight;
+    // 모바일 확대 모드: screen 크기 사용
+    if (window.mobileExpand && !nativeFs) {
+      w = screen.availWidth;
+      h = screen.availHeight;
+    }
     var scaleX = w / 1280;
     var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
