@@ -43,7 +43,9 @@
   .presentation {
     width: var(--slide-w);
     height: var(--slide-h);
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     overflow: hidden;
     box-shadow: 0 20px 80px rgba(0,0,0,0.8);
     transform-origin: top left;
@@ -1699,15 +1701,16 @@
   // Responsive scaling — always fit to screen
   function fitToScreen() {
     var pres = document.getElementById('pres');
-    var scaleX = window.innerWidth / 1280;
-    var scaleY = window.innerHeight / 720;
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var scaleX = w / 1280;
+    var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
+    var offsetX = (w - 1280 * scale) / 2;
+    var offsetY = (h - 720 * scale) / 2;
     pres.style.transform = 'scale(' + scale + ')';
-    // Center the scaled presentation
-    var offsetX = (window.innerWidth - 1280 * scale) / 2;
-    var offsetY = (window.innerHeight - 720 * scale) / 2;
-    pres.style.marginLeft = offsetX + 'px';
-    pres.style.marginTop = offsetY + 'px';
+    pres.style.left = offsetX + 'px';
+    pres.style.top = offsetY + 'px';
   }
   fitToScreen();
   window.addEventListener('resize', fitToScreen);
