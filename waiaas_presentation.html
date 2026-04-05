@@ -47,7 +47,6 @@
   }
   @media (max-width: 1024px) {
     body { overflow: auto; touch-action: auto; }
-    .fullscreen-btn { display: none; }
     .nav-hint { display: none; }
   }
 
@@ -1725,7 +1724,7 @@
     var h = Math.min(window.innerHeight, document.documentElement.clientHeight);
     var scaleX = w / 1280;
     var scaleY = h / 720;
-    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement || window.mobileExpand;
     var scale = Math.min(scaleX, scaleY);
     if (!isFs && scale > 1) scale = 1;
     var offsetX = (w - 1280 * scale) / 2;
@@ -1745,6 +1744,7 @@
   });
 
   // Fullscreen button
+  window.mobileExpand = false;
   function toggleFullscreen() {
     var el = document.documentElement;
     // Try native fullscreen first
@@ -1756,8 +1756,10 @@
       if (document.exitFullscreen) { document.exitFullscreen(); return; }
       else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); return; }
     }
-    // Fallback for mobile (iOS etc) — hide browser UI hints
-    window.scrollTo(0, 1);
+    // Fallback for mobile — toggle expand mode
+    window.mobileExpand = !window.mobileExpand;
+    var btn = document.getElementById('fsBtn');
+    btn.textContent = window.mobileExpand ? '✕' : '⛶';
     fitToScreen();
   }
   document.getElementById('fsBtn').addEventListener('click', function(e) {
