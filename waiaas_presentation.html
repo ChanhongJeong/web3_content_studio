@@ -1697,14 +1697,19 @@
     else showSlide(current - 1);
   });
 
-  // Touch swipe navigation
+  // Touch swipe navigation (single finger only, ignore pinch zoom)
   var touchStartX = 0;
   var touchStartY = 0;
+  var touchFingers = 0;
   document.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
+    touchFingers = e.touches.length;
+    if (touchFingers === 1) {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }
   }, { passive: true });
   document.addEventListener('touchend', function(e) {
+    if (touchFingers !== 1) return;
     var dx = e.changedTouches[0].screenX - touchStartX;
     var dy = e.changedTouches[0].screenY - touchStartY;
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
