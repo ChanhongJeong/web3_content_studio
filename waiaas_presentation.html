@@ -1584,7 +1584,7 @@
 </div>
 
 <div class="slide-counter" id="counter">1 / 10</div>
-<div class="nav-hint">← → Arrow keys to navigate</div>
+<div class="nav-hint">← → Navigate &nbsp;|&nbsp; F Fullscreen</div>
 
 <script>
   var current = 1;
@@ -1606,6 +1606,17 @@
     if (e.key === 'ArrowLeft') { e.preventDefault(); showSlide(current - 1); }
     if (e.key === 'Home') showSlide(1);
     if (e.key === 'End') showSlide(total);
+    if (e.key === 'f' || e.key === 'F' || e.key === 'F5') {
+      e.preventDefault();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    if (e.key === 'Escape' && document.fullscreenElement) {
+      document.exitFullscreen();
+    }
   });
 
   // Click navigation
