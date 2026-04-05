@@ -34,19 +34,23 @@
     --slide-h: 720px;
   }
 
-  html, body {
-    width: 100%;
-    height: 100%;
+  html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
   }
   body {
     background: #0a0a0a;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', -apple-system, sans-serif;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
   }
   @media (max-width: 1024px) {
-    body { overflow: auto; touch-action: auto; }
+    html, body { overflow: hidden; }
+    body { touch-action: auto; }
     .nav-hint { display: none; }
   }
 
@@ -1722,8 +1726,8 @@
     var pres = document.getElementById('pres');
     var nativeFs = document.fullscreenElement || document.webkitFullscreenElement;
     var expand = nativeFs || window.mobileExpand;
-    var w = window.innerWidth;
-    var h = window.innerHeight;
+    var w = document.documentElement.clientWidth || window.innerWidth;
+    var h = document.documentElement.clientHeight || window.innerHeight;
     var scaleX = w / 1280;
     var scaleY = h / 720;
     var scale = Math.min(scaleX, scaleY);
