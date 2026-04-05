@@ -1606,16 +1606,17 @@
     if (e.key === 'ArrowLeft') { e.preventDefault(); showSlide(current - 1); }
     if (e.key === 'Home') showSlide(1);
     if (e.key === 'End') showSlide(total);
-    if (e.key === 'f' || e.key === 'F' || e.key === 'F5') {
+    if (e.key === 'f' || e.key === 'F') {
       e.preventDefault();
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
+      var el = document.documentElement;
+      var isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!isFullscreen) {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
       } else {
-        document.exitFullscreen();
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
       }
-    }
-    if (e.key === 'Escape' && document.fullscreenElement) {
-      document.exitFullscreen();
     }
   });
 
