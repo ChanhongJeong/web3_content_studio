@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XRP Alliance 마케팅 실행 기획서</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Pretendard', 'Noto Sans KR', sans-serif;
+    background: #f5f6f8;
+    color: #1a1a2e;
+    line-height: 1.7;
+    padding: 40px 20px;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    padding: 48px 56px;
+  }
+  h1 { font-size: 28px; font-weight: 800; margin-bottom: 4px; color: #0f0f1a; }
+  .meta {
+    color: #888; font-size: 14px; margin-bottom: 36px;
+    padding-bottom: 20px; border-bottom: 2px solid #eee;
+  }
+  .meta span { margin-right: 20px; }
+  h2 {
+    font-size: 22px; font-weight: 700; margin: 44px 0 16px;
+    padding-bottom: 8px; border-bottom: 3px solid #1a73e8;
+    color: #0f0f1a; display: inline-block;
+  }
+  h3 { font-size: 17px; font-weight: 700; margin: 28px 0 12px; color: #1a73e8; }
+  h4 { font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: #333; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+  th {
+    background: #1a73e8; color: #fff; font-weight: 600;
+    text-align: left; padding: 10px 14px; font-size: 13px;
+  }
+  th:first-child { border-radius: 6px 0 0 0; }
+  th:last-child { border-radius: 0 6px 0 0; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eee; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fb; }
+  tr:hover td { background: #eef4ff; }
+  .callout {
+    background: #eef4ff; border-left: 4px solid #1a73e8;
+    padding: 16px 20px; border-radius: 0 8px 8px 0;
+    margin: 16px 0; font-size: 15px; font-weight: 600; color: #1a1a2e;
+  }
+  .callout.formula { background: #f0faf0; border-left-color: #27ae60; }
+  .callout.warning { background: #fff8e6; border-left-color: #f39c12; }
+  .callout.danger { background: #fef0f0; border-left-color: #e74c3c; }
+  .callout.note { background: #f5f5f5; border-left-color: #888; font-weight: 400; font-size: 13px; color: #555; }
+  .phase-card {
+    border: 2px solid #e0e0e0; border-radius: 12px;
+    padding: 24px 28px; margin: 20px 0; position: relative;
+  }
+  .phase-card.phase0 { border-color: #c0392b; }
+  .phase-card.phase1 { border-color: #e67e22; }
+  .phase-card.phase2 { border-color: #1a73e8; }
+  .phase-card.phase3 { border-color: #27ae60; }
+  .phase-badge {
+    position: absolute; top: -12px; left: 20px;
+    padding: 2px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 700; color: #fff;
+  }
+  .phase0 .phase-badge { background: #c0392b; }
+  .phase1 .phase-badge { background: #e67e22; }
+  .phase2 .phase-badge { background: #1a73e8; }
+  .phase3 .phase-badge { background: #27ae60; }
+  .phase-title { font-size: 18px; font-weight: 700; margin: 4px 0 4px; }
+  .phase-period { font-size: 13px; color: #888; margin-bottom: 12px; }
+  .phase-purpose { font-size: 14px; color: #555; margin-bottom: 16px; font-style: italic; }
+  .quest-flow { background: #f8f9fb; border-radius: 8px; padding: 16px 20px; margin: 12px 0; font-size: 14px; }
+  .quest-flow .step { display: flex; align-items: center; margin: 6px 0; }
+  .quest-flow .step-num {
+    background: #1a73e8; color: #fff; width: 24px; height: 24px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; margin-right: 10px; flex-shrink: 0;
+  }
+  .quest-flow .arrow { text-align: center; color: #aaa; font-size: 12px; margin: 2px 0 2px 34px; }
+  .calendar { margin: 16px 0; font-size: 14px; }
+  .cal-month { display: flex; align-items: stretch; margin: 8px 0; }
+  .cal-label { width: 50px; font-weight: 700; font-size: 15px; color: #333; padding-top: 6px; flex-shrink: 0; }
+  .cal-items { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .cal-item { padding: 6px 14px; border-radius: 6px; font-size: 13px; color: #fff; font-weight: 500; }
+  .cal-item.infra { background: #607d8b; }
+  .cal-item.campaign { background: #1a73e8; }
+  .cal-item.kol { background: #e67e22; }
+  .cal-item.pr { background: #9b59b6; }
+  .cal-item.community { background: #27ae60; }
+  .cal-item.star { background: #c0392b; font-weight: 700; }
+  .cal-item.sales { background: #2c3e50; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0 16px; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+  ul, ol { margin: 8px 0 8px 20px; font-size: 14px; }
+  li { margin: 4px 0; }
+  .msg-card { background: #f8f9fb; border-radius: 8px; padding: 14px 18px; margin: 8px 0; font-size: 14px; }
+  .msg-card .target { font-weight: 700; color: #1a73e8; margin-bottom: 4px; }
+  .msg-card .pain { color: #888; font-size: 13px; }
+  .msg-card .msg { margin-top: 6px; font-weight: 600; color: #1a1a2e; }
+  .checklist { list-style: none; margin-left: 0; padding: 0; }
+  .checklist li {
+    padding: 8px 0; border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .checklist li::before {
+    content: ''; width: 18px; height: 18px;
+    border: 2px solid #ccc; border-radius: 4px; flex-shrink: 0;
+  }
+  .budget-bar {
+    display: flex; height: 32px; border-radius: 6px; overflow: hidden;
+    margin: 12px 0; font-size: 11px; font-weight: 600; color: #fff;
+  }
+  .budget-bar div { display: flex; align-items: center; justify-content: center; white-space: nowrap; padding: 0 8px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .kpi-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 14px; text-align: center; }
+  .kpi-card .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-card .value { font-size: 22px; font-weight: 800; margin: 4px 0; }
+  .kpi-card .sub { font-size: 12px; color: #aaa; }
+  .kpi-card.m0 { border-top: 3px solid #c0392b; }
+  .kpi-card.m0 .value { color: #c0392b; }
+  .kpi-card.m1 { border-top: 3px solid #e67e22; }
+  .kpi-card.m1 .value { color: #e67e22; }
+  .kpi-card.m2 { border-top: 3px solid #1a73e8; }
+  .kpi-card.m2 .value { color: #1a73e8; }
+  .kpi-card.m3 { border-top: 3px solid #27ae60; }
+  .kpi-card.m3 .value { color: #27ae60; }
+  .funnel { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
+  .funnel-step {
+    padding: 12px; text-align: center; color: #fff; font-weight: 600; font-size: 14px;
+    border-radius: 6px; margin: 3px 0;
+  }
+  .funnel-arrow { color: #aaa; font-size: 18px; }
+  @media (max-width: 768px) {
+    .container { padding: 24px 20px; }
+    h1 { font-size: 22px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>XRP Alliance 마케팅 실행 기획서</h1>
+<div class="meta">
+  <span>작성일: 2026-04-13</span>
+  <span>작성자: Growth팀</span>
+  <span>상태: Draft</span>
+</div>
+
+<!-- 1. 왜 하는가 -->
+<div class="section">
+<h2>1. 왜 하는가</h2>
+
+<div class="callout danger" style="font-size:16px;">
+  <strong>최종 목표: 디센트 하드웨어 지갑 매출 증대</strong>
+</div>
+
+<p style="font-size:15px; margin:16px 0;">디센트는 XRP 홀더가 가장 많은 지갑이다. AUM 12억 XRP, 유저 91.5만 명. 이 유저들이 우리 매출의 핵심이다.</p>
+
+<p style="font-size:15px; margin:16px 0;">더 많은 XRP 유저를 디센트로 끌어오면 → 하드웨어 지갑이 팔린다. 이 유저들이 지갑 안에서 XRPFi를 경험하면 → 떠나지 않는다. 이 구조를 체계화한 것이 <strong>XRP Alliance</strong>다.</p>
+
+<div class="funnel">
+  <div class="funnel-step" style="background:#c0392b; width:90%;">XRP 유저 유입 확대 (KOL, 캠페인, 크로스체인)</div>
+  <div class="funnel-arrow">&#9660;</div>
+  <div class="funnel-step" style="background:#e67e22; width:75%;">디센트 지갑 설치 + 하드웨어 지갑 구매</div>
+  <div class="funnel-arrow">&#9660;</div>
+  <div class="funnel-step" style="background:#1a73e8; width:60%;">XRPFi 참여 (Doppler Vault, 스왑, 퀘스트)</div>
+  <div class="funnel-arrow">&#9660;</div>
+  <div class="funnel-step" style="background:#27ae60; width:45%;">장기 리텐션 (90% 유지율 실증)</div>
+</div>
+
+<div class="callout note">
+  리플 그랜트($700K)의 KPI인 "TVL $50M, 유저 30,000명"은 이 퍼널의 <strong>결과 지표</strong>이지, 우리의 목표 자체가 아님.
+  그랜트는 이 성장 엔진의 연료이며, 없어도 Alliance는 진행함.
+</div>
+</div>
+
+<!-- 2. XRP Alliance란 -->
+<div class="section">
+<h2>2. XRP Alliance란</h2>
+
+<p style="font-size:15px; margin:12px 0;">XRP 생태계 프로젝트들과의 협업 연합체. 디센트가 허브가 되어 유저에게 <strong>"디센트 하나로 XRP의 모든 것"</strong>을 제공하는 구조.</p>
+
+<table>
+  <tr><th>파트너</th><th>역할</th><th>우리에게 주는 가치</th><th>현황</th></tr>
+  <tr><td><strong>Flare</strong></td><td>FSA 예치 + 가스비 지원</td><td>첫 캠페인 마중물</td><td>4월 말 시작</td></tr>
+  <tr><td><strong>Squid Router</strong></td><td>크로스체인 스왑 (타체인 → XRP)</td><td>타체인 유저 유입 경로</td><td>4/14 계약, $35K</td></tr>
+  <tr><td><strong>Doppler Finance</strong></td><td>XRP Yield Vault</td><td>유저가 디센트에 머무는 이유</td><td>상시 협업, 6월 대규모</td></tr>
+  <tr><td><strong>OSL / Banxa</strong></td><td>피아트 온램프</td><td>현금 → XRP 직접 구매 경로</td><td>협의 중</td></tr>
+  <tr><td><strong>Girin Payment</strong></td><td>XRP/RLUSD 실물 결제</td><td>XRP 실사용 확대</td><td>하반기 예정</td></tr>
+  <tr><td><strong>Ripple</strong></td><td>그랜트 $700K</td><td>마케팅 재원</td><td>긍정적 검토 중</td></tr>
+</table>
+
+<h3>협업 구조: 1:1 vs 다자 캠페인</h3>
+
+<p style="font-size:14px; margin:12px 0;">Alliance의 진짜 힘은 파트너들을 <strong>조합</strong>할 수 있다는 것. 단순 1:1 협업뿐 아니라, 여러 파트너가 하나의 유저 여정에 엮이는 다자 캠페인이 가능하다.</p>
+
+<table>
+  <tr><th style="width:100px">유형</th><th>구조</th><th>예시</th></tr>
+  <tr>
+    <td><strong>1:1 협업</strong></td>
+    <td>디센트 × 단일 파트너</td>
+    <td>
+      <strong>디센트 × Flare:</strong> FSA 예치 캠페인<br>
+      <strong>디센트 × Doppler:</strong> Vault 예치 이벤트<br>
+      <strong>디센트 × Squid:</strong> 크로스체인 스왑 프로모션
+    </td>
+  </tr>
+  <tr>
+    <td><strong>다자 협업</strong></td>
+    <td>디센트 × 3~4개 파트너가 하나의 유저 여정 구성</td>
+    <td>
+      <strong>풀 퍼널 캠페인:</strong><br>
+      ① OSL/Banxa로 현금 → XRP 구매 (온램프)<br>
+      ② Squid Router로 타체인 자산 → XRP 전환 (유입)<br>
+      ③ Doppler Vault에 XRP 예치 (수익)<br>
+      ④ Flare GasPass로 가스비 무료 (비용 제거)<br>
+      → 4개 파트너가 하나의 "입금부터 수익까지" 경험을 만듦
+    </td>
+  </tr>
+</table>
+
+<div class="callout formula">
+  <strong>다자 캠페인의 장점:</strong><br>
+  • 유저 입장: 원스톱으로 모든 걸 해결 → 이탈 감소<br>
+  • 파트너 입장: 각자 캠페인 예산을 분담 → 비용 효율<br>
+  • 디센트 입장: Alliance 없이는 불가능한 경험 → 허브 포지셔닝 강화 + 지갑 매출
+</div>
+
+<div class="callout">
+  핵심: 각 파트너 캠페인마다 <strong>"디센트 하드웨어 지갑 보유자 전용 혜택"</strong>을 설계하여 지갑 매출과 직결시킴
+</div>
+</div>
+
+<!-- 3. 페이즈별 실행 계획 -->
+<div class="section">
+<h2>3. 페이즈별 실행 계획</h2>
+
+<!-- Phase 0 -->
+<div class="phase-card phase0">
+  <div class="phase-badge">PHASE 0 — 런칭</div>
+  <div class="phase-title">XRP Alliance 발표 + Flare 캠페인</div>
+  <div class="phase-period">4월 말</div>
+  <div class="phase-purpose">Alliance를 세상에 알리면서, Flare 캠페인으로 첫 성과를 동시에 만든다</div>
+
+  <h4>동시 진행</h4>
+  <table>
+    <tr><th style="width:140px">항목</th><th>내용</th></tr>
+    <tr><td><strong>Alliance 발표</strong></td><td>XRP Alliance 공식 발표 (PR + X + 텔레그램 + 앱 푸시)</td></tr>
+    <tr><td><strong>Flare 캠페인</strong></td><td>$56K 규모 (리워드: Flare팀 예산 / KOL 홍보: 자체 예산). FSA 예치 미션 + GasPass 가스비 $1K 지원</td></tr>
+    <tr><td><strong>타겟</strong></td><td>기존 디센트 XRP 홀더 중 DeFi 미참여자 (잠자는 자산 깨우기)</td></tr>
+    <tr><td><strong>KOL 집행</strong></td><td>Flare 캠페인 홍보용 KOL 비용은 자체 예산으로 집행</td></tr>
+    <tr><td><strong>지갑 매출 연계</strong></td><td>하드웨어 지갑 유저 전용 Boost 리워드 → 미보유자 구매 유도</td></tr>
+  </table>
+
+  <h4>퀘스트 시나리오</h4>
+  <div class="quest-flow">
+    <div class="step"><div class="step-num">1</div>Flare 네트워크 추가</div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="step-num">2</div>FSA 예치</div>
+    <div class="arrow">&#8595;</div>
+    <div class="step"><div class="step-num">3</div>보상 수령 (하드웨어 지갑 유저는 Boost)</div>
+  </div>
+
+  <h4>병행 작업</h4>
+  <ul>
+    <li>Squid Router 연동 QA (5월 라이브 목표)</li>
+    <li>KOL 리스트업 완료 + 1차 컨택</li>
+    <li>Doppler팀과 6월 캠페인 사전 조율</li>
+  </ul>
+</div>
+
+<!-- Phase 1 -->
+<div class="phase-card phase1">
+  <div class="phase-badge">PHASE 1 — 확장</div>
+  <div class="phase-title">크로스체인 유입 + KOL 본격화</div>
+  <div class="phase-period">5월</div>
+  <div class="phase-purpose">Squid Router 라이브로 타체인 유저 유입 시작 + 한국 KOL로 인지도 확대</div>
+
+  <table>
+    <tr><th style="width:140px">항목</th><th>내용</th></tr>
+    <tr><td><strong>Squid 라이브</strong></td><td>ETH/SOL/USDC → XRP 원클릭 스왑 오픈</td></tr>
+    <tr><td><strong>퀘스트</strong></td><td>크로스체인 스왑 → Doppler 예치 → 리워드 (멀티스텝)</td></tr>
+    <tr><td><strong>KOL 1차</strong></td><td>한국 KOL 3~5명 (자체 예산 $15~25K)</td></tr>
+    <tr><td><strong>PR</strong></td><td>Alliance 런칭 후속 보도 + 파트너 공동 발표</td></tr>
+    <tr><td><strong>지갑 매출 연계</strong></td><td>"이사 캠페인" — 거래소에서 디센트로 XRP 옮기면 보상 + 하드웨어 지갑 할인코드</td></tr>
+  </table>
+
+  <h4>KOL 콘텐츠 방향</h4>
+  <table>
+    <tr><th>시장</th><th>KOL 유형</th><th>콘텐츠</th><th>단가</th></tr>
+    <tr><td>한국</td><td>XRP 전문 유튜버 / 커뮤니티 운영자</td><td>실사용 리뷰 + 수익 인증</td><td>$2K~5K</td></tr>
+    <tr><td>미국</td><td>XRP Army 인플루언서</td><td>"How to earn yield on XRP"</td><td>$3K~8K</td></tr>
+    <tr><td>일본</td><td>크립토 유튜버</td><td>하드웨어 보안 + 수익 소구</td><td>$2K~5K</td></tr>
+  </table>
+
+  <div class="callout warning">
+    KOL 핵심 메시지: "거래소에 XRP 묵혀두지 마세요. 디센트에서 안전하게 수익 내세요."<br>
+    모든 KOL 콘텐츠에 <strong>디센트 하드웨어 지갑 구매 링크</strong> 필수 포함
+  </div>
+</div>
+
+<!-- Phase 2 -->
+<div class="phase-card phase2">
+  <div class="phase-badge">PHASE 2 — 가속</div>
+  <div class="phase-title">Doppler Season 2 + 글로벌 KOL</div>
+  <div class="phase-period">6월 ~ 7월</div>
+  <div class="phase-purpose">대규모 Vault로 TVL 폭발 성장 + 글로벌 KOL 확대 (그랜트 예산 투입)</div>
+
+  <table>
+    <tr><th style="width:140px">항목</th><th>내용</th></tr>
+    <tr><td><strong>Doppler Season 2</strong></td><td>한정 수량 Boosted APY Vault + 하드웨어 지갑 전용 프리미엄 Tier</td></tr>
+    <tr><td><strong>KOL 2차</strong></td><td>미국/일본 KOL 본격 집행 (그랜트 예산)</td></tr>
+    <tr><td><strong>유료 광고</strong></td><td>X/Google/YouTube 본격 집행</td></tr>
+    <tr><td><strong>OSL 온램프</strong></td><td>(확정 시) 피아트 → XRP 직접 구매 캠페인</td></tr>
+    <tr><td><strong>지갑 매출 연계</strong></td><td>프리미엄 Vault 참여 조건 = 하드웨어 지갑 보유. "Season 1은 24시간 완판" FOMO</td></tr>
+  </table>
+
+  <h4>콘텐츠 캘린더</h4>
+  <table>
+    <tr><th>주차</th><th>콘텐츠</th><th>목적</th></tr>
+    <tr><td>6월 1주</td><td>"Season 1 리뷰: $30M, 90% 유지율의 비밀"</td><td>신뢰</td></tr>
+    <tr><td>6월 2주</td><td>"Season 2 사전 등록 오픈"</td><td>기대감</td></tr>
+    <tr><td>6월 3주</td><td>"Season 2 런칭 + 실시간 TVL 카운터"</td><td>FOMO</td></tr>
+    <tr><td>6월 4주</td><td>"수익 인증 챌린지"</td><td>바이럴</td></tr>
+    <tr><td>7월</td><td>"XRP Alliance 중간 성적표"</td><td>투명성</td></tr>
+  </table>
+</div>
+
+<!-- Phase 3 -->
+<div class="phase-card phase3">
+  <div class="phase-badge">PHASE 3 — 고착화</div>
+  <div class="phase-title">리텐션 + 생태계 확장</div>
+  <div class="phase-period">8월 ~ 9월</div>
+  <div class="phase-purpose">유저를 디센트 생태계에 고착시키고, 그랜트 이후에도 지속되는 구조 확립</div>
+
+  <table>
+    <tr><th style="width:140px">항목</th><th>내용</th></tr>
+    <tr><td><strong>RLUSD</strong></td><td>RLUSD 101 교육 퀘스트 + 홀딩 리워드</td></tr>
+    <tr><td><strong>Girin</strong></td><td>(확정 시) XRP 실물 결제 → "XRP로 실생활 소비"</td></tr>
+    <tr><td><strong>커뮤니티</strong></td><td>오프라인 밋업 (서울, 도쿄)</td></tr>
+    <tr><td><strong>리텐션 전환</strong></td><td>그랜트 보상 → 프로토콜 네이티브 수익으로 자연스럽게 전환</td></tr>
+    <tr><td><strong>지갑 매출 연계</strong></td><td>밋업에서 하드웨어 지갑 현장 판매 + 한정판 에디션</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- 4. 지갑 매출 연계 전략 -->
+<div class="section">
+<h2>4. 지갑 매출 연계 전략</h2>
+
+<p style="font-size:15px; margin:12px 0;">모든 캠페인에 하드웨어 지갑 구매를 유도하는 장치를 설계한다.</p>
+
+<table>
+  <tr><th>전략</th><th>설명</th><th>적용 시점</th></tr>
+  <tr>
+    <td><strong>하드웨어 유저 전용 Boost</strong></td>
+    <td>모든 퀘스트/Vault에서 하드웨어 지갑 유저에게 추가 리워드 (예: APY +2%)</td>
+    <td>전 페이즈</td>
+  </tr>
+  <tr>
+    <td><strong>프리미엄 Vault 접근권</strong></td>
+    <td>고수익 한정 Vault는 하드웨어 지갑 보유자만 참여 가능</td>
+    <td>Phase 2 (Doppler S2)</td>
+  </tr>
+  <tr>
+    <td><strong>KOL 구매 링크</strong></td>
+    <td>모든 KOL 콘텐츠에 하드웨어 지갑 구매 링크 + 할인코드 삽입</td>
+    <td>Phase 1~2</td>
+  </tr>
+  <tr>
+    <td><strong>이사 캠페인 번들</strong></td>
+    <td>"거래소 → 디센트 이사 + 하드웨어 지갑 구매" 시 추가 XRP 보상</td>
+    <td>Phase 1~2</td>
+  </tr>
+  <tr>
+    <td><strong>리워드 잔여 수량 노출</strong></td>
+    <td>랜딩페이지에 "남은 Boost 슬롯: 247/1000" 같은 실시간 카운터로 긴박감</td>
+    <td>전 페이즈</td>
+  </tr>
+  <tr>
+    <td><strong>오프라인 현장 판매</strong></td>
+    <td>밋업/이벤트에서 현장 구매 + 즉시 셋업 지원</td>
+    <td>Phase 3</td>
+  </tr>
+</table>
+</div>
+
+<!-- 5. 핵심 메시지 -->
+<div class="section">
+<h2>5. 핵심 메시지 프레임워크</h2>
+
+<div class="callout" style="font-size:17px; text-align:center;">
+  "XRP를 가장 안전하게, 가장 수익적으로 관리하는 곳 — D'CENT"
+</div>
+
+<h3>타겟별 소구점</h3>
+<div class="msg-card">
+  <div class="target">거래소 XRP 홀더</div>
+  <div class="pain">해킹 불안 + 수익 0%</div>
+  <div class="msg">"거래소에 놔두면 이자도 못 받습니다. 디센트로 옮기면 안전 + 수익"</div>
+</div>
+<div class="msg-card">
+  <div class="target">Ledger / 타 지갑 유저</div>
+  <div class="pain">DeFi 접근성 부족</div>
+  <div class="msg">"하드웨어 보안은 기본, XRPFi까지 한번에"</div>
+</div>
+<div class="msg-card">
+  <div class="target">타체인 DeFi 유저 (ETH/SOL)</div>
+  <div class="pain">XRP 생태계 진입 장벽</div>
+  <div class="msg">"ETH/SOL에서 클릭 한번으로 XRP 수익 시작"</div>
+</div>
+<div class="msg-card">
+  <div class="target">XRP 고래 (Whale)</div>
+  <div class="pain">대량 자산 안전한 운용처 부재</div>
+  <div class="msg">"EAL5+ 하드웨어 보안 + 프리미엄 Vault 전용 혜택"</div>
+</div>
+
+<h3>채널별 톤앤매너</h3>
+<table>
+  <tr><th>채널</th><th>톤</th><th>예시</th></tr>
+  <tr><td><strong>X</strong></td><td>짧고 임팩트</td><td>"3일 만에 $12M. 24시간 만에 완판. Season 2가 온다."</td></tr>
+  <tr><td><strong>블로그</strong></td><td>친절하고 상세</td><td>스텝바이스텝 스크린샷 가이드</td></tr>
+  <tr><td><strong>KOL</strong></td><td>리얼 리뷰</td><td>"내가 직접 해봤다" 수익 인증</td></tr>
+  <tr><td><strong>텔레그램</strong></td><td>알파 + 긴박감</td><td>"내일 오후 2시 오픈. 준비하세요."</td></tr>
+</table>
+</div>
+
+<!-- 6. 예산 -->
+<div class="section">
+<h2>6. 예산 프레임워크</h2>
+
+<h3>그랜트 확정 전 — 자체 예산 (4~5월)</h3>
+<table>
+  <tr><th>항목</th><th>비용</th><th>비고</th></tr>
+  <tr><td>Flare 캠페인 (리워드)</td><td><strong>$0</strong></td><td>Flare팀 부담</td></tr>
+  <tr><td>Flare 캠페인 (KOL 홍보)</td><td>$5K~10K</td><td>자체 예산, KOL 2~3명</td></tr>
+  <tr><td>KOL 1차 (한국, Alliance 전체)</td><td>$15K~25K</td><td>3~5명</td></tr>
+  <tr><td>Alliance 브랜딩</td><td>$5K~10K</td><td>랜딩페이지, 에셋</td></tr>
+  <tr><td>유료 광고 테스트</td><td>$5K~10K</td><td>X/Google</td></tr>
+  <tr style="background:#eef4ff"><td><strong>소계</strong></td><td><strong>$30K~55K</strong></td><td></td></tr>
+</table>
+
+<h3>그랜트 확정 후 — 그랜트 + 자체 (6~9월)</h3>
+<table>
+  <tr><th>항목</th><th>비용</th><th>비고</th></tr>
+  <tr><td>KOL 2차 (글로벌)</td><td>$50K~80K</td><td>한/미/일 10~15명</td></tr>
+  <tr><td>유료 광고</td><td>$30K~50K</td><td>X/Google/YouTube</td></tr>
+  <tr><td>유저 리워드</td><td>$80K~120K</td><td>Yield Boost, 온보딩 보상</td></tr>
+  <tr><td>커뮤니티/이벤트</td><td>$20K~30K</td><td>밋업, 챌린지</td></tr>
+  <tr><td>PR/미디어</td><td>$10K~20K</td><td>보도자료</td></tr>
+  <tr style="background:#eef4ff"><td><strong>소계</strong></td><td><strong>$190K~300K</strong></td><td></td></tr>
+</table>
+</div>
+
+<!-- 7. KPI -->
+<div class="section">
+<h2>7. KPI 트래킹</h2>
+
+<h3>우리 목표 (매출)</h3>
+<div class="kpi-grid">
+  <div class="kpi-card m0">
+    <div class="label">Phase 0 (4월)</div>
+    <div class="value" style="font-size:16px;">기존 유저<br>활성화</div>
+    <div class="sub">Flare 퀘스트 참여자 수<br>하드웨어 지갑 판매 추이</div>
+  </div>
+  <div class="kpi-card m1">
+    <div class="label">Phase 1 (5월)</div>
+    <div class="value" style="font-size:16px;">신규 유저<br>유입</div>
+    <div class="sub">신규 설치 수<br>KOL 경유 지갑 구매</div>
+  </div>
+  <div class="kpi-card m2">
+    <div class="label">Phase 2 (6~7월)</div>
+    <div class="value" style="font-size:16px;">매출<br>폭발 성장</div>
+    <div class="sub">하드웨어 지갑 판매량<br>프리미엄 Vault 참여율</div>
+  </div>
+  <div class="kpi-card m3">
+    <div class="label">Phase 3 (8~9월)</div>
+    <div class="value" style="font-size:16px;">리텐션<br>고착화</div>
+    <div class="sub">월간 활성 유저<br>재구매율</div>
+  </div>
+</div>
+
+<h3>그랜트 보고용 KPI (별도 관리)</h3>
+<table>
+  <tr><th>지표</th><th>M0 (4~5월)</th><th>M1 (5~6월)</th><th>M2 (6~7월)</th><th>M3 (8~9월)</th></tr>
+  <tr><td><strong>신규 TVL</strong></td><td>-</td><td><strong>$15M</strong></td><td><strong>$30M</strong></td><td><strong>$50M</strong></td></tr>
+  <tr><td>활성 유저</td><td>-</td><td>8,000</td><td>18,000</td><td>30,000</td></tr>
+  <tr><td>크로스체인 유입</td><td>-</td><td>$30M</td><td>$70M</td><td>$100M</td></tr>
+  <tr><td>리텐션</td><td>-</td><td>-</td><td>70%+</td><td>70%+</td></tr>
+</table>
+</div>
+
+<!-- 8. 캘린더 -->
+<div class="section">
+<h2>8. 캠페인 캘린더</h2>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div>핵심 이벤트</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1a73e8"></div>캠페인</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#607d8b"></div>인프라</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div>KOL</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2c3e50"></div>지갑 매출</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div>커뮤니티</div>
+</div>
+
+<div class="calendar">
+  <div class="cal-month">
+    <div class="cal-label">4월</div>
+    <div class="cal-items">
+      <div class="cal-item star">XRP Alliance 공식 발표 + Flare 캠페인 동시 런칭</div>
+      <div class="cal-item campaign">Flare FSA 예치 퀘스트 ($56K 리워드: Flare / KOL: 자체)</div>
+      <div class="cal-item infra">Squid Router 연동 QA</div>
+      <div class="cal-item kol">KOL 리스트업 & 1차 컨택</div>
+      <div class="cal-item sales">하드웨어 유저 전용 Boost 리워드 시작</div>
+    </div>
+  </div>
+  <div class="cal-month">
+    <div class="cal-label">5월</div>
+    <div class="cal-items">
+      <div class="cal-item infra">Squid Router 크로스체인 스왑 라이브</div>
+      <div class="cal-item campaign">Alliance 멀티스텝 퀘스트 오픈</div>
+      <div class="cal-item kol">KOL 1차 — 한국 3~5명 (자체 예산)</div>
+      <div class="cal-item sales">"이사 캠페인" + 하드웨어 지갑 할인코드</div>
+    </div>
+  </div>
+  <div class="cal-month">
+    <div class="cal-label">6월</div>
+    <div class="cal-items">
+      <div class="cal-item star">Doppler Prime Vault Season 2 런칭</div>
+      <div class="cal-item kol">KOL 2차 — 미국/일본 (그랜트 예산)</div>
+      <div class="cal-item campaign">수익 인증 챌린지</div>
+      <div class="cal-item sales">프리미엄 Vault = 하드웨어 지갑 전용</div>
+    </div>
+  </div>
+  <div class="cal-month">
+    <div class="cal-label">7월</div>
+    <div class="cal-items">
+      <div class="cal-item campaign">Doppler 캠페인 연장 / 미예치 유저 리타겟</div>
+      <div class="cal-item campaign">"Alliance 중간 성적표" 발행</div>
+      <div class="cal-item infra">(OSL 온램프 라이브 시) 피아트 캠페인</div>
+    </div>
+  </div>
+  <div class="cal-month">
+    <div class="cal-label">8월</div>
+    <div class="cal-items">
+      <div class="cal-item campaign">RLUSD 101 교육 퀘스트</div>
+      <div class="cal-item campaign">리텐션 전환 (보상 → 네이티브 수익)</div>
+      <div class="cal-item community">오프라인 밋업 (서울) + 현장 지갑 판매</div>
+    </div>
+  </div>
+  <div class="cal-month">
+    <div class="cal-label">9월</div>
+    <div class="cal-items">
+      <div class="cal-item star">최종 성과 리포트 + Post-Grant 계획</div>
+      <div class="cal-item campaign">(Girin 결제 캠페인)</div>
+      <div class="cal-item community">오프라인 밋업 (도쿄) + 현장 지갑 판매</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 9. 리스크 -->
+<div class="section">
+<h2>9. 리스크 & 대응</h2>
+<table>
+  <tr><th style="width:180px">리스크</th><th>대응</th></tr>
+  <tr><td><strong>그랜트 미확정/지연</strong></td><td>Phase 0~1은 자체 예산 $30~55K로 진행 가능. Flare 리워드는 Flare 예산이므로 영향 없음</td></tr>
+  <tr><td><strong>Squid XRPL 연동 지연</strong></td><td>EVM 체인 간 스왑 먼저 라이브 → XRPL은 Phase 2에서 추가</td></tr>
+  <tr><td><strong>OSL 온램프 미확정</strong></td><td>Banxa/MoonPay 대안 병행 검토</td></tr>
+  <tr><td><strong>KOL ROI 미달</strong></td><td>1차 소규모 테스트 후 ROI 측정 → 2차는 효과 좋은 KOL에 집중</td></tr>
+  <tr><td><strong>TVL 목표 미달</strong></td><td>마일스톤별 체크포인트에서 전략 피봇 (고래 타겟 강화, 리워드 구조 변경)</td></tr>
+</table>
+</div>
+
+<!-- 10. 즉시 실행 -->
+<div class="section">
+<h2>10. 즉시 실행 항목 (This Week)</h2>
+<ul class="checklist">
+  <li>Alliance 브랜드 네이밍 / 로고 / 컬러 확정</li>
+  <li>Flare 캠페인 퀘스트 시나리오 최종 확인</li>
+  <li>Alliance 발표 PR 초안 작성</li>
+  <li>KOL 후보 리스트 작성 (한국 5 / 미국 5 / 일본 3)</li>
+  <li>Squid Router 연동 → 라이브 일정 확인</li>
+  <li>Doppler팀 6월 캠페인 규모/일정 사전 조율</li>
+  <li>하드웨어 지갑 유저 전용 Boost 설계 (리워드 구조)</li>
+  <li>그랜트 보고용 데이터 트래킹 체계 설계</li>
+</ul>
+</div>
+
+<div class="callout note" style="margin-top:40px;">
+  이 기획은 <strong>디센트 하드웨어 지갑 매출 증대</strong>를 최종 목표로 설계됨.<br>
+  XRP Alliance와 리플 그랜트는 이 목표를 달성하기 위한 수단이며, 그랜트 확정 여부와 무관하게 Phase 0~1은 실행 가능.
+</div>
+
+</div>
+</body>
+</html>
