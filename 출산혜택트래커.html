@@ -730,7 +730,6 @@ body.dark .tline-dot{background:#1E1930}
       <div class="onb-btns">
         <button class="onb-btn prim" onclick="onbNext(2)">다음 →</button>
       </div>
-      <div class="onb-skip" onclick="onbSkip()">나중에 입력하기</div>
     </div>
     <div class="onb-step" id="onbS2">
       <div class="onb-ic">👨‍👩‍👧</div>
@@ -861,7 +860,7 @@ const B=[
 {id:'mat_leave',cat:'work',sec:G,nm:'출산전후휴가 급여 (2026년 220만 인상)',bg:'정부',bc:'bg-gov',amt:660,at:'월최대220만×3개월',type:'cash',scope:'national',desc:'2026년 상한 월 210만 → 220만원 인상 (최저임금 연동)',when:'출산 전후 90일 (다태아 120일)',how:'회사 신청 → 고용보험 급여',cond:'고용보험 가입, 피보험단위기간 180일 이상',where:'ei.go.kr',detail:'<b>기간:</b> 단태아 90일 / 다태아 120일 / 미숙아 100일<br><b>2026년 상한:</b> 월 <b>220만원</b> (2025년 210만에서 인상)<br><b>유급 구조:</b><br>• 우선지원대상기업(중소): 90일 전액 정부<br>• 대기업: 최초 60일 회사 유급, 이후 30일 정부<br><b>유산·사산휴가:</b> 임신 주수별 5~90일',url:'https://www.ei.go.kr'},
 {id:'sp_leave',cat:'work',sec:G,nm:'배우자 출산휴가 (20일 유급)',bg:'정부',bc:'bg-gov',amt:168,at:'20일 × 급여',type:'cash',scope:'national',desc:'2025년 2월부터 20일 전면 유급 (기존 10일→20일)',when:'출산 후 120일 이내',how:'회사 인사팀 신청 → 고용보험 급여 신청',cond:'고용보험 가입 근로자',where:'회사 + 고용보험',detail:'<b>기간:</b> 20일 (유급)<br><b>분할:</b> 3회까지 분할 사용 가능<br><b>급여:</b> 통상임금 100%, 20일 상한 168.4만원 (2026년 기준)<br><b>신청 기한:</b> 출산 후 120일 이내<br><b>2025년 변경:</b> 기존 10일에서 20일로 확대, 급여도 전 기간 지원',url:'https://www.ei.go.kr'},
 {id:'par_leave',cat:'work',sec:G,nm:'육아휴직 급여 (최대 1.5년)',bg:'정부',bc:'bg-gov',amt:2500,at:'1~3개월 최대 250만',type:'cash',scope:'national',desc:'2025년부터 최대 1.5년, 상한 250만, 사후지급 폐지',when:'자녀 만 8세까지 신청',how:'① 회사 30일 전 신청 → ② 휴직 개시 → ③ 고용보험 급여 신청',cond:'고용보험 가입, 같은 사업장 6개월+ 근속',where:'고용보험 (ei.go.kr)',detail:'<b>급여 (2025년 개편):</b><br>• 1~3개월: 통상임금 100%, 상한 <b>월 250만</b><br>• 4~6개월: 통상임금 100%, 상한 <b>월 200만</b><br>• 7~12개월: 통상임금 80%, 상한 <b>월 160만</b><br><b>기간:</b> 최대 1년 → <b>부모 각각 3개월+ 사용 시 최대 1.5년</b><br><b>사후지급금 폐지:</b> 25% 복직 후 지급 → <b>전액 월 지급</b><br><b>분할:</b> 3회까지 분할 가능<br><b>특례:</b> 한부모·장애아동 부모는 조건없이 1.5년',url:'https://www.ei.go.kr',links:[{t:'고용보험',u:'https://www.ei.go.kr'},{t:'고용노동부',u:'https://www.moel.go.kr'}]},
-{id:'par_6',cat:'work',sec:G,nm:'6+6 부모육아휴직제',bg:'정부',bc:'bg-gov',amt:1950,at:'6개월 최대 1,950만',type:'cash',scope:'national',desc:'부모 모두 사용 시 6개월 급여 대폭 상향',when:'자녀 생후 18개월 이내 사용분',how:'부부 동시 또는 순차 휴직',cond:'부모 모두 육아휴직 사용',where:'고용보험 (ei.go.kr)',detail:'<b>월별 상한 (2026년):</b><br>• 1개월: 250만 · 2개월: 250만<br>• 3개월: 300만 · 4개월: 350만<br>• 5개월: 400만 · <b>6개월: 450만</b><br><b>6개월 합계:</b> 부모 각각 약 1,950만원<br><b>조건:</b> 자녀 생후 18개월 이내 사용분에 한정',url:'https://www.ei.go.kr'},
+{id:'par_6',cat:'work',sec:G,nm:'6+6 부모육아휴직제 (급여 상향)',bg:'정부',bc:'bg-gov',amt:0,at:'육아휴직 상한 상향',type:'service',scope:'national',desc:'⚠️ 별도 지급 X, 육아휴직 급여 상한이 올라가는 제도 (위 육아휴직에 이미 포함)',when:'자녀 생후 18개월 이내 사용분',how:'부부 동시 또는 순차 휴직',cond:'부모 모두 육아휴직 사용',where:'고용보험',detail:'<b>💡 이건 추가 수당이 아닙니다!</b><br>육아휴직 급여의 <b>첫 6개월 상한이 상향</b>되는 제도예요.<br><br><b>월별 상한 (2026년):</b><br>• 1개월: 250만 · 2개월: 250만<br>• 3개월: 300만 · 4개월: 350만<br>• 5개월: 400만 · <b>6개월: 450만</b><br><b>6개월 합계:</b> 부모 각각 약 1,950만원 (일반 육휴 대비 약 450만 증액)<br><b>조건:</b> 부부 모두 생후 18개월 이내 3개월+ 휴직',url:'https://www.ei.go.kr'},
 {id:'red_hr',cat:'work',sec:G,nm:'육아기 근로시간 단축 (만12세 확대)',bg:'정부',bc:'bg-gov',amt:0,at:'주15~35시간 + 급여',type:'cash',scope:'national',desc:'2024년 만8세→만12세 확대, 기간 최대 3년',when:'육아휴직 대신 또는 이후',how:'회사 신청 (30일 전)',cond:'고용보험 가입, 자녀 만 12세 이하',where:'회사 + 고용보험',detail:'<b>2024년 확대:</b><br>• 대상 자녀 연령: 만 8세 → <b>만 12세</b><br>• 최대 기간: 1년 → <b>최대 3년</b> (1년 + 2년 연장)<br><b>근로시간:</b> 주 15~35시간 단축<br><b>급여:</b> 단축 시간에 대해 통상임금 100% 보전 (주10시간 이내분), 상한 월 160만<br><b>장점:</b> 육아휴직보다 고용유지에 유리 (소득·경력 단절 완화)<br><b>육아휴직과 별개:</b> 휴직 1년 + 단축 3년 = 총 <b>최대 4년</b> 활용 가능',url:'https://www.ei.go.kr'},
 {id:'co_bonus',cat:'work',sec:G,nm:'기업 출산지원금 전액 비과세',bg:'회사',bc:'bg-co',amt:0,at:'전액 비과세',type:'cash',scope:'national',desc:'2024년 세법개정 - 출산 후 2년 내 회사 지급분 전액 비과세 (최대 2회)',when:'출산 시 회사 복리후생',how:'회사 인사팀 확인',cond:'근로자 (회사 복리후생 정책 有)',where:'회사 인사팀',detail:'<b>2024년 세법개정 (신설):</b><br>• 출산 후 2년 이내 회사에서 받는 출산지원금 <b>전액 비과세</b><br>• 최대 <b>2회까지</b> 비과세 (쌍둥이 각각, 또는 두 자녀 각각)<br>• 금액 한도 없음<br><br><b>회사에 세액공제 혜택도:</b> 회사는 지급액의 25% 세액공제 → 회사에 제도 도입 요청 명분<br><br><b>💡 회사에 공식 제도 없어도:</b> 일회성 지급이라도 출산 후 2년 내라면 비과세 처리 가능',url:'https://www.nts.go.kr'},
 // ── 세금 ──
@@ -2107,7 +2106,7 @@ function renderBreakdown(vis,p,total){
       <div style="font-size:10px;color:#666;line-height:1.5">${items.map(x=>`• ${x.nm} <b style="color:#C0385A">${x.amt.toLocaleString()}만</b>`).join('<br>')}</div>
     </div>`;
   });
-  h+='<div style="font-size:10px;color:#888;padding:8px;background:rgba(255,255,255,.6);border-radius:6px;line-height:1.5">ℹ️ 회사 복리후생·민간 제휴는 제외. <b>법정·공식 지원 최대값</b> 기준. 소득/지역 조건에 따라 실제 수령액은 달라질 수 있어요.</div>';
+  h+='<div style="font-size:10px;color:#888;padding:8px;background:rgba(255,255,255,.6);border-radius:6px;line-height:1.6">ℹ️ <b>법정·공식 지원 최대값</b> 기준 (회사/민간 제외)<br>• 육아휴직 급여는 연봉·개월·개별 조건에 따라 크게 달라져요 → <b>홈의 "육아휴직 계획"에서 정확한 금액 확인</b><br>• 실제 수령은 모든 혜택을 100% 신청했을 때의 이론값</div>';
   c.innerHTML=h;
 }
 
@@ -2581,8 +2580,19 @@ function showOnb(){
   if(p.city){document.getElementById('onbCity').value=p.city;onbCityChange();if(p.dist)document.getElementById('onbDist').value=p.dist;}
 }
 function onbNext(step){
-  if(step===2||step===3||step===4){ // save current
-    const v=(id)=>document.getElementById(id).value;
+  const v=(id)=>document.getElementById(id).value;
+  // 필수 검증
+  if(step===2){
+    if(!v('onbDue')){alert('⚠️ 출산 예정일은 필수입니다.\n\n아직 임신 전이라면 예상 날짜를 넣으세요.');return;}
+  }
+  if(step===3){
+    if(!v('onbAge1')||!v('onbInc1')){alert('⚠️ 본인 나이와 연봉은 필수입니다.\n\n소득에 따라 받을 수 있는 혜택이 크게 달라져요.');return;}
+  }
+  if(step===4){
+    if(!v('onbCity')){alert('⚠️ 거주 시/도를 선택해주세요.\n\n지역별 혜택이 다르게 적용됩니다.');return;}
+  }
+  // 저장
+  if(step===2||step===3||step===4){
     const due=v('onbDue'),child=v('onbChild');
     if(step>=2&&due)document.getElementById('inDue').value=due;
     if(step>=2&&child)document.getElementById('inChild').value=child;
@@ -2757,8 +2767,9 @@ if('serviceWorker' in navigator){
 
 if(loadFromUrl()){}
 load();initDark();updateMedianUI();render();renderTools();
-// First-time onboarding
-if(!S._onbDone&&!S._profile)setTimeout(showOnb,300);
+// 프로필 필수값 체크 - 누락 시 강제 온보딩
+const _p=S._profile||{};
+if(!_p.due||!_p.age1||!_p.inc1||!_p.city){setTimeout(showOnb,300);}
 // Card swipe after render
 setTimeout(enableCardSwipe,500);
 </script>
