@@ -489,7 +489,8 @@ body.dark .tline-dot{background:#1E1930}
       <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:50px;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:12px"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart2" onchange="saveLeaveSettings()" style="flex:1;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:11px"></div>
     </div>
   </div>
-  <label style="display:block;font-size:11px;padding:7px 9px;background:#FFF3CD;border-radius:7px;cursor:pointer"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> (부부 모두 사용 시 첫 6개월 상한 상향)</label>
+  <label style="display:block;font-size:11px;padding:7px 9px;background:#FFF3CD;border-radius:7px;cursor:pointer"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> <span style="color:#666">— 추가 기간X, <b>급여 상향</b> 제도. 부부 모두 생후 18개월 이내 휴직 시 첫 6개월 상한 증가</span></label>
+  <div style="font-size:10px;color:#666;margin-top:6px;padding:8px;background:#F0F8F0;border-radius:7px;line-height:1.5">💡 <b>총 휴직 기간 참고</b><br>• 산모: 출산전후휴가 3개월 + 육아휴직 1~1.5년 = <b>최대 21개월</b> 가능<br>• 부/모 각자 3개월+ 사용 시 육아휴직 1.5년 연장 (2025년 확대)<br>• 육아휴직 개월 입력칸에 <b>13~18까지 입력 가능</b> (1.5년 쓸 경우)</div>
   <div style="font-size:10px;color:#999;margin-top:6px;text-align:right">🔍 상세 계산 근거는 <b style="color:#6B5CE7;cursor:pointer" onclick="goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolLeave');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});}},200);">도구 &gt; 육아휴직 계산기</b>에서</div>
 </div>
 
