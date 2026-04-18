@@ -146,6 +146,52 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 .tldt{font-size:11px;font-weight:700;color:var(--pri)}
 .tltx{font-size:12px}
 
+/* Action Dashboard */
+.actd{margin:0 16px 12px;background:linear-gradient(135deg,#FFF5EE,#FFEEF2);border-radius:14px;padding:14px;border:2px solid #FFD4DC}
+.actd-h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.actd-t{font-size:14px;font-weight:800;color:#C0385A}
+.actd-sub{font-size:11px;color:var(--txt-l);margin-left:auto}
+.actd-item{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:flex-start;gap:10px;border-left:4px solid var(--pri)}
+.actd-item.urg{border-left-color:#E74C3C;background:#FFF5F3}
+.actd-item.warn{border-left-color:#F39C12;background:#FFF9EE}
+.actd-item.ok{border-left-color:#27AE60;background:#F3FBF5}
+.actd-ic{font-size:18px;flex-shrink:0}
+.actd-info{flex:1;min-width:0}
+.actd-name{font-size:13px;font-weight:700;color:var(--txt)}
+.actd-dd{font-size:11px;font-weight:600;margin-top:2px}
+.actd-dd.r{color:#E74C3C}.actd-dd.o{color:#F39C12}.actd-dd.g{color:#27AE60}
+.actd-desc{font-size:11px;color:var(--txt-l);margin-top:2px;line-height:1.4}
+.actd-empty{text-align:center;color:var(--txt-l);font-size:12px;padding:12px;background:#fff;border-radius:8px}
+
+/* Payment Calendar */
+.calw{margin:0 16px 16px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.calw-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.calw-t{font-size:14px;font-weight:800;color:var(--pri)}
+.calw-sum{font-size:11px;color:var(--txt-l);margin-left:auto}
+.cal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.cal-m{background:#FFF0F5;border-radius:7px;padding:6px 4px;text-align:center;position:relative;cursor:default}
+.cal-m.has{background:linear-gradient(135deg,#FFE4EC,#FFF3CD)}
+.cal-m.birth{background:linear-gradient(135deg,#FFD6E0,#FFD4DC);border:2px solid var(--pri)}
+.cal-m-mo{font-size:9px;color:var(--txt-l);font-weight:600}
+.cal-m-am{font-size:11px;font-weight:700;color:var(--pri);margin-top:2px}
+.cal-m.birth .cal-m-am{color:#C0385A}
+.cal-tot{margin-top:10px;text-align:right;font-size:12px;color:var(--txt-l)}
+.cal-tot b{color:var(--pri);font-size:15px;font-weight:800;margin-left:5px}
+
+/* Docs checklist */
+.doc-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.doc-tag{background:#F0ECFF;color:#6B5CE7;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:600}
+
+/* Share */
+.db-s{background:#6B5CE7;color:#fff}
+.share-md{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
+.share-md.show{display:flex}
+.share-c{background:#fff;border-radius:16px;padding:22px;width:92%;max-width:400px;max-height:85vh;overflow-y:auto}
+.share-t{font-size:16px;font-weight:700;margin-bottom:14px}
+.share-url{background:#F8F8F8;padding:10px;border-radius:8px;font-size:10px;word-break:break-all;color:#666;margin:10px 0;max-height:120px;overflow-y:auto}
+.share-btn{width:100%;padding:12px;background:var(--pri);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px}
+.share-btn.sec{background:#F0E8EC;color:var(--txt)}
+
 /* Footer */
 .disc{background:#FFF3CD;margin:0 16px 14px;padding:10px 12px;border-radius:var(--r);font-size:11px;color:#9A7830;line-height:1.5}
 .disc a{color:#C49040}
@@ -230,6 +276,25 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 </div>
 <div class="prog-w"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
 
+<div class="actd" id="actDash" style="display:none">
+  <div class="actd-h">
+    <span style="font-size:18px">📢</span>
+    <div class="actd-t">지금 해야 할 일</div>
+    <div class="actd-sub" id="actdSub"></div>
+  </div>
+  <div id="actdList"></div>
+</div>
+
+<div class="calw" id="calWrap" style="display:none">
+  <div class="calw-h">
+    <span style="font-size:18px">💰</span>
+    <div class="calw-t">월별 수령 캘린더 (24개월)</div>
+    <div class="calw-sum" id="calSum"></div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+  <div class="cal-tot">총 정기 수령액: <b id="calTot">-</b>만원</div>
+</div>
+
 <div class="search-w"><input class="search-i" id="sI" type="text" placeholder="혜택 검색..." oninput="render()"></div>
 <div class="st-bar">
   <button class="st-b active" onclick="setSt('all',this)">전체</button>
@@ -256,6 +321,7 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 </div>
 <div class="svst" id="svSt"></div>
 <div class="da">
+  <button class="db db-s" onclick="openShare()">🔗 배우자와 공유</button>
   <button class="db db-e" onclick="expData()">📤 백업 내보내기</button>
   <button class="db db-i" onclick="document.getElementById('impF').click()">📥 백업 불러오기</button>
   <button class="db db-r" onclick="rstData()">🔄 초기화</button>
@@ -263,6 +329,15 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 </div>
 <div class="foot">데이터 자동 저장 · 다른 기기 이동 시 백업 기능 이용</div>
 <div class="toast" id="toast"></div>
+<div class="share-md" id="shareMd">
+  <div class="share-c">
+    <div class="share-t">🔗 배우자·가족과 공유하기</div>
+    <div style="font-size:12px;color:#666;margin-bottom:8px">내 정보+체크 현황을 그대로 볼 수 있는 링크</div>
+    <div class="share-url" id="shareUrl"></div>
+    <button class="share-btn" onclick="copyShare()">🔗 링크 복사</button>
+    <button class="share-btn sec" onclick="closeShare()" style="margin-top:8px">닫기</button>
+  </div>
+</div>
 
 <script>
 const DISTS={seoul:['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],incheon:['중구','동구','미추홀구','연수구','남동구','부평구','계양구','서구','강화군','옹진군']};
@@ -277,22 +352,22 @@ const G='gov',P='private';
 const B=[
 // ══════ 정부 혜택 ══════
 // ── 임신 중 ──
-{id:'happy_card',cat:'pregnancy',sec:G,nm:'임신출산 진료비 (국민행복카드)',bg:'정부',bc:'bg-gov',amt:100,type:'cash',scope:'national',desc:'산부인과 진료비 바우처 100만원 (다태아 140만원)',when:'임신 확인 후 즉시 신청 가능',how:'① 산부인과에서 임신확인서 발급 → ② 국민건강보험공단 또는 카드사 앱에서 국민행복카드 신청 → ③ 카드 수령 후 산부인과/약국에서 사용',cond:'건강보험 가입자 (직장·지역 모두 가능)',where:'건강보험공단, 카드사 앱',detail:'<b>지원금액:</b> 임신 1회당 100만원 (다태아 140만원, 분만취약지 +20만원)<br><b>사용처:</b> 산부인과 진료비, 약제비, 출산비용, 2세 미만 영유아 의료비<br><b>사용기한:</b> 분만 예정일 이후 2년까지<br><b>카드 발급처:</b> KB국민, 신한, 삼성, 롯데, 하나, BC카드 중 선택<br><b>잔액:</b> 출산 후 남은 금액은 2세 미만 영유아 의료비로 사용 가능 + 추가 20만원 자동 충전',url:'https://www.nhis.or.kr',links:[{t:'국민건강보험공단',u:'https://www.nhis.or.kr'},{t:'정부24 행복출산',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'}]},
-{id:'folic',cat:'pregnancy',sec:G,nm:'엽산제·철분제 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'보건소에서 엽산제·철분제 무료 제공',when:'임신 확인 후',how:'보건소 방문',cond:'보건소 등록',where:'관할 보건소',url:'https://www.e-health.go.kr'},
+{id:'happy_card',cat:'pregnancy',sec:G,nm:'임신출산 진료비 (국민행복카드)',bg:'정부',bc:'bg-gov',amt:100,type:'cash',scope:'national',desc:'산부인과 진료비 바우처 100만원 (다태아 140만원)',when:'임신 확인 후 즉시 신청 가능',how:'① 산부인과에서 임신확인서 발급 → ② 국민건강보험공단 또는 카드사 앱에서 국민행복카드 신청 → ③ 카드 수령 후 산부인과/약국에서 사용',cond:'건강보험 가입자 (직장·지역 모두 가능)',where:'건강보험공단, 카드사 앱',week:[5,10],docs:['임신확인서','신분증'],detail:'<b>지원금액:</b> 임신 1회당 100만원 (다태아 140만원, 분만취약지 +20만원)<br><b>사용처:</b> 산부인과 진료비, 약제비, 출산비용, 2세 미만 영유아 의료비<br><b>사용기한:</b> 분만 예정일 이후 2년까지<br><b>카드 발급처:</b> KB국민, 신한, 삼성, 롯데, 하나, BC카드 중 선택<br><b>잔액:</b> 출산 후 남은 금액은 2세 미만 영유아 의료비로 사용 가능 + 추가 20만원 자동 충전',url:'https://www.nhis.or.kr',links:[{t:'국민건강보험공단',u:'https://www.nhis.or.kr'},{t:'정부24 행복출산',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'}]},
+{id:'folic',cat:'pregnancy',sec:G,nm:'엽산제·철분제 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'보건소에서 엽산제·철분제 무료 제공 (엽산 3개월치, 철분 5개월치)',when:'임신 확인 후 즉시',how:'보건소 방문하여 임신 등록',cond:'보건소 등록',where:'관할 보건소',week:[5,20],docs:['임신확인서','신분증'],url:'https://www.e-health.go.kr'},
 {id:'prenatal',cat:'pregnancy',sec:G,nm:'산전검사 (초음파·기형아)',bg:'정부',bc:'bg-gov',amt:0,at:'무료/할인',type:'service',scope:'national',desc:'표준 산전검사 건강보험 적용',when:'임신 중',how:'보건소/산부인과',cond:'건강보험 가입',where:'보건소'},
 {id:'dental',cat:'pregnancy',sec:G,nm:'임산부 구강검진·스케일링',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'스케일링 건강보험 100% 적용',when:'임신 중',how:'치과 방문 (임신 고지)',cond:'건강보험 가입',where:'치과'},
-{id:'s_trans',cat:'pregnancy',sec:G,nm:'서울시 임산부 교통비',bg:'서울',bc:'bg-seoul',amt:70,type:'cash',scope:'seoul',desc:'대중교통·택시비 바우처 70만원',when:'임신 확인 후',how:'서울시 포털',cond:'서울 거주',where:'서울시 임산부 교통비 포털',url:'https://seoul-agi.seoul.go.kr'},
+{id:'s_trans',cat:'pregnancy',sec:G,nm:'서울시 임산부 교통비',bg:'서울',bc:'bg-seoul',amt:70,type:'cash',scope:'seoul',desc:'대중교통·택시비 바우처 70만원',when:'임신 3개월~출산 후 3개월 이내',how:'서울시 임산부 교통비 포털 온라인 신청',cond:'서울 6개월+ 거주',where:'서울시 임산부 교통비 포털',week:[12,40],docs:['임신확인서','주민등록등본(서울 6개월)','본인 신용/체크카드'],url:'https://seoul-agi.seoul.go.kr'},
 {id:'i_trans',cat:'pregnancy',sec:G,nm:'인천시 임산부 교통비',bg:'인천',bc:'bg-ich',amt:50,type:'cash',scope:'incheon',desc:'교통비 50만원 (인천e음)',when:'임신 12주~출산 후 90일',how:'인천e음 앱',cond:'인천 거주',where:'인천e음'},
 {id:'s_35',cat:'pregnancy',sec:G,nm:'35세 이상 임산부 의료비',bg:'서울',bc:'bg-seoul',amt:50,type:'cash',scope:'seoul',desc:'고령 임산부 추가 의료비 최대 50만원',when:'임신 중',how:'서울시 온라인',cond:'서울 거주, 만 35세 이상',where:'서울시 보건정책과',eligFn:p=>p.age1>=35||p.age2>=35,eligTxt:'만 35세 이상'},
-{id:'highrisk',cat:'pregnancy',sec:G,nm:'고위험 임산부 의료비',bg:'정부',bc:'bg-gov',amt:300,at:'최대 300만원',type:'cash',scope:'national',desc:'고위험 임신질환 입원 치료비',when:'해당 시',how:'보건소',cond:'고위험 진단, 소득기준',where:'보건소',note:'해당 시에만',url:'https://www.bokjiro.go.kr'},
+{id:'highrisk',cat:'pregnancy',sec:G,nm:'고위험 임산부 의료비',bg:'정부',bc:'bg-gov',amt:300,at:'최대 300만원',type:'cash',scope:'national',desc:'고위험 임신질환 입원 치료비',when:'해당 시',how:'보건소',cond:'고위험 진단, 소득기준 180% 이하',where:'보건소',note:'해당 시에만',eligFn:p=>p.medianPct<=180,eligTxt:'중위 180% 이하',url:'https://www.bokjiro.go.kr'},
 {id:'park_preg',cat:'pregnancy',sec:G,nm:'임산부 전용 주차구간',bg:'정부',bc:'bg-gov',amt:0,at:'법적 보장',type:'service',scope:'national',desc:'마트·공공시설 전용 주차 (위반 과태료 10만원)',when:'임신~영유아 동반',how:'임산부 표지 부착',cond:'임산부/만6세↓ 동반',where:'마트, 공공시설'},
 {id:'pink_seat',cat:'pregnancy',sec:G,nm:'지하철 임산부 배려석·핑크라이트',bg:'정부',bc:'bg-gov',amt:0,at:'배려석',type:'service',scope:'national',desc:'지하철 임산부석 + 핑크라이트 앱',when:'임신 중',how:'핑크라이트 앱 설치',cond:'임산부',where:'수도권 지하철'},
 {id:'gs_care',cat:'pregnancy',sec:G,nm:'강서구 임산부 가사돌봄',bg:'강서구',bc:'bg-gu',amt:0,at:'최대 10회',type:'service',scope:'district',dist:'강서구',city:'seoul',desc:'가사돌봄 서비스 최대 10회 파견',when:'임신~출산 후',how:'강서구 보건소',cond:'강서구 거주',where:'02-2600-5800'},
 // ── 출산 후 ──
-{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 후 60일 이내 신청 권장',how:'① 출생신고 (정부24 온라인 또는 주민센터) → ② 행복출산 원스톱서비스에서 첫만남이용권 신청 → ③ 국민행복카드로 바우처 지급',cond:'출생 신고 완료된 모든 출생아 (소득 무관)',where:'정부24, 주민센터',amtFn:p=>p.childN>=2?300:200,detail:'<b>지원금액:</b> 첫째 200만원 / 둘째 이상 300만원 (국민행복카드 바우처)<br><b>사용처:</b> 유아용품, 생필품, 식료품 등 (유흥·사행업소 제외)<br><b>사용기한:</b> 지급일로부터 1년<br><b>소득 기준:</b> 없음 (전 국민)<br><b>신청기한:</b> 출생일로부터 1년 이내 (60일 이내 권장)<br><b>동시 신청 가능:</b> 부모급여, 아동수당, 건강보험 자격취득 등 원스톱 신청',url:'https://www.gov.kr/portal/onestopSvc/happyBirth',links:[{t:'정부24 행복출산 원스톱',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'},{t:'복지로',u:'https://www.bokjiro.go.kr'}]},
-{id:'s_post',cat:'birth',sec:G,nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'산후조리 비용 (첫째 100만, 둘째 150만)',when:'출산 후 6개월 이내 신청',how:'① 서울아기 건강첫걸음 사이트 또는 보건소 방문 → ② 서울 거주 확인 → ③ 서울사랑상품권으로 지급',cond:'출산일 기준 서울 3개월 이상 거주 (소득 무관)',where:'서울아기 건강첫걸음, 보건소',amtFn:p=>p.childN>=2?150:100,detail:'<b>지원금액:</b> 첫째 100만원 / 둘째 150만원 / 셋째 이상 200만원<br><b>지급방식:</b> 서울사랑상품권 (전통시장·소상공인 사용)<br><b>소득 기준:</b> 없음 (전 서울시민)<br><b>거주 조건:</b> 출산일 기준 서울시 거주 3개월 이상 (주민등록 기준)<br><b>사용기한:</b> 발급일로부터 5년',url:'https://seoul-agi.seoul.go.kr',links:[{t:'서울아기 건강첫걸음',u:'https://seoul-agi.seoul.go.kr'},{t:'서울시 출산정보',u:'https://www.seoul.go.kr'}]},
+{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 후 60일 이내 신청 권장',how:'① 출생신고 (정부24 온라인 또는 주민센터) → ② 행복출산 원스톱서비스에서 첫만남이용권 신청 → ③ 국민행복카드로 바우처 지급',cond:'출생 신고 완료된 모든 출생아 (소득 무관)',where:'정부24, 주민센터',amtFn:p=>p.childN>=2?300:200,dl:{after:'birth',days:365,warn:60},docs:['출생신고서','부모 신분증'],detail:'<b>지원금액:</b> 첫째 200만원 / 둘째 이상 300만원 (국민행복카드 바우처)<br><b>사용처:</b> 유아용품, 생필품, 식료품 등 (유흥·사행업소 제외)<br><b>사용기한:</b> 지급일로부터 1년<br><b>소득 기준:</b> 없음 (전 국민)<br><b>신청기한:</b> 출생일로부터 1년 이내 (60일 이내 권장)<br><b>동시 신청 가능:</b> 부모급여, 아동수당, 건강보험 자격취득 등 원스톱 신청',url:'https://www.gov.kr/portal/onestopSvc/happyBirth',links:[{t:'정부24 행복출산 원스톱',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'},{t:'복지로',u:'https://www.bokjiro.go.kr'}]},
+{id:'s_post',cat:'birth',sec:G,nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'산후조리 비용 (첫째 100만, 둘째 150만)',when:'출산 후 6개월 이내 신청',how:'① 서울아기 건강첫걸음 사이트 또는 보건소 방문 → ② 서울 거주 확인 → ③ 서울사랑상품권으로 지급',cond:'출산일 기준 서울 3개월 이상 거주 (소득 무관)',where:'서울아기 건강첫걸음, 보건소',amtFn:p=>p.childN>=2?150:100,dl:{after:'birth',days:180,warn:30},docs:['출생증명서','주민등록등본(서울 3개월+)'],detail:'<b>지원금액:</b> 첫째 100만원 / 둘째 150만원 / 셋째 이상 200만원<br><b>지급방식:</b> 서울사랑상품권 (전통시장·소상공인 사용)<br><b>소득 기준:</b> 없음 (전 서울시민)<br><b>거주 조건:</b> 출산일 기준 서울시 거주 3개월 이상 (주민등록 기준)<br><b>사용기한:</b> 발급일로부터 5년',url:'https://seoul-agi.seoul.go.kr',links:[{t:'서울아기 건강첫걸음',u:'https://seoul-agi.seoul.go.kr'},{t:'서울시 출산정보',u:'https://www.seoul.go.kr'}]},
 {id:'i_post',cat:'birth',sec:G,nm:'인천 맘편한 산후조리비',bg:'인천',bc:'bg-ich',amt:150,type:'cash',scope:'incheon',desc:'취약계층 산후조리비 150만원',when:'출산 후',how:'인천e음, 보건소',cond:'인천 거주, 소득기준',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하'},
-{id:'post_care',cat:'birth',sec:G,nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 예정일 40일 전까지 사전 신청',how:'① 출산 40일 전 관할 보건소에 신청 → ② 소득 확인 후 승인 → ③ 출산 후 건강관리사 가정 방문',cond:'기준중위소득 150% 이하',where:'관할 보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',detail:'<b>소득 기준 (3인가구 150%):</b> 월 약 707만원 이하<br><b>서비스 내용:</b> 산모 건강관리(산후체조, 유방관리), 신생아 돌봄(목욕, 수유지원), 가사지원(산모 식사, 청소)<br><b>서비스 기간:</b> 첫째 5~15일, 둘째 10~20일, 셋째 이상 10~25일<br><b>본인부담금:</b> 소득 구간별 차등 (기초수급 면제 ~ 150% 이하 자부담 있음)<br><b>주의:</b> 출산 전 사전 신청 필수! 출산 후 신청 시 대기 길어질 수 있음',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 상세',u:'https://www.bokjiro.go.kr'},{t:'보건소 찾기',u:'https://www.e-health.go.kr'}]},
+{id:'post_care',cat:'birth',sec:G,nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 예정일 40일 전까지 사전 신청',how:'① 출산 40일 전 관할 보건소에 신청 → ② 소득 확인 후 승인 → ③ 출산 후 건강관리사 가정 방문',cond:'기준중위소득 150% 이하',where:'관할 보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',dl:{before:'birth',days:40,warn:60},week:[32,40],docs:['임신확인서','건강보험료 납부확인서'],detail:'<b>소득 기준 (3인가구 150%):</b> 월 약 707만원 이하<br><b>서비스 내용:</b> 산모 건강관리(산후체조, 유방관리), 신생아 돌봄(목욕, 수유지원), 가사지원(산모 식사, 청소)<br><b>서비스 기간:</b> 첫째 5~15일, 둘째 10~20일, 셋째 이상 10~25일<br><b>본인부담금:</b> 소득 구간별 차등 (기초수급 면제 ~ 150% 이하 자부담 있음)<br><b>주의:</b> 출산 전 사전 신청 필수! 출산 후 신청 시 대기 길어질 수 있음',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 상세',u:'https://www.bokjiro.go.kr'},{t:'보건소 찾기',u:'https://www.e-health.go.kr'}]},
 {id:'elec',cat:'birth',sec:G,nm:'전기요금 할인',bg:'정부',bc:'bg-gov',amt:57.6,at:'월1.6만×3년',type:'cash',scope:'national',desc:'전기요금 30% 할인 (3년간)',when:'출산 후',how:'한국전력공사',cond:'별도 신청 필수!',where:'KEPCO 앱'},
 {id:'gas',cat:'birth',sec:G,nm:'도시가스 요금 감면',bg:'정부',bc:'bg-gov',amt:0,at:'월4~6천원',type:'cash',scope:'national',desc:'도시가스 정액 감면',when:'출산 후',how:'도시가스 회사',cond:'별도 신청',where:'도시가스 고객센터'},
 {id:'s_water',cat:'birth',sec:G,nm:'서울 수도요금 감면',bg:'서울',bc:'bg-seoul',amt:0,at:'감면',type:'cash',scope:'seoul',desc:'상하수도 요금 감면',when:'출산 후',how:'수도사업소',cond:'서울 거주',where:'아리수 앱'},
@@ -302,18 +377,18 @@ const B=[
 {id:'metab',cat:'birth',sec:G,nm:'선천성 대사이상 검사',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'50여종 대사이상 선별검사',when:'출생 후 2~7일',how:'병원 자동',cond:'전원',where:'출생병원'},
 {id:'premature',cat:'birth',sec:G,nm:'미숙아·선천성이상아 의료비',bg:'정부',bc:'bg-gov',amt:0,at:'최대 1,000만+',type:'cash',scope:'national',desc:'미숙아/선천성이상 의료비',when:'퇴원 6개월 내',how:'보건소',cond:'해당 시, 소득기준',where:'보건소'},
 // ── 지원금/수당 ──
-{id:'parent_pay',cat:'money',sec:G,nm:'부모급여',bg:'정부',bc:'bg-gov',amt:1800,at:'0세 월100만+1세 월50만',type:'cash',scope:'national',desc:'총 24개월 약 1,800만원',when:'출생 후 60일 이내 신청 (소급 가능)',how:'① 출생신고 → ② 정부24 또는 복지로에서 부모급여 신청 → ③ 매월 25일 계좌 입금',cond:'만 0~1세 아동 (소득 무관, 전 국민)',where:'정부24, 복지로, 주민센터',detail:'<b>지원금액:</b> 만 0세 월 100만원 (12개월) + 만 1세 월 50만원 (12개월) = 총 1,800만원<br><b>소득 기준:</b> 없음 (전 국민)<br><b>지급일:</b> 매월 25일 (주말·공휴일 시 앞당겨 지급)<br><b>어린이집 이용 시:</b> 보육료 바우처로 지급, 부모급여와의 차액은 현금 지급<br><b>양육수당과 중복:</b> 부모급여 종료(만 2세) 후 양육수당으로 전환 가능<br><b>신청기한:</b> 출생 후 60일 이내 신청 시 출생일부터 소급 지급',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 부모급여',u:'https://www.bokjiro.go.kr'},{t:'정부24',u:'https://www.gov.kr'}]},
-{id:'child_al',cat:'money',sec:G,nm:'아동수당',bg:'정부',bc:'bg-gov',amt:960,at:'월10만×만8세',type:'cash',scope:'national',desc:'만 8세 미만 매월 10만원',when:'출생 후 매월',how:'정부24/복지로',cond:'만 8세 미만',where:'정부24',note:'60일 내 신청 시 소급',url:'https://www.gov.kr'},
+{id:'parent_pay',cat:'money',sec:G,nm:'부모급여',bg:'정부',bc:'bg-gov',amt:1800,at:'0세 월100만+1세 월50만',type:'cash',scope:'national',desc:'총 24개월 약 1,800만원',when:'출생 후 60일 이내 신청 (소급 가능)',how:'① 출생신고 → ② 정부24 또는 복지로에서 부모급여 신청 → ③ 매월 25일 계좌 입금',cond:'만 0~1세 아동 (소득 무관, 전 국민)',where:'정부24, 복지로, 주민센터',dl:{after:'birth',days:60,warn:30},docs:['출생신고 완료','주민등록등본'],recurring:{type:'parentPay',months:24},detail:'<b>지원금액:</b> 만 0세 월 100만원 (12개월) + 만 1세 월 50만원 (12개월) = 총 1,800만원<br><b>소득 기준:</b> 없음 (전 국민)<br><b>지급일:</b> 매월 25일 (주말·공휴일 시 앞당겨 지급)<br><b>어린이집 이용 시:</b> 보육료 바우처로 지급, 부모급여와의 차액은 현금 지급<br><b>양육수당과 중복:</b> 부모급여 종료(만 2세) 후 양육수당으로 전환 가능<br><b>신청기한:</b> 출생 후 60일 이내 신청 시 출생일부터 소급 지급',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 부모급여',u:'https://www.bokjiro.go.kr'},{t:'정부24',u:'https://www.gov.kr'}]},
+{id:'child_al',cat:'money',sec:G,nm:'아동수당',bg:'정부',bc:'bg-gov',amt:960,at:'월10만×만8세',type:'cash',scope:'national',desc:'만 8세 미만 매월 10만원',when:'출생 후 60일 이내 신청 (소급)',how:'정부24/복지로',cond:'만 8세 미만',where:'정부24',note:'60일 내 신청 시 소급',dl:{after:'birth',days:60,warn:30},docs:['출생신고','주민등록등본'],recurring:{type:'childAl',months:96},url:'https://www.gov.kr'},
 {id:'i_1040',cat:'money',sec:G,nm:'인천 천사(1040) 지원금',bg:'인천',bc:'bg-ich',amt:840,at:'연120만×7년',type:'cash',scope:'incheon',desc:'1~7세 연 120만원 = 총 840만원',when:'만 1세부터',how:'인천e음 앱',cond:'인천 거주 유지',where:'인천e음'},
 {id:'i_dream',cat:'money',sec:G,nm:'인천 아이꿈수당',bg:'인천',bc:'bg-ich',amt:1980,at:'월5만×8~18세',type:'cash',scope:'incheon',desc:'8~18세 월 5만원 = 총 1,980만원',when:'만 8세부터',how:'인천e음',cond:'인천 거주',where:'인천e음'},
 {id:'baby_med',cat:'money',sec:G,nm:'영유아 의료비 추가 (행복카드)',bg:'정부',bc:'bg-gov',amt:20,type:'cash',scope:'national',desc:'국민행복카드 추가 20만원',when:'출산 후 자동',how:'자동',cond:'2세 미만',where:'기존 카드'},
-{id:'grandp',cat:'money',sec:G,nm:'조부모 돌봄수당',bg:'정부',bc:'bg-gov',amt:0,at:'월 최대 60만',type:'cash',scope:'national',desc:'조부모 손자녀 돌봄 시',when:'해당 시',how:'아이돌봄서비스',cond:'소득 기준',where:'idolbom.go.kr',url:'https://www.idolbom.go.kr'},
+{id:'grandp',cat:'money',sec:G,nm:'조부모 돌봄수당',bg:'정부',bc:'bg-gov',amt:0,at:'월 최대 60만',type:'cash',scope:'national',desc:'조부모 손자녀 돌봄 시',when:'해당 시',how:'아이돌봄서비스',cond:'중위 150% 이하',where:'idolbom.go.kr',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',url:'https://www.idolbom.go.kr'},
 {id:'diaper',cat:'money',sec:G,nm:'기저귀·분유 지원 (저소득)',bg:'정부',bc:'bg-gov',amt:0,at:'월10~11만',type:'cash',scope:'national',desc:'기저귀+분유 월 최대 21.5만',when:'출생 후',how:'복지로/주민센터',cond:'기초수급·차상위',where:'복지로',eligFn:p=>p.medianPct<=50,eligTxt:'기초수급/차상위'},
 // ── 주거/대출 ──
-{id:'nb_mort',cat:'housing',sec:G,nm:'신생아 특례 주담대',bg:'정부',bc:'bg-gov',amt:0,at:'최대 5억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 파격 금리 주담대',when:'출산 후 2년 이내 (대출 실행 기준)',how:'① 출산 확인 → ② 시중은행(우리·국민·신한·하나·농협) 방문 → ③ 소득·자산 심사 → ④ 대출 실행',cond:'출산 2년 이내, 무주택 또는 1주택',where:'시중 5대 은행',detail:'<b>대출한도:</b> 최대 5억원 (LTV 70~80%)<br><b>금리:</b> 연 1.6~3.3% (소득·만기에 따라 차등)<br><b>소득 기준:</b> 부부합산 연소득 1.3억원 이하 (자산 4.69억원 이하)<br><b>대상 주택:</b> 주택가액 9억원 이하<br><b>추가 혜택:</b> 추가 출산 시 0.2%p 금리 인하 (최대 3회)<br><b>특례 기간:</b> 5년 (이후 시중금리 전환)<br><b>기존 대출 대환:</b> 가능 (타행 대출 갈아타기)',links:[{t:'주택도시기금 안내',u:'https://nhuf.molit.go.kr'},{t:'한국주택금융공사',u:'https://www.hf.go.kr'}]},
-{id:'nb_jeon',cat:'housing',sec:G,nm:'신생아 특례 전세대출',bg:'정부',bc:'bg-gov',amt:0,at:'최대 3억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 전세 금리 우대',when:'출산 후 2년',how:'시중은행',cond:'무주택, 소득기준',where:'시중은행',note:'기존 전세 대환 가능'},
+{id:'nb_mort',cat:'housing',sec:G,nm:'신생아 특례 주담대',bg:'정부',bc:'bg-gov',amt:0,at:'최대 5억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 파격 금리 주담대',when:'출산 후 2년 이내 (대출 실행 기준)',how:'① 출산 확인 → ② 시중은행(우리·국민·신한·하나·농협) 방문 → ③ 소득·자산 심사 → ④ 대출 실행',cond:'출산 2년 이내, 무주택 또는 1주택, 부부합산 연소득 1.3억 이하',where:'시중 5대 은행',eligFn:p=>(p.inc1+p.inc2)<=13000,eligTxt:'부부합산 연소득 1.3억 이하',detail:'<b>대출한도:</b> 최대 5억원 (LTV 70~80%)<br><b>금리:</b> 연 1.6~3.3% (소득·만기에 따라 차등)<br><b>소득 기준:</b> 부부합산 연소득 1.3억원 이하 (자산 4.69억원 이하)<br><b>대상 주택:</b> 주택가액 9억원 이하<br><b>추가 혜택:</b> 추가 출산 시 0.2%p 금리 인하 (최대 3회)<br><b>특례 기간:</b> 5년 (이후 시중금리 전환)<br><b>기존 대출 대환:</b> 가능 (타행 대출 갈아타기)',links:[{t:'주택도시기금 안내',u:'https://nhuf.molit.go.kr'},{t:'한국주택금융공사',u:'https://www.hf.go.kr'}]},
+{id:'nb_jeon',cat:'housing',sec:G,nm:'신생아 특례 전세대출',bg:'정부',bc:'bg-gov',amt:0,at:'최대 3억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 전세 금리 우대',when:'출산 후 2년 이내',how:'시중은행 방문 또는 주택도시기금 온라인 신청',cond:'출산 2년 이내, 무주택, 부부합산 연소득 1.3억 이하',where:'시중은행',eligFn:p=>(p.inc1+p.inc2)<=13000,eligTxt:'부부합산 연소득 1.3억 이하',detail:'<b>대출한도:</b> 최대 3억원<br><b>금리:</b> 연 1.1~3.0%<br><b>소득 기준:</b> 부부합산 연소득 1.3억원 이하 (자산 4.88억 이하)<br><b>대상 전세:</b> 보증금 5억원 이하 (수도권 5억, 지방 4억)<br><b>기존 전세 대환:</b> 가능<br><b>추가 출산 시:</b> 0.2%p 금리 인하',links:[{t:'주택도시기금',u:'https://nhuf.molit.go.kr'}]},
 {id:'nb_apt',cat:'housing',sec:G,nm:'신생아 특별공급 (청약)',bg:'정부',bc:'bg-gov',amt:0,at:'특별공급',type:'service',scope:'national',desc:'출산 2년 내 공공분양·임대 특공',when:'모집 공고 시',how:'청약홈',cond:'무주택 세대',where:'apply.lh.or.kr',url:'https://apply.lh.or.kr'},
-{id:'happy_h',cat:'housing',sec:G,nm:'행복주택 신혼·출산',bg:'정부',bc:'bg-gov',amt:0,at:'시세 60~80%',type:'service',scope:'national',desc:'신혼·출산 가구 공공임대',when:'모집 시',how:'LH/SH 신청',cond:'혼인 7년 또는 6세↓자녀',where:'LH 청약센터'},
+{id:'happy_h',cat:'housing',sec:G,nm:'행복주택 신혼·출산',bg:'정부',bc:'bg-gov',amt:0,at:'시세 60~80%',type:'service',scope:'national',desc:'신혼·출산 가구 공공임대',when:'모집공고 시',how:'LH/SH 청약',cond:'혼인 7년 또는 6세↓자녀, 중위소득 120% 이하',where:'LH 청약센터',eligFn:p=>p.medianPct<=120,eligTxt:'중위 120% 이하',detail:'<b>임대료:</b> 시세 60~80%<br><b>소득 기준:</b> 도시근로자 월평균소득 120% 이하 (맞벌이 140%)<br><b>거주 기간:</b> 최대 10년 (자녀 1명 이상 시 연장)<br><b>청약 사이트:</b> LH청약플러스, SH청약',links:[{t:'LH 청약플러스',u:'https://apply.lh.or.kr'},{t:'SH 청약시스템',u:'https://www.i-sh.co.kr'}]},
 // ── 직장/급여 ──
 {id:'mat_leave',cat:'work',sec:G,nm:'출산전후휴가 급여',bg:'정부',bc:'bg-gov',amt:660,at:'월최대220만×3개월',type:'cash',scope:'national',desc:'출산 전후 90일 휴가 급여',when:'출산 전후',how:'회사→고용보험',cond:'고용보험 가입',where:'ei.go.kr',url:'https://www.ei.go.kr'},
 {id:'sp_leave',cat:'work',sec:G,nm:'배우자 출산휴가',bg:'정부',bc:'bg-gov',amt:0,at:'20일 유급',type:'service',scope:'national',desc:'아빠 출산휴가 20일',when:'출산 전후',how:'회사 신청',cond:'근로자',where:'회사 인사팀'},
@@ -333,7 +408,7 @@ const B=[
 {id:'daycare',cat:'childcare',sec:G,nm:'어린이집 보육료 전액 지원',bg:'정부',bc:'bg-gov',amt:0,at:'전액',type:'service',scope:'national',desc:'만 0~5세 보육료 전액 정부 부담',when:'어린이집 입소 시',how:'복지로',cond:'어린이집 이용',where:'복지로',url:'https://www.bokjiro.go.kr'},
 {id:'checkup',cat:'childcare',sec:G,nm:'영유아 건강검진 (무료 7회)',bg:'정부',bc:'bg-gov',amt:0,at:'무료 7회',type:'service',scope:'national',desc:'4~72개월 건강검진+구강검진',when:'시기별',how:'건강보험공단→병원',cond:'전원',where:'지정 검진기관',note:'시기 놓치면 소멸!'},
 {id:'vaccine',cat:'childcare',sec:G,nm:'국가필수 예방접종 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'BCG, B형간염, DTaP 등 필수예방접종',when:'출생~만12세',how:'보건소/지정병원',cond:'전원',where:'보건소',url:'https://nip.kdca.go.kr'},
-{id:'care_svc',cat:'childcare',sec:G,nm:'아이돌봄 서비스',bg:'정부',bc:'bg-gov',amt:0,at:'시간당 지원',type:'service',scope:'national',desc:'아이돌보미 파견',when:'필요 시',how:'온라인 신청',cond:'만 12세↓, 소득별',where:'idolbom.go.kr',url:'https://www.idolbom.go.kr'},
+{id:'care_svc',cat:'childcare',sec:G,nm:'아이돌봄 서비스',bg:'정부',bc:'bg-gov',amt:0,at:'시간당 지원',type:'service',scope:'national',desc:'아이돌보미 파견 (시간당 1.2만원, 소득별 차등지원)',when:'필요 시',how:'온라인 신청',cond:'만 12세↓, 소득 무관 (지원율만 차등)',where:'idolbom.go.kr',detail:'<b>소득별 지원율:</b><br>• 기준중위 75% 이하(가형): 최대 90%<br>• 120% 이하(나형): 최대 60%<br>• 150% 이하(다형): 최대 20%<br>• 150% 초과(라형): 정부지원 없음 (본인부담 100%)<br><b>시간당 요금:</b> 약 12,180원',url:'https://www.idolbom.go.kr'},
 {id:'bookstart',cat:'childcare',sec:G,nm:'북스타트 (그림책 무료)',bg:'정부',bc:'bg-gov',amt:0,at:'무료 책',type:'service',scope:'national',desc:'영유아 그림책 꾸러미 무료 배포',when:'영유아기',how:'도서관 방문',cond:'영유아',where:'공공도서관'},
 {id:'toy_lib',cat:'childcare',sec:G,nm:'육아종합지원센터',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'장난감 대여, 부모교육, 놀이체험',when:'수시',how:'방문/온라인',cond:'영유아 가정',where:'시군구 센터',url:'https://central.childcare.go.kr'},
 {id:'nat_park',cat:'childcare',sec:G,nm:'국립공원 6세↓ 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'국립공원 만 6세 이하 무료 입장',when:'방문 시',how:'현장',cond:'만 6세 이하',where:'전국 국립공원'},
@@ -355,7 +430,7 @@ const B=[
 {id:'maeil',cat:'shopping',sec:P,nm:'매일유업 맘마밀 산모교실',bg:'매일유업',bc:'bg-life',amt:0,at:'무료+선물',type:'service',scope:'national',desc:'전국 무료 산모교실, 분유·이유식 샘플 증정',when:'임신 중',how:'앱솔루트 맘스쿨 앱',cond:'임산부',where:'매일유업',url:'https://www.maeil.com'},
 {id:'huggies',cat:'shopping',sec:P,nm:'하기스 베이비박스 (무료 샘플)',bg:'하기스',bc:'bg-life',amt:0,at:'무료 샘플',type:'service',scope:'national',desc:'임산부 인증 시 신생아 기저귀 샘플 무료 배송',when:'임신 중~출산 후',how:'하기스 앱/웹 신청',cond:'임산부/신생아 부모',where:'하기스',url:'https://www.huggies.co.kr'},
 // ── 보험/금융 ──
-{id:'tai_ins',cat:'finance',sec:P,nm:'태아보험 (가입 권장)',bg:'보험사',bc:'bg-life',amt:0,at:'가입 권장',type:'service',scope:'national',desc:'선천이상·인큐베이터·저체중아 보장. 임신 16~22주가 적기!',when:'임신 16~22주 (22주 이후 보장 축소)',how:'① 보험사 또는 보험비교 사이트에서 상담 → ② 임신 주수 확인 후 가입 → ③ 출산 후 어린이보험으로 자동 전환',cond:'임산부 (임신 16~22주 가입 권장)',where:'현대해상·삼성·한화·DB·KB 등',detail:'<b>가입 적기:</b> 임신 16~22주 (22주 이후 선천이상 보장 제한)<br><b>주요 보장:</b> 선천이상 수술비, 인큐베이터 입원비, 저체중아 보장, 신생아 질병/수술<br><b>자동 전환:</b> 출생 후 어린이보험으로 자동 전환 (별도 가입 불필요)<br><b>보험료 공제:</b> 연말정산 시 보장성 보험료 12% 세액공제 (연 100만원 한도)<br><b>추천 보험사:</b> 현대해상 굿앤굿 / 삼성화재 / DB손보 프로미라이프 / 한화손보',links:[{t:'보험다모아 (금감원)',u:'https://www.e-insmarket.or.kr'}]},
+{id:'tai_ins',cat:'finance',sec:P,nm:'태아보험 (가입 권장)',bg:'보험사',bc:'bg-life',amt:0,at:'가입 권장',type:'service',scope:'national',desc:'선천이상·인큐베이터·저체중아 보장. 임신 16~22주가 적기!',when:'임신 16~22주 (22주 이후 보장 축소)',how:'① 보험사 또는 보험비교 사이트에서 상담 → ② 임신 주수 확인 후 가입 → ③ 출산 후 어린이보험으로 자동 전환',cond:'임산부 (임신 16~22주 가입 권장)',where:'현대해상·삼성·한화·DB·KB 등',week:[16,22],detail:'<b>가입 적기:</b> 임신 16~22주 (22주 이후 선천이상 보장 제한)<br><b>주요 보장:</b> 선천이상 수술비, 인큐베이터 입원비, 저체중아 보장, 신생아 질병/수술<br><b>자동 전환:</b> 출생 후 어린이보험으로 자동 전환 (별도 가입 불필요)<br><b>보험료 공제:</b> 연말정산 시 보장성 보험료 12% 세액공제 (연 100만원 한도)<br><b>추천 보험사:</b> 현대해상 굿앤굿 / 삼성화재 / DB손보 프로미라이프 / 한화손보',links:[{t:'보험다모아 (금감원)',u:'https://www.e-insmarket.or.kr'}]},
 {id:'bank_save',cat:'finance',sec:P,nm:'신생아 우대금리 적금',bg:'시중은행',bc:'bg-life',amt:0,at:'금리 0.5~1%p↑',type:'service',scope:'national',desc:'출산가정 대상 적금 금리 우대',when:'출산 후',how:'은행 앱에서 "출산/아이" 검색',cond:'출산가정',where:'KB·신한·하나·우리은행'},
 {id:'card_baby',cat:'finance',sec:P,nm:'육아 특화 카드 (국민행복카드)',bg:'카드사',bc:'bg-life',amt:0,at:'추가 할인',type:'service',scope:'national',desc:'국민행복카드에 카드사별 육아용품·병원비 추가 할인/적립',when:'임신 확인 후',how:'카드사 앱',cond:'국민행복카드 발급',where:'KB·신한·삼성·롯데카드'},
 // ── 레저/문화 ──
@@ -372,6 +447,58 @@ const B=[
 // ── 앱/서비스 ──
 {id:'babybilly',cat:'telecom',sec:P,nm:'베이비빌리 앱 (임신·육아)',bg:'베이비빌리',bc:'bg-life',amt:0,at:'무료 앱',type:'service',scope:'national',desc:'임신 주차별 정보, D-Day, 진통 타이머, 수유 기록',when:'임신 확인 후',how:'앱스토어 다운로드',cond:'누구나',where:'베이비빌리',url:'https://www.babybilly.co.kr'},
 {id:'kidsnote',cat:'telecom',sec:P,nm:'키즈노트 (어린이집 알림장)',bg:'키즈노트',bc:'bg-life',amt:0,at:'무료 앱',type:'service',scope:'national',desc:'어린이집 알림장, 출결·식단·활동사진 공유',when:'어린이집 입소 시',how:'앱 다운로드',cond:'어린이집 이용',where:'키즈노트',url:'https://www.kidsnote.com'},
+// ── 민간: 항공사 추가 ──
+{id:'air_jin',cat:'airline',sec:P,nm:'진에어 유아 할인',bg:'진에어',bc:'bg-life',amt:0,at:'국내선 무료',type:'service',scope:'national',desc:'2세↓ 국내선 무료, 국제선 성인의 10%. 유모차 무료 위탁',when:'항공 이용 시',how:'예약 시 유아 등록',cond:'만 2세 미만',where:'진에어',url:'https://www.jinair.com'},
+{id:'air_tway',cat:'airline',sec:P,nm:'티웨이 유아 할인',bg:'티웨이',bc:'bg-life',amt:0,at:'국내선 무료',type:'service',scope:'national',desc:'2세↓ 국내선 무료, 국제선 10%',when:'항공 이용 시',how:'예약 시',cond:'만 2세 미만',where:'티웨이항공',url:'https://www.twayair.com'},
+{id:'air_bx',cat:'airline',sec:P,nm:'에어부산·에어서울 유아',bg:'에어부산',bc:'bg-life',amt:0,at:'국내선 무료',type:'service',scope:'national',desc:'2세↓ 국내선 무료, 유모차 위탁',when:'항공 이용 시',how:'예약 시',cond:'만 2세 미만',where:'에어부산·에어서울',url:'https://www.airbusan.com'},
+// ── 민간: 쇼핑 추가 ──
+{id:'kurly',cat:'shopping',sec:P,nm:'마켓컬리 새벽배송',bg:'컬리',bc:'bg-life',amt:0,at:'이유식 특가',type:'service',scope:'national',desc:'이유식·유아 간식·유기농 식재료 새벽배송',when:'수시',how:'컬리 앱',cond:'누구나',where:'마켓컬리',url:'https://www.kurly.com'},
+{id:'ssg_shop',cat:'shopping',sec:P,nm:'SSG닷컴 맘키즈 전문관',bg:'SSG',bc:'bg-life',amt:0,at:'할인+새벽배송',type:'service',scope:'national',desc:'육아용품 전문 카테고리, 신세계·이마트 연계 할인',when:'수시',how:'SSG 앱',cond:'누구나',where:'SSG닷컴',url:'https://www.ssg.com'},
+{id:'naver_plus',cat:'shopping',sec:P,nm:'네이버플러스 멤버십',bg:'네이버',bc:'bg-life',amt:0,at:'최대 5% 적립',type:'service',scope:'national',desc:'출산/육아 기획전, 브랜드스토어 쿠폰, 최대 5% 적립',when:'가입 시',how:'네이버 멤버십 가입',cond:'네이버 회원',where:'네이버쇼핑',url:'https://plus.naver.com'},
+{id:'costco',cat:'shopping',sec:P,nm:'코스트코 육아용품 (커클랜드)',bg:'코스트코',bc:'bg-life',amt:0,at:'대용량 특가',type:'service',scope:'national',desc:'커클랜드 기저귀/분유 가성비 최강. 대용량 구매',when:'수시',how:'회원가입',cond:'회원제',where:'코스트코',url:'https://www.costco.co.kr'},
+{id:'cu_gs',cat:'shopping',sec:P,nm:'CU/GS25 기저귀 구독',bg:'CU/GS25',bc:'bg-life',amt:0,at:'편의점 구독',type:'service',scope:'national',desc:'편의점 앱에서 기저귀·분유 구독 할인',when:'필요 시',how:'CU·GS25 앱',cond:'누구나',where:'CU·GS25',url:'https://www.cu.co.kr'},
+// ── 분유/유아용품 추가 ──
+{id:'ildong',cat:'shopping',sec:P,nm:'일동후디스 산모교실',bg:'일동후디스',bc:'bg-life',amt:0,at:'무료+선물',type:'service',scope:'national',desc:'무료 산모교실, 분유·이유식 샘플 증정',when:'임신 중',how:'후디스몰 가입',cond:'임산부',where:'일동후디스',url:'https://www.ildong-hoodis.co.kr'},
+{id:'absolute',cat:'shopping',sec:P,nm:'앱솔루트 맘스쿨',bg:'앱솔루트',bc:'bg-life',amt:0,at:'무료 교육+샘플',type:'service',scope:'national',desc:'임산부 교육 프로그램, 샘플 박스, 성장 기록 앱',when:'임신 중',how:'앱솔루트 맘스쿨 앱',cond:'임산부',where:'매일유업 앱솔루트',url:'https://www.maeil.com'},
+{id:'bosomi',cat:'shopping',sec:P,nm:'보솜이 (깨끗한나라) 샘플',bg:'보솜이',bc:'bg-life',amt:0,at:'무료 샘플',type:'service',scope:'national',desc:'기저귀 무료 샘플 이벤트 수시 진행',when:'이벤트 시',how:'보솜이 웹사이트/앱',cond:'임산부/신생아 부모',where:'보솜이',url:'https://www.bosomi.co.kr'},
+{id:'daichi',cat:'shopping',sec:P,nm:'다이치·순성 카시트 할인',bg:'카시트',bc:'bg-life',amt:0,at:'출산축하 할인',type:'service',scope:'national',desc:'출산 축하 카시트 구매 할인 이벤트 수시',when:'출산 전후',how:'브랜드 공식몰',cond:'신생아',where:'다이치·순성·맥시코시·브리택스'},
+// ── 보험/금융 추가 ──
+{id:'hyundai_ins',cat:'finance',sec:P,nm:'현대해상 굿앤굿 어린이보험',bg:'현대해상',bc:'bg-life',amt:0,at:'점유율 1위',type:'service',scope:'national',desc:'태아보험 시장 점유율 1위. 선천이상/저체중아/인큐베이터 보장',when:'임신 16~22주',how:'현대해상 상담',cond:'임산부',where:'현대해상',url:'https://www.hi.co.kr'},
+{id:'samsung_ins',cat:'finance',sec:P,nm:'삼성화재 태아보험',bg:'삼성화재',bc:'bg-life',amt:0,at:'가입',type:'service',scope:'national',desc:'선천이상·신생아 질병/수술 보장',when:'임신 16~22주',how:'삼성화재 상담',cond:'임산부',where:'삼성화재',url:'https://www.samsungfire.com'},
+{id:'db_ins',cat:'finance',sec:P,nm:'DB 프로미라이프 태아보험',bg:'DB손보',bc:'bg-life',amt:0,at:'가입',type:'service',scope:'national',desc:'선천이상/저체중아/주산기 질환 보장, 어린이보험 전환',when:'임신 16~22주',how:'DB손보 상담',cond:'임산부',where:'DB손해보험',url:'https://www.idbins.com'},
+{id:'car_ins',cat:'finance',sec:P,nm:'자동차보험 자녀할인 특약',bg:'손보사',bc:'bg-life',amt:0,at:'1~3% 할인',type:'service',scope:'national',desc:'어린 자녀 보유 시 자동차보험 할인 (대부분 손보사)',when:'자동차보험 갱신 시',how:'보험사 상담',cond:'영유아 자녀',where:'삼성·현대·DB·KB·메리츠 손보'},
+{id:'kb_baby',cat:'finance',sec:P,nm:'KB국민카드 아이행복카드',bg:'KB',bc:'bg-life',amt:0,at:'어린이집 할인',type:'service',scope:'national',desc:'어린이집/유아용품/소아과 할인 및 적립',when:'가입 시',how:'KB카드 앱',cond:'KB카드 회원',where:'KB국민카드',url:'https://www.kbcard.com'},
+{id:'shinhan_baby',cat:'finance',sec:P,nm:'신한카드 베이비 혜택',bg:'신한',bc:'bg-life',amt:0,at:'육아용품 할인',type:'service',scope:'national',desc:'육아 업종 할인/캐시백, 교육비 할인',when:'가입 시',how:'신한카드 앱',cond:'신한카드 회원',where:'신한카드',url:'https://www.shinhancard.com'},
+{id:'samsung_mom',cat:'finance',sec:P,nm:'삼성카드 맘카드',bg:'삼성',bc:'bg-life',amt:0,at:'병원·학원 할인',type:'service',scope:'national',desc:'소아과·유아용품·학원비 할인',when:'가입 시',how:'삼성카드 앱',cond:'삼성카드 회원',where:'삼성카드',url:'https://www.samsungcard.com'},
+{id:'kb_save',cat:'finance',sec:P,nm:'KB아이사랑적금',bg:'KB국민은행',bc:'bg-life',amt:0,at:'우대금리',type:'service',scope:'national',desc:'출산 축하 우대금리 + 자녀수 추가 금리',when:'출산 후',how:'KB스타뱅킹',cond:'출산 가정',where:'KB국민은행',url:'https://www.kbstar.com'},
+{id:'wr_save',cat:'finance',sec:P,nm:'우리은행 아이사랑 적금',bg:'우리',bc:'bg-life',amt:0,at:'우대금리',type:'service',scope:'national',desc:'출산/육아 가정 우대금리 적금',when:'출산 후',how:'우리WON뱅킹',cond:'출산 가정',where:'우리은행',url:'https://www.wooribank.com'},
+// ── 레저/숙박 추가 ──
+{id:'seoul_land',cat:'leisure',sec:P,nm:'서울랜드 36개월↓ 무료',bg:'서울랜드',bc:'bg-life',amt:0,at:'무료 입장',type:'service',scope:'national',desc:'만 36개월 미만 무료, 비교적 저렴한 입장료',when:'방문 시',how:'현장',cond:'36개월 미만',where:'서울랜드',url:'https://www.seoulland.co.kr'},
+{id:'aqua',cat:'leisure',sec:P,nm:'아쿠아플라넷·롯데월드 아쿠아리움',bg:'아쿠아리움',bc:'bg-life',amt:0,at:'36개월↓ 무료',type:'service',scope:'national',desc:'36개월 미만 무료 입장 (대부분 수족관)',when:'방문 시',how:'현장',cond:'36개월 미만',where:'아쿠아플라넷·코엑스·롯데월드'},
+{id:'shilla_r',cat:'leisure',sec:P,nm:'제주 신라호텔 키즈 프로그램',bg:'신라호텔',bc:'bg-life',amt:0,at:'키즈 라운지',type:'service',scope:'national',desc:'키즈 라운지, 수영장 키즈존, 체험 프로그램',when:'예약 시',how:'온라인 예약',cond:'영유아 동반',where:'제주 신라호텔',url:'https://www.shillahotels.com'},
+{id:'daemyung',cat:'leisure',sec:P,nm:'대명소노 키즈 패키지',bg:'대명소노',bc:'bg-life',amt:0,at:'키즈룸',type:'service',scope:'national',desc:'키즈룸, 비발디파크 오션월드 키즈존',when:'예약 시',how:'온라인 예약',cond:'영유아 동반',where:'소노호텔&리조트',url:'https://www.sonohotelsresorts.com'},
+{id:'marriott',cat:'leisure',sec:P,nm:'메리어트·힐튼 키즈 무료 투숙',bg:'글로벌 호텔',bc:'bg-life',amt:0,at:'12세↓ 무료',type:'service',scope:'national',desc:'만 12세 미만 기존 침대 사용 시 무료 투숙',when:'예약 시',how:'호텔 예약',cond:'만 12세 미만',where:'메리어트·힐튼·하얏트'},
+{id:'megabox',cat:'leisure',sec:P,nm:'롯데시네마·메가박스 키즈관',bg:'영화관',bc:'bg-life',amt:0,at:'키즈 전용관',type:'service',scope:'national',desc:'일부 지점 키즈 전용관 (낮은 의자, 놀이공간)',when:'상영 시',how:'앱에서 확인',cond:'영유아 동반',where:'롯데시네마·메가박스',url:'https://www.lottecinema.co.kr'},
+{id:'kidscafe',cat:'leisure',sec:P,nm:'키즈카페 (플레이즈·짐보리)',bg:'키즈카페',bc:'bg-life',amt:0,at:'부모 무료',type:'service',scope:'national',desc:'전국 키즈카페 체인. 36개월↓ 할인, 부모 카페 공간',when:'수시',how:'현장/앱 예약',cond:'영유아',where:'전국 키즈카페'},
+// ── 통신 추가 ──
+{id:'skt_kids',cat:'telecom',sec:P,nm:'SKT T키즈폰',bg:'SKT',bc:'bg-life',amt:0,at:'키즈 요금제',type:'service',scope:'national',desc:'자녀 키즈폰 요금제, 자녀 위치 확인, T멤버십 제휴 할인',when:'가입 시',how:'T다이렉트샵',cond:'SKT 회원',where:'SKT',url:'https://www.tworld.co.kr'},
+{id:'kt_kids',cat:'telecom',sec:P,nm:'KT 키즈랜드/Y박스',bg:'KT',bc:'bg-life',amt:0,at:'키즈 콘텐츠',type:'service',scope:'national',desc:'키즈 콘텐츠, 자녀 위치 확인, 키즈폰',when:'가입 시',how:'KT샵',cond:'KT 회원',where:'KT',url:'https://www.kt.com'},
+// ── 자동차/이동 ──
+{id:'hyundai_car',cat:'finance',sec:P,nm:'현대·기아 가족 SUV 프로모션',bg:'현대/기아',bc:'bg-life',amt:0,at:'패밀리 할인',type:'service',scope:'national',desc:'카니발·팰리세이드·쏘렌토 등 가족용 차량 프로모션 수시',when:'구매 시',how:'대리점 상담',cond:'다자녀/출산 가정',where:'현대차·기아',url:'https://www.hyundai.com'},
+{id:'socar',cat:'finance',sec:P,nm:'쏘카 패밀리 할인',bg:'쏘카',bc:'bg-life',amt:0,at:'쿠폰 이벤트',type:'service',scope:'national',desc:'카시트 장착 차량, 가족 이용 쿠폰',when:'수시',how:'쏘카 앱',cond:'쏘카 회원',where:'쏘카',url:'https://www.socar.kr'},
+// ── 앱/서비스 추가 ──
+{id:'mamitok',cat:'telecom',sec:P,nm:'마미톡 (영상 태교·육아)',bg:'마미톡',bc:'bg-life',amt:0,at:'무료 앱',type:'service',scope:'national',desc:'초음파 영상, 태교, 지역 커뮤니티, 병원 정보',when:'임신 중',how:'앱 다운로드',cond:'누구나',where:'마미톡'},
+{id:'pink_app',cat:'telecom',sec:P,nm:'핑크라이트 앱',bg:'핑크라이트',bc:'bg-life',amt:0,at:'무료 앱',type:'service',scope:'national',desc:'지하철 임산부 배려석 비콘. 주변 승객에게 자동 알림',when:'임신 중',how:'앱 설치',cond:'임산부',where:'서울·수도권'},
+{id:'goodoc',cat:'telecom',sec:P,nm:'굿닥·닥터나우 (비대면 진료)',bg:'굿닥',bc:'bg-life',amt:0,at:'비대면 진료',type:'service',scope:'national',desc:'산부인과/소아과 예약, 비대면 진료, 야간 상담',when:'필요 시',how:'앱 다운로드',cond:'누구나',where:'굿닥·닥터나우'},
+{id:'danggeun',cat:'shopping',sec:P,nm:'당근마켓 육아용품 중고',bg:'당근',bc:'bg-life',amt:0,at:'중고 거래',type:'service',scope:'national',desc:'유모차·카시트·아기옷 활발한 중고 거래',when:'수시',how:'당근 앱',cond:'누구나',where:'당근마켓',url:'https://www.daangn.com'},
+// ── 외식/카페 ──
+{id:'starbucks',cat:'shopping',sec:P,nm:'스타벅스 디카페인 음료',bg:'스타벅스',bc:'bg-life',amt:0,at:'디카페인',type:'service',scope:'national',desc:'임산부용 디카페인 음료 라인업, 하이체어 비치',when:'수시',how:'매장 방문',cond:'누구나',where:'스타벅스'},
+{id:'mcdonald',cat:'shopping',sec:P,nm:'맥도날드 해피밀',bg:'맥도날드',bc:'bg-life',amt:0,at:'어린이 세트',type:'service',scope:'national',desc:'해피밀 장난감 포함, 일부 매장 키즈존',when:'수시',how:'매장',cond:'어린이',where:'맥도날드'},
+// ── 가전/렌탈 ──
+{id:'coway',cat:'shopping',sec:P,nm:'코웨이·청호 정수기 렌탈',bg:'코웨이',bc:'bg-life',amt:0,at:'렌탈 할인',type:'service',scope:'national',desc:'출산 가정 정수기·공기청정기·비데 렌탈 할인',when:'수시',how:'영업 상담',cond:'신규 가입',where:'코웨이·청호나이스·SK매직'},
+{id:'samsung_app',cat:'shopping',sec:P,nm:'삼성·LG 가전 패키지',bg:'삼성/LG',bc:'bg-life',amt:0,at:'패키지 할인',type:'service',scope:'national',desc:'공기청정기·건조기·식기세척기 육아 필수 가전 패키지',when:'매장 방문 시',how:'삼성스토어/LG베스트샵',cond:'누구나',where:'전국 매장'},
+// ── OTT/구독 ──
+{id:'ott_family',cat:'telecom',sec:P,nm:'OTT 가족 요금제 (넷플릭스 등)',bg:'OTT',bc:'bg-life',amt:0,at:'프리미엄',type:'service',scope:'national',desc:'넷플릭스·디즈니+·웨이브·티빙 가족 동시 시청',when:'가입 시',how:'앱',cond:'가족 구성원',where:'각 OTT'},
 ];
 
 const CATS=[
@@ -538,10 +665,119 @@ function cardVisible(b,elig){
 function setSt(st,el){curSt=st;document.querySelectorAll('.st-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 function setSec(sec,el){curSec=sec;document.querySelectorAll('.sec-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
+// ===== Deadline/Week Logic =====
+function getPregWeek(p){
+  if(!p.due)return 0;
+  const dd=new Date(p.due);const today=new Date();
+  const lmp=new Date(dd);lmp.setDate(lmp.getDate()-280);
+  return Math.floor((today-lmp)/(864e5*7));
+}
+function getDaysFromBirth(p){
+  if(!p.due)return null;
+  const dd=new Date(p.due);const today=new Date();
+  return Math.floor((today-dd)/864e5); // 음수면 출산 전
+}
+function getDeadlineInfo(b,p){
+  if(!b.dl||!p.due)return null;
+  const dfb=getDaysFromBirth(p);
+  if(dfb===null)return null;
+  let daysLeft;
+  if(b.dl.after==='birth'){
+    daysLeft=b.dl.days-dfb;
+  }else if(b.dl.before==='birth'){
+    daysLeft=-dfb-b.dl.days; // 출산 40일 전 = dfb가 -40일때 기한
+  }
+  if(daysLeft===undefined)return null;
+  const warn=b.dl.warn||30;
+  let lvl='g';
+  if(daysLeft<0)lvl='r';
+  else if(daysLeft<=warn)lvl='o';
+  return {daysLeft,lvl};
+}
+function getWeekInfo(b,p){
+  if(!b.week||!p.due)return null;
+  const wk=getPregWeek(p);
+  if(wk<=0||wk>45)return null;
+  const [s,e]=b.week;
+  if(wk>=s&&wk<=e)return {match:true,wk,s,e};
+  if(wk<s)return {match:false,upcoming:true,wk,s,e};
+  return null;
+}
+
 // ===== Render =====
 function render(){
   const vis=getVisible();const p=getProfile();
-  renderFilters(vis);renderCards(vis,p);renderTL();updateSum(vis,p);
+  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderCards(vis,p);renderTL();updateSum(vis,p);
+}
+
+function renderDashboard(vis,p){
+  const d=document.getElementById('actDash');
+  if(!p.due){d.style.display='none';return;}
+  const wk=getPregWeek(p);
+  const dfb=getDaysFromBirth(p);
+  const items=[];
+  vis.forEach(b=>{
+    if(S[b.id]?.checked)return;
+    if(checkElig(b,p)==='inelig')return;
+    const dl=getDeadlineInfo(b,p);
+    const wki=getWeekInfo(b,p);
+    if(dl&&dl.lvl!=='g'){
+      items.push({b,lvl:dl.lvl,ddTxt:dl.daysLeft<0?`기한 ${Math.abs(dl.daysLeft)}일 경과`:`D-${dl.daysLeft}`,reason:'신청 기한'});
+    }else if(wki&&wki.match){
+      items.push({b,lvl:'ok',ddTxt:`임신 ${wki.wk}주차 (적기 ${wki.s}~${wki.e}주)`,reason:'지금이 적기'});
+    }
+  });
+  items.sort((a,b)=>{const o={r:0,o:1,ok:2,g:3};return o[a.lvl]-o[b.lvl];});
+  const top=items.slice(0,5);
+  document.getElementById('actdSub').textContent=wk>0?`임신 ${wk}주차`:dfb>=0?`출산 ${dfb}일째`:`D-${-dfb}`;
+  if(!top.length){document.getElementById('actdList').innerHTML='<div class="actd-empty">지금 긴급한 혜택은 없어요 ✨</div>';}
+  else{
+    document.getElementById('actdList').innerHTML=top.map(x=>{
+      const cls=x.lvl==='r'?'urg':x.lvl==='o'?'warn':'ok';
+      const ddC=x.lvl==='r'?'r':x.lvl==='o'?'o':'g';
+      const ic=x.lvl==='r'?'🚨':x.lvl==='o'?'⏰':'✨';
+      return `<div class="actd-item ${cls}" onclick="jumpTo('${x.b.id}')"><div class="actd-ic">${ic}</div><div class="actd-info"><div class="actd-name">${x.b.nm}</div><div class="actd-dd ${ddC}">${x.ddTxt} · ${x.reason}</div><div class="actd-desc">${x.b.desc}</div></div></div>`;
+    }).join('');
+  }
+  d.style.display='';
+}
+
+function renderCalendar(vis,p){
+  const w=document.getElementById('calWrap');
+  if(!p.due){w.style.display='none';return;}
+  const dd=new Date(p.due);
+  const months=[];
+  for(let i=0;i<24;i++){
+    const mo=new Date(dd.getFullYear(),dd.getMonth()+i,1);
+    let amt=0;
+    // 부모급여: 0~11개월=월100만, 12~23개월=월50만
+    if(i<12)amt+=100; else if(i<24)amt+=50;
+    // 아동수당: 전 기간 월 10만
+    amt+=10;
+    months.push({mo,amt,isBirth:i===0});
+  }
+  const tot=months.reduce((s,m)=>s+m.amt,0);
+  document.getElementById('calSum').textContent=`부모급여 + 아동수당`;
+  document.getElementById('calTot').textContent=tot.toLocaleString();
+  document.getElementById('calGrid').innerHTML=months.map(m=>{
+    const lbl=`${m.mo.getFullYear()%100}.${(m.mo.getMonth()+1).toString().padStart(2,'0')}`;
+    return `<div class="cal-m ${m.isBirth?'birth':'has'}" title="${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월"><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
+  }).join('');
+  w.style.display='';
+}
+
+function jumpTo(id){
+  const el=document.querySelector(`[data-id="${id}"]`);
+  if(!el)return;
+  // 카테고리 펼치기
+  const cat=B.find(x=>x.id===id)?.cat;
+  if(cat){S['_col_'+cat]=false;}
+  if(!S[id])S[id]={};S[id].expanded=true;
+  render();
+  setTimeout(()=>{
+    const el2=document.querySelector(`[data-id="${id}"]`);
+    if(el2)el2.scrollIntoView({behavior:'smooth',block:'center'});
+  },100);
 }
 
 function renderFilters(vis){
@@ -579,7 +815,7 @@ function renderCards(vis,p){
         <div class="bt">
           <div class="bchk ${ck?'ck':''}" onclick="togCk('${b.id}')">✓</div>
           <div class="bi">
-            <div class="bn">${b.nm}<span class="bb ${b.bc}">${b.bg}</span>${inelig?`<span class="inelig-tag">대상 아님${b.eligTxt?' · '+b.eligTxt:''}</span>`:''}</div>
+            <div class="bn">${b.nm}<span class="bb ${b.bc}">${b.bg}</span>${inelig?`<span class="inelig-tag">대상 아님${b.eligTxt?' · '+b.eligTxt:''}</span>`:''}${(()=>{const dl=getDeadlineInfo(b,p);if(!dl||dl.lvl==='g'||ck)return '';const txt=dl.daysLeft<0?`⚠️ 기한 ${Math.abs(dl.daysLeft)}일 경과`:`⏰ D-${dl.daysLeft}`;const col=dl.lvl==='r'?'#E74C3C':'#F39C12';return `<span class="bb" style="background:${col};color:#fff">${txt}</span>`;})()}</div>
             <div class="ba ${b.type==='service'?'svc':''}">${amtD}</div>
             <div class="bd">${b.desc}</div>
             <button class="bexp" onclick="togExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>
@@ -593,6 +829,7 @@ function renderCards(vis,p){
                 ${b.note?`<div class="dr"><span class="dl">참고</span><span>${b.note}</span></div>`:''}
               </div>
               ${b.detail?`<div class="det-section"><div class="det-title">📌 상세 내용</div><div class="det-highlight">${b.detail}</div></div>`:''}
+              ${b.docs?`<div class="det-section"><div class="det-title">📄 준비 서류</div><div class="doc-list">${b.docs.map(d=>`<span class="doc-tag">${d}</span>`).join('')}</div></div>`:''}
               ${b.links||b.url?`<div class="det-section"><div class="det-title">🔗 관련 링크</div><div class="det-links">${(b.links||[{t:'공식 사이트',u:b.url}]).map(l=>`<a class="b-link" href="${l.u}" target="_blank">${l.t} →</a>`).join('')}</div></div>`:''}
             </div>
           </div>
@@ -653,6 +890,37 @@ function rstData(){if(!confirm('모든 데이터를 초기화할까요?'))return
 
 window.addEventListener('beforeunload',()=>{if(svT){clearTimeout(svT);S._lastSaved=Date.now();localStorage.setItem(SK,JSON.stringify(S));}});
 
+// ===== Share =====
+function openShare(){
+  const data=JSON.stringify(S);
+  const enc=btoa(unescape(encodeURIComponent(data)));
+  const url=location.origin+location.pathname+'#d='+enc;
+  document.getElementById('shareUrl').textContent=url;
+  document.getElementById('shareMd').classList.add('show');
+}
+function closeShare(){document.getElementById('shareMd').classList.remove('show');}
+function copyShare(){
+  const url=document.getElementById('shareUrl').textContent;
+  navigator.clipboard.writeText(url).then(()=>toast('🔗 링크 복사됨! 배우자에게 전달하세요')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('🔗 링크 복사됨');
+  });
+}
+function loadFromUrl(){
+  if(!location.hash.startsWith('#d='))return false;
+  try{
+    const enc=location.hash.slice(3);
+    const data=decodeURIComponent(escape(atob(enc)));
+    const d=JSON.parse(data);
+    if(confirm('공유받은 데이터를 불러올까요?\n(현재 내 데이터는 덮어쓰입니다)')){
+      S=d;localStorage.setItem(SK,JSON.stringify(S));
+      history.replaceState(null,'',location.pathname);
+      return true;
+    }
+  }catch(e){console.error(e);}
+  return false;
+}
+
+if(loadFromUrl()){}
 load();updateMedianUI();render();
 </script>
 </body>
