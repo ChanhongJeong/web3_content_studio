@@ -363,6 +363,28 @@ body.dark .fade-bg{filter:brightness(.6)}
     <div>남은<b id="heroM">-</b></div>
   </div>
 </div>
+<div id="thisMonthCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFF3CD,#FFE4EC);border-radius:16px;padding:14px;box-shadow:var(--sh)">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+    <span style="font-size:18px">💰</span>
+    <div style="font-size:13px;font-weight:700;color:#C0385A">이번 달 예상 수령액</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+    <div style="background:#fff;padding:8px 4px;border-radius:8px;text-align:center">
+      <div style="font-size:9px;color:#996">부모급여</div><div id="tmPP" style="font-size:14px;font-weight:800;color:#C0385A">-</div>
+    </div>
+    <div style="background:#fff;padding:8px 4px;border-radius:8px;text-align:center">
+      <div style="font-size:9px;color:#996">아동수당</div><div id="tmAL" style="font-size:14px;font-weight:800;color:#C0385A">-</div>
+    </div>
+    <div style="background:#fff;padding:8px 4px;border-radius:8px;text-align:center">
+      <div style="font-size:9px;color:#996">👩 본인</div><div id="tmLV1" style="font-size:14px;font-weight:800;color:#C0385A">-</div>
+    </div>
+    <div style="background:#fff;padding:8px 4px;border-radius:8px;text-align:center">
+      <div style="font-size:9px;color:#996">👨 배우자</div><div id="tmLV2" style="font-size:14px;font-weight:800;color:#2A6DC0">-</div>
+    </div>
+  </div>
+  <div style="text-align:right;margin-top:10px;font-size:12px;color:#666">이번 달 합계 <b id="tmTotal" style="color:#C0385A;font-size:18px;margin-left:6px">-</b>만원</div>
+</div>
+
 <div id="fetusCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFE4EC,#F0E8FF);border-radius:16px;padding:14px;box-shadow:var(--sh)">
   <div style="display:flex;align-items:center;gap:12px">
     <div id="fetusEmo" style="font-size:38px">🌼</div>
@@ -400,6 +422,7 @@ body.dark .fade-bg{filter:brightness(.6)}
   </div>
   <div class="cal-grid" id="calGrid"></div>
   <div class="cal-tot">총 정기 수령액: <b id="calTot">-</b>만원</div>
+  <div id="calDetail"></div>
 </div>
 </div><!-- end pgHome -->
 
@@ -431,7 +454,21 @@ body.dark .fade-bg{filter:brightness(.6)}
   <div class="tool" id="toolNB" onclick="togTool('toolNB')"><div class="tool-h"><span class="tool-ic">👶</span>신생아 로그 (수유·기저귀·수면)<span class="tool-arrow">▼</span></div><div class="tool-body" id="nbBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolSpouse" onclick="togTool('toolSpouse')"><div class="tool-h"><span class="tool-ic">👫</span>배우자 할일 분담<span class="tool-arrow">▼</span></div><div class="tool-body" id="spouseBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolWeek" onclick="togTool('toolWeek')"><div class="tool-h"><span class="tool-ic">📅</span>임신 주차별 체크포인트<span class="tool-arrow">▼</span></div><div class="tool-body" id="wkBody"></div></div>
-  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 계산기<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="calc-row"><div class="calc-label">본인 연봉 사용</div><label style="font-size:11px"><input type="checkbox" id="leaveUse1" checked onchange="calcLeave()"> 사용</label></div><div class="calc-row"><div class="calc-label">배우자 연봉 사용</div><label style="font-size:11px"><input type="checkbox" id="leaveUse2" onchange="calcLeave()"> 사용</label></div><div class="calc-row"><div class="calc-label">휴직 개월 수 (부모 각각)</div><input type="number" class="calc-input" id="leaveM" value="12" min="1" max="12" oninput="calcLeave()"><span class="calc-unit">개월</span></div><label style="font-size:11px;display:block;margin-top:5px"><input type="checkbox" id="leave66" onchange="calcLeave()"> 6+6 부모육아휴직제 (부부 모두 사용)</label><div class="calc-result" id="leaveResult">연봉을 먼저 입력하세요</div></div></div>
+  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 계산기 (개인별)<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()">
+    <div style="font-size:11px;color:#666;margin-bottom:10px">👇 홈 캘린더에도 자동 반영됩니다</div>
+    <div style="background:#FFE4EC;padding:10px;border-radius:10px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:700;color:#C0385A;margin-bottom:6px"><label><input type="checkbox" id="leaveUse1" onchange="saveLeaveSettings()"> 👩 본인 휴직</label></div>
+      <div class="calc-row"><div class="calc-label" style="font-size:11px">개월 수</div><input type="number" class="calc-input" id="leaveM1" value="12" min="1" max="18" oninput="saveLeaveSettings()"><span class="calc-unit">개월</span></div>
+      <div class="calc-row"><div class="calc-label" style="font-size:11px">시작일</div><input type="date" class="calc-input" id="leaveStart1" style="width:130px" onchange="saveLeaveSettings()"></div>
+    </div>
+    <div style="background:#E0F0FF;padding:10px;border-radius:10px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:700;color:#2A6DC0;margin-bottom:6px"><label><input type="checkbox" id="leaveUse2" onchange="saveLeaveSettings()"> 👨 배우자 휴직</label></div>
+      <div class="calc-row"><div class="calc-label" style="font-size:11px">개월 수</div><input type="number" class="calc-input" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()"><span class="calc-unit">개월</span></div>
+      <div class="calc-row"><div class="calc-label" style="font-size:11px">시작일</div><input type="date" class="calc-input" id="leaveStart2" style="width:130px" onchange="saveLeaveSettings()"></div>
+    </div>
+    <label style="font-size:11px;display:block;margin-bottom:6px;padding:6px 8px;background:#FFF3CD;border-radius:6px"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> (부부 모두 사용 시 첫 6개월 상향)</label>
+    <div class="calc-result" id="leaveResult">연봉·휴직자를 입력하세요</div>
+  </div></div>
   <div class="tool" id="toolTot18" onclick="togTool('toolTot18')"><div class="tool-h"><span class="tool-ic">💰</span>0~18세 총 수령액 시뮬레이터<span class="tool-arrow">▼</span></div><div class="tool-body" id="tot18Body"></div></div>
   <div class="tool" id="toolVac" onclick="togTool('toolVac')"><div class="tool-h"><span class="tool-ic">💉</span>국가필수 예방접종 캘린더<span class="tool-arrow">▼</span></div><div class="tool-body" id="vacBody"></div></div>
   <div class="tool" id="toolChk" onclick="togTool('toolChk')"><div class="tool-h"><span class="tool-ic">🏥</span>영유아 건강검진 일정 (무료 7회+)<span class="tool-arrow">▼</span></div><div class="tool-body" id="chkBody"></div></div>
@@ -924,7 +961,7 @@ function getWeekInfo(b,p){
 // ===== Render =====
 function render(){
   const vis=getVisible();const p=getProfile();
-  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderCards(vis,p);renderTL();updateSum(vis,p);
+  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderThisMonth();renderCards(vis,p);renderTL();updateSum(vis,p);
 }
 
 function renderDashboard(vis,p){
@@ -963,23 +1000,63 @@ function renderCalendar(vis,p){
   const w=document.getElementById('calWrap');
   if(!p.due){w.style.display='none';return;}
   const dd=new Date(p.due);
+  const s=getLeaveSettings();
+  // 육아휴직 월별 배열 (출산일 기준 상대 월 인덱스)
+  const leave1=(s.use1&&p.inc1)?leaveMonthly(p.inc1,s.m1,s.use66):[];
+  const leave2=(s.use2&&p.inc2)?leaveMonthly(p.inc2,s.m2,s.use66):[];
+  // 시작일 offset (출산일 대비 몇 개월 뒤 시작)
+  const offsetMonths=(dateStr)=>{
+    if(!dateStr)return 0;
+    const d=new Date(dateStr);
+    return (d.getFullYear()-dd.getFullYear())*12+(d.getMonth()-dd.getMonth());
+  };
+  const off1=s.start1?offsetMonths(s.start1):0;
+  const off2=s.start2?offsetMonths(s.start2):0;
+
   const months=[];
-  for(let i=0;i<24;i++){
+  const nMonths=24;
+  for(let i=0;i<nMonths;i++){
     const mo=new Date(dd.getFullYear(),dd.getMonth()+i,1);
-    let amt=0;
-    // 부모급여: 0~11개월=월100만, 12~23개월=월50만
-    if(i<12)amt+=100; else if(i<24)amt+=50;
-    // 아동수당: 전 기간 월 10만
-    amt+=10;
-    months.push({mo,amt,isBirth:i===0});
+    let pp=0;
+    if(i<12)pp=100; else if(i<24)pp=50;
+    const al=10;
+    const i1=i-off1;const i2=i-off2;
+    const lv1=(i1>=0&&i1<leave1.length)?leave1[i1]:0;
+    const lv2=(i2>=0&&i2<leave2.length)?leave2[i2]:0;
+    const amt=pp+al+lv1+lv2;
+    months.push({mo,amt,pp,al,lv1,lv2,isBirth:i===0});
   }
   const tot=months.reduce((s,m)=>s+m.amt,0);
-  document.getElementById('calSum').textContent=`부모급여 + 아동수당`;
+  const tot1=months.reduce((s,m)=>s+m.lv1,0);
+  const tot2=months.reduce((s,m)=>s+m.lv2,0);
+  const totPP=months.reduce((s,m)=>s+m.pp,0);
+  const totAL=months.reduce((s,m)=>s+m.al,0);
+  let summary=`부모급여 ${totPP} + 아동수당 ${totAL}`;
+  if(tot1)summary+=` + 👩 ${tot1}`;
+  if(tot2)summary+=` + 👨 ${tot2}`;
+  document.getElementById('calSum').textContent=summary+'만원';
   document.getElementById('calTot').textContent=tot.toLocaleString();
   document.getElementById('calGrid').innerHTML=months.map(m=>{
     const lbl=`${m.mo.getFullYear()%100}.${(m.mo.getMonth()+1).toString().padStart(2,'0')}`;
-    return `<div class="cal-m ${m.isBirth?'birth':'has'}" title="${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월"><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
+    const parts=[`부모급여 ${m.pp}만`,`아동수당 ${m.al}만`];
+    if(m.lv1)parts.push(`본인 ${m.lv1}만`);
+    if(m.lv2)parts.push(`배우자 ${m.lv2}만`);
+    const tooltip=`${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월\n${parts.join('\n')}\n= ${m.amt}만원`;
+    const hasLeave=m.lv1||m.lv2;
+    return `<div class="cal-m ${m.isBirth?'birth':hasLeave?'has leave':'has'}" title="${tooltip}" style="${hasLeave?'background:linear-gradient(135deg,#FFD4DC,#D4E5FF);':''}"><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
   }).join('');
+  // 상세 요약 표시
+  const detEl=document.getElementById('calDetail');
+  if(detEl){
+    let h='';
+    if(tot1||tot2){
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">';
+      if(tot1)h+=`<div style="background:#FFE4EC;padding:8px;border-radius:8px;text-align:center"><div style="font-size:10px;color:#996">👩 본인 휴직</div><div style="font-size:14px;font-weight:800;color:#C0385A">${tot1.toLocaleString()}만</div></div>`;
+      if(tot2)h+=`<div style="background:#E0F0FF;padding:8px;border-radius:8px;text-align:center"><div style="font-size:10px;color:#669">👨 배우자 휴직</div><div style="font-size:14px;font-weight:800;color:#2A6DC0">${tot2.toLocaleString()}만</div></div>`;
+      h+='</div>';
+    }
+    detEl.innerHTML=h;
+  }
   w.style.display='';
 }
 
@@ -1322,7 +1399,41 @@ function togTool(id){const el=document.getElementById(id);el.classList.toggle('e
 function renderTools(){
   if(!S._tools)S._tools={};
   Object.keys(S._tools).forEach(k=>{const el=document.getElementById(k);if(el&&S._tools[k])el.classList.add('exp');});
+  // Restore leave settings
+  if(S._leave){
+    const L=S._leave;
+    const set=(id,v)=>{const el=document.getElementById(id);if(el){if(typeof v==='boolean')el.checked=v;else el.value=v;}};
+    set('leaveUse1',L.use1);set('leaveUse2',L.use2);set('leave66',L.use66);
+    set('leaveM1',L.m1||12);set('leaveM2',L.m2||12);
+    set('leaveStart1',L.start1||'');set('leaveStart2',L.start2||'');
+  }
   renderRoadmap();renderVouch();renderNB();renderSpouse();renderWeekTasks();renderVac();renderChk();renderPrep();renderDC();renderTot18();renderTax();calcLeave();renderGrow();renderFetus();
+}
+
+// This month card
+function renderThisMonth(){
+  const card=document.getElementById('thisMonthCard');if(!card)return;
+  const p=getProfile();
+  if(!p.due){card.style.display='none';return;}
+  const dd=new Date(p.due);const today=new Date();
+  const idx=(today.getFullYear()-dd.getFullYear())*12+(today.getMonth()-dd.getMonth());
+  if(idx<0||idx>=24){card.style.display='none';return;}
+  const s=getLeaveSettings();
+  const pp=idx<12?100:idx<24?50:0;
+  const al=10;
+  const leave1=(s.use1&&p.inc1)?leaveMonthly(p.inc1,s.m1,s.use66):[];
+  const leave2=(s.use2&&p.inc2)?leaveMonthly(p.inc2,s.m2,s.use66):[];
+  const offM=(ds)=>{if(!ds)return 0;const d=new Date(ds);return (d.getFullYear()-dd.getFullYear())*12+(d.getMonth()-dd.getMonth());};
+  const i1=idx-offM(s.start1);const i2=idx-offM(s.start2);
+  const lv1=(i1>=0&&i1<leave1.length)?leave1[i1]:0;
+  const lv2=(i2>=0&&i2<leave2.length)?leave2[i2]:0;
+  const total=pp+al+lv1+lv2;
+  document.getElementById('tmPP').textContent=pp+'만';
+  document.getElementById('tmAL').textContent=al+'만';
+  document.getElementById('tmLV1').textContent=lv1?lv1+'만':'-';
+  document.getElementById('tmLV2').textContent=lv2?lv2+'만':'-';
+  document.getElementById('tmTotal').textContent=total.toLocaleString();
+  card.style.display='';
 }
 
 // Fetal size card
@@ -1556,31 +1667,75 @@ function renderPrep(){
 }
 function togPrep(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;autoSave();renderPrep();}
 
+// 2026년 기준 개인별 월 육아휴직 급여 배열 반환 (만원 단위)
+// 6+6제: 1~2개월 250 / 3개월 300 / 4개월 350 / 5개월 400 / 6개월 450
+// 일반:  1~3개월 100% 상한 250 / 4~6개월 100% 상한 200 / 7~12개월 80% 상한 160 / 하한 70
+function leaveMonthly(annualManwon,months,use66){
+  if(!annualManwon||months<=0)return [];
+  const monthly=annualManwon/12; // 만원/월
+  const caps66=[250,250,300,350,400,450];
+  const out=[];
+  for(let i=1;i<=months;i++){
+    let pay;
+    if(use66&&i<=6){
+      pay=Math.min(monthly,caps66[i-1]);
+    }else if(i<=3){
+      pay=Math.min(monthly,250);
+    }else if(i<=6){
+      pay=Math.min(monthly,200);
+    }else{
+      pay=Math.min(monthly*0.8,160);
+    }
+    pay=Math.max(pay,70);
+    out.push(Math.round(pay));
+  }
+  return out;
+}
+
+function getLeaveSettings(){
+  const m1=parseInt(document.getElementById('leaveM1')?.value)||12;
+  const m2=parseInt(document.getElementById('leaveM2')?.value)||12;
+  const use66=document.getElementById('leave66')?.checked||false;
+  const use1=document.getElementById('leaveUse1')?.checked||false;
+  const use2=document.getElementById('leaveUse2')?.checked||false;
+  const start1=document.getElementById('leaveStart1')?.value||'';
+  const start2=document.getElementById('leaveStart2')?.value||'';
+  return {use1,use2,m1,m2,use66,start1,start2};
+}
+
+function saveLeaveSettings(){
+  S._leave=getLeaveSettings();
+  autoSave();
+  calcLeave();
+  renderCalendar(getVisible(),getProfile());
+}
+
 function calcLeave(){
   const p=getProfile();
   const el=document.getElementById('leaveResult');
   if(!el)return;
-  const months=parseInt(document.getElementById('leaveM').value)||12;
-  const use66=document.getElementById('leave66').checked;
-  const use1=document.getElementById('leaveUse1').checked;
-  const use2=document.getElementById('leaveUse2').checked;
-  const calc=(annual,label)=>{
-    if(!annual)return {t:0,d:`${label}: 연봉 미입력`};
-    const monthly=annual*10000/12; // 원
-    const base=Math.min(monthly*0.8,2500000); // 상한 250만
-    const real=Math.max(base,700000); // 하한 70만
-    const first6=use66?Math.min(monthly,4500000):real; // 6+6 첫 6개월 상향
-    const rest=real;
-    const n6=Math.min(months,6);const nRest=Math.max(months-6,0);
-    const total=(first6*n6+rest*nRest)*0.75; // 사후정산 25% 차감 표시
-    const totalFull=first6*n6+rest*nRest;
-    return {t:Math.round(totalFull/10000),tn:Math.round(total/10000),first6:Math.round(first6/10000),rest:Math.round(rest/10000),d:`<b>${label}</b><br>첫 6개월 월 ${Math.round(first6/10000).toLocaleString()}만원${use66?' (6+6 상향)':''}, 이후 월 ${Math.round(rest/10000).toLocaleString()}만원`};
+  const s=getLeaveSettings();
+  if(!s.use1&&!s.use2){el.innerHTML='<div style="font-size:11px;color:#888;padding:8px">휴직할 사람을 체크하세요 👆</div>';return;}
+  let html='';let totalAll=0;
+  const render1=(annual,label,months,startDate,color)=>{
+    if(!annual)return `<div style="padding:8px 10px;background:#FFF5F5;border-radius:8px;margin-bottom:6px;font-size:11px;color:#C0385A">${label}: 연봉 미입력</div>`;
+    const arr=leaveMonthly(annual,months,s.use66);
+    const total=arr.reduce((a,b)=>a+b,0);
+    totalAll+=total;
+    const first=arr[0]||0;const mid=arr[Math.min(3,arr.length-1)]||0;const last=arr[arr.length-1]||0;
+    const rangeTxt=arr.length<=3?`월 ${first}만`:`${first}→${mid}→${last}만`;
+    return `<div style="padding:10px;background:${color};border-radius:10px;margin-bottom:6px">
+      <div style="font-size:11px;font-weight:700;color:${color==='#FFE4EC'?'#C0385A':'#2A6DC0'};margin-bottom:3px">${label} (${months}개월 휴직${startDate?` · ${startDate}~`:''})</div>
+      <div style="font-size:18px;font-weight:800;color:${color==='#FFE4EC'?'#C0385A':'#2A6DC0'}">${total.toLocaleString()}<span style="font-size:11px">만원</span></div>
+      <div style="font-size:10px;color:#666;margin-top:3px">${rangeTxt}${s.use66?' · 6+6제 상향 반영':''}</div>
+    </div>`;
   };
-  let html='';let total=0,totalActual=0;
-  if(use1){const r=calc(p.inc1,'본인');html+=`<div style="margin-bottom:6px">${r.d}</div>`;total+=r.t;totalActual+=r.tn;}
-  if(use2){const r=calc(p.inc2,'배우자');html+=`<div style="margin-bottom:6px">${r.d}</div>`;total+=r.t;totalActual+=r.tn;}
-  if(!use1&&!use2){el.innerHTML='휴직할 사람을 선택하세요';return;}
-  html+=`<div style="border-top:1px dashed #BBB;padding-top:6px;margin-top:6px"><b>총 예상 수령액: ${total.toLocaleString()}만원</b><br><span style="font-size:10px;color:#888">(복직 후 25% 사후정산 포함. 실수령 ${totalActual.toLocaleString()}만원 + 복직 후 ${(total-totalActual).toLocaleString()}만원)</span></div>`;
+  if(s.use1)html+=render1(p.inc1,'👩 본인',s.m1,s.start1,'#FFE4EC');
+  if(s.use2)html+=render1(p.inc2,'👨 배우자',s.m2,s.start2,'#E0F0FF');
+  html+=`<div style="background:linear-gradient(135deg,#FFD6E0,#F3E5F5);border-radius:10px;padding:12px;text-align:center;margin-top:8px"><div style="font-size:22px;font-weight:800;color:#C0385A">${totalAll.toLocaleString()}<span style="font-size:12px">만원</span></div><div style="font-size:10px;color:#666;margin-top:2px">부부 합산 예상 수령액 · 2025년 사후지급 폐지</div></div>`;
+  if(s.use66){
+    html+=`<div style="background:#FFF3CD;border-radius:8px;padding:9px;margin-top:8px;font-size:11px;line-height:1.5"><b>💡 6+6 부모육아휴직제</b><br>부모 각자 생후 18개월 이내 <b>3개월 이상 휴직</b> 시 첫 6개월 상한이 크게 오름:<br>1·2개월 250만 → 3개월 300 → 4개월 350 → 5개월 400 → <b>6개월 450만</b></div>`;
+  }
   el.innerHTML=html;
 }
 
