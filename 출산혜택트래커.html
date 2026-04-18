@@ -103,10 +103,16 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 .bd{font-size:11px;color:var(--txt-l);margin-bottom:5px}
 .inelig-tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;background:#FFE0E0;color:#CC4444;font-weight:600;margin-left:4px}
 .bexp{font-size:11px;color:var(--pri);background:none;border:none;cursor:pointer;font-weight:600;padding:2px 0}
-.bdet{display:none;margin-top:7px;padding-top:7px;border-top:1px dashed #EEE}
+.bdet{display:none;margin-top:8px;padding:12px;border-top:2px solid #F0E8EC;background:#FAFAFE;border-radius:0 0 10px 10px}
 .bc.exp .bdet{display:block}
-.dr{display:flex;gap:5px;margin-bottom:3px;font-size:11px}
-.dl{flex-shrink:0;font-weight:600;color:#C46080;min-width:48px}
+.det-section{margin-bottom:10px}
+.det-section:last-child{margin-bottom:0}
+.det-title{font-size:11px;font-weight:700;color:#E75480;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.dr{display:flex;gap:5px;margin-bottom:4px;font-size:12px;line-height:1.5}
+.dl{flex-shrink:0;font-weight:600;color:#C46080;min-width:56px}
+.det-highlight{background:#FFF3E0;border-left:3px solid #FFB347;padding:8px 10px;border-radius:0 8px 8px 0;margin:6px 0;font-size:11px;line-height:1.5}
+.det-highlight b{color:#E75480}
+.det-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 
 /* Receive form */
 .rf{display:none;margin-top:9px;padding:9px 11px;background:#F0FBF0;border-radius:10px;border:1px solid #D0E8D0}
@@ -271,7 +277,7 @@ const G='gov',P='private';
 const B=[
 // ══════ 정부 혜택 ══════
 // ── 임신 중 ──
-{id:'happy_card',cat:'pregnancy',sec:G,nm:'임신출산 진료비 (국민행복카드)',bg:'정부',bc:'bg-gov',amt:100,type:'cash',scope:'national',desc:'산부인과 진료비 바우처 100만원 (다태아 140만원)',when:'임신 확인 후',how:'국민건강보험공단 신청',cond:'건강보험 가입',where:'건강보험공단, 카드사 앱',note:'분만 예정일+2년 사용',url:'https://www.nhis.or.kr'},
+{id:'happy_card',cat:'pregnancy',sec:G,nm:'임신출산 진료비 (국민행복카드)',bg:'정부',bc:'bg-gov',amt:100,type:'cash',scope:'national',desc:'산부인과 진료비 바우처 100만원 (다태아 140만원)',when:'임신 확인 후 즉시 신청 가능',how:'① 산부인과에서 임신확인서 발급 → ② 국민건강보험공단 또는 카드사 앱에서 국민행복카드 신청 → ③ 카드 수령 후 산부인과/약국에서 사용',cond:'건강보험 가입자 (직장·지역 모두 가능)',where:'건강보험공단, 카드사 앱',detail:'<b>지원금액:</b> 임신 1회당 100만원 (다태아 140만원, 분만취약지 +20만원)<br><b>사용처:</b> 산부인과 진료비, 약제비, 출산비용, 2세 미만 영유아 의료비<br><b>사용기한:</b> 분만 예정일 이후 2년까지<br><b>카드 발급처:</b> KB국민, 신한, 삼성, 롯데, 하나, BC카드 중 선택<br><b>잔액:</b> 출산 후 남은 금액은 2세 미만 영유아 의료비로 사용 가능 + 추가 20만원 자동 충전',url:'https://www.nhis.or.kr',links:[{t:'국민건강보험공단',u:'https://www.nhis.or.kr'},{t:'정부24 행복출산',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'}]},
 {id:'folic',cat:'pregnancy',sec:G,nm:'엽산제·철분제 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'보건소에서 엽산제·철분제 무료 제공',when:'임신 확인 후',how:'보건소 방문',cond:'보건소 등록',where:'관할 보건소',url:'https://www.e-health.go.kr'},
 {id:'prenatal',cat:'pregnancy',sec:G,nm:'산전검사 (초음파·기형아)',bg:'정부',bc:'bg-gov',amt:0,at:'무료/할인',type:'service',scope:'national',desc:'표준 산전검사 건강보험 적용',when:'임신 중',how:'보건소/산부인과',cond:'건강보험 가입',where:'보건소'},
 {id:'dental',cat:'pregnancy',sec:G,nm:'임산부 구강검진·스케일링',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'스케일링 건강보험 100% 적용',when:'임신 중',how:'치과 방문 (임신 고지)',cond:'건강보험 가입',where:'치과'},
@@ -283,10 +289,10 @@ const B=[
 {id:'pink_seat',cat:'pregnancy',sec:G,nm:'지하철 임산부 배려석·핑크라이트',bg:'정부',bc:'bg-gov',amt:0,at:'배려석',type:'service',scope:'national',desc:'지하철 임산부석 + 핑크라이트 앱',when:'임신 중',how:'핑크라이트 앱 설치',cond:'임산부',where:'수도권 지하철'},
 {id:'gs_care',cat:'pregnancy',sec:G,nm:'강서구 임산부 가사돌봄',bg:'강서구',bc:'bg-gu',amt:0,at:'최대 10회',type:'service',scope:'district',dist:'강서구',city:'seoul',desc:'가사돌봄 서비스 최대 10회 파견',when:'임신~출산 후',how:'강서구 보건소',cond:'강서구 거주',where:'02-2600-5800'},
 // ── 출산 후 ──
-{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 신고 시',how:'정부24 / 주민센터',cond:'출생 신고',where:'정부24',amtFn:p=>p.childN>=2?300:200,url:'https://www.gov.kr/portal/onestopSvc/happyBirth'},
-{id:'s_post',cat:'birth',sec:G,nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'산후조리 비용 (첫째 100만, 둘째 150만)',when:'출산 후 6개월 내',how:'보건소/온라인',cond:'서울 3개월+ 거주',where:'서울아기 건강첫걸음',amtFn:p=>p.childN>=2?150:100,url:'https://seoul-agi.seoul.go.kr'},
+{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 후 60일 이내 신청 권장',how:'① 출생신고 (정부24 온라인 또는 주민센터) → ② 행복출산 원스톱서비스에서 첫만남이용권 신청 → ③ 국민행복카드로 바우처 지급',cond:'출생 신고 완료된 모든 출생아 (소득 무관)',where:'정부24, 주민센터',amtFn:p=>p.childN>=2?300:200,detail:'<b>지원금액:</b> 첫째 200만원 / 둘째 이상 300만원 (국민행복카드 바우처)<br><b>사용처:</b> 유아용품, 생필품, 식료품 등 (유흥·사행업소 제외)<br><b>사용기한:</b> 지급일로부터 1년<br><b>소득 기준:</b> 없음 (전 국민)<br><b>신청기한:</b> 출생일로부터 1년 이내 (60일 이내 권장)<br><b>동시 신청 가능:</b> 부모급여, 아동수당, 건강보험 자격취득 등 원스톱 신청',url:'https://www.gov.kr/portal/onestopSvc/happyBirth',links:[{t:'정부24 행복출산 원스톱',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'},{t:'복지로',u:'https://www.bokjiro.go.kr'}]},
+{id:'s_post',cat:'birth',sec:G,nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'산후조리 비용 (첫째 100만, 둘째 150만)',when:'출산 후 6개월 이내 신청',how:'① 서울아기 건강첫걸음 사이트 또는 보건소 방문 → ② 서울 거주 확인 → ③ 서울사랑상품권으로 지급',cond:'출산일 기준 서울 3개월 이상 거주 (소득 무관)',where:'서울아기 건강첫걸음, 보건소',amtFn:p=>p.childN>=2?150:100,detail:'<b>지원금액:</b> 첫째 100만원 / 둘째 150만원 / 셋째 이상 200만원<br><b>지급방식:</b> 서울사랑상품권 (전통시장·소상공인 사용)<br><b>소득 기준:</b> 없음 (전 서울시민)<br><b>거주 조건:</b> 출산일 기준 서울시 거주 3개월 이상 (주민등록 기준)<br><b>사용기한:</b> 발급일로부터 5년',url:'https://seoul-agi.seoul.go.kr',links:[{t:'서울아기 건강첫걸음',u:'https://seoul-agi.seoul.go.kr'},{t:'서울시 출산정보',u:'https://www.seoul.go.kr'}]},
 {id:'i_post',cat:'birth',sec:G,nm:'인천 맘편한 산후조리비',bg:'인천',bc:'bg-ich',amt:150,type:'cash',scope:'incheon',desc:'취약계층 산후조리비 150만원',when:'출산 후',how:'인천e음, 보건소',cond:'인천 거주, 소득기준',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하'},
-{id:'post_care',cat:'birth',sec:G,nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 후',how:'보건소 사전 신청',cond:'중위소득 150% 이하',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',url:'https://www.bokjiro.go.kr'},
+{id:'post_care',cat:'birth',sec:G,nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 예정일 40일 전까지 사전 신청',how:'① 출산 40일 전 관할 보건소에 신청 → ② 소득 확인 후 승인 → ③ 출산 후 건강관리사 가정 방문',cond:'기준중위소득 150% 이하',where:'관할 보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',detail:'<b>소득 기준 (3인가구 150%):</b> 월 약 707만원 이하<br><b>서비스 내용:</b> 산모 건강관리(산후체조, 유방관리), 신생아 돌봄(목욕, 수유지원), 가사지원(산모 식사, 청소)<br><b>서비스 기간:</b> 첫째 5~15일, 둘째 10~20일, 셋째 이상 10~25일<br><b>본인부담금:</b> 소득 구간별 차등 (기초수급 면제 ~ 150% 이하 자부담 있음)<br><b>주의:</b> 출산 전 사전 신청 필수! 출산 후 신청 시 대기 길어질 수 있음',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 상세',u:'https://www.bokjiro.go.kr'},{t:'보건소 찾기',u:'https://www.e-health.go.kr'}]},
 {id:'elec',cat:'birth',sec:G,nm:'전기요금 할인',bg:'정부',bc:'bg-gov',amt:57.6,at:'월1.6만×3년',type:'cash',scope:'national',desc:'전기요금 30% 할인 (3년간)',when:'출산 후',how:'한국전력공사',cond:'별도 신청 필수!',where:'KEPCO 앱'},
 {id:'gas',cat:'birth',sec:G,nm:'도시가스 요금 감면',bg:'정부',bc:'bg-gov',amt:0,at:'월4~6천원',type:'cash',scope:'national',desc:'도시가스 정액 감면',when:'출산 후',how:'도시가스 회사',cond:'별도 신청',where:'도시가스 고객센터'},
 {id:'s_water',cat:'birth',sec:G,nm:'서울 수도요금 감면',bg:'서울',bc:'bg-seoul',amt:0,at:'감면',type:'cash',scope:'seoul',desc:'상하수도 요금 감면',when:'출산 후',how:'수도사업소',cond:'서울 거주',where:'아리수 앱'},
@@ -296,7 +302,7 @@ const B=[
 {id:'metab',cat:'birth',sec:G,nm:'선천성 대사이상 검사',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'50여종 대사이상 선별검사',when:'출생 후 2~7일',how:'병원 자동',cond:'전원',where:'출생병원'},
 {id:'premature',cat:'birth',sec:G,nm:'미숙아·선천성이상아 의료비',bg:'정부',bc:'bg-gov',amt:0,at:'최대 1,000만+',type:'cash',scope:'national',desc:'미숙아/선천성이상 의료비',when:'퇴원 6개월 내',how:'보건소',cond:'해당 시, 소득기준',where:'보건소'},
 // ── 지원금/수당 ──
-{id:'parent_pay',cat:'money',sec:G,nm:'부모급여',bg:'정부',bc:'bg-gov',amt:1800,at:'0세 월100만+1세 월50만',type:'cash',scope:'national',desc:'총 24개월 약 1,800만원',when:'출생 후 매월',how:'정부24/복지로',cond:'만 0~1세, 소득 무관',where:'정부24',url:'https://www.bokjiro.go.kr'},
+{id:'parent_pay',cat:'money',sec:G,nm:'부모급여',bg:'정부',bc:'bg-gov',amt:1800,at:'0세 월100만+1세 월50만',type:'cash',scope:'national',desc:'총 24개월 약 1,800만원',when:'출생 후 60일 이내 신청 (소급 가능)',how:'① 출생신고 → ② 정부24 또는 복지로에서 부모급여 신청 → ③ 매월 25일 계좌 입금',cond:'만 0~1세 아동 (소득 무관, 전 국민)',where:'정부24, 복지로, 주민센터',detail:'<b>지원금액:</b> 만 0세 월 100만원 (12개월) + 만 1세 월 50만원 (12개월) = 총 1,800만원<br><b>소득 기준:</b> 없음 (전 국민)<br><b>지급일:</b> 매월 25일 (주말·공휴일 시 앞당겨 지급)<br><b>어린이집 이용 시:</b> 보육료 바우처로 지급, 부모급여와의 차액은 현금 지급<br><b>양육수당과 중복:</b> 부모급여 종료(만 2세) 후 양육수당으로 전환 가능<br><b>신청기한:</b> 출생 후 60일 이내 신청 시 출생일부터 소급 지급',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 부모급여',u:'https://www.bokjiro.go.kr'},{t:'정부24',u:'https://www.gov.kr'}]},
 {id:'child_al',cat:'money',sec:G,nm:'아동수당',bg:'정부',bc:'bg-gov',amt:960,at:'월10만×만8세',type:'cash',scope:'national',desc:'만 8세 미만 매월 10만원',when:'출생 후 매월',how:'정부24/복지로',cond:'만 8세 미만',where:'정부24',note:'60일 내 신청 시 소급',url:'https://www.gov.kr'},
 {id:'i_1040',cat:'money',sec:G,nm:'인천 천사(1040) 지원금',bg:'인천',bc:'bg-ich',amt:840,at:'연120만×7년',type:'cash',scope:'incheon',desc:'1~7세 연 120만원 = 총 840만원',when:'만 1세부터',how:'인천e음 앱',cond:'인천 거주 유지',where:'인천e음'},
 {id:'i_dream',cat:'money',sec:G,nm:'인천 아이꿈수당',bg:'인천',bc:'bg-ich',amt:1980,at:'월5만×8~18세',type:'cash',scope:'incheon',desc:'8~18세 월 5만원 = 총 1,980만원',when:'만 8세부터',how:'인천e음',cond:'인천 거주',where:'인천e음'},
@@ -304,14 +310,14 @@ const B=[
 {id:'grandp',cat:'money',sec:G,nm:'조부모 돌봄수당',bg:'정부',bc:'bg-gov',amt:0,at:'월 최대 60만',type:'cash',scope:'national',desc:'조부모 손자녀 돌봄 시',when:'해당 시',how:'아이돌봄서비스',cond:'소득 기준',where:'idolbom.go.kr',url:'https://www.idolbom.go.kr'},
 {id:'diaper',cat:'money',sec:G,nm:'기저귀·분유 지원 (저소득)',bg:'정부',bc:'bg-gov',amt:0,at:'월10~11만',type:'cash',scope:'national',desc:'기저귀+분유 월 최대 21.5만',when:'출생 후',how:'복지로/주민센터',cond:'기초수급·차상위',where:'복지로',eligFn:p=>p.medianPct<=50,eligTxt:'기초수급/차상위'},
 // ── 주거/대출 ──
-{id:'nb_mort',cat:'housing',sec:G,nm:'신생아 특례 주담대',bg:'정부',bc:'bg-gov',amt:0,at:'최대 5억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 파격 금리 주담대',when:'출산 후 2년',how:'시중은행',cond:'무주택/1주택, 소득기준',where:'시중은행',note:'추가출산 시 금리↓'},
+{id:'nb_mort',cat:'housing',sec:G,nm:'신생아 특례 주담대',bg:'정부',bc:'bg-gov',amt:0,at:'최대 5억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 파격 금리 주담대',when:'출산 후 2년 이내 (대출 실행 기준)',how:'① 출산 확인 → ② 시중은행(우리·국민·신한·하나·농협) 방문 → ③ 소득·자산 심사 → ④ 대출 실행',cond:'출산 2년 이내, 무주택 또는 1주택',where:'시중 5대 은행',detail:'<b>대출한도:</b> 최대 5억원 (LTV 70~80%)<br><b>금리:</b> 연 1.6~3.3% (소득·만기에 따라 차등)<br><b>소득 기준:</b> 부부합산 연소득 1.3억원 이하 (자산 4.69억원 이하)<br><b>대상 주택:</b> 주택가액 9억원 이하<br><b>추가 혜택:</b> 추가 출산 시 0.2%p 금리 인하 (최대 3회)<br><b>특례 기간:</b> 5년 (이후 시중금리 전환)<br><b>기존 대출 대환:</b> 가능 (타행 대출 갈아타기)',links:[{t:'주택도시기금 안내',u:'https://nhuf.molit.go.kr'},{t:'한국주택금융공사',u:'https://www.hf.go.kr'}]},
 {id:'nb_jeon',cat:'housing',sec:G,nm:'신생아 특례 전세대출',bg:'정부',bc:'bg-gov',amt:0,at:'최대 3억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 전세 금리 우대',when:'출산 후 2년',how:'시중은행',cond:'무주택, 소득기준',where:'시중은행',note:'기존 전세 대환 가능'},
 {id:'nb_apt',cat:'housing',sec:G,nm:'신생아 특별공급 (청약)',bg:'정부',bc:'bg-gov',amt:0,at:'특별공급',type:'service',scope:'national',desc:'출산 2년 내 공공분양·임대 특공',when:'모집 공고 시',how:'청약홈',cond:'무주택 세대',where:'apply.lh.or.kr',url:'https://apply.lh.or.kr'},
 {id:'happy_h',cat:'housing',sec:G,nm:'행복주택 신혼·출산',bg:'정부',bc:'bg-gov',amt:0,at:'시세 60~80%',type:'service',scope:'national',desc:'신혼·출산 가구 공공임대',when:'모집 시',how:'LH/SH 신청',cond:'혼인 7년 또는 6세↓자녀',where:'LH 청약센터'},
 // ── 직장/급여 ──
 {id:'mat_leave',cat:'work',sec:G,nm:'출산전후휴가 급여',bg:'정부',bc:'bg-gov',amt:660,at:'월최대220만×3개월',type:'cash',scope:'national',desc:'출산 전후 90일 휴가 급여',when:'출산 전후',how:'회사→고용보험',cond:'고용보험 가입',where:'ei.go.kr',url:'https://www.ei.go.kr'},
 {id:'sp_leave',cat:'work',sec:G,nm:'배우자 출산휴가',bg:'정부',bc:'bg-gov',amt:0,at:'20일 유급',type:'service',scope:'national',desc:'아빠 출산휴가 20일',when:'출산 전후',how:'회사 신청',cond:'근로자',where:'회사 인사팀'},
-{id:'par_leave',cat:'work',sec:G,nm:'육아휴직 급여',bg:'정부',bc:'bg-gov',amt:3000,at:'월최대250만×12개월',type:'cash',scope:'national',desc:'만 8세↓ 자녀 최대 1년 휴직',when:'출산 후',how:'회사→고용보험',cond:'고용보험, 근속 6개월+',where:'ei.go.kr',note:'부부 각각 가능',url:'https://www.ei.go.kr'},
+{id:'par_leave',cat:'work',sec:G,nm:'육아휴직 급여',bg:'정부',bc:'bg-gov',amt:3000,at:'월최대250만×12개월',type:'cash',scope:'national',desc:'만 8세↓ 자녀 최대 1년 휴직',when:'출산 후 ~ 자녀 만 8세까지 신청 가능',how:'① 회사에 육아휴직 신청 (30일 전) → ② 휴직 개시 → ③ 고용보험 급여 신청 (ei.go.kr)',cond:'고용보험 가입, 같은 사업장 6개월+ 근속',where:'고용보험 (ei.go.kr)',detail:'<b>급여:</b> 통상임금의 80% (상한 월 250만원, 하한 월 70만원)<br><b>기간:</b> 최대 1년 (부부 각각 사용 가능 = 부부 합산 최대 2년)<br><b>사후정산금:</b> 급여의 25%는 복직 후 6개월 근무 시 일괄 지급<br><b>분할 사용:</b> 최대 4회 분할 가능<br><b>6+6 부모육아휴직제:</b> 부모 모두 휴직 시 첫 6개월 급여 상향 (월 최대 450만원)<br><b>대상:</b> 만 8세 이하 또는 초등학교 2학년 이하 자녀',url:'https://www.ei.go.kr',links:[{t:'고용보험 육아휴직',u:'https://www.ei.go.kr'},{t:'고용노동부 안내',u:'https://www.moel.go.kr'}]},
 {id:'par_6',cat:'work',sec:G,nm:'6+6 부모육아휴직제',bg:'정부',bc:'bg-gov',amt:0,at:'월최대450만',type:'cash',scope:'national',desc:'부모 동시 휴직 시 급여 상향',when:'생후 18개월 내',how:'부부 순차/동시 휴직',cond:'부모 모두 휴직',where:'ei.go.kr'},
 {id:'red_hr',cat:'work',sec:G,nm:'육아기 근로시간 단축',bg:'정부',bc:'bg-gov',amt:0,at:'급여 보전',type:'service',scope:'national',desc:'주 15~35시간 단축 근무',when:'육아휴직 대신/이후',how:'회사 신청',cond:'고용보험 가입',where:'회사'},
 {id:'co_bonus',cat:'work',sec:G,nm:'기업 출산지원금 비과세',bg:'회사',bc:'bg-co',amt:0,at:'회사별 상이',type:'cash',scope:'national',desc:'회사 출산축하금 전액 비과세',when:'출산 시',how:'회사 확인',cond:'회사 복리후생',where:'인사팀'},
@@ -349,7 +355,7 @@ const B=[
 {id:'maeil',cat:'shopping',sec:P,nm:'매일유업 맘마밀 산모교실',bg:'매일유업',bc:'bg-life',amt:0,at:'무료+선물',type:'service',scope:'national',desc:'전국 무료 산모교실, 분유·이유식 샘플 증정',when:'임신 중',how:'앱솔루트 맘스쿨 앱',cond:'임산부',where:'매일유업',url:'https://www.maeil.com'},
 {id:'huggies',cat:'shopping',sec:P,nm:'하기스 베이비박스 (무료 샘플)',bg:'하기스',bc:'bg-life',amt:0,at:'무료 샘플',type:'service',scope:'national',desc:'임산부 인증 시 신생아 기저귀 샘플 무료 배송',when:'임신 중~출산 후',how:'하기스 앱/웹 신청',cond:'임산부/신생아 부모',where:'하기스',url:'https://www.huggies.co.kr'},
 // ── 보험/금융 ──
-{id:'tai_ins',cat:'finance',sec:P,nm:'태아보험 (가입 권장)',bg:'보험사',bc:'bg-life',amt:0,at:'가입 권장',type:'service',scope:'national',desc:'선천이상·인큐베이터·저체중아 보장. 임신 16~22주가 적기!',when:'임신 16~22주',how:'보험사 상담',cond:'임산부',where:'현대해상·삼성·한화·DB·KB',note:'출생 전 가입해야 선천이상 보장'},
+{id:'tai_ins',cat:'finance',sec:P,nm:'태아보험 (가입 권장)',bg:'보험사',bc:'bg-life',amt:0,at:'가입 권장',type:'service',scope:'national',desc:'선천이상·인큐베이터·저체중아 보장. 임신 16~22주가 적기!',when:'임신 16~22주 (22주 이후 보장 축소)',how:'① 보험사 또는 보험비교 사이트에서 상담 → ② 임신 주수 확인 후 가입 → ③ 출산 후 어린이보험으로 자동 전환',cond:'임산부 (임신 16~22주 가입 권장)',where:'현대해상·삼성·한화·DB·KB 등',detail:'<b>가입 적기:</b> 임신 16~22주 (22주 이후 선천이상 보장 제한)<br><b>주요 보장:</b> 선천이상 수술비, 인큐베이터 입원비, 저체중아 보장, 신생아 질병/수술<br><b>자동 전환:</b> 출생 후 어린이보험으로 자동 전환 (별도 가입 불필요)<br><b>보험료 공제:</b> 연말정산 시 보장성 보험료 12% 세액공제 (연 100만원 한도)<br><b>추천 보험사:</b> 현대해상 굿앤굿 / 삼성화재 / DB손보 프로미라이프 / 한화손보',links:[{t:'보험다모아 (금감원)',u:'https://www.e-insmarket.or.kr'}]},
 {id:'bank_save',cat:'finance',sec:P,nm:'신생아 우대금리 적금',bg:'시중은행',bc:'bg-life',amt:0,at:'금리 0.5~1%p↑',type:'service',scope:'national',desc:'출산가정 대상 적금 금리 우대',when:'출산 후',how:'은행 앱에서 "출산/아이" 검색',cond:'출산가정',where:'KB·신한·하나·우리은행'},
 {id:'card_baby',cat:'finance',sec:P,nm:'육아 특화 카드 (국민행복카드)',bg:'카드사',bc:'bg-life',amt:0,at:'추가 할인',type:'service',scope:'national',desc:'국민행복카드에 카드사별 육아용품·병원비 추가 할인/적립',when:'임신 확인 후',how:'카드사 앱',cond:'국민행복카드 발급',where:'KB·신한·삼성·롯데카드'},
 // ── 레저/문화 ──
@@ -578,12 +584,16 @@ function renderCards(vis,p){
             <div class="bd">${b.desc}</div>
             <button class="bexp" onclick="togExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>
             <div class="bdet">
-              <div class="dr"><span class="dl">신청시기</span><span>${b.when}</span></div>
-              <div class="dr"><span class="dl">방법</span><span>${b.how}</span></div>
-              <div class="dr"><span class="dl">조건</span><span>${b.cond}</span></div>
-              <div class="dr"><span class="dl">신청처</span><span>${b.where}</span></div>
-              ${b.note?`<div class="dr"><span class="dl">참고</span><span>${b.note}</span></div>`:''}
-              ${b.url?`<a class="b-link" href="${b.url}" target="_blank">공식 사이트에서 확인하기 →</a>`:''}
+              <div class="det-section">
+                <div class="det-title">📋 신청 정보</div>
+                <div class="dr"><span class="dl">신청시기</span><span>${b.when}</span></div>
+                <div class="dr"><span class="dl">신청방법</span><span>${b.how}</span></div>
+                <div class="dr"><span class="dl">자격조건</span><span>${b.cond}</span></div>
+                <div class="dr"><span class="dl">신청처</span><span>${b.where}</span></div>
+                ${b.note?`<div class="dr"><span class="dl">참고</span><span>${b.note}</span></div>`:''}
+              </div>
+              ${b.detail?`<div class="det-section"><div class="det-title">📌 상세 내용</div><div class="det-highlight">${b.detail}</div></div>`:''}
+              ${b.links||b.url?`<div class="det-section"><div class="det-title">🔗 관련 링크</div><div class="det-links">${(b.links||[{t:'공식 사이트',u:b.url}]).map(l=>`<a class="b-link" href="${l.u}" target="_blank">${l.t} →</a>`).join('')}</div></div>`:''}
             </div>
           </div>
         </div>
