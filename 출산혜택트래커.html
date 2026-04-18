@@ -192,6 +192,65 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 .share-btn{width:100%;padding:12px;background:var(--pri);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px}
 .share-btn.sec{background:#F0E8EC;color:var(--txt)}
 
+/* Tools */
+.tools{margin:0 16px 16px}
+.tools-h{font-size:15px;font-weight:800;margin-bottom:10px;color:#6B5CE7;display:flex;align-items:center;gap:6px}
+.tool{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(107,92,231,.06);border-left:4px solid #D4C5FF;cursor:pointer}
+.tool-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.tool-ic{font-size:16px}
+.tool-arrow{margin-left:auto;font-size:11px;color:var(--txt-l);transition:transform .2s}
+.tool.exp .tool-arrow{transform:rotate(180deg)}
+.tool-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed #EEE}
+.tool.exp .tool-body{display:block}
+.tool-desc{font-size:11px;color:var(--txt-l);margin-top:3px}
+
+/* Weekly checkpoints */
+.wk-box{background:linear-gradient(135deg,#E8F5E9,#F3E5F5);border-radius:10px;padding:12px;margin-bottom:8px}
+.wk-hdr{font-size:12px;font-weight:700;color:#5D4A7A;margin-bottom:6px}
+.wk-task{background:#fff;padding:7px 10px;border-radius:7px;margin:4px 0;font-size:12px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.wk-task.dn{opacity:.5;text-decoration:line-through}
+.wk-ck{width:18px;height:18px;border-radius:5px;border:2px solid #BBA6E0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;flex-shrink:0}
+.wk-ck.dn{background:#7B5EA7;border-color:#7B5EA7;color:#fff}
+
+/* Vaccine/checkup grid */
+.vac-grid{display:grid;grid-template-columns:1fr;gap:6px}
+.vac-item{background:#FFF5F0;border-radius:8px;padding:9px 11px;font-size:12px;display:flex;gap:8px;align-items:center}
+.vac-item.dn{background:#F0F8F0;opacity:.7}
+.vac-age{font-weight:700;color:#E67E5A;min-width:70px;font-size:11px}
+.vac-name{flex:1}
+.vac-ck{width:18px;height:18px;border-radius:5px;border:2px solid #DDD;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;flex-shrink:0}
+.vac-ck.dn{background:var(--ok);border-color:var(--ok);color:#fff}
+
+/* Calculator */
+.calc-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.calc-label{flex:1;font-size:12px;font-weight:600;color:var(--txt)}
+.calc-input{width:90px;padding:6px 9px;border:1px solid #D0C5E0;border-radius:6px;font-size:12px;text-align:right}
+.calc-unit{font-size:11px;color:var(--txt-l)}
+.calc-result{background:#F3E5F5;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;line-height:1.6}
+.calc-result b{color:#7B5EA7;font-size:14px}
+.calc-total{background:linear-gradient(135deg,#FFD6E0,#F3E5F5);border-radius:10px;padding:12px;text-align:center;margin-top:10px}
+.calc-total-v{font-size:22px;font-weight:800;color:#C0385A}
+.calc-total-l{font-size:11px;color:#666;margin-top:3px}
+
+/* Prep checklist */
+.prep-cat{margin-bottom:10px}
+.prep-cat-h{font-size:12px;font-weight:700;color:#6B5CE7;margin-bottom:5px}
+.prep-item{display:flex;align-items:center;gap:7px;padding:5px 8px;background:#FAFAFE;border-radius:6px;margin-bottom:3px;font-size:11px;cursor:pointer}
+.prep-item.dn{background:#F0F8F0;opacity:.65;text-decoration:line-through}
+.prep-cb{width:16px;height:16px;border-radius:4px;border:2px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent}
+.prep-cb.dn{background:var(--ok);border-color:var(--ok);color:#fff}
+
+/* Daycare */
+.dc-add{display:flex;gap:6px;margin-bottom:8px}
+.dc-inp{flex:1;padding:7px 9px;border:1px solid #DDD;border-radius:7px;font-size:12px}
+.dc-num{width:65px}
+.dc-btn{padding:7px 12px;background:#6B5CE7;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
+.dc-list{background:#FAFAFE;border-radius:8px;padding:8px}
+.dc-row{display:flex;gap:8px;align-items:center;padding:6px;background:#fff;border-radius:6px;margin-bottom:4px;font-size:11px}
+.dc-nm{flex:1;font-weight:600}
+.dc-rk{color:#6B5CE7;font-weight:700}
+.dc-del{color:#E74C3C;cursor:pointer;padding:3px 6px;font-size:13px}
+
 /* Footer */
 .disc{background:#FFF3CD;margin:0 16px 14px;padding:10px 12px;border-radius:var(--r);font-size:11px;color:#9A7830;line-height:1.5}
 .disc a{color:#C49040}
@@ -312,6 +371,18 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 </div>
 <div id="bList"></div>
 <div id="tlArea"></div>
+
+<div class="tools">
+  <div class="tools-h">🛠️ 부모 도구 모음</div>
+  <div class="tool" id="toolWeek" onclick="togTool('toolWeek')"><div class="tool-h"><span class="tool-ic">📅</span>임신 주차별 체크포인트<span class="tool-arrow">▼</span></div><div class="tool-body" id="wkBody"></div></div>
+  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 계산기<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="calc-row"><div class="calc-label">본인 연봉 사용</div><label style="font-size:11px"><input type="checkbox" id="leaveUse1" checked onchange="calcLeave()"> 사용</label></div><div class="calc-row"><div class="calc-label">배우자 연봉 사용</div><label style="font-size:11px"><input type="checkbox" id="leaveUse2" onchange="calcLeave()"> 사용</label></div><div class="calc-row"><div class="calc-label">휴직 개월 수 (부모 각각)</div><input type="number" class="calc-input" id="leaveM" value="12" min="1" max="12" oninput="calcLeave()"><span class="calc-unit">개월</span></div><label style="font-size:11px;display:block;margin-top:5px"><input type="checkbox" id="leave66" onchange="calcLeave()"> 6+6 부모육아휴직제 (부부 모두 사용)</label><div class="calc-result" id="leaveResult">연봉을 먼저 입력하세요</div></div></div>
+  <div class="tool" id="toolTot18" onclick="togTool('toolTot18')"><div class="tool-h"><span class="tool-ic">💰</span>0~18세 총 수령액 시뮬레이터<span class="tool-arrow">▼</span></div><div class="tool-body" id="tot18Body"></div></div>
+  <div class="tool" id="toolVac" onclick="togTool('toolVac')"><div class="tool-h"><span class="tool-ic">💉</span>국가필수 예방접종 캘린더<span class="tool-arrow">▼</span></div><div class="tool-body" id="vacBody"></div></div>
+  <div class="tool" id="toolChk" onclick="togTool('toolChk')"><div class="tool-h"><span class="tool-ic">🏥</span>영유아 건강검진 일정 (무료 7회+)<span class="tool-arrow">▼</span></div><div class="tool-body" id="chkBody"></div></div>
+  <div class="tool" id="toolPrep" onclick="togTool('toolPrep')"><div class="tool-h"><span class="tool-ic">🎒</span>출산 준비물 체크리스트<span class="tool-arrow">▼</span></div><div class="tool-body" id="prepBody"></div></div>
+  <div class="tool" id="toolDC" onclick="togTool('toolDC')"><div class="tool-h"><span class="tool-ic">🏫</span>어린이집 입소 대기 관리<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
+  <div class="tool" id="toolTax" onclick="togTool('toolTax')"><div class="tool-h"><span class="tool-ic">📊</span>연말정산 자녀 공제 가이드<span class="tool-arrow">▼</span></div><div class="tool-body" id="taxBody"></div></div>
+</div>
 
 <div class="disc">
   본 정보는 2026년 4월 기준이며 정책 변경에 따라 달라질 수 있습니다.
@@ -919,6 +990,245 @@ function loadFromUrl(){
   }catch(e){console.error(e);}
   return false;
 }
+
+// ===== 도구 데이터 =====
+const WEEK_TASKS={
+  4:['산부인과 방문해 임신 확인','임신확인서 발급 받기'],
+  5:['보건소 임산부 등록 (엽산제 수령)','국민행복카드 신청 (100만원 바우처)','태교 시작'],
+  6:['입덧 대비 식이 조절','산부인과 정기 검진 일정 확인'],
+  8:['1차 초음파 검사','산부인과 주치의 정하기'],
+  10:['1차 기형아 검사 (혈액)','임신 사실 회사 고지 검토'],
+  12:['태아 목덜미 투명대 검사 (NT)','서울시 임산부 교통비 신청 (서울 거주)','인천 임산부 교통비 신청 (인천 거주)','첫 3개월 경과 - 주변에 알리기'],
+  14:['철분제 복용 시작 논의'],
+  16:['⭐ 태아보험 가입 (22주 전 필수!)','2차 기형아 검사 (쿼드/통합)','성별 확인 가능'],
+  18:['태동 느끼기 시작','산모 영양제 점검'],
+  20:['정밀 초음파 (기형아 정밀)','출산 병원 결정','산후조리원 예약 시작!'],
+  22:['⚠️ 태아보험 가입 마지막 권장 시점'],
+  24:['임신성 당뇨 검사','산모 교실 신청 (남양/매일/일동)','아기 이름 고민 시작'],
+  26:['출산 가방 리스트 작성'],
+  28:['3차 정밀 초음파','백일해 예방접종 (보호자)'],
+  30:['출산 전 검사 항목 확인','출산 교실/라마즈 참여'],
+  32:['⭐ 산모·신생아 건강관리사 사전 신청 (출산 40일 전!)','회사에 출산휴가 통보 (최소 30일 전)','아기 침대·카시트 준비'],
+  34:['유축기 고려','출산 가방 짐 싸기'],
+  36:['출산 임박 - 출산 가방 완성','유도분만 여부 논의'],
+  37:['37주차 정기검진 매주로 전환','비상 연락망 정리'],
+  38:['출산 병원에 비상 연락 정보 전달'],
+  39:['출산 직전 - 언제든 대비'],
+  40:['출산 예정일 D-Day'],
+};
+const PREP_ITEMS={
+  '출산가방 (병원용)':['산모수첩','신분증·보험증','휴대폰·충전기','수유패드','산모 팬티 3~5개','세면도구','슬리퍼','물티슈','기초화장품','편한 옷','복대','양말 2~3켤레'],
+  '신생아 용품':['배냇저고리 3벌','우주복 2벌','속싸개 2~3개','겉싸개 1~2개','손싸개·발싸개','기저귀 (신생아용)','물티슈 3~4개','젖병 3~4개','젖꼭지 (단계별)','분유 (모유수유 계획시도 1개)','유축기','수유쿠션','아기욕조·목욕타월','체온계','손톱깎이','면봉','아기 로션·오일','아기 세제'],
+  '아기방 가구':['아기침대','매트리스','침대가드','수유등','기저귀 정리함','바구니/수납장','카시트 (병원 퇴원용 필수)','유모차','아기띠'],
+  '산모 회복':['수유브라 3~5개','수유패드','산모 세정제','복대','좌욕 용기','골반교정 용품','회음부 방석','차량용 쿠션'],
+};
+const VACCINES=[
+  {age:'0개월',name:'BCG (결핵)'},
+  {age:'0개월',name:'B형간염 1차'},
+  {age:'1개월',name:'B형간염 2차'},
+  {age:'2개월',name:'DTaP 1차 (디프테리아·파상풍·백일해)'},
+  {age:'2개월',name:'IPV 1차 (폴리오)'},
+  {age:'2개월',name:'Hib 1차 (뇌수막염)'},
+  {age:'2개월',name:'폐구균 1차'},
+  {age:'2개월',name:'로타바이러스 1차'},
+  {age:'4개월',name:'DTaP 2차'},
+  {age:'4개월',name:'IPV 2차'},
+  {age:'4개월',name:'Hib 2차'},
+  {age:'4개월',name:'폐구균 2차'},
+  {age:'4개월',name:'로타바이러스 2차'},
+  {age:'6개월',name:'DTaP 3차'},
+  {age:'6개월',name:'IPV 3차'},
+  {age:'6개월',name:'B형간염 3차'},
+  {age:'6개월',name:'Hib 3차'},
+  {age:'6개월',name:'폐구균 3차'},
+  {age:'6개월+',name:'인플루엔자 (매년 가을)'},
+  {age:'12~15개월',name:'MMR 1차 (홍역·유행성이하선염·풍진)'},
+  {age:'12~15개월',name:'수두'},
+  {age:'12~23개월',name:'일본뇌염 1차 (불활성화 2회)'},
+  {age:'12~15개월',name:'Hib 4차'},
+  {age:'12~15개월',name:'폐구균 4차'},
+  {age:'12~23개월',name:'A형간염 (2회)'},
+  {age:'15~18개월',name:'DTaP 4차'},
+  {age:'24~35개월',name:'일본뇌염 2차'},
+  {age:'만 4~6세',name:'MMR 2차'},
+  {age:'만 4~6세',name:'DTaP 5차'},
+  {age:'만 4~6세',name:'IPV 4차'},
+  {age:'만 6세',name:'일본뇌염 3차'},
+];
+const CHECKUPS=[
+  {age:'생후 14~35일',name:'건강검진 1차 (영유아)'},
+  {age:'4~6개월',name:'건강검진 2차 (기본+문진)'},
+  {age:'9~12개월',name:'건강검진 3차'},
+  {age:'18~24개월',name:'건강검진 4차 + 구강검진 1차'},
+  {age:'30~36개월',name:'건강검진 5차'},
+  {age:'42~48개월',name:'건강검진 6차 + 구강검진 2차'},
+  {age:'54~60개월',name:'건강검진 7차 + 구강검진 3차'},
+  {age:'66~71개월',name:'건강검진 8차 + 구강검진 4차'},
+];
+
+function togTool(id){const el=document.getElementById(id);el.classList.toggle('exp');if(!S._tools)S._tools={};S._tools[id]=el.classList.contains('exp');autoSave();}
+
+function renderTools(){
+  if(!S._tools)S._tools={};
+  Object.keys(S._tools).forEach(k=>{const el=document.getElementById(k);if(el&&S._tools[k])el.classList.add('exp');});
+  renderWeekTasks();renderVac();renderChk();renderPrep();renderDC();renderTot18();renderTax();calcLeave();
+}
+
+function renderWeekTasks(){
+  const p=getProfile();const wk=getPregWeek(p);
+  const el=document.getElementById('wkBody');
+  if(!p.due){el.innerHTML='<div style="font-size:12px;color:#888">예정일을 입력하면 주차별 할 일이 표시됩니다</div>';return;}
+  let h='';
+  // 현재 주차
+  const show=[wk-1,wk,wk+1,wk+2].filter(w=>w>=4&&w<=42);
+  if(!show.length){el.innerHTML='<div style="font-size:12px;color:#888">해당 주차 없음</div>';return;}
+  show.forEach(w=>{
+    const tasks=WEEK_TASKS[w];
+    if(!tasks)return;
+    const label=w===wk?`🔥 이번 주 (${w}주차)`:w<wk?`✅ 지난 주 (${w}주차)`:`📌 ${w}주차 예정`;
+    h+=`<div class="wk-box"><div class="wk-hdr">${label}</div>`;
+    tasks.forEach((t,i)=>{
+      const tid=`_wk_${w}_${i}`;
+      const dn=S[tid]?.checked||false;
+      h+=`<div class="wk-task ${dn?'dn':''}" onclick="togWk('${tid}')"><div class="wk-ck ${dn?'dn':''}">✓</div><div>${t}</div></div>`;
+    });
+    h+='</div>';
+  });
+  el.innerHTML=h||'<div style="font-size:12px;color:#888">이번 주는 특별한 체크포인트가 없어요</div>';
+}
+
+function togWk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;autoSave();renderWeekTasks();}
+
+function renderVac(){
+  const el=document.getElementById('vacBody');
+  let h='<div style="font-size:11px;color:#666;margin-bottom:8px">📍 국가필수예방접종은 보건소·지정의료기관에서 <b>전액 무료</b>. nip.kdca.go.kr에서 지정기관 확인.</div><div class="vac-grid">';
+  VACCINES.forEach((v,i)=>{
+    const tid=`_vac_${i}`;const dn=S[tid]?.checked||false;
+    h+=`<div class="vac-item ${dn?'dn':''}"><div class="vac-age">${v.age}</div><div class="vac-name">${v.name}</div><div class="vac-ck ${dn?'dn':''}" onclick="togVac('${tid}')">✓</div></div>`;
+  });
+  h+='</div><a class="b-link" href="https://nip.kdca.go.kr" target="_blank" style="margin-top:10px">질병관리청 예방접종도우미 →</a>';
+  el.innerHTML=h;
+}
+function togVac(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;autoSave();renderVac();}
+
+function renderChk(){
+  const el=document.getElementById('chkBody');
+  let h='<div style="font-size:11px;color:#666;margin-bottom:8px">⚠️ 국가 영유아 건강검진은 <b>시기 놓치면 소멸</b>! 건보공단 지정기관에서 무료.</div><div class="vac-grid">';
+  CHECKUPS.forEach((c,i)=>{
+    const tid=`_chk_${i}`;const dn=S[tid]?.checked||false;
+    h+=`<div class="vac-item ${dn?'dn':''}"><div class="vac-age">${c.age}</div><div class="vac-name">${c.name}</div><div class="vac-ck ${dn?'dn':''}" onclick="togChk('${tid}')">✓</div></div>`;
+  });
+  h+='</div><a class="b-link" href="https://www.nhis.or.kr" target="_blank" style="margin-top:10px">건보공단 건강검진 안내 →</a>';
+  el.innerHTML=h;
+}
+function togChk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;autoSave();renderChk();}
+
+function renderPrep(){
+  const el=document.getElementById('prepBody');
+  let h='';
+  Object.entries(PREP_ITEMS).forEach(([cat,items])=>{
+    h+=`<div class="prep-cat"><div class="prep-cat-h">📦 ${cat}</div>`;
+    items.forEach((it,i)=>{
+      const tid=`_prep_${cat}_${i}`;const dn=S[tid]?.checked||false;
+      h+=`<div class="prep-item ${dn?'dn':''}" onclick="togPrep('${tid}')"><div class="prep-cb ${dn?'dn':''}">✓</div><div>${it}</div></div>`;
+    });
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+function togPrep(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;autoSave();renderPrep();}
+
+function calcLeave(){
+  const p=getProfile();
+  const el=document.getElementById('leaveResult');
+  if(!el)return;
+  const months=parseInt(document.getElementById('leaveM').value)||12;
+  const use66=document.getElementById('leave66').checked;
+  const use1=document.getElementById('leaveUse1').checked;
+  const use2=document.getElementById('leaveUse2').checked;
+  const calc=(annual,label)=>{
+    if(!annual)return {t:0,d:`${label}: 연봉 미입력`};
+    const monthly=annual*10000/12; // 원
+    const base=Math.min(monthly*0.8,2500000); // 상한 250만
+    const real=Math.max(base,700000); // 하한 70만
+    const first6=use66?Math.min(monthly,4500000):real; // 6+6 첫 6개월 상향
+    const rest=real;
+    const n6=Math.min(months,6);const nRest=Math.max(months-6,0);
+    const total=(first6*n6+rest*nRest)*0.75; // 사후정산 25% 차감 표시
+    const totalFull=first6*n6+rest*nRest;
+    return {t:Math.round(totalFull/10000),tn:Math.round(total/10000),first6:Math.round(first6/10000),rest:Math.round(rest/10000),d:`<b>${label}</b><br>첫 6개월 월 ${Math.round(first6/10000).toLocaleString()}만원${use66?' (6+6 상향)':''}, 이후 월 ${Math.round(rest/10000).toLocaleString()}만원`};
+  };
+  let html='';let total=0,totalActual=0;
+  if(use1){const r=calc(p.inc1,'본인');html+=`<div style="margin-bottom:6px">${r.d}</div>`;total+=r.t;totalActual+=r.tn;}
+  if(use2){const r=calc(p.inc2,'배우자');html+=`<div style="margin-bottom:6px">${r.d}</div>`;total+=r.t;totalActual+=r.tn;}
+  if(!use1&&!use2){el.innerHTML='휴직할 사람을 선택하세요';return;}
+  html+=`<div style="border-top:1px dashed #BBB;padding-top:6px;margin-top:6px"><b>총 예상 수령액: ${total.toLocaleString()}만원</b><br><span style="font-size:10px;color:#888">(복직 후 25% 사후정산 포함. 실수령 ${totalActual.toLocaleString()}만원 + 복직 후 ${(total-totalActual).toLocaleString()}만원)</span></div>`;
+  el.innerHTML=html;
+}
+
+function renderTot18(){
+  const p=getProfile();
+  const el=document.getElementById('tot18Body');
+  const list=[
+    {name:'첫만남이용권',amt:p.childN>=2?300:200,age:'출생'},
+    {name:'부모급여 (0~1세)',amt:1800,age:'0~24개월'},
+    {name:'아동수당 (0~만8세)',amt:960,age:'0~96개월, 월10만'},
+    {name:'출산 세액공제 (1회)',amt:p.childN>=3?70:p.childN>=2?50:30,age:'출산연도'},
+    {name:'자녀 세액공제 (매년)',amt:15*10,age:'연 15만원 × 10년 누적 예상'},
+    {name:'전기요금 감면 (3년)',amt:57,age:'월 1.6만 × 36개월'},
+  ];
+  let total=list.reduce((s,x)=>s+x.amt,0);
+  if(p.city==='seoul'){list.push({name:'서울 임산부 교통비',amt:70,age:'임신 중'});list.push({name:'서울형 산후조리경비',amt:p.childN>=2?150:100,age:'출산 후'});total+=70+(p.childN>=2?150:100);}
+  if(p.city==='incheon'){list.push({name:'인천 임산부 교통비',amt:50,age:'임신 중'});list.push({name:'인천 천사지원금',amt:840,age:'1~7세 연 120만'});list.push({name:'인천 아이꿈수당',amt:1980,age:'8~18세 월 5만'});total+=50+840+1980;}
+  let h='<div style="font-size:11px;color:#666;margin-bottom:8px">현재 프로필 기준 18세까지 받을 수 있는 주요 현금성 혜택 추정치 (육아휴직 급여·세액공제 제외 가능)</div>';
+  list.forEach(x=>{h+=`<div style="display:flex;justify-content:space-between;padding:6px 9px;background:#FFF5F5;border-radius:6px;margin-bottom:4px;font-size:12px"><span><b>${x.name}</b><br><span style="font-size:10px;color:#999">${x.age}</span></span><span style="font-weight:700;color:#C0385A">${x.amt.toLocaleString()}만원</span></div>`;});
+  h+=`<div class="calc-total"><div class="calc-total-v">${total.toLocaleString()}만원</div><div class="calc-total-l">총 예상 수령액 (현재 프로필 기준)</div></div>`;
+  el.innerHTML=h;
+}
+
+function renderDC(){
+  const el=document.getElementById('dcList');
+  if(!S._daycare)S._daycare=[];
+  if(!S._daycare.length){el.innerHTML='<div style="font-size:11px;color:#999;text-align:center;padding:10px">어린이집 대기 목록이 비어있어요</div>';return;}
+  el.innerHTML=S._daycare.map((d,i)=>`<div class="dc-row"><div class="dc-nm">${d.name}</div><div class="dc-rk">대기 ${d.rank||'-'}번</div><span class="dc-del" onclick="delDC(${i})">🗑️</span></div>`).join('');
+}
+function addDC(){
+  const n=document.getElementById('dcName').value.trim();
+  const r=document.getElementById('dcRank').value;
+  if(!n)return;
+  if(!S._daycare)S._daycare=[];
+  S._daycare.push({name:n,rank:r});
+  document.getElementById('dcName').value='';document.getElementById('dcRank').value='';
+  autoSave();renderDC();
+}
+function delDC(i){S._daycare.splice(i,1);autoSave();renderDC();}
+
+function renderTax(){
+  const p=getProfile();
+  const el=document.getElementById('taxBody');
+  const totalInc=p.inc1+p.inc2;
+  const below7k=totalInc<=7000;
+  const birthCredit=p.childN>=3?70:p.childN>=2?50:30;
+  const childCredit=p.childN>=3?35+(p.childN-2)*30:p.childN>=2?35:15;
+  const rows=[
+    ['출산 세액공제 (출산 연도 1회)',`첫째 30만 / 둘째 50만 / 셋째 이상 70만원<br>→ 현재 기준 <b>${birthCredit}만원</b>`],
+    ['자녀 세액공제 (만 8세+ 매년)',`1명 15만 / 2명 35만 / 3명 이상 추가 +30만<br>→ 현재 기준 연 <b>${childCredit}만원</b>`],
+    ['산후조리원비 의료비 공제',`최대 200만원까지 의료비 15% 공제<br>→ ${below7k?'<b>총급여 7천만 이하 ✅ 대상</b>':'<b style="color:#C0385A">총급여 7천만 초과 ❌ 제외</b>'}`],
+    ['의료비 세액공제',`총급여 3% 초과분의 15% (난임시술 30%)<br>→ 산전검사·분만비·초음파 모두 포함`],
+    ['태아·어린이 보험료 공제',`보장성 보험료 12% (연 100만원 한도)`],
+    ['교육비 세액공제',`어린이집·유치원 15% (영유아 1인 연 300만원 한도)`],
+    ['월세 세액공제',`총급여 7천만 이하 시 월세의 15~17%`],
+    ['혼인 세액공제 (신규)',`2024~2026 혼인신고 시 부부 각 50만원`],
+  ];
+  let h='<div style="font-size:11px;color:#666;margin-bottom:8px">💡 홈택스 간소화 서비스에서 대부분 자동 반영. 산후조리원은 영수증 제출 필요.</div>';
+  rows.forEach(r=>{h+=`<div style="padding:8px 10px;background:#FFF9E6;border-radius:7px;margin-bottom:5px;font-size:12px;line-height:1.5"><b style="color:#C49040">${r[0]}</b><br><span style="color:#666">${r[1]}</span></div>`;});
+  h+='<a class="b-link" href="https://www.hometax.go.kr" target="_blank" style="margin-top:8px">홈택스 연말정산 간소화 →</a>';
+  el.innerHTML=h;
+}
+
+// Hook render to rebuild tools on profile change
+const _origRender=render;
+render=function(){_origRender();renderTools();};
 
 if(loadFromUrl()){}
 load();updateMedianUI();render();
