@@ -470,6 +470,30 @@ body.dark .tline-dot{background:#1E1930}
     </div>
   </div>
 </div>
+<!-- 육아휴직 설정 (홈 · 캘린더·이번달 수령액에 즉시 반영) -->
+<div style="margin:0 16px 12px;background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh)">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <span style="font-size:18px">💼</span>
+    <div style="font-size:13px;font-weight:800;color:var(--txt)">육아휴직 계획</div>
+    <div style="font-size:10px;color:#888;margin-left:auto">아래 캘린더에 즉시 반영</div>
+  </div>
+  <div style="font-size:11px;color:#666;line-height:1.5;margin-bottom:10px">체크하면 <b>매달 육아휴직 급여</b>가 월별 캘린더에 추가됩니다. 연봉이 입력돼 있어야 자동 계산돼요.</div>
+  <div style="background:#FFE4EC;padding:9px;border-radius:9px;margin-bottom:6px">
+    <label style="font-size:12px;font-weight:700;color:#C0385A;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="leaveUse1" onchange="saveLeaveSettings()"> 👩 본인 휴직 사용</label>
+    <div id="leaveBox1" style="display:none;margin-top:7px">
+      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" id="leaveM1" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:50px;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:12px"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart1" onchange="saveLeaveSettings()" style="flex:1;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:11px"></div>
+    </div>
+  </div>
+  <div style="background:#E0F0FF;padding:9px;border-radius:9px;margin-bottom:6px">
+    <label style="font-size:12px;font-weight:700;color:#2A6DC0;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="leaveUse2" onchange="saveLeaveSettings()"> 👨 배우자 휴직 사용</label>
+    <div id="leaveBox2" style="display:none;margin-top:7px">
+      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:50px;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:12px"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart2" onchange="saveLeaveSettings()" style="flex:1;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:11px"></div>
+    </div>
+  </div>
+  <label style="display:block;font-size:11px;padding:7px 9px;background:#FFF3CD;border-radius:7px;cursor:pointer"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> (부부 모두 사용 시 첫 6개월 상한 상향)</label>
+  <div style="font-size:10px;color:#999;margin-top:6px;text-align:right">🔍 상세 계산 근거는 <b style="color:#6B5CE7;cursor:pointer" onclick="goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolLeave');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});}},200);">도구 &gt; 육아휴직 계산기</b>에서</div>
+</div>
+
 <div id="thisMonthCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFF3CD,#FFE4EC);border-radius:16px;padding:14px;box-shadow:var(--sh)">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
     <span style="font-size:18px">💰</span>
@@ -583,20 +607,9 @@ body.dark .tline-dot{background:#1E1930}
   <div class="tool" id="toolNB" onclick="togTool('toolNB')"><div class="tool-h"><span class="tool-ic">👶</span>신생아 로그 (수유·기저귀·수면)<span class="tool-arrow">▼</span></div><div class="tool-body" id="nbBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolSpouse" onclick="togTool('toolSpouse')"><div class="tool-h"><span class="tool-ic">👫</span>배우자 할일 분담<span class="tool-arrow">▼</span></div><div class="tool-body" id="spouseBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolWeek" onclick="togTool('toolWeek')"><div class="tool-h"><span class="tool-ic">📅</span>임신 주차별 체크포인트<span class="tool-arrow">▼</span></div><div class="tool-body" id="wkBody"></div></div>
-  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 계산기 (개인별)<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()">
-    <div style="font-size:11px;color:#666;margin-bottom:10px">👇 홈 캘린더에도 자동 반영됩니다</div>
-    <div style="background:#FFE4EC;padding:10px;border-radius:10px;margin-bottom:8px">
-      <div style="font-size:12px;font-weight:700;color:#C0385A;margin-bottom:6px"><label><input type="checkbox" id="leaveUse1" onchange="saveLeaveSettings()"> 👩 본인 휴직</label></div>
-      <div class="calc-row"><div class="calc-label" style="font-size:11px">개월 수</div><input type="number" class="calc-input" id="leaveM1" value="12" min="1" max="18" oninput="saveLeaveSettings()"><span class="calc-unit">개월</span></div>
-      <div class="calc-row"><div class="calc-label" style="font-size:11px">시작일</div><input type="date" class="calc-input" id="leaveStart1" style="width:130px" onchange="saveLeaveSettings()"></div>
-    </div>
-    <div style="background:#E0F0FF;padding:10px;border-radius:10px;margin-bottom:8px">
-      <div style="font-size:12px;font-weight:700;color:#2A6DC0;margin-bottom:6px"><label><input type="checkbox" id="leaveUse2" onchange="saveLeaveSettings()"> 👨 배우자 휴직</label></div>
-      <div class="calc-row"><div class="calc-label" style="font-size:11px">개월 수</div><input type="number" class="calc-input" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()"><span class="calc-unit">개월</span></div>
-      <div class="calc-row"><div class="calc-label" style="font-size:11px">시작일</div><input type="date" class="calc-input" id="leaveStart2" style="width:130px" onchange="saveLeaveSettings()"></div>
-    </div>
-    <label style="font-size:11px;display:block;margin-bottom:6px;padding:6px 8px;background:#FFF3CD;border-radius:6px"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> (부부 모두 사용 시 첫 6개월 상향)</label>
-    <div class="calc-result" id="leaveResult">연봉·휴직자를 입력하세요</div>
+  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 상세 계산<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()">
+    <div style="font-size:11px;color:#666;margin-bottom:10px;background:#FFF9E6;padding:9px;border-radius:7px">💡 <b>설정은 홈 화면</b>의 "💼 육아휴직 계획"에서 변경하세요. 여기서는 월별 막대그래프와 산정 근거만 보여드립니다.</div>
+    <div class="calc-result" id="leaveResult">홈에서 휴직자를 체크하면 여기에 상세 계산이 표시됩니다</div>
   </div></div>
   <div class="tool" id="toolTot18" onclick="togTool('toolTot18')"><div class="tool-h"><span class="tool-ic">💰</span>0~18세 총 수령액 시뮬레이터<span class="tool-arrow">▼</span></div><div class="tool-body" id="tot18Body"></div></div>
   <div class="tool" id="toolVac" onclick="togTool('toolVac')"><div class="tool-h"><span class="tool-ic">💉</span>국가필수 예방접종 캘린더<span class="tool-arrow">▼</span></div><div class="tool-body" id="vacBody"></div></div>
@@ -1679,6 +1692,10 @@ function renderTools(){
     if(s1&&!s1.value)s1.value=pProf.due;
     if(s2&&!s2.value)s2.value=pProf.due;
   }
+  // 체크 상태에 따라 박스 표시
+  const b1=document.getElementById('leaveBox1'),b2=document.getElementById('leaveBox2');
+  if(b1)b1.style.display=document.getElementById('leaveUse1')?.checked?'block':'none';
+  if(b2)b2.style.display=document.getElementById('leaveUse2')?.checked?'block':'none';
   const safe=(fn,name)=>{try{fn();}catch(e){console.error('renderTools.'+name,e);}};
   safe(renderRoadmap,'Roadmap');safe(renderVouch,'Vouch');safe(renderNB,'NB');safe(renderSpouse,'Spouse');
   safe(renderWeekTasks,'Week');safe(renderVac,'Vac');safe(renderChk,'Chk');safe(renderPrep,'Prep');
@@ -2021,8 +2038,13 @@ function getLeaveSettings(){
 function saveLeaveSettings(){
   S._leave=getLeaveSettings();
   autoSave();
+  // Show/hide detail boxes based on checkbox
+  const b1=document.getElementById('leaveBox1'),b2=document.getElementById('leaveBox2');
+  if(b1)b1.style.display=document.getElementById('leaveUse1')?.checked?'block':'none';
+  if(b2)b2.style.display=document.getElementById('leaveUse2')?.checked?'block':'none';
   calcLeave();
   renderCalendar(getVisible(),getProfile());
+  renderThisMonth();
 }
 
 function calcLeave(){
@@ -2263,18 +2285,53 @@ function renderAgeTimeline(){
   if(!el)return;
   const p=getProfile();
   if(!p.due){el.style.display='none';return;}
+  const isSeoul=p.city==='seoul',isIncheon=p.city==='incheon';
   const rows=[
-    {age:'임신 중',items:['국민행복카드 100만','엽산·철분제 무료','임산부 교통비','태아보험 가입(16~22주)','영양플러스(중위80%)','산전검사 무료']},
-    {age:'출산 직후',items:['첫만남이용권 200만','부모급여 시작','아동수당 시작','배우자 출산휴가 20일','전기요금 감면','자치구 축하금']},
-    {age:'0세 (0~12개월)',items:['부모급여 월 100만','아동수당 월 10만','산후도우미','영유아 건강검진 1~3차','필수 예방접종 집중']},
-    {age:'1세 (12~24개월)',items:['부모급여 월 50만','아동수당 월 10만','건강검진 4차','구강검진 1차','기저귀·분유 지원(대상 시)']},
-    {age:'2~3세',items:['어린이집 보육료 전액','양육수당(가정양육)','건강검진 5~6차','MMR·DTaP 추가']},
-    {age:'4~6세',items:['어린이집 보육료','건강검진 7~8차','예방접종 만6세 일본뇌염','유치원 준비']},
-    {age:'7~8세',items:['아동수당 (만9세 확대)','자녀 세액공제','다자녀 KTX 할인','초등학교 입학']},
-    {age:'~18세',items:['아동수당 연차 확대','다자녀 혜택 유지','인천 아이꿈수당(인천)','대학 진학 지원']},
+    {age:'임신 중',items:[
+      {t:'국민행복카드 100만'},{t:'엽산·철분제 무료'},
+      isSeoul&&{t:'서울 임산부 교통비',tag:'seoul'},
+      isIncheon&&{t:'인천 임산부 교통비',tag:'incheon'},
+      {t:'태아보험 가입(16~22주)'},{t:'영양플러스(중위80%)'},{t:'산전검사 무료'}
+    ]},
+    {age:'출산 직후',items:[
+      {t:'첫만남이용권 200만'},{t:'부모급여 시작'},{t:'아동수당 시작'},
+      {t:'배우자 출산휴가 20일'},{t:'전기요금 감면'},
+      isSeoul&&{t:'서울형 산후조리경비',tag:'seoul'},
+      isIncheon&&{t:'인천 맘편한 산후조리비',tag:'incheon'},
+      {t:'자치구 축하금'}
+    ]},
+    {age:'0세 (0~12개월)',items:[
+      {t:'부모급여 월 100만'},{t:'아동수당 월 10만'},{t:'산후도우미'},
+      {t:'영유아 건강검진 1~3차'},{t:'필수 예방접종 집중'}
+    ]},
+    {age:'1세 (12~24개월)',items:[
+      {t:'부모급여 월 50만'},{t:'아동수당 월 10만'},{t:'건강검진 4차'},
+      {t:'구강검진 1차'},{t:'기저귀·분유 지원(대상시)'},
+      isIncheon&&{t:'인천 천사지원금 시작',tag:'incheon'}
+    ]},
+    {age:'2~3세',items:[
+      {t:'어린이집 보육료 전액'},{t:'양육수당(가정양육)'},{t:'건강검진 5~6차'},{t:'MMR·DTaP 추가'},
+      isIncheon&&{t:'인천 천사지원금',tag:'incheon'}
+    ]},
+    {age:'4~6세',items:[
+      {t:'어린이집 보육료'},{t:'건강검진 7~8차'},{t:'예방접종 만6세 일본뇌염'},{t:'유치원 준비'},
+      isIncheon&&{t:'인천 천사지원금',tag:'incheon'}
+    ]},
+    {age:'7~8세',items:[
+      {t:'아동수당 (만9세 확대)'},{t:'자녀 세액공제 25만'},{t:'다자녀 KTX 할인',cond:p.childN>=2},{t:'초등학교 입학'},
+      isIncheon&&{t:'인천 아이꿈수당 시작',tag:'incheon'}
+    ]},
+    {age:'~18세',items:[
+      {t:'아동수당 연차 확대'},{t:'자녀 세액공제 지속'},{t:'다자녀 혜택',cond:p.childN>=2},
+      isIncheon&&{t:'인천 아이꿈수당',tag:'incheon'},
+      {t:'대학 진학 지원'}
+    ]},
   ];
   el.innerHTML=`<div class="tline-h">📊 0~18세 혜택 타임라인</div><div class="tline-track">`+
-    rows.map((r,i)=>`<div class="tline-row"><div class="tline-dot">${i+1}</div><div class="tline-age">${r.age}</div><div class="tline-chips">${r.items.map(x=>`<span class="tline-chip ${x.includes('인천')?'':'gov'}">${x}</span>`).join('')}</div></div>`).join('')+
+    rows.map((r,i)=>{
+      const items=r.items.filter(x=>x&&(x.cond===undefined||x.cond));
+      return `<div class="tline-row"><div class="tline-dot">${i+1}</div><div class="tline-age">${r.age}</div><div class="tline-chips">${items.map(x=>`<span class="tline-chip ${x.tag==='seoul'?'':x.tag==='incheon'?'':'gov'}"${x.tag==='seoul'?' style="background:#FFE4EC;color:#C0385A"':x.tag==='incheon'?' style="background:#E0FFE8;color:#2A8A4A"':''}>${x.t}</span>`).join('')}</div></div>`;
+    }).join('')+
     `</div>`;
   el.style.display='';
 }
