@@ -2,8 +2,12 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
 <title>출산 혜택 트래커 2026</title>
+<meta name="theme-color" content="#FF8FAB">
+<meta name="description" content="2026년 한국 임산부·출산 가정이 받을 수 있는 혜택 130+개를 개인 맞춤으로 추적합니다. 부모급여·육아휴직·첫만남이용권 등 수령액 자동 계산.">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23FF8FAB'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-size='52'%3E🍼%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"출산 혜택 트래커","short_name":"출산혜택","description":"2026년 출산 혜택 개인 맞춤 트래커","start_url":".","display":"standalone","background_color":"%23FFF9FB","theme_color":"%23FF8FAB","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23FF8FAB%22/%3E%3Ctext x=%2250%22 y=%2262%22 text-anchor=%22middle%22 font-size=%2252%22%3E%F0%9F%8D%BC%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23FF8FAB%22/%3E%3Ctext x=%2250%22 y=%2262%22 text-anchor=%22middle%22 font-size=%2252%22%3E%F0%9F%8D%BC%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
@@ -528,6 +532,7 @@ body.dark .tline-dot{background:#1E1930}
     <button onclick="shiftFetusWeek(1)" style="background:rgba(255,255,255,.7);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;flex-shrink:0">▶</button>
   </div>
   <div id="fetusTip" style="font-size:11px;color:#7B5EA7;margin-top:8px;padding-top:8px;border-top:1px dashed #D4C5FF">💡 -</div>
+  <div id="fetusTaedam" style="font-size:12px;color:#C0385A;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.6);border-radius:8px;font-style:italic;display:none"></div>
   <div id="fetusBadge" style="display:none;text-align:center;font-size:10px;color:#666;margin-top:6px">탐색 중 - <span style="cursor:pointer;color:#C0385A;font-weight:700" onclick="S._fetusOffset=0;autoSave();renderFetus();">현재 주차로 돌아가기</span></div>
 </div>
 <div class="prog-w" style="padding:0 16px 10px"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
@@ -617,6 +622,7 @@ body.dark .tline-dot{background:#1E1930}
   <div class="tool" id="toolPrep" onclick="togTool('toolPrep')"><div class="tool-h"><span class="tool-ic">🎒</span>출산 준비물 체크리스트<span class="tool-arrow">▼</span></div><div class="tool-body" id="prepBody"></div></div>
   <div class="tool" id="toolDC" onclick="togTool('toolDC')"><div class="tool-h"><span class="tool-ic">🏫</span>어린이집 입소 대기 관리<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
   <div class="tool" id="toolGrow" onclick="togTool('toolGrow')"><div class="tool-h"><span class="tool-ic">📏</span>아기 성장 기록 (키·체중)<span class="tool-arrow">▼</span></div><div class="tool-body" id="growBody" onclick="event.stopPropagation()"></div></div>
+  <div class="tool" id="toolSim" onclick="togTool('toolSim')"><div class="tool-h"><span class="tool-ic">🎛️</span>What-if 시뮬레이션 (조건 바꾸면 얼마?)<span class="tool-arrow">▼</span></div><div class="tool-body" id="simBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolTax" onclick="togTool('toolTax')"><div class="tool-h"><span class="tool-ic">📊</span>연말정산 자녀 공제 가이드<span class="tool-arrow">▼</span></div><div class="tool-body" id="taxBody"></div></div>
 </div>
 </div><!-- end pgTools -->
@@ -640,6 +646,7 @@ body.dark .tline-dot{background:#1E1930}
 <div class="svst" id="svSt"></div>
 <div class="da">
   <button class="db db-s" onclick="openShare()">🔗 배우자와 공유</button>
+  <button class="db" style="background:#6B5CE7;color:#fff" onclick="exportICS()">📆 캘린더(ICS)로 저장</button>
   <button class="db" style="background:#333;color:#fff" onclick="togDark()">🌙 다크모드</button>
   <button class="db db-e" onclick="expData()">📤 백업 내보내기</button>
   <button class="db db-i" onclick="document.getElementById('impF').click()">📥 백업 불러오기</button>
@@ -1669,6 +1676,38 @@ function saveRec(id,btn){autoSave();btn.textContent='✅ 저장 완료!';btn.cla
 
 // ===== Export/Import =====
 function expData(){S._lastSaved=Date.now();const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='출산혜택_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);toast('📤 백업 다운로드');}
+
+// ICS 캘린더 내보내기
+function exportICS(){
+  const p=getProfile();
+  if(!p.due){alert('⚠️ 먼저 홈에서 출산 예정일을 입력해주세요.');return;}
+  const dd=new Date(p.due);
+  const fmt=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+  const addMonths=(d,n)=>{const x=new Date(d);x.setMonth(x.getMonth()+n);return x;};
+  const events=[];
+  const push=(title,date,desc)=>{
+    const dt=fmt(date).slice(0,8);
+    events.push(`BEGIN:VEVENT\nUID:${Math.random().toString(36).slice(2)}@btrack\nDTSTART;VALUE=DATE:${dt}\nSUMMARY:${title}\nDESCRIPTION:${(desc||'').replace(/\n/g,'\\n')}\nEND:VEVENT`);
+  };
+  push('🍼 출산 예정일',dd,'출산 예정일 D-Day');
+  push('⭐ 산후도우미 사전 신청',addDays(dd,-40),'산모·신생아 건강관리사를 출산 40일 전에 신청하세요.');
+  push('📝 출생신고 마감',addDays(dd,30),'출생일로부터 1개월 이내 신고 필수.');
+  push('💰 첫만남이용권/부모급여/아동수당 신청 D-30',addDays(dd,30),'정부24 행복출산 원스톱으로 일괄 신청.');
+  push('⚠️ 부모급여·아동수당 60일 소급 마감',addDays(dd,60),'이 날짜 이전에 신청해야 출생일부터 소급.');
+  push('🩷 서울형 산후조리경비 신청 마감',addDays(dd,60),'출산 후 60일 이내 서울맘케어에서 신청.');
+  push('👨 배우자 출산휴가 사용 마감',addDays(dd,120),'출산 후 120일 이내 20일 사용.');
+  // 매월 25일 부모급여
+  for(let i=0;i<24;i++){
+    const m=addMonths(dd,i);
+    const payDay=new Date(m.getFullYear(),m.getMonth(),25);
+    if(payDay>=dd)push('💖 부모급여 입금일',payDay,i<12?'0세 월 100만원':'1세 월 50만원');
+  }
+  const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//birth tracker//KR\n${events.join('\n')}\nEND:VCALENDAR`;
+  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='출산혜택_일정.ics';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  toast('📆 캘린더 파일 다운로드. Google·Apple 캘린더에서 가져오기 가능');
+}
 function impData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(typeof d!=='object')return alert('잘못된 파일');S=d;localStorage.setItem(SK,JSON.stringify(S));load();updateMedianUI();render();toast('📥 복원 완료');}catch(err){alert('파일 오류');}};r.readAsText(f);e.target.value='';}
 function rstData(){if(!confirm('모든 데이터를 초기화할까요?'))return;S={};localStorage.removeItem(SK);['inDue','inAge1','inAge2','inInc1','inInc2'].forEach(x=>document.getElementById(x).value='');document.getElementById('inChild').value='1';document.getElementById('inCity').value='';document.getElementById('inDist').innerHTML='<option value="">-- 선택 --</option>';document.getElementById('medianResult').style.display='none';document.getElementById('hSub').textContent='2026년 · 받을 수 있는 모든 혜택을 한눈에';render();toast('🔄 초기화 완료');}
 
@@ -1750,7 +1789,7 @@ function loadFromUrl(){
 
 // ===== 주차별 태아 크기 =====
 const FETUS_SIZE={
-  4:{e:'🌼',s:'양귀비씨',mm:'약 1mm',w:'< 1g',tip:'심장이 뛰기 시작'},
+  4:{e:'🌼',s:'양귀비씨',mm:'약 1mm',w:'< 1g',tip:'심장이 뛰기 시작',taedam:'아가야, 엄마 아빠가 많이 기다렸어. 만나서 반가워 💗'},
   5:{e:'🌱',s:'참깨',mm:'약 2mm',w:'< 1g',tip:'신경관 발달'},
   6:{e:'🫐',s:'블루베리',mm:'약 5mm',w:'< 1g',tip:'심장 초음파 확인 가능'},
   7:{e:'🫐',s:'크랜베리',mm:'약 10mm',w:'< 1g',tip:'팔·다리 싹 형성'},
@@ -1787,6 +1826,43 @@ const FETUS_SIZE={
   38:{e:'🎃',s:'중간 호박',mm:'약 49cm',w:'3.0kg',tip:'태아 위치 고정'},
   39:{e:'🍉',s:'작은 수박',mm:'약 50cm',w:'3.3kg',tip:'언제든 출산 가능'},
   40:{e:'🍉',s:'수박',mm:'약 51cm',w:'3.5kg',tip:'출산 예정일! 🎉'},
+};
+// 주차별 태담/팁 (베이비빌리식 락인 요소)
+const TAEDAM={
+  5:'아가가 막 생기기 시작했어. 소중해 💛',6:'심장이 뛴다는 걸 오늘 알았어, 신기하다',
+  7:'오늘따라 엄마 몸이 피곤하지만 네가 건강히 자라는 증거야',
+  8:'이제 손가락 발가락이 생긴대. 완벽한 사람이 되어가고 있어',
+  9:'작은 블루베리만한 네가 이렇게 소중할 줄이야',
+  10:'첫 기형아 검사 받고 왔어. 괜찮다고 해서 안심했어',
+  11:'어서 커서 엄마 아빠와 만나자 🌸',12:'안정기에 접어들고 있어. 조심조심 잘 지키자',
+  13:'성별이 슬슬 보인다는데... 누굴까 궁금해',
+  14:'오늘도 무사히 하루를 보냈어. 너 덕분이야',
+  15:'엄마 배가 조금 나왔어. 네가 자라고 있다는 증거',
+  16:'오늘 태동을 처음 느낀 것 같아! 인사해줬니?',
+  17:'네 목소리를 들려주고 싶어서 노래 불러줬어 🎵',
+  18:'아빠가 엄마 배에 대고 이야기했어. 들렸지?',
+  19:'태동이 점점 더 뚜렷해져. 건강하게 움직여줘',
+  20:'정밀초음파 받았어. 우리 아가가 정말 예쁘더라',
+  21:'이제 네가 엄마 목소리를 알아듣는대',
+  22:'소리에 반응하는 네가 사랑스러워',
+  23:'몸무게가 500g이 됐어. 작은 토끼만 하네 🐰',
+  24:'너의 존재가 우리 가족의 중심이 되고 있어',
+  25:'가끔 엄마 갈비뼈를 차는 것 같아. 씩씩하구나',
+  26:'눈을 뜨기 시작했다는데, 엄마 배 속은 어둡지?',
+  27:'엄마가 먹는 걸 너도 같이 먹고 있어. 잘 먹자',
+  28:'3차 초음파에서 네 얼굴을 또 봤어. 사랑해',
+  29:'이제 곧 만나자. 조금만 더 기다려줘',
+  30:'엄마가 요즘 잠이 많아. 네가 열심히 크고 있어서야',
+  31:'양수량이 최대래. 바다처럼 헤엄쳐라 🌊',
+  32:'오늘부터 산모·신생아 건강관리사 신청할 수 있어',
+  33:'네가 태어나면 우리 꼭 안아줄게',
+  34:'출산 가방을 싸기 시작했어. 곧이야',
+  35:'매일매일 기다려지는 너. 건강하게 나와줘',
+  36:'이제 언제든 태어나도 되는 만삭이야 ✨',
+  37:'만삭 축하해! 우리 아가가 이제 완성됐어',
+  38:'언제든 신호 주면 달려갈게',
+  39:'오늘이 될까 내일이 될까. 두근두근',
+  40:'오늘이 우리가 만나는 날일지도! 사랑해 💕',
 };
 
 // ===== 도구 데이터 =====
@@ -1900,7 +1976,47 @@ function renderTools(){
   safe(renderRoadmap,'Roadmap');safe(renderVouch,'Vouch');safe(renderNB,'NB');safe(renderSpouse,'Spouse');
   safe(renderWeekTasks,'Week');safe(renderVac,'Vac');safe(renderChk,'Chk');safe(renderPrep,'Prep');
   safe(renderDC,'DC');safe(renderTot18,'Tot18');safe(renderTax,'Tax');safe(calcLeave,'Leave');
-  safe(renderGrow,'Grow');safe(renderFetus,'Fetus');
+  safe(renderGrow,'Grow');safe(renderFetus,'Fetus');safe(renderSim,'Sim');
+}
+
+function renderSim(){
+  const el=document.getElementById('simBody');if(!el)return;
+  const p=getProfile();
+  // Baseline 계산 (현재 프로필)
+  const calcTotal=(inc1,inc2,childN,city)=>{
+    const pp={medianPct:0,childN,inc1,inc2,city,age1:p.age1,age2:p.age2,dist:p.dist,due:p.due};
+    // 근사 계산
+    let t=0;
+    t+=childN>=2?400:200; // 첫만남
+    t+=1800; // 부모급여
+    t+=1080; // 아동수당
+    t+=childN>=3?70:childN>=2?50:30; // 출산 세액공제
+    t+=19; // 전기요금
+    t+=childN>=3?95:childN>=2?55:25; // 자녀세액공제(1회 근사)
+    if(city==='seoul'){t+=childN>=3?100:childN>=2?80:70;t+=childN>=3?150:childN>=2?120:100;}
+    if(city==='incheon'){t+=50;t+=100;t+=840;t+=1980;}
+    return t;
+  };
+  const baseline=calcTotal(p.inc1,p.inc2,p.childN||1,p.city);
+  const scenarios=[
+    {nm:'현재 조건',amt:baseline,delta:0,bg:'#FFF5F8'},
+    {nm:'연봉 +500만 (본인)',amt:calcTotal(p.inc1+500,p.inc2,p.childN||1,p.city),bg:'#F0F8F0'},
+    {nm:'둘째 낳으면',amt:calcTotal(p.inc1,p.inc2,2,p.city),bg:'#FFE4EC'},
+    {nm:'셋째 낳으면',amt:calcTotal(p.inc1,p.inc2,3,p.city),bg:'#E0F0FF'},
+    {nm:'서울 이사 시',amt:calcTotal(p.inc1,p.inc2,p.childN||1,'seoul'),bg:'#FFF0F5'},
+    {nm:'인천 이사 시',amt:calcTotal(p.inc1,p.inc2,p.childN||1,'incheon'),bg:'#E8F5E9'},
+  ];
+  let h='<div style="font-size:11px;color:#666;margin-bottom:10px;background:#FFF9E6;padding:9px;border-radius:7px">💡 조건을 바꾸면 내가 받는 혜택이 얼마나 달라지나요? (고정 현금 혜택 기준, 육아휴직 별도)</div>';
+  scenarios.forEach(s=>{
+    const d=s.amt-baseline;
+    const deltaTxt=d===0?'<span style="color:#888">기준</span>':d>0?`<b style="color:#27AE60">+${d.toLocaleString()}만 ↑</b>`:`<b style="color:#E74C3C">${d.toLocaleString()}만 ↓</b>`;
+    h+=`<div style="background:${s.bg};border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:12px;font-weight:700">${s.nm}</div><div style="font-size:10px;color:#666;margin-top:2px">${deltaTxt}</div></div>
+      <div style="font-size:16px;font-weight:800;color:#C0385A">${s.amt.toLocaleString()}만</div>
+    </div>`;
+  });
+  h+='<div style="font-size:10px;color:#888;margin-top:10px;padding:8px;background:#FAFAFE;border-radius:7px">⚠️ 근사 계산입니다. 실제는 소득·지역 세부 조건에 따라 달라질 수 있어요. 자녀 세액공제는 1회 기준.</div>';
+  el.innerHTML=h;
 }
 
 // This month card
@@ -1980,6 +2096,9 @@ function renderFetus(){
   document.getElementById('fetusName').textContent=f.s+' 크기';
   document.getElementById('fetusSpec').textContent=`${f.mm} · ${f.w}`;
   document.getElementById('fetusTip').innerHTML='💡 '+f.tip;
+  const td=TAEDAM[wk];
+  const tdEl=document.getElementById('fetusTaedam');
+  if(tdEl){if(td){tdEl.textContent='💬 "'+td+'"';tdEl.style.display='block';}else{tdEl.style.display='none';}}
   const badge=document.getElementById('fetusBadge');
   if(off!==0)badge.style.display='block'; else badge.style.display='none';
   el.style.display='';
@@ -2590,6 +2709,22 @@ function enableCardSwipe(){
       sx=0;cx=0;
     },{passive:true});
   });
+}
+
+// PWA 서비스 워커 (인라인 Blob → 오프라인 캐싱)
+if('serviceWorker' in navigator){
+  try{
+    const swCode=`
+      const V='bt-v1';
+      self.addEventListener('install',e=>{self.skipWaiting();});
+      self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim());});
+      self.addEventListener('fetch',e=>{
+        if(e.request.method!=='GET')return;
+        e.respondWith(caches.open(V).then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{try{c.put(e.request,res.clone());}catch(_){}return res;}).catch(()=>r))));
+      });`;
+    const blob=new Blob([swCode],{type:'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  }catch(e){}
 }
 
 if(loadFromUrl()){}
