@@ -301,6 +301,74 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 .dc-rk{color:#6B5CE7;font-weight:700}
 .dc-del{color:#E74C3C;cursor:pointer;padding:3px 6px;font-size:13px}
 
+/* Onboarding Wizard */
+.onb-md{position:fixed;inset:0;background:linear-gradient(135deg,#FFD6E0,#D4F0F0,#FFF3CD);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.onb-md.show{display:flex}
+.onb-card{background:#fff;border-radius:24px;padding:26px 22px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative}
+.onb-prog{display:flex;gap:6px;margin-bottom:18px}
+.onb-dot{flex:1;height:5px;border-radius:3px;background:#F0E8EC;transition:background .3s}
+.onb-dot.done{background:var(--pri)}
+.onb-dot.active{background:linear-gradient(90deg,var(--pri),var(--acc))}
+.onb-step{display:none}
+.onb-step.active{display:block;animation:slide .3s}
+@keyframes slide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.onb-ic{font-size:52px;text-align:center;margin:10px 0}
+.onb-t{font-size:20px;font-weight:800;color:#C0385A;margin-bottom:5px;text-align:center}
+.onb-sub{font-size:12px;color:var(--txt-l);text-align:center;margin-bottom:20px}
+.onb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.onb-f{display:flex;flex-direction:column;gap:4px}
+.onb-f.full{grid-column:1/-1}
+.onb-l{font-size:11px;font-weight:700;color:var(--txt-l)}
+.onb-i{padding:11px 13px;border:2px solid #F0E8EC;border-radius:12px;font-size:14px;font-weight:600;background:#FAFAFA}
+.onb-i:focus{outline:none;border-color:var(--pri);background:#fff}
+.onb-btns{display:flex;gap:8px;margin-top:20px}
+.onb-btn{flex:1;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.onb-btn.prim{background:linear-gradient(135deg,var(--pri),var(--acc));color:#fff}
+.onb-btn.prim:active{transform:scale(.98)}
+.onb-btn.sec{background:#F0E8EC;color:var(--txt)}
+.onb-skip{text-align:center;margin-top:14px;font-size:11px;color:var(--txt-l);cursor:pointer}
+
+/* Confetti */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:400;display:none}
+.confetti.show{display:block}
+.confetti i{position:absolute;width:10px;height:10px;opacity:0;animation:fall 2.5s ease-out forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(-20vh) rotate(0)}100%{opacity:0;transform:translateY(110vh) rotate(720deg)}}
+
+/* Celebration card */
+.celeb{text-align:center;padding:20px 10px}
+.celeb-v{font-size:40px;font-weight:800;background:linear-gradient(135deg,#FF8FAB,#FFD166);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:14px 0 6px}
+.celeb-l{font-size:13px;color:#666;margin-bottom:16px}
+
+/* 5-tab FAB */
+.fab{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF8FAB,#FFD166);color:#fff;border:4px solid #fff;font-size:24px;cursor:pointer;z-index:101;box-shadow:0 4px 16px rgba(255,143,171,.4);transition:transform .2s;display:flex;align-items:center;justify-content:center}
+.fab:active{transform:translateX(-50%) scale(.92)}
+.fab-menu{position:fixed;bottom:118px;left:50%;transform:translateX(-50%) translateY(10px);background:#fff;border-radius:18px;padding:10px;box-shadow:0 10px 40px rgba(0,0,0,.15);z-index:101;display:none;min-width:220px;opacity:0;transition:all .2s}
+.fab-menu.show{display:block;transform:translateX(-50%) translateY(0);opacity:1}
+.fab-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--txt)}
+.fab-item:hover{background:#FFF5F8}
+.fab-ic{font-size:20px}
+body.dark .fab-menu{background:#1E1930}
+body.dark .fab-item{color:#E8E5F0}
+body.dark .fab-item:hover{background:#2A2340}
+
+/* Age×Benefit Timeline */
+.tline{margin:0 16px 14px;background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh)}
+.tline-h{font-size:13px;font-weight:700;color:#6B5CE7;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tline-track{position:relative;padding-left:36px}
+.tline-track::before{content:'';position:absolute;left:12px;top:8px;bottom:8px;width:3px;background:linear-gradient(var(--pri),var(--sec),var(--acc))}
+.tline-row{position:relative;padding:8px 0 14px;border-bottom:1px dashed #F0E8EC}
+.tline-row:last-child{border-bottom:none}
+.tline-dot{position:absolute;left:-30px;top:10px;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--pri);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--pri)}
+.tline-age{font-size:11px;font-weight:700;color:var(--txt-l);margin-bottom:4px}
+.tline-chips{display:flex;flex-wrap:wrap;gap:4px}
+.tline-chip{font-size:10px;padding:3px 8px;background:#FFE4EC;color:#C0385A;border-radius:10px;font-weight:600}
+.tline-chip.gov{background:#E0EEFF;color:#4A7DB5}
+body.dark .tline{background:#1E1930}
+body.dark .tline-dot{background:#1E1930}
+
+/* Card swipe hint */
+.bc.swipe-hint{position:relative}
+
 /* Footer */
 .disc{background:#FFF3CD;margin:0 16px 14px;padding:10px 12px;border-radius:var(--r);font-size:11px;color:#9A7830;line-height:1.5}
 .disc a{color:#C49040}
@@ -419,16 +487,19 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
   <div style="text-align:right;margin-top:10px;font-size:12px;color:#666">이번 달 합계 <b id="tmTotal" style="color:#C0385A;font-size:18px;margin-left:6px">-</b>만원</div>
 </div>
 
-<div id="fetusCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFE4EC,#F0E8FF);border-radius:16px;padding:14px;box-shadow:var(--sh)">
-  <div style="display:flex;align-items:center;gap:12px">
-    <div id="fetusEmo" style="font-size:38px">🌼</div>
-    <div style="flex:1">
+<div id="fetusCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFE4EC,#F0E8FF);border-radius:16px;padding:14px;box-shadow:var(--sh);position:relative">
+  <div style="display:flex;align-items:center;gap:10px">
+    <button onclick="shiftFetusWeek(-1)" style="background:rgba(255,255,255,.7);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;flex-shrink:0">◀</button>
+    <div id="fetusEmo" style="font-size:44px">🌼</div>
+    <div style="flex:1;min-width:0">
       <div style="font-size:11px;color:#996"><span id="fetusWk">-</span>주차 아기는</div>
       <div style="font-size:16px;font-weight:800;color:#C0385A" id="fetusName">-</div>
       <div style="font-size:11px;color:#666;margin-top:2px" id="fetusSpec">-</div>
     </div>
+    <button onclick="shiftFetusWeek(1)" style="background:rgba(255,255,255,.7);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;flex-shrink:0">▶</button>
   </div>
   <div id="fetusTip" style="font-size:11px;color:#7B5EA7;margin-top:8px;padding-top:8px;border-top:1px dashed #D4C5FF">💡 -</div>
+  <div id="fetusBadge" style="display:none;text-align:center;font-size:10px;color:#666;margin-top:6px">탐색 중 - <span style="cursor:pointer;color:#C0385A;font-weight:700" onclick="S._fetusOffset=0;autoSave();renderFetus();">현재 주차로 돌아가기</span></div>
 </div>
 <div class="prog-w" style="padding:0 16px 10px"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
 
@@ -468,6 +539,8 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
   <div class="cal-tot">총 정기 수령액: <b id="calTot">-</b>만원</div>
   <div id="calDetail"></div>
 </div>
+
+<div class="tline" id="ageTline" style="display:none"></div>
 </div><!-- end pgHome -->
 
 <div id="pgBenefits" class="page">
@@ -549,9 +622,106 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 <nav class="bnav">
   <button class="bnav-b active" onclick="goPage('Home',this)"><span class="bnav-ic">🏠</span><span class="bnav-t">홈</span></button>
   <button class="bnav-b" onclick="goPage('Benefits',this)"><span class="bnav-ic">🎁</span><span class="bnav-t">혜택</span></button>
+  <div style="width:60px"></div>
   <button class="bnav-b" onclick="goPage('Tools',this)"><span class="bnav-ic">🛠️</span><span class="bnav-t">도구</span></button>
   <button class="bnav-b" onclick="goPage('Me',this)"><span class="bnav-ic">👤</span><span class="bnav-t">내정보</span></button>
 </nav>
+<button class="fab" onclick="togFabMenu(event)">➕</button>
+<div class="fab-menu" id="fabMenu" onclick="event.stopPropagation()">
+  <div class="fab-item" onclick="fabAction('leave')"><span class="fab-ic">🧮</span>육아휴직 계산기</div>
+  <div class="fab-item" onclick="fabAction('share')"><span class="fab-ic">🔗</span>배우자와 공유</div>
+  <div class="fab-item" onclick="fabAction('dark')"><span class="fab-ic">🌙</span>다크모드 토글</div>
+  <div class="fab-item" onclick="fabAction('vouch')"><span class="fab-ic">💳</span>행복카드 잔액</div>
+  <div class="fab-item" onclick="fabAction('tot18')"><span class="fab-ic">💰</span>0~18세 총수령</div>
+</div>
+
+<!-- Onboarding Wizard -->
+<div class="onb-md" id="onbMd">
+  <div class="onb-card">
+    <div class="onb-prog">
+      <div class="onb-dot active" id="ob1d"></div>
+      <div class="onb-dot" id="ob2d"></div>
+      <div class="onb-dot" id="ob3d"></div>
+      <div class="onb-dot" id="ob4d"></div>
+    </div>
+    <div class="onb-step active" id="onbS1">
+      <div class="onb-ic">👋</div>
+      <div class="onb-t">환영합니다!</div>
+      <div class="onb-sub">간단한 3단계로 받을 수 있는 모든 혜택을<br>자동으로 찾아드릴게요</div>
+      <div class="onb-grid">
+        <div class="onb-f full">
+          <span class="onb-l">출산 예정일 (또는 출산일)</span>
+          <input type="date" class="onb-i" id="onbDue">
+        </div>
+        <div class="onb-f full">
+          <span class="onb-l">출산 순서</span>
+          <select class="onb-i" id="onbChild">
+            <option value="1">첫째</option>
+            <option value="2">둘째</option>
+            <option value="3">셋째 이상</option>
+          </select>
+        </div>
+      </div>
+      <div class="onb-btns">
+        <button class="onb-btn prim" onclick="onbNext(2)">다음 →</button>
+      </div>
+      <div class="onb-skip" onclick="onbSkip()">나중에 입력하기</div>
+    </div>
+    <div class="onb-step" id="onbS2">
+      <div class="onb-ic">👨‍👩‍👧</div>
+      <div class="onb-t">부부 정보</div>
+      <div class="onb-sub">소득에 따라 받을 수 있는 혜택이 달라져요</div>
+      <div class="onb-grid">
+        <div class="onb-f"><span class="onb-l">본인 나이 (만)</span><input type="number" class="onb-i" id="onbAge1" placeholder="32"></div>
+        <div class="onb-f"><span class="onb-l">배우자 나이 (만)</span><input type="number" class="onb-i" id="onbAge2" placeholder="34"></div>
+        <div class="onb-f"><span class="onb-l">본인 연봉(만원)</span><input type="number" class="onb-i" id="onbInc1" placeholder="5000"></div>
+        <div class="onb-f"><span class="onb-l">배우자 연봉</span><input type="number" class="onb-i" id="onbInc2" placeholder="5000"></div>
+      </div>
+      <div class="onb-btns">
+        <button class="onb-btn sec" onclick="onbNext(1)">← 이전</button>
+        <button class="onb-btn prim" onclick="onbNext(3)">다음 →</button>
+      </div>
+    </div>
+    <div class="onb-step" id="onbS3">
+      <div class="onb-ic">🏙️</div>
+      <div class="onb-t">거주 지역</div>
+      <div class="onb-sub">지자체별 혜택을 자동으로 찾아드려요</div>
+      <div class="onb-grid">
+        <div class="onb-f full">
+          <span class="onb-l">시/도</span>
+          <select class="onb-i" id="onbCity" onchange="onbCityChange()">
+            <option value="">-- 선택 --</option>
+            <option value="seoul">서울특별시</option>
+            <option value="incheon">인천광역시</option>
+          </select>
+        </div>
+        <div class="onb-f full">
+          <span class="onb-l">구/군</span>
+          <select class="onb-i" id="onbDist">
+            <option value="">-- 선택 --</option>
+          </select>
+        </div>
+      </div>
+      <div class="onb-btns">
+        <button class="onb-btn sec" onclick="onbNext(2)">← 이전</button>
+        <button class="onb-btn prim" onclick="onbNext(4)">완료! 🎉</button>
+      </div>
+    </div>
+    <div class="onb-step" id="onbS4">
+      <div class="celeb">
+        <div class="onb-ic" style="font-size:72px">🎉</div>
+        <div class="onb-t">축하합니다!</div>
+        <div class="celeb-v" id="celebV">-</div>
+        <div class="celeb-l">받을 수 있는 <b style="color:#C0385A" id="celebC">0</b>개 혜택을 찾아드렸어요!</div>
+      </div>
+      <div class="onb-btns">
+        <button class="onb-btn prim" onclick="onbDone()">혜택 보러 가기 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
 <div class="toast" id="toast"></div>
 <div class="share-md" id="shareMd">
   <div class="share-c">
@@ -1010,7 +1180,8 @@ function getWeekInfo(b,p){
 // ===== Render =====
 function render(){
   const vis=getVisible();const p=getProfile();
-  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderThisMonth();renderCards(vis,p);renderTL();updateSum(vis,p);
+  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderThisMonth();renderAgeTimeline();renderCards(vis,p);renderTL();updateSum(vis,p);
+  setTimeout(enableCardSwipe,50);
 }
 
 function renderDashboard(vis,p){
@@ -1499,14 +1670,18 @@ function renderThisMonth(){
 // Fetal size card
 function renderFetus(){
   const el=document.getElementById('fetusCard');if(!el)return;
-  const p=getProfile();const wk=getPregWeek(p);
-  if(!p.due||wk<4||wk>40){el.style.display='none';return;}
-  const f=FETUS_SIZE[wk]||FETUS_SIZE[Math.max(4,Math.min(40,wk))];
+  const p=getProfile();const curWk=getPregWeek(p);
+  if(!p.due||curWk<4||curWk>42){el.style.display='none';return;}
+  const off=S._fetusOffset||0;
+  const wk=Math.max(4,Math.min(40,curWk+off));
+  const f=FETUS_SIZE[wk]||FETUS_SIZE[40];
   document.getElementById('fetusEmo').textContent=f.e;
   document.getElementById('fetusWk').textContent=wk;
   document.getElementById('fetusName').textContent=f.s+' 크기';
   document.getElementById('fetusSpec').textContent=`${f.mm} · ${f.w}`;
   document.getElementById('fetusTip').innerHTML='💡 '+f.tip;
+  const badge=document.getElementById('fetusBadge');
+  if(off!==0)badge.style.display='block'; else badge.style.display='none';
   el.style.display='';
 }
 
@@ -1862,8 +2037,149 @@ function renderTax(){
 const _origRender=render;
 render=function(){_origRender();renderTools();};
 
+// ===== Onboarding =====
+function showOnb(){
+  document.getElementById('onbMd').classList.add('show');
+  // pre-fill if exist
+  const p=S._profile||{};
+  if(p.due)document.getElementById('onbDue').value=p.due;
+  if(p.childN)document.getElementById('onbChild').value=p.childN;
+  if(p.age1)document.getElementById('onbAge1').value=p.age1;
+  if(p.age2)document.getElementById('onbAge2').value=p.age2;
+  if(p.inc1)document.getElementById('onbInc1').value=p.inc1;
+  if(p.inc2)document.getElementById('onbInc2').value=p.inc2;
+  if(p.city){document.getElementById('onbCity').value=p.city;onbCityChange();if(p.dist)document.getElementById('onbDist').value=p.dist;}
+}
+function onbNext(step){
+  if(step===2||step===3||step===4){ // save current
+    const v=(id)=>document.getElementById(id).value;
+    const due=v('onbDue'),child=v('onbChild');
+    if(step>=2&&due)document.getElementById('inDue').value=due;
+    if(step>=2&&child)document.getElementById('inChild').value=child;
+    if(step>=3){
+      const a1=v('onbAge1'),a2=v('onbAge2'),i1=v('onbInc1'),i2=v('onbInc2');
+      if(a1)document.getElementById('inAge1').value=a1;
+      if(a2)document.getElementById('inAge2').value=a2;
+      if(i1)document.getElementById('inInc1').value=i1;
+      if(i2)document.getElementById('inInc2').value=i2;
+    }
+    if(step>=4){
+      const c=v('onbCity'),d=v('onbDist');
+      if(c){document.getElementById('inCity').value=c;onCityChange(true);if(d)document.getElementById('inDist').value=d;}
+    }
+    saveProfile();
+  }
+  document.querySelectorAll('.onb-step').forEach(el=>el.classList.remove('active'));
+  document.getElementById('onbS'+step).classList.add('active');
+  for(let i=1;i<=4;i++){
+    const d=document.getElementById('ob'+i+'d');if(!d)continue;
+    d.classList.remove('active','done');
+    if(i<step)d.classList.add('done');
+    else if(i===step)d.classList.add('active');
+  }
+  if(step===4){
+    // compute and show result
+    setTimeout(()=>{
+      const vis=getVisible();const p=getProfile();
+      const total=vis.filter(b=>getAmt(b,p)>0&&checkElig(b,p)!=='inelig'&&getKind(b)!=='perk').reduce((s,b)=>s+getAmt(b,p),0);
+      const cnt=vis.filter(b=>checkElig(b,p)!=='inelig').length;
+      document.getElementById('celebV').textContent=total.toLocaleString()+'만원';
+      document.getElementById('celebC').textContent=cnt;
+      fireConfetti();
+    },100);
+  }
+}
+function onbCityChange(){
+  const c=document.getElementById('onbCity').value;
+  const d=document.getElementById('onbDist');
+  d.innerHTML='<option value="">-- 선택 --</option>';
+  if(c&&DISTS[c])DISTS[c].forEach(x=>d.innerHTML+=`<option value="${x}">${x}</option>`);
+}
+function onbSkip(){S._onbDone=true;autoSave();document.getElementById('onbMd').classList.remove('show');}
+function onbDone(){S._onbDone=true;autoSave();document.getElementById('onbMd').classList.remove('show');render();}
+
+function fireConfetti(){
+  const c=document.getElementById('confetti');c.classList.add('show');c.innerHTML='';
+  const colors=['#FF8FAB','#FFD166','#A0D2DB','#E89BAE','#77DD77','#6B5CE7'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('i');
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDelay=Math.random()*0.8+'s';
+    p.style.animationDuration=(1.8+Math.random()*1.5)+'s';
+    if(Math.random()<0.3)p.style.borderRadius='50%';
+    c.appendChild(p);
+  }
+  setTimeout(()=>c.classList.remove('show'),3500);
+}
+
+// ===== FAB =====
+function togFabMenu(e){if(e)e.stopPropagation();document.getElementById('fabMenu').classList.toggle('show');}
+document.addEventListener('click',e=>{
+  const m=document.getElementById('fabMenu');
+  if(m&&!e.target.closest('.fab')&&!e.target.closest('.fab-menu'))m.classList.remove('show');
+});
+function fabAction(act){
+  document.getElementById('fabMenu').classList.remove('show');
+  if(act==='leave'){goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolLeave');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});if(!S._tools)S._tools={};S._tools.toolLeave=true;autoSave();}},200);}
+  else if(act==='share')openShare();
+  else if(act==='dark')togDark();
+  else if(act==='vouch'){goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolVouch');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});if(!S._tools)S._tools={};S._tools.toolVouch=true;autoSave();}},200);}
+  else if(act==='tot18'){goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolTot18');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});if(!S._tools)S._tools={};S._tools.toolTot18=true;autoSave();}},200);}
+}
+
+// ===== Age × Benefit Timeline =====
+function renderAgeTimeline(){
+  const el=document.getElementById('ageTline');
+  if(!el)return;
+  const p=getProfile();
+  if(!p.due){el.style.display='none';return;}
+  const rows=[
+    {age:'임신 중',items:['국민행복카드 100만','엽산·철분제 무료','임산부 교통비','태아보험 가입(16~22주)','영양플러스(중위80%)','산전검사 무료']},
+    {age:'출산 직후',items:['첫만남이용권 200만','부모급여 시작','아동수당 시작','배우자 출산휴가 20일','전기요금 감면','자치구 축하금']},
+    {age:'0세 (0~12개월)',items:['부모급여 월 100만','아동수당 월 10만','산후도우미','영유아 건강검진 1~3차','필수 예방접종 집중']},
+    {age:'1세 (12~24개월)',items:['부모급여 월 50만','아동수당 월 10만','건강검진 4차','구강검진 1차','기저귀·분유 지원(대상 시)']},
+    {age:'2~3세',items:['어린이집 보육료 전액','양육수당(가정양육)','건강검진 5~6차','MMR·DTaP 추가']},
+    {age:'4~6세',items:['어린이집 보육료','건강검진 7~8차','예방접종 만6세 일본뇌염','유치원 준비']},
+    {age:'7~8세',items:['아동수당 (만9세 확대)','자녀 세액공제','다자녀 KTX 할인','초등학교 입학']},
+    {age:'~18세',items:['아동수당 연차 확대','다자녀 혜택 유지','인천 아이꿈수당(인천)','대학 진학 지원']},
+  ];
+  el.innerHTML=`<div class="tline-h">📊 0~18세 혜택 타임라인</div><div class="tline-track">`+
+    rows.map((r,i)=>`<div class="tline-row"><div class="tline-dot">${i+1}</div><div class="tline-age">${r.age}</div><div class="tline-chips">${r.items.map(x=>`<span class="tline-chip ${x.includes('인천')?'':'gov'}">${x}</span>`).join('')}</div></div>`).join('')+
+    `</div>`;
+  el.style.display='';
+}
+
+// ===== Week slider (fetus) =====
+function shiftFetusWeek(dir){
+  const cur=S._fetusOffset||0;
+  S._fetusOffset=cur+dir;
+  autoSave();renderFetus();
+}
+
+// ===== Card swipe (touch) =====
+function enableCardSwipe(){
+  document.querySelectorAll('.bc').forEach(card=>{
+    if(card._swipeBound)return;
+    card._swipeBound=true;
+    let sx=0,cx=0,id;
+    card.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;id=card.dataset.id;},{passive:true});
+    card.addEventListener('touchmove',e=>{cx=e.touches[0].clientX;const dx=cx-sx;if(Math.abs(dx)>10){card.style.transform=`translateX(${dx*.35}px)`;card.style.transition='none';}},{passive:true});
+    card.addEventListener('touchend',()=>{
+      const dx=cx-sx;card.style.transition='transform .25s';card.style.transform='';
+      if(id&&dx<-80)togCk(id);
+      else if(id&&dx>80){const b=B.find(x=>x.id===id);if(b&&b.url)window.open(b.url,'_blank');}
+      sx=0;cx=0;
+    },{passive:true});
+  });
+}
+
 if(loadFromUrl()){}
 load();initDark();updateMedianUI();render();
+// First-time onboarding
+if(!S._onbDone&&!S._profile)setTimeout(showOnb,300);
+// Card swipe after render
+setTimeout(enableCardSwipe,500);
 </script>
 </body>
 </html>
