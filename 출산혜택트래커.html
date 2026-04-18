@@ -585,7 +585,7 @@ body.dark .tline-dot{background:#1E1930}
   <button class="st-b active" onclick="setSt('all',this)">전체</button>
   <button class="st-b" onclick="setSt('elig',this)">받을 수 있는</button>
   <button class="st-b" onclick="setSt('ck',this)">완료</button>
-  <button class="st-b" onclick="setSt('uck',this)">미완료</button>
+  <button class="st-b" onclick="setSt('skip',this)">대상 아님</button>
 </div>
 <div class="elig-toggle">
   <label class="elig-switch"><input type="checkbox" id="hideInelig" onchange="render()"><span class="elig-slider"></span></label>
@@ -1131,10 +1131,12 @@ function getVisible(){
 
 function cardVisible(b,elig){
   const ck=S[b.id]?.checked||false;
+  const sk=S[b.id]?.skip||false;
   if(curSt==='ck'&&!ck) return false;
   if(curSt==='uck'&&ck) return false;
-  if(curSt==='elig'&&elig==='inelig') return false;
-  if(document.getElementById('hideInelig')?.checked&&elig==='inelig') return false;
+  if(curSt==='elig'&&(elig==='inelig'||ck||sk)) return false; // 받을 수 있는: 체크/스킵/자격X 제외
+  if(curSt==='skip'&&!(sk||elig==='inelig')) return false; // 대상 아님: 수동+자동
+  if(document.getElementById('hideInelig')?.checked&&(elig==='inelig'||sk)) return false;
   if(curStage!=='all'){
     const stageMap={preg:['pregnancy'],birth:['birth'],money:['money','childcare'],work:['work'],housing:['housing'],tax:['tax']};
     const cats=stageMap[curStage]||[];
@@ -1260,6 +1262,7 @@ function getWeekInfo(b,p){
 // ===== Render =====
 function render(){
   const vis=getVisible();const p=getProfile();
+  try{renderTools();}catch(e){console.error('renderTools wrapper',e);} // 먼저 호출 (DOM 복원)
   try{renderFilters(vis);}catch(e){console.error('renderFilters',e);}
   try{renderDashboard(vis,p);}catch(e){console.error('renderDashboard',e);}
   try{renderCalendar(vis,p);}catch(e){console.error('renderCalendar',e);}
@@ -1268,7 +1271,6 @@ function render(){
   try{renderCards(vis,p);}catch(e){console.error('renderCards',e);}
   try{renderTL();}catch(e){console.error('renderTL',e);}
   try{updateSum(vis,p);}catch(e){console.error('updateSum',e);}
-  try{renderTools();}catch(e){console.error('renderTools wrapper',e);}
   setTimeout(enableCardSwipe,50);
 }
 
@@ -1309,17 +1311,23 @@ function renderCalendar(vis,p){
   if(!p.due){w.style.display='none';return;}
   const dd=new Date(p.due);
   const s=getLeaveSettings();
-  // 육아휴직 월별 배열 (출산일 기준 상대 월 인덱스)
+  // 육아휴직 월별 배열
   const leave1=(s.use1&&p.inc1)?leaveMonthly(p.inc1,s.m1,s.use66):[];
   const leave2=(s.use2&&p.inc2)?leaveMonthly(p.inc2,s.m2,s.use66):[];
-  // 시작일 offset (출산일 대비 몇 개월 뒤 시작)
   const offsetMonths=(dateStr)=>{
     if(!dateStr)return 0;
     const d=new Date(dateStr);
     return (d.getFullYear()-dd.getFullYear())*12+(d.getMonth()-dd.getMonth());
   };
-  const off1=s.start1?offsetMonths(s.start1):0;
-  const off2=s.start2?offsetMonths(s.start2):0;
+  let off1=s.start1?offsetMonths(s.start1):0;
+  let off2=s.start2?offsetMonths(s.start2):0;
+  // 산모 육아휴직은 출산전후휴가 3개월 뒤 시작이므로 자동 +3 보정 (시작일이 출산일 전후일 때)
+  const matAuto=s.use1 && off1<=0;
+  if(matAuto)off1=3;
+  // 산모 출산전후휴가: use1이면 첫 3개월 월 210만 (2025년 상한)
+  const mat1=s.use1?[210,210,210]:[];
+  // 배우자 출산휴가 20일 급여: 2026년 상한 168만 (첫 월에 지급)
+  const sp2=s.use2?[168]:[];
 
   const months=[];
   const nMonths=24;
@@ -1328,20 +1336,26 @@ function renderCalendar(vis,p){
     let pp=0;
     if(i<12)pp=100; else if(i<24)pp=50;
     const al=10;
+    const m1=(i<mat1.length)?mat1[i]:0; // 산모 출산전후휴가
+    const sp=(i<sp2.length)?sp2[i]:0;   // 배우자 출산휴가
     const i1=i-off1;const i2=i-off2;
     const lv1=(i1>=0&&i1<leave1.length)?leave1[i1]:0;
     const lv2=(i2>=0&&i2<leave2.length)?leave2[i2]:0;
-    const amt=pp+al+lv1+lv2;
-    months.push({mo,amt,pp,al,lv1,lv2,isBirth:i===0});
+    const amt=pp+al+m1+sp+lv1+lv2;
+    months.push({mo,amt,pp,al,m1,sp,lv1,lv2,isBirth:i===0});
   }
   const tot=months.reduce((s,m)=>s+m.amt,0);
   const tot1=months.reduce((s,m)=>s+m.lv1,0);
   const tot2=months.reduce((s,m)=>s+m.lv2,0);
   const totPP=months.reduce((s,m)=>s+m.pp,0);
   const totAL=months.reduce((s,m)=>s+m.al,0);
+  const totMat=months.reduce((s,m)=>s+m.m1,0);
+  const totSp=months.reduce((s,m)=>s+m.sp,0);
   let summary=`부모급여 ${totPP} + 아동수당 ${totAL}`;
-  if(tot1)summary+=` + 👩 ${tot1}`;
-  if(tot2)summary+=` + 👨 ${tot2}`;
+  if(totMat)summary+=` + 🩷 출산전후 ${totMat}`;
+  if(totSp)summary+=` + 🧡 배우자휴가 ${totSp}`;
+  if(tot1)summary+=` + 👩 육휴 ${tot1}`;
+  if(tot2)summary+=` + 👨 육휴 ${tot2}`;
   document.getElementById('calSum').textContent=summary+'만원';
   document.getElementById('calTot').textContent=tot.toLocaleString();
   const maxAmt=Math.max(...months.map(m=>m.amt),1);
@@ -1370,12 +1384,14 @@ function renderCalendar(vis,p){
 function showMonthDetail(idx){
   const m=(window._calMonths||[])[idx];if(!m)return;
   const parts=[];
-  if(m.pp>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#FFE4EC;border-radius:7px;margin-bottom:4px"><span>💖 부모급여 (${idx<12?'0세':'1세'})</span><b style="color:#C0385A">${m.pp}만원</b></div>`);
-  if(m.al>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#FFF3CD;border-radius:7px;margin-bottom:4px"><span>💛 아동수당</span><b style="color:#9A7830">${m.al}만원</b></div>`);
-  if(m.lv1>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#E0F0FF;border-radius:7px;margin-bottom:4px"><span>💙 본인 육아휴직급여</span><b style="color:#2A6DC0">${m.lv1}만원</b></div>`);
-  if(m.lv2>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#E0FFE8;border-radius:7px;margin-bottom:4px"><span>💚 배우자 육아휴직급여</span><b style="color:#2A8A4A">${m.lv2}만원</b></div>`);
+  if(m.pp>0)parts.push(`💖 부모급여 (${idx<12?'0세':'1세'}): ${m.pp}만`);
+  if(m.al>0)parts.push(`💛 아동수당: ${m.al}만`);
+  if(m.m1>0)parts.push(`🩷 산모 출산전후휴가: ${m.m1}만`);
+  if(m.sp>0)parts.push(`🧡 배우자 출산휴가: ${m.sp}만`);
+  if(m.lv1>0)parts.push(`💙 본인 육아휴직: ${m.lv1}만`);
+  if(m.lv2>0)parts.push(`💚 배우자 육아휴직: ${m.lv2}만`);
   const ttl=`${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월`;
-  alert(`📅 ${ttl} 예상 수령액\n\n` + parts.map(p=>p.replace(/<[^>]+>/g,'').replace(/\s+/g,' ')).join('\n') + `\n\n✅ 합계: ${m.amt}만원\n\n💡 부모급여는 0세 100만/1세 50만. 육아휴직급여는 연봉과 휴직기간에 따라 계산됩니다.`);
+  alert(`📅 ${ttl} 예상 수령액\n\n${parts.join('\n')}\n\n✅ 합계: ${m.amt}만원\n\n💡 부모급여는 0세 월100만/1세 월50만.\n💡 산모 출산전후휴가 90일은 월 상한 210만.\n💡 배우자 출산휴가 20일 = 약 168만 (2026년).`);
 }
 function jumpTo(id){
   const el=document.querySelector(`[data-id="${id}"]`);
@@ -1421,15 +1437,16 @@ function renderCards(vis,p){
       const amtD=b.at||(amt>0?amt.toLocaleString()+'만원':'무료/현물');
       const isCash=b.type==='cash'&&amt>0;
       const inelig=elig==='inelig';
+      const sk=S[b.id]?.skip||false;
 
-      h+=`<div class="bc ${ck?'ck':''} ${exp?'exp':''} ${inelig?'inelig':''} ${v?'':'hidden'}" data-id="${b.id}">
+      h+=`<div class="bc ${ck?'ck':''} ${exp?'exp':''} ${inelig||sk?'inelig':''} ${v?'':'hidden'}" data-id="${b.id}">
         <div class="bt">
           <div class="bchk ${ck?'ck':''}" onclick="togCk('${b.id}')">✓</div>
           <div class="bi">
-            <div class="bn">${b.nm}<span class="bb ${b.bc}">${b.bg}</span>${inelig?`<span class="inelig-tag">대상 아님${b.eligTxt?' · '+b.eligTxt:''}</span>`:''}${(()=>{const dl=getDeadlineInfo(b,p);if(!dl||dl.lvl==='g'||ck)return '';const txt=dl.daysLeft<0?`⚠️ 기한 ${Math.abs(dl.daysLeft)}일 경과`:`⏰ D-${dl.daysLeft}`;const col=dl.lvl==='r'?'#E74C3C':'#F39C12';return `<span class="bb" style="background:${col};color:#fff">${txt}</span>`;})()}</div>
+            <div class="bn">${b.nm}<span class="bb ${b.bc}">${b.bg}</span>${inelig?`<span class="inelig-tag">자격 조건 미해당${b.eligTxt?' · '+b.eligTxt:''}</span>`:''}${sk?`<span class="inelig-tag" style="background:#999;color:#fff">해당 없음 (내가 표시)</span>`:''}${(()=>{const dl=getDeadlineInfo(b,p);if(!dl||dl.lvl==='g'||ck)return '';const txt=dl.daysLeft<0?`⚠️ 기한 ${Math.abs(dl.daysLeft)}일 경과`:`⏰ D-${dl.daysLeft}`;const col=dl.lvl==='r'?'#E74C3C':'#F39C12';return `<span class="bb" style="background:${col};color:#fff">${txt}</span>`;})()}</div>
             <div class="ba ${b.type==='service'?'svc':''}">${amtD}</div>
             <div class="bd">${b.desc}</div>
-            <button class="bexp" onclick="togExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><button class="bexp" onclick="togExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>${!ck?`<button onclick="togSkip('${b.id}')" style="font-size:10px;padding:4px 9px;border:1px solid #CCC;background:${sk?'#999':'#fff'};color:${sk?'#fff':'#888'};border-radius:10px;cursor:pointer;font-weight:600">${sk?'✓ 해당 없음':'❌ 해당 없음'}</button>`:''}</div>
             <div class="bdet">
               <div class="det-section">
                 <div class="det-title">📋 신청 정보</div>
@@ -1478,7 +1495,7 @@ function renderTL(){
 }
 
 function updateSum(vis,p){
-  const cash=vis.filter(b=>getAmt(b,p)>0&&checkElig(b,p)!=='inelig'&&getKind(b)!=='perk');
+  const cash=vis.filter(b=>getAmt(b,p)>0&&checkElig(b,p)!=='inelig'&&getKind(b)!=='perk'&&!S[b.id]?.skip);
   const total=cash.reduce((s,b)=>s+getAmt(b,p),0);
   let recv=0,ckCnt=0;
   vis.forEach(b=>{
@@ -1521,7 +1538,30 @@ function updateSum(vis,p){
 
 // ===== Handlers =====
 function togCat(catId){const cur=S['_col_'+catId]===undefined?true:S['_col_'+catId];S['_col_'+catId]=!cur;autoSave();render();}
-function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
+function togCk(id){
+  if(!S[id])S[id]={};
+  const b=B.find(x=>x.id===id);const nm=b?.nm||'이 혜택';
+  if(S[id].checked){
+    if(!confirm(`✅→⬜ "${nm}"\n\n체크를 해제할까요?\n기록된 수령액·날짜가 초기화됩니다.`))return;
+  }else{
+    if(!confirm(`⬜→✅ "${nm}"\n\n이 혜택을 받은 것으로 체크할까요?`))return;
+  }
+  S[id].checked=!S[id].checked;
+  if(!S[id].checked){S[id].received='';S[id].date='';}else{S[id].skip=false;}
+  autoSave();render();
+}
+function togSkip(id){
+  if(!S[id])S[id]={};
+  const b=B.find(x=>x.id===id);const nm=b?.nm||'이 항목';
+  if(!S[id].skip){
+    if(!confirm(`❌ "${nm}"\n\n해당 없음으로 표시할까요?\n이 혜택은 총액 계산·추천에서 제외됩니다.`))return;
+  }else{
+    if(!confirm(`"${nm}"\n\n"해당 없음" 표시를 풀고 다시 받을 수 있는 혜택으로 표시할까요?`))return;
+  }
+  S[id].skip=!S[id].skip;
+  if(S[id].skip)S[id].checked=false;
+  autoSave();render();
+}
 function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
 function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
 function upDate(id,v){if(!S[id])S[id]={};S[id].date=v;}
@@ -1771,14 +1811,20 @@ function renderThisMonth(){
   const leave1=(s.use1&&p.inc1)?leaveMonthly(p.inc1,s.m1,s.use66):[];
   const leave2=(s.use2&&p.inc2)?leaveMonthly(p.inc2,s.m2,s.use66):[];
   const offM=(ds)=>{if(!ds)return 0;const d=new Date(ds);return (d.getFullYear()-dd.getFullYear())*12+(d.getMonth()-dd.getMonth());};
-  const i1=idx-offM(s.start1);const i2=idx-offM(s.start2);
+  let off1v=offM(s.start1);if(s.use1&&off1v<=0)off1v=3;
+  const off2v=offM(s.start2);
+  const i1=idx-off1v;const i2=idx-off2v;
   const lv1=(i1>=0&&i1<leave1.length)?leave1[i1]:0;
   const lv2=(i2>=0&&i2<leave2.length)?leave2[i2]:0;
-  const total=pp+al+lv1+lv2;
+  const m1Pay=(s.use1&&idx<3)?210:0;
+  const spPay=(s.use2&&idx===0)?168:0;
+  const totalLV1=lv1+m1Pay;
+  const totalLV2=lv2+spPay;
+  const total=pp+al+totalLV1+totalLV2;
   document.getElementById('tmPP').textContent=pp+'만';
   document.getElementById('tmAL').textContent=al+'만';
-  document.getElementById('tmLV1').textContent=lv1?lv1+'만':'-';
-  document.getElementById('tmLV2').textContent=lv2?lv2+'만':'-';
+  document.getElementById('tmLV1').textContent=totalLV1?totalLV1+'만':'-';
+  document.getElementById('tmLV2').textContent=totalLV2?totalLV2+'만':'-';
   document.getElementById('tmTotal').textContent=total.toLocaleString();
   card.style.display='';
 }
@@ -1790,6 +1836,7 @@ function renderBreakdown(vis,p,total){
   const topByCat={};
   vis.forEach(b=>{
     if(checkElig(b,p)==='inelig')return;
+    if(S[b.id]?.skip)return;
     if(getKind(b)==='perk')return;
     const amt=getAmt(b,p);if(!amt||amt<=0)return;
     byCat[b.cat]=(byCat[b.cat]||0)+amt;
