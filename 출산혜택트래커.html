@@ -8,15 +8,20 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
 body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:70px;transition:background .3s}
-body.dark{--bg:#1a1625;--txt:#E0DEEA;--txt-l:#8B839E;--pri-l:#3D2E3E;--no:#2A2539;--r:14px;--sh:0 3px 16px rgba(0,0,0,.3)}
-body.dark .header{background:linear-gradient(135deg,#4A2A3A,#2E3E4A 50%,#4E4530)}
-body.dark .onboard,body.dark .sum-card,body.dark .bc,body.dark .tool,body.dark .calw,body.dark .bnav,body.dark .share-c{background:#262036;color:#E0DEEA}
-body.dark .ob-input,body.dark .ob-select,body.dark .search-i,body.dark .ri,body.dark .rd,body.dark .calc-input,body.dark .dc-inp{background:#332A42;color:#E0DEEA;border-color:#4A4056}
-body.dark .st-b,body.dark .sec-b,body.dark .ft-b{background:#332A42;color:#B0A8C0}
-body.dark .prep-item,body.dark .dc-row,body.dark .vac-item,body.dark .wk-task,body.dark .actd-item{background:#332A42;color:#E0DEEA}
-body.dark .det-highlight{background:#3D3349;color:#E0DEEA}
-body.dark .doc-tag{background:#3D3349}
-body.dark .hero-stat{background:linear-gradient(135deg,#4A2A3A,#3E3D4A)}
+body.dark{--bg:#15111F;--txt:#E8E5F0;--txt-l:#9B92B0;--pri:#E89BAE;--pri-l:#3D2E3E;--no:#2A2539;--r:14px;--sh:0 3px 16px rgba(0,0,0,.4);--acc:#F5C77A}
+body.dark .header{background:linear-gradient(135deg,#3D2030,#1F2E3E 50%,#3E3520)}
+body.dark .onboard,body.dark .sum-card,body.dark .bc,body.dark .tool,body.dark .calw,body.dark .bnav,body.dark .share-c,body.dark .actd{background:#1E1930;color:#E8E5F0;border-color:#2E2842}
+body.dark .ob-input,body.dark .ob-select,body.dark .search-i,body.dark .ri,body.dark .rd,body.dark .calc-input,body.dark .dc-inp{background:#2A2340;color:#E8E5F0;border-color:#3A3250}
+body.dark .st-b,body.dark .sec-b,body.dark .ft-b{background:#2A2340;color:#B0A8C0}
+body.dark .prep-item,body.dark .dc-row,body.dark .vac-item,body.dark .wk-task,body.dark .actd-item{background:#2A2340;color:#E8E5F0}
+body.dark .det-highlight{background:#332948;color:#E8E5F0}
+body.dark .doc-tag{background:#332948;color:#C5B8DC}
+body.dark .hero-stat{background:linear-gradient(135deg,#3D2030,#2F3545);color:#E8E5F0}
+body.dark .hero-v,body.dark .hero-sub-v2 b,body.dark .actd-t{color:#E89BAE}
+body.dark .hero-sub-v2>div{background:rgba(255,255,255,.08)}
+body.dark .cat-s,body.dark .cat-body{background:transparent}
+body.dark .cal-m,body.dark .cal-m.has{background:#2A2340}
+body.dark .cal-m-bar{background:linear-gradient(to top,rgba(232,155,174,.3),rgba(245,199,122,.2))}
 body.dark .fade-bg{filter:brightness(.6)}
 /* Bottom Navigation */
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F0E8EC;display:flex;z-index:100;box-shadow:0 -2px 16px rgba(0,0,0,.06)}
@@ -29,11 +34,27 @@ body.dark .fade-bg{filter:brightness(.6)}
 .page{display:none}
 .page.active{display:block}
 /* Hero */
-.hero-stat{background:linear-gradient(135deg,#FFD6E0,#FFF3CD);margin:12px 16px;border-radius:16px;padding:16px;text-align:center;box-shadow:var(--sh)}
+.hero-stat{background:linear-gradient(135deg,#FFD6E0,#FFF3CD);margin:12px 16px;border-radius:18px;padding:16px;text-align:center;box-shadow:var(--sh)}
 .hero-v{font-size:28px;font-weight:800;color:#C0385A;line-height:1.1}
 .hero-l{font-size:11px;color:#996;margin-top:3px}
 .hero-sub{display:flex;justify-content:center;gap:16px;margin-top:10px;font-size:11px}
 .hero-sub b{color:#C0385A;font-weight:700;font-size:13px;display:block}
+.hero-v2{display:flex;gap:14px;align-items:center;text-align:left}
+.hero-ring-wrap{flex-shrink:0}
+.hero-right{flex:1;min-width:0}
+.hero-right .hero-v{font-size:26px;margin-top:2px}
+.hero-right .hero-l{font-size:10px;margin-top:0}
+.hero-sub-v2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.hero-sub-v2>div{background:rgba(255,255,255,.5);border-radius:8px;padding:5px 8px}
+.hero-sub-v2 span{font-size:10px;color:#996;display:block}
+.hero-sub-v2 b{font-size:13px;color:#C0385A;font-weight:800}
+/* Life stage switcher */
+.lstage{display:flex;gap:5px;margin:0 16px 14px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.lstage::-webkit-scrollbar{display:none}
+.lstage-b{flex-shrink:0;padding:7px 14px;border:1.5px solid #F0E8EC;border-radius:20px;background:#fff;font-size:11px;font-weight:700;color:var(--txt-l);cursor:pointer;transition:all .2s}
+.lstage-b.active{background:linear-gradient(135deg,#FF8FAB,#FFD166);color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(255,143,171,.3)}
+body.dark .lstage-b{background:#2A2340;border-color:#3A3250}
+body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);color:#1a1625}
 .header{background:linear-gradient(135deg,#FFD6E0,#D4F0F0 50%,#FFF3CD);padding:32px 20px 24px;text-align:center}
 .header h1{font-size:24px;font-weight:800;color:#E75480}
 .header .sub{font-size:13px;color:#C4748E;margin-top:3px}
@@ -85,8 +106,9 @@ body.dark .fade-bg{filter:brightness(.6)}
 .sec-b{flex:1;padding:10px;border:none;border-bottom:3px solid #F0E8EC;font-size:14px;font-weight:700;cursor:pointer;background:transparent;color:var(--txt-l);text-align:center;transition:all .2s}
 .sec-b.active{border-bottom-color:var(--pri);color:#E75480}
 .sec-b .sec-cnt{font-size:11px;font-weight:600;opacity:.6;display:block;margin-top:1px}
-.b-link{display:inline-block;margin-top:6px;padding:5px 10px;background:#F0ECFF;color:#6B5CE7;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;transition:background .2s}
-.b-link:hover{background:#E0D8FF}
+.b-link{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:7px 12px;background:linear-gradient(135deg,#6B5CE7,#9B7ED9);color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(107,92,231,.25)}
+.b-link:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(107,92,231,.35)}
+.b-link:active{transform:translateY(0)}
 /* Accordion category */
 .cat-h{cursor:pointer;user-select:none}
 .cat-h .cat-arrow{margin-left:6px;font-size:12px;color:var(--txt-l);transition:transform .2s}
@@ -194,13 +216,15 @@ body.dark .fade-bg{filter:brightness(.6)}
 .calw-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .calw-t{font-size:14px;font-weight:800;color:var(--pri)}
 .calw-sum{font-size:11px;color:var(--txt-l);margin-left:auto}
-.cal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
-.cal-m{background:#FFF0F5;border-radius:7px;padding:6px 4px;text-align:center;position:relative;cursor:default}
-.cal-m.has{background:linear-gradient(135deg,#FFE4EC,#FFF3CD)}
-.cal-m.birth{background:linear-gradient(135deg,#FFD6E0,#FFD4DC);border:2px solid var(--pri)}
-.cal-m-mo{font-size:9px;color:var(--txt-l);font-weight:600}
-.cal-m-am{font-size:11px;font-weight:700;color:var(--pri);margin-top:2px}
+.cal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.cal-m{background:#FFF0F5;border-radius:9px;padding:8px 4px 6px;text-align:center;position:relative;cursor:default;overflow:hidden;min-height:52px;display:flex;flex-direction:column;justify-content:flex-end}
+.cal-m-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(255,143,171,.35),rgba(255,209,102,.25));transition:height .5s;z-index:0}
+.cal-m.has{background:#FFF5F8}
+.cal-m.birth{background:linear-gradient(135deg,#FFD6E0,#FFD4DC);border:2px solid var(--pri);font-weight:800}
+.cal-m-mo{font-size:9px;color:var(--txt-l);font-weight:600;position:relative;z-index:1}
+.cal-m-am{font-size:11px;font-weight:800;color:var(--pri);margin-top:2px;position:relative;z-index:1}
 .cal-m.birth .cal-m-am{color:#C0385A}
+.cal-m.leave{border:1.5px solid #B5D8FF}
 .cal-tot{margin-top:10px;text-align:right;font-size:12px;color:var(--txt-l)}
 .cal-tot b{color:var(--pri);font-size:15px;font-weight:800;margin-left:5px}
 
@@ -354,13 +378,23 @@ body.dark .fade-bg{filter:brightness(.6)}
   </div>
 </div>
 
-<div class="hero-stat">
-  <div class="hero-v" id="heroV">-</div>
-  <div class="hero-l">예상 총 혜택 (현재 프로필 기준)</div>
-  <div class="hero-sub">
-    <div>수령<b id="heroR">0만</b></div>
-    <div>완료<b id="heroC">0/0</b></div>
-    <div>남은<b id="heroM">-</b></div>
+<div class="hero-stat hero-v2">
+  <div class="hero-ring-wrap">
+    <svg class="hero-ring" viewBox="0 0 120 120" width="110" height="110">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="10"/>
+      <circle id="heroRing" cx="60" cy="60" r="52" fill="none" stroke="url(#heroGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .7s"/>
+      <defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8FAB"/><stop offset="100%" stop-color="#FFD166"/></linearGradient></defs>
+      <text id="heroRingTxt" x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="#C0385A">0%</text>
+      <text id="heroRingSub" x="60" y="75" text-anchor="middle" font-size="10" fill="#996">0/0</text>
+    </svg>
+  </div>
+  <div class="hero-right">
+    <div class="hero-l">예상 총 혜택</div>
+    <div class="hero-v" id="heroV">-</div>
+    <div class="hero-sub-v2">
+      <div><span>✅ 수령</span><b id="heroR">0만</b></div>
+      <div><span>💸 남은</span><b id="heroM">-</b></div>
+    </div>
   </div>
 </div>
 <div id="thisMonthCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFF3CD,#FFE4EC);border-radius:16px;padding:14px;box-shadow:var(--sh)">
@@ -397,6 +431,16 @@ body.dark .fade-bg{filter:brightness(.6)}
   <div id="fetusTip" style="font-size:11px;color:#7B5EA7;margin-top:8px;padding-top:8px;border-top:1px dashed #D4C5FF">💡 -</div>
 </div>
 <div class="prog-w" style="padding:0 16px 10px"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
+
+<div class="lstage" id="lstage">
+  <button class="lstage-b active" data-stage="all" onclick="setStage('all',this)">전체</button>
+  <button class="lstage-b" data-stage="preg" onclick="setStage('preg',this)">🤰 임신중</button>
+  <button class="lstage-b" data-stage="birth" onclick="setStage('birth',this)">👶 출산 직후</button>
+  <button class="lstage-b" data-stage="money" onclick="setStage('money',this)">💰 지원금</button>
+  <button class="lstage-b" data-stage="work" onclick="setStage('work',this)">💼 직장</button>
+  <button class="lstage-b" data-stage="housing" onclick="setStage('housing',this)">🏠 주거</button>
+  <button class="lstage-b" data-stage="tax" onclick="setStage('tax',this)">🧾 세금</button>
+</div>
 
 <div class="sum-grid">
   <div class="sum-card"><div class="sl">총 예상 혜택</div><div class="sv c1" id="sT">-</div><div class="ss">만원</div></div>
@@ -718,7 +762,7 @@ const TL=[
 ];
 
 // ===== State =====
-let S={},curCat='all',curSt='all',curSec='gov';
+let S={},curCat='all',curSt='all',curSec='gov',curStage='all';
 const SK='btrack_v3';
 let svT=null;
 
@@ -888,11 +932,16 @@ function cardVisible(b,elig){
   if(curSt==='uck'&&ck) return false;
   if(curSt==='elig'&&elig==='inelig') return false;
   if(document.getElementById('hideInelig')?.checked&&elig==='inelig') return false;
-  // curCat removed - using accordion instead
+  if(curStage!=='all'){
+    const stageMap={preg:['pregnancy'],birth:['birth'],money:['money','childcare'],work:['work'],housing:['housing'],tax:['tax']};
+    const cats=stageMap[curStage]||[];
+    if(!cats.includes(b.cat))return false;
+  }
   const q=document.getElementById('sI')?.value?.toLowerCase()||'';
   if(q&&!b.nm.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)) return false;
   return true;
 }
+function setStage(st,el){curStage=st;document.querySelectorAll('.lstage-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
 function goPage(pg,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1036,6 +1085,7 @@ function renderCalendar(vis,p){
   if(tot2)summary+=` + 👨 ${tot2}`;
   document.getElementById('calSum').textContent=summary+'만원';
   document.getElementById('calTot').textContent=tot.toLocaleString();
+  const maxAmt=Math.max(...months.map(m=>m.amt),1);
   document.getElementById('calGrid').innerHTML=months.map(m=>{
     const lbl=`${m.mo.getFullYear()%100}.${(m.mo.getMonth()+1).toString().padStart(2,'0')}`;
     const parts=[`부모급여 ${m.pp}만`,`아동수당 ${m.al}만`];
@@ -1043,7 +1093,8 @@ function renderCalendar(vis,p){
     if(m.lv2)parts.push(`배우자 ${m.lv2}만`);
     const tooltip=`${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월\n${parts.join('\n')}\n= ${m.amt}만원`;
     const hasLeave=m.lv1||m.lv2;
-    return `<div class="cal-m ${m.isBirth?'birth':hasLeave?'has leave':'has'}" title="${tooltip}" style="${hasLeave?'background:linear-gradient(135deg,#FFD4DC,#D4E5FF);':''}"><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
+    const barH=Math.round(m.amt/maxAmt*100);
+    return `<div class="cal-m ${m.isBirth?'birth':hasLeave?'has leave':'has'}" title="${tooltip}"><div class="cal-m-bar" style="height:${barH}%"></div><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
   }).join('');
   // 상세 요약 표시
   const detEl=document.getElementById('calDetail');
@@ -1182,6 +1233,15 @@ function updateSum(vis,p){
   const hR=document.getElementById('heroR');if(hR)hR.textContent=recv.toLocaleString()+'만';
   const hC=document.getElementById('heroC');if(hC)hC.textContent=ckCnt+'/'+vis.length;
   const hM=document.getElementById('heroM');if(hM)hM.textContent=Math.max(0,total-recv).toLocaleString()+'만';
+  // Progress ring (SVG) — 반지름 52 → 원주 326.7
+  const ring=document.getElementById('heroRing');
+  if(ring){
+    const circ=2*Math.PI*52;
+    ring.style.strokeDasharray=circ.toFixed(1);
+    ring.style.strokeDashoffset=(circ*(1-pct/100)).toFixed(1);
+  }
+  const rT=document.getElementById('heroRingTxt');if(rT)rT.textContent=pct+'%';
+  const rS=document.getElementById('heroRingSub');if(rS)rS.textContent=ckCnt+'/'+vis.length;
   const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
   document.getElementById('pB').style.width=pct+'%';
   document.getElementById('pT').textContent=`${pct}% 달성 (${ckCnt}/${vis.length}건)`;
