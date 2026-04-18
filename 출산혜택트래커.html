@@ -1506,45 +1506,54 @@ function renderTL(){
 }
 
 function updateSum(vis,p){
+  // ━━━ 섹션 필터 기준 (정부/민간 탭 내 진행) ━━━
   const cash=vis.filter(b=>getAmt(b,p)>0&&checkElig(b,p)!=='inelig'&&getKind(b)!=='perk'&&!S[b.id]?.skip);
   const total=cash.reduce((s,b)=>s+getAmt(b,p),0);
-  let recv=0,ckCnt=0;
+  let recv=0,ckCnt=0,eligCnt=0;
   vis.forEach(b=>{
+    if(checkElig(b,p)==='inelig'||S[b.id]?.skip)return;
+    eligCnt++;
     if(!S[b.id]?.checked)return;
     ckCnt++;
     const kind=getKind(b);
-    if(kind==='recurring'){
-      const rc=calcRecurring(b,p);
-      if(rc)recv+=rc.accum;
-    }else if(kind==='one'){
-      recv+=parseFloat(S[b.id]?.received)||0;
-    }
+    if(kind==='recurring'){const rc=calcRecurring(b,p);if(rc)recv+=rc.accum;}
+    else if(kind==='one'){recv+=parseFloat(S[b.id]?.received)||0;}
   });
+  const pctSec=eligCnt>0?Math.round(ckCnt/eligCnt*100):0;
   document.getElementById('sT').textContent=total.toLocaleString();
   document.getElementById('sR').textContent=recv.toLocaleString();
   document.getElementById('sM').textContent=Math.max(0,total-recv).toLocaleString();
-  document.getElementById('sC').textContent=`${ckCnt}/${vis.length}`;
-  // Hero
-  const hV=document.getElementById('heroV');if(hV){hV.textContent=total.toLocaleString()+'만원';}
-  const hR=document.getElementById('heroR');if(hR)hR.textContent=recv.toLocaleString()+'만';
-  const hC=document.getElementById('heroC');if(hC)hC.textContent=ckCnt+'/'+vis.length;
-  const hM=document.getElementById('heroM');if(hM)hM.textContent=Math.max(0,total-recv).toLocaleString()+'만';
-  // Progress ring (SVG) — 반지름 52 → 원주 326.7
+  document.getElementById('sC').textContent=`${ckCnt}/${eligCnt}`;
+  document.getElementById('pB').style.width=pctSec+'%';
+  document.getElementById('pT').textContent=`${pctSec}% 달성 (${ckCnt}/${eligCnt}건)`;
+
+  // ━━━ 홈 히어로(전체 기준) ━━━
+  const allElig=B.filter(b=>{const e=checkElig(b,p);return e!=='scope'&&e!=='inelig'&&!S[b.id]?.skip;});
+  const allCash=allElig.filter(b=>getAmt(b,p)>0&&getKind(b)!=='perk');
+  const totalAll=allCash.reduce((s,b)=>s+getAmt(b,p),0);
+  let recvAll=0,ckCntAll=0;
+  allElig.forEach(b=>{
+    if(!S[b.id]?.checked)return;
+    ckCntAll++;
+    const kind=getKind(b);
+    if(kind==='recurring'){const rc=calcRecurring(b,p);if(rc)recvAll+=rc.accum;}
+    else if(kind==='one'){recvAll+=parseFloat(S[b.id]?.received)||0;}
+  });
+  const pctAll=allElig.length>0?Math.round(ckCntAll/allElig.length*100):0;
+  const hV=document.getElementById('heroV');if(hV)hV.textContent=totalAll.toLocaleString()+'만원';
+  const hR=document.getElementById('heroR');if(hR)hR.textContent=recvAll.toLocaleString()+'만';
+  const hM=document.getElementById('heroM');if(hM)hM.textContent=Math.max(0,totalAll-recvAll).toLocaleString()+'만';
   const ring=document.getElementById('heroRing');
   if(ring){
     const circ=2*Math.PI*52;
     ring.style.strokeDasharray=circ.toFixed(1);
-    ring.style.strokeDashoffset=(circ*(1-pct/100)).toFixed(1);
+    ring.style.strokeDashoffset=(circ*(1-pctAll/100)).toFixed(1);
   }
-  const rT=document.getElementById('heroRingTxt');if(rT)rT.textContent=pct+'%';
-  const rS=document.getElementById('heroRingSub');if(rS)rS.textContent=ckCnt+'/'+vis.length;
-  // Breakdown (always visible if total > 0)
+  const rT=document.getElementById('heroRingTxt');if(rT)rT.textContent=pctAll+'%';
+  const rS=document.getElementById('heroRingSub');if(rS)rS.textContent=ckCntAll+'/'+allElig.length;
   const hbC=document.getElementById('hbContent');
-  if(hbC)hbC.style.display=total>0?'block':'none';
-  renderBreakdown(vis,p,total);
-  const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
-  document.getElementById('pB').style.width=pct+'%';
-  document.getElementById('pT').textContent=`${pct}% 달성 (${ckCnt}/${vis.length}건)`;
+  if(hbC)hbC.style.display=totalAll>0?'block':'none';
+  renderBreakdown(allElig,p,totalAll);
 }
 
 // ===== Handlers =====
