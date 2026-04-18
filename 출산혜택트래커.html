@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍼 출산 혜택 트래커 - 2026년 서울</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #FF8FAB;
+    --primary-light: #FFD6E0;
+    --secondary: #A0D2DB;
+    --secondary-light: #D4F0F0;
+    --accent: #FFD166;
+    --accent-light: #FFF3CD;
+    --bg: #FFF9FB;
+    --card: #FFFFFF;
+    --text: #3D3D3D;
+    --text-light: #888;
+    --success: #77DD77;
+    --success-bg: #E8F8E8;
+    --gov: #7EB3E0;
+    --seoul: #E8A0BF;
+    --shadow: 0 4px 20px rgba(255, 143, 171, 0.12);
+  }
+
+  body {
+    font-family: -apple-system, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #FFD6E0 0%, #D4F0F0 50%, #FFF3CD 100%);
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.3) 0%, transparent 60%);
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #E75480;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .header .subtitle {
+    font-size: 15px;
+    color: #C4748E;
+    position: relative;
+  }
+
+  .dday-banner {
+    background: white;
+    margin: -15px 20px 20px;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dday-item {
+    text-align: center;
+  }
+
+  .dday-item .label {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .dday-item .value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #E75480;
+  }
+
+  .dday-item .unit {
+    font-size: 14px;
+    font-weight: 600;
+    color: #F0A0B8;
+  }
+
+  .dday-divider {
+    width: 1px;
+    height: 40px;
+    background: #F0D0D8;
+  }
+
+  /* 요약 카드 */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 20px 20px;
+  }
+
+  .summary-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    text-align: center;
+  }
+
+  .summary-card .s-label {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .summary-card .s-value {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .summary-card .s-sub {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .s-total { color: #E75480; }
+  .s-received { color: #77DD77; }
+  .s-remaining { color: #7EB3E0; }
+  .s-count { color: #FFB347; }
+
+  /* 프로그레스 바 */
+  .progress-section {
+    padding: 0 20px 20px;
+  }
+
+  .progress-bar-wrap {
+    background: #F0E8EC;
+    border-radius: 12px;
+    height: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.5s ease;
+    position: relative;
+  }
+
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: rgba(255,255,255,0.3);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .progress-text {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 6px;
+  }
+
+  /* 탭 */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 20px 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background: white;
+    color: var(--text-light);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 143, 171, 0.3);
+  }
+
+  /* 카테고리 섹션 */
+  .category-section {
+    padding: 0 20px 24px;
+  }
+
+  .category-section.hidden { display: none; }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .category-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .cat-pregnancy .category-icon { background: #FFE4EC; }
+  .cat-birth .category-icon { background: #E4F0FF; }
+  .cat-childcare .category-icon { background: #E8FFE4; }
+  .cat-work .category-icon { background: #FFF4E4; }
+
+  .category-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .category-total {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-left: auto;
+  }
+
+  /* 혜택 카드 */
+  .benefit-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+  }
+
+  .benefit-card.checked {
+    border-left-color: var(--success);
+    background: var(--success-bg);
+  }
+
+  .benefit-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .benefit-check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    border: 2px solid #DDD;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: transparent;
+    transition: all 0.2s;
+    margin-top: 2px;
+  }
+
+  .benefit-check.checked {
+    border-color: var(--success);
+    background: var(--success);
+    color: white;
+  }
+
+  .benefit-info { flex: 1; min-width: 0; }
+
+  .benefit-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .benefit-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-gov { background: #E0EEFF; color: #4A7DB5; }
+  .badge-seoul { background: #FFE4EC; color: #C46080; }
+  .badge-company { background: #FFF4E4; color: #C49040; }
+
+  .benefit-amount {
+    font-size: 18px;
+    font-weight: 800;
+    color: #E75480;
+    margin: 6px 0;
+  }
+
+  .benefit-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  .benefit-details {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #EEE;
+  }
+
+  .benefit-card.expanded .benefit-details { display: block; }
+
+  .detail-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .detail-label {
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #C46080;
+    min-width: 60px;
+  }
+
+  .detail-value {
+    color: var(--text);
+  }
+
+  .expand-btn {
+    font-size: 12px;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 4px 0;
+  }
+
+  /* 수령 금액 입력 */
+  .received-input-wrap {
+    display: none;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #C5E8C5;
+  }
+
+  .benefit-card.checked .received-input-wrap { display: flex; }
+
+  .received-input-wrap {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .received-input-wrap label {
+    font-size: 12px;
+    color: #6AAF6A;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .received-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #C5E8C5;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    background: white;
+    color: var(--text);
+    max-width: 150px;
+    text-align: right;
+  }
+
+  .received-input:focus {
+    outline: none;
+    border-color: var(--success);
+  }
+
+  .received-unit {
+    font-size: 13px;
+    color: #6AAF6A;
+    font-weight: 600;
+  }
+
+  .received-date {
+    padding: 6px 10px;
+    border: 1px solid #C5E8C5;
+    border-radius: 8px;
+    font-size: 13px;
+    background: white;
+    color: var(--text);
+  }
+
+  /* 타임라인 */
+  .timeline-section {
+    padding: 0 20px 30px;
+  }
+
+  .timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 16px;
+    padding-bottom: 4px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -20px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid;
+  }
+
+  .timeline-item.past .timeline-dot { border-color: var(--success); background: var(--success); }
+  .timeline-item.current .timeline-dot { border-color: var(--primary); background: white; animation: pulse 1.5s infinite; }
+  .timeline-item.future .timeline-dot { border-color: #DDD; background: white; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,143,171,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(255,143,171,0); }
+  }
+
+  .timeline-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 2px;
+  }
+
+  .timeline-content {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* 푸터 */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text-light);
+    border-top: 1px solid #F0E8EC;
+    background: white;
+  }
+
+  .footer a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  /* 데이터 버튼 */
+  .data-actions {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .data-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-export {
+    background: var(--secondary);
+    color: white;
+  }
+
+  .btn-import {
+    background: var(--accent);
+    color: #7A6020;
+  }
+
+  .btn-reset {
+    background: #F0E8EC;
+    color: var(--text-light);
+  }
+
+  .save-status {
+    text-align: center;
+    padding: 0 20px 12px;
+    font-size: 12px;
+    color: var(--success);
+    font-weight: 600;
+    transition: opacity 0.3s;
+  }
+
+  .save-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+
+  .save-toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 메모 입력 */
+  .benefit-memo {
+    width: 100%;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border: 1px solid #E8E0E4;
+    border-radius: 8px;
+    font-size: 12px;
+    background: #FAFAFA;
+    color: var(--text);
+    resize: none;
+    font-family: inherit;
+  }
+
+  .benefit-memo:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+  }
+
+  .benefit-card.checked .benefit-memo {
+    border-color: #C5E8C5;
+  }
+
+  /* 면책 */
+  .disclaimer {
+    background: var(--accent-light);
+    margin: 0 20px 20px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #9A7830;
+    line-height: 1.5;
+  }
+
+  /* 반응형 */
+  @media (min-width: 640px) {
+    body { max-width: 480px; margin: 0 auto; }
+    .summary-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (min-width: 768px) {
+    body { max-width: 640px; }
+    .header h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🍼 출산 혜택 트래커</h1>
+  <div class="subtitle">2026년 서울 기준 · 하나도 놓치지 말자!</div>
+</div>
+
+<div class="dday-banner" id="ddayBanner">
+  <div class="dday-item">
+    <div class="label">출산 예정일</div>
+    <div class="value" style="font-size:18px;">2026.09</div>
+  </div>
+  <div class="dday-divider"></div>
+  <div class="dday-item">
+    <div class="label">D-Day</div>
+    <div class="value" id="ddayCount">-</div>
+    <div class="unit">일</div>
+  </div>
+  <div class="dday-divider"></div>
+  <div class="dday-item">
+    <div class="label">현재</div>
+    <div class="value" id="weekCount">-</div>
+    <div class="unit">주차</div>
+  </div>
+</div>
+
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="s-label">총 예상 혜택</div>
+    <div class="s-value s-total" id="totalAmount">-</div>
+    <div class="s-sub">만원</div>
+  </div>
+  <div class="summary-card">
+    <div class="s-label">수령 완료</div>
+    <div class="s-value s-received" id="receivedAmount">0</div>
+    <div class="s-sub">만원</div>
+  </div>
+  <div class="summary-card">
+    <div class="s-label">남은 혜택</div>
+    <div class="s-value s-remaining" id="remainingAmount">-</div>
+    <div class="s-sub">만원</div>
+  </div>
+  <div class="summary-card">
+    <div class="s-label">완료 항목</div>
+    <div class="s-value s-count" id="checkedCount">0/0</div>
+    <div class="s-sub">건</div>
+  </div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+  </div>
+  <div class="progress-text" id="progressText">0% 달성</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" data-tab="all">전체</button>
+  <button class="tab-btn" data-tab="pregnancy">🤰 임신 중</button>
+  <button class="tab-btn" data-tab="birth">👶 출산 후</button>
+  <button class="tab-btn" data-tab="childcare">🧸 육아</button>
+  <button class="tab-btn" data-tab="work">💼 직장</button>
+</div>
+
+<div id="benefitsList"></div>
+
+<div class="disclaimer">
+  ⚠️ 본 정보는 2026년 4월 기준이며, 정책 변경에 따라 금액·조건이 달라질 수 있습니다.
+  정확한 내용은 <a href="https://www.gov.kr" target="_blank">정부24</a>, <a href="https://www.bokjiro.go.kr" target="_blank">복지로</a>,
+  <a href="https://seoul-agi.seoul.go.kr" target="_blank">서울 아이</a>에서 확인해 주세요.
+  첫째 아이 기준으로 작성되었습니다.
+</div>
+
+<div class="save-status" id="saveStatus"></div>
+
+<div class="data-actions">
+  <button class="data-btn btn-export" onclick="exportData()">📤 백업 내보내기</button>
+  <button class="data-btn btn-import" onclick="document.getElementById('importFile').click()">📥 백업 불러오기</button>
+  <button class="data-btn btn-reset" onclick="resetData()">🔄 초기화</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+</div>
+
+<div class="footer">
+  데이터는 자동 저장됩니다 (브라우저 localStorage).<br>
+  다른 기기에서 사용하려면 '백업 내보내기/불러오기'를 이용하세요.<br>
+  혜택 정보 기준: 2026년 4월 · 서울 거주 · 첫째 아이
+</div>
+
+<div class="save-toast" id="saveToast">✅ 저장 완료!</div>
+
+<script>
+// ===== 혜택 데이터 =====
+const benefits = [
+  // ─── 임신 중 ───
+  {
+    id: 'happy_card',
+    category: 'pregnancy',
+    name: '임신출산 진료비 지원 (국민행복카드)',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 100,
+    desc: '임신 확인 후 산부인과 진료비 등에 사용 가능한 바우처',
+    when: '임신 확인 후 즉시',
+    how: '국민건강보험공단 신청 → 국민행복카드 수령',
+    condition: '임신 확인서 제출, 건강보험 가입자',
+    where: '국민건강보험공단, 카드사 앱',
+    note: '다태아 140만원. 분만 예정일 이후 2년까지 사용 가능'
+  },
+  {
+    id: 'folic_iron',
+    category: 'pregnancy',
+    name: '엽산제·철분제 지원',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '무료 지급',
+    desc: '임신 초기 엽산제, 임신 5개월~ 철분제 무료 제공',
+    when: '엽산: 임신 확인~12주 / 철분: 임신 16주~',
+    how: '보건소 방문 신청',
+    condition: '보건소 등록 임산부',
+    where: '관할 보건소'
+  },
+  {
+    id: 'seoul_transport',
+    category: 'pregnancy',
+    name: '서울시 임산부 교통비 지원',
+    badge: '서울', badgeClass: 'badge-seoul',
+    amount: 70,
+    desc: '임산부 대중교통·택시비 바우처 (기후동행카드 교통비)',
+    when: '임신 확인 후',
+    how: '서울시 임산부 교통비 지원 사이트 신청',
+    condition: '서울 거주 임산부, 임신확인서',
+    where: '서울시 임산부 교통비 지원 포털',
+    note: '2026년 확대 적용. 자치구별 추가 지원 확인 필요'
+  },
+  {
+    id: 'seoul_35plus',
+    category: 'pregnancy',
+    name: '서울시 35세 이상 임산부 의료비',
+    badge: '서울', badgeClass: 'badge-seoul',
+    amount: 50,
+    desc: '35세 이상 고령 임산부 추가 의료비 지원 (최대 50만원)',
+    when: '임신 중',
+    how: '서울시 온라인 신청',
+    condition: '서울 거주, 만 35세 이상 임산부',
+    where: '서울시 보건정책과',
+    note: '해당 연령이 아닌 경우 대상 아님'
+  },
+  {
+    id: 'highrisk',
+    category: 'pregnancy',
+    name: '고위험 임산부 의료비 지원',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 300,
+    amountText: '최대 300만원',
+    desc: '고위험 임신질환(조기진통, 전치태반 등) 입원 치료비',
+    when: '해당 시',
+    how: '보건소 신청',
+    condition: '19대 고위험 임신질환 진단, 소득 기준 있음',
+    where: '관할 보건소',
+    note: '해당 없을 경우 미신청'
+  },
+  {
+    id: 'prenatal_check',
+    category: 'pregnancy',
+    name: '임산부 건강관리 (산전검사)',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '무료 검사',
+    desc: '초음파, 기형아검사 등 표준 산전검사 무료/할인',
+    when: '임신 기간 중',
+    how: '보건소 등록 후 이용',
+    condition: '보건소 등록 임산부',
+    where: '관할 보건소'
+  },
+  // ─── 출산 후 ───
+  {
+    id: 'first_meet',
+    category: 'birth',
+    name: '첫만남이용권',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 200,
+    desc: '출생 신고 시 바우처 지급 (첫째 200만원)',
+    when: '출생 신고 시',
+    how: '정부24 또는 행복출산 원스톱에서 신청',
+    condition: '출생 신고 완료',
+    where: '정부24 (gov.kr), 주민센터',
+    note: '둘째 이상 300만원'
+  },
+  {
+    id: 'seoul_postpartum',
+    category: 'birth',
+    name: '서울형 산후조리경비',
+    badge: '서울', badgeClass: 'badge-seoul',
+    amount: 100,
+    desc: '산후조리 비용 지원 (첫째 100만원)',
+    when: '출산 후 6개월 이내',
+    how: '서울시 보건소 또는 온라인 신청',
+    condition: '서울 거주, 출산일 기준 3개월 이상 서울 거주',
+    where: '서울아기 건강첫걸음 사이트, 보건소',
+    note: '둘째 150만원. 소득 기준 없음'
+  },
+  {
+    id: 'postpartum_care',
+    category: 'birth',
+    name: '산모신생아 건강관리사 서비스',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '건강관리사 파견',
+    desc: '출산 후 건강관리사가 가정 방문하여 산모·신생아 돌봄',
+    when: '출산 후',
+    how: '보건소 사전 신청 (출산 40일 전)',
+    condition: '소득 기준 있음 (기준중위소득 150% 이하)',
+    where: '관할 보건소',
+    note: '5~25일 서비스. 소득에 따라 본인부담금 차등'
+  },
+  {
+    id: 'electricity',
+    category: 'birth',
+    name: '출산가정 전기요금 할인',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 57.6,
+    amountText: '월 1.6만 × 3년',
+    desc: '출산 가정 전기요금 30% 할인 (월 1.6만원 한도, 3년)',
+    when: '출산 후',
+    how: '한국전력공사 신청',
+    condition: '출생일로부터 3년 이내',
+    where: '한국전력공사 (KEPCO) 고객센터, 앱',
+    note: '자동 적용 안 됨, 별도 신청 필요!'
+  },
+  {
+    id: 'birth_gift_gu',
+    category: 'birth',
+    name: '자치구 출산축하금',
+    badge: '서울', badgeClass: 'badge-seoul',
+    amount: 0,
+    amountText: '자치구별 상이',
+    desc: '거주 자치구에서 별도 지급하는 출산축하금/선물',
+    when: '출산 후',
+    how: '주민센터 또는 자치구 온라인 신청',
+    condition: '해당 자치구 거주',
+    where: '주민센터, 자치구청 홈페이지',
+    note: '자치구마다 금액·조건 다름. 반드시 거주 구청에 확인!'
+  },
+  {
+    id: 'tax_deduction',
+    category: 'birth',
+    name: '출산 세액공제',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 30,
+    desc: '자녀 출산 시 종합소득세 세액공제 (첫째 30만원)',
+    when: '연말정산 시',
+    how: '연말정산 또는 종합소득세 신고 시 반영',
+    condition: '근로소득자 또는 종합소득세 신고자',
+    where: '홈택스, 회사 연말정산',
+    note: '둘째 50만원, 셋째 이후 70만원'
+  },
+  // ─── 육아 0~1세 ───
+  {
+    id: 'parent_pay',
+    category: 'childcare',
+    name: '부모급여',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 1800,
+    amountText: '0세 월100만 + 1세 월50만',
+    desc: '0세 월 100만원, 1세 월 50만원 (총 24개월, 약 1,800만원)',
+    when: '출생 후 매월',
+    how: '정부24 또는 복지로에서 신청',
+    condition: '만 0~1세 아동, 소득 기준 없음',
+    where: '정부24, 복지로, 주민센터',
+    note: '어린이집 이용 시 보육료로 지원 (차액 현금 지급)'
+  },
+  {
+    id: 'child_allowance',
+    category: 'childcare',
+    name: '아동수당',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 960,
+    amountText: '월 10만원 × 만8세까지',
+    desc: '만 8세(96개월) 미만 아동에게 매월 10만원 지급',
+    when: '출생 후 매월',
+    how: '정부24 또는 복지로에서 신청',
+    condition: '대한민국 국적 만 8세 미만 아동',
+    where: '정부24, 복지로, 주민센터',
+    note: '출생 신고 후 60일 이내 신청 시 소급 지급'
+  },
+  {
+    id: 'daycare',
+    category: 'childcare',
+    name: '어린이집 보육료 전액 지원',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '전액 지원',
+    desc: '만 0~5세 어린이집 이용 시 보육료 전액 정부 부담',
+    when: '어린이집 입소 시',
+    how: '복지로 또는 어린이집 통해 신청',
+    condition: '어린이집 이용 아동',
+    where: '복지로, 어린이집'
+  },
+  {
+    id: 'grandparent',
+    category: 'childcare',
+    name: '조부모 돌봄수당 (아이돌봄서비스)',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '월 최대 60만원',
+    desc: '조부모가 손자녀를 돌볼 경우 돌봄수당 지원',
+    when: '해당 시',
+    how: '아이돌봄서비스 신청',
+    condition: '조부모 돌봄 해당 시, 소득 기준 있음',
+    where: '아이돌봄서비스 (idolbom.go.kr)'
+  },
+  {
+    id: 'diaper_formula',
+    category: 'childcare',
+    name: '저소득층 기저귀·분유 지원',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '월 10.5~11만원',
+    desc: '기초생활수급자·차상위 등 기저귀(월 10.5만) + 분유(월 11만)',
+    when: '출생 후',
+    how: '복지로 또는 주민센터 신청',
+    condition: '기초수급·차상위·한부모 등',
+    where: '복지로, 주민센터',
+    note: '소득 기준 확인 필요'
+  },
+  // ─── 직장/급여 ───
+  {
+    id: 'maternity_leave',
+    category: 'work',
+    name: '출산전후휴가 급여',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 660,
+    amountText: '월 최대 220만 × 3개월',
+    desc: '출산 전후 90일 휴가 (다태아 120일), 급여 지급',
+    when: '출산 전후',
+    how: '회사에 휴가 신청 → 고용보험에서 급여 지급',
+    condition: '고용보험 가입 근로자',
+    where: '고용보험 (ei.go.kr)',
+    note: '대기업은 회사 부담 60일 + 고용보험 30일'
+  },
+  {
+    id: 'spouse_leave',
+    category: 'work',
+    name: '배우자 출산휴가',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '20일 유급',
+    desc: '배우자(아빠) 출산휴가 20일 (2025년 확대)',
+    when: '출산일 전후',
+    how: '회사에 신청',
+    condition: '근로자 (배우자)',
+    where: '회사 인사팀',
+    note: '분할 사용 가능. 출산 후 120일 이내 사용'
+  },
+  {
+    id: 'parental_leave',
+    category: 'work',
+    name: '육아휴직 급여',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 3000,
+    amountText: '월 최대 250만 × 12개월',
+    desc: '만 8세 이하 자녀 양육 위한 최대 1년 휴직, 급여 지급',
+    when: '출산 후 ~ 자녀 만 8세',
+    how: '회사에 휴직 신청 → 고용보험 급여 신청',
+    condition: '고용보험 가입 근로자, 근속 6개월 이상',
+    where: '고용보험 (ei.go.kr)',
+    note: '통상임금 80%, 상한 250만원. 부부 각각 사용 가능'
+  },
+  {
+    id: 'parental_6plus6',
+    category: 'work',
+    name: '6+6 부모육아휴직제',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '월 최대 450만원',
+    desc: '부모 모두 육아휴직 시 첫 6개월 급여 상향 (최대 월 450만원)',
+    when: '자녀 생후 18개월 이내',
+    how: '부부 동시/순차 육아휴직 신청',
+    condition: '같은 자녀에 대해 부모 모두 육아휴직 사용',
+    where: '고용보험 (ei.go.kr)',
+    note: '1개월차 200만→6개월차 450만원 순차 상향'
+  },
+  {
+    id: 'reduced_hours',
+    category: 'work',
+    name: '육아기 근로시간 단축',
+    badge: '정부', badgeClass: 'badge-gov',
+    amount: 0,
+    amountText: '급여 보전',
+    desc: '만 8세 이하 자녀, 주 15~35시간으로 근무시간 단축 가능',
+    when: '육아휴직 대신 또는 이후',
+    how: '회사에 신청',
+    condition: '고용보험 가입 근로자',
+    where: '회사 인사팀, 고용보험',
+    note: '육아휴직 미사용 기간을 2배로 전환 가능'
+  },
+  {
+    id: 'company_birth_bonus',
+    category: 'work',
+    name: '기업 출산지원금 비과세',
+    badge: '회사', badgeClass: 'badge-company',
+    amount: 0,
+    amountText: '회사별 상이',
+    desc: '회사에서 지급하는 출산축하금, 2자녀까지 비과세 혜택',
+    when: '출산 시',
+    how: '회사 인사팀 확인',
+    condition: '회사 복리후생에 해당 시',
+    where: '회사 인사팀',
+    note: '2024년부터 출산지원금 전액 비과세 (한도 폐지)'
+  }
+];
+
+// ===== 타임라인 데이터 =====
+const timeline = [
+  { month: '2026.01~03', text: '임신 초기 — 국민행복카드 신청, 보건소 등록, 엽산제 수령', status: 'past' },
+  { month: '2026.04', text: '현재 — 서울시 교통비 신청, 철분제 수령, 산전검사', status: 'current' },
+  { month: '2026.05~08', text: '임신 중기~후기 — 산모교실, 산후조리 예약, 육아휴직 계획', status: 'future' },
+  { month: '2026.09', text: '🎉 출산! — 출생신고 + 첫만남이용권 + 부모급여 + 아동수당 동시 신청', status: 'future' },
+  { month: '2026.09~10', text: '산후조리경비 신청, 전기요금 할인, 자치구 축하금 확인', status: 'future' },
+  { month: '2026.10~', text: '부모급여·아동수당 매월 수령, 어린이집/돌봄서비스 계획', status: 'future' },
+  { month: '2027.01', text: '연말정산 시 출산 세액공제 반영', status: 'future' }
+];
+
+// ===== 상태 관리 =====
+let state = {};
+const STORAGE_KEY = 'birth_benefit_tracker_2026';
+let saveTimer = null;
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      state = JSON.parse(saved);
+      const lastSaved = state._lastSaved;
+      if (lastSaved) {
+        updateSaveStatus('마지막 저장: ' + new Date(lastSaved).toLocaleString('ko-KR'));
+      }
+    }
+  } catch(e) {}
+}
+
+// 자동 저장 (디바운스: 변경 후 500ms 뒤 자동 저장)
+function autoSave() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    state._lastSaved = Date.now();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateSaveStatus('자동 저장됨 · ' + new Date().toLocaleString('ko-KR'));
+  }, 500);
+}
+
+function updateSaveStatus(text) {
+  const el = document.getElementById('saveStatus');
+  if (el) el.textContent = '💾 ' + text;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('saveToast');
+  t.textContent = msg || '✅ 저장 완료!';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 백업 내보내기 (JSON 파일 다운로드)
+function exportData() {
+  state._lastSaved = Date.now();
+  const dataStr = JSON.stringify(state, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '출산혜택트래커_백업_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('📤 백업 파일이 다운로드됩니다!');
+}
+
+// 백업 불러오기 (JSON 파일 업로드)
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      // 유효성 검사: 객체인지 확인
+      if (typeof imported !== 'object' || imported === null) {
+        alert('올바른 백업 파일이 아닙니다.');
+        return;
+      }
+
+      // 기존 데이터와 병합할지 덮어쓸지 확인
+      const hasExisting = Object.keys(state).filter(k => k !== '_lastSaved').length > 0;
+      if (hasExisting) {
+        const choice = confirm(
+          '기존 데이터가 있습니다.\n\n확인: 불러온 파일로 덮어쓰기\n취소: 불러오기 취소'
+        );
+        if (!choice) return;
+      }
+
+      state = imported;
+      state._lastSaved = Date.now();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      render();
+      showToast('📥 백업을 성공적으로 불러왔습니다!');
+      updateSaveStatus('백업에서 복원됨 · ' + new Date().toLocaleString('ko-KR'));
+    } catch(err) {
+      alert('파일을 읽을 수 없습니다. 올바른 JSON 백업 파일인지 확인해주세요.');
+    }
+  };
+  reader.readAsText(file);
+  // input 초기화 (같은 파일 다시 선택 가능하도록)
+  event.target.value = '';
+}
+
+function resetData() {
+  if (confirm('정말 모든 체크 및 기록을 초기화할까요?\n\n이 작업은 되돌릴 수 없습니다.\n(백업 내보내기를 먼저 하시는 걸 추천합니다)')) {
+    state = {};
+    localStorage.removeItem(STORAGE_KEY);
+    render();
+    updateSaveStatus('초기화됨');
+    showToast('🔄 모든 데이터가 초기화되었습니다.');
+  }
+}
+
+// ===== D-Day 계산 =====
+function updateDday() {
+  const dueDate = new Date(2026, 8, 15); // 9월 15일 (중간값)
+  const today = new Date();
+  const diff = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+  document.getElementById('ddayCount').textContent = diff > 0 ? `D-${diff}` : diff === 0 ? 'D-Day!' : `D+${Math.abs(diff)}`;
+
+  // 임신 주수 (대략 계산: 출산예정일 - 280일 = 마지막 생리 시작일)
+  const lmpDate = new Date(dueDate);
+  lmpDate.setDate(lmpDate.getDate() - 280);
+  const weeks = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24 * 7));
+  document.getElementById('weekCount').textContent = weeks > 0 && weeks <= 42 ? weeks : '-';
+}
+
+// ===== 렌더링 =====
+function render() {
+  renderBenefits();
+  updateSummary();
+  updateDday();
+  renderTimeline();
+}
+
+function renderBenefits() {
+  const container = document.getElementById('benefitsList');
+  const categories = [
+    { id: 'pregnancy', icon: '🤰', title: '임신 중 혜택', cls: 'cat-pregnancy' },
+    { id: 'birth', icon: '👶', title: '출산 후 혜택', cls: 'cat-birth' },
+    { id: 'childcare', icon: '🧸', title: '육아 혜택 (0~1세)', cls: 'cat-childcare' },
+    { id: 'work', icon: '💼', title: '직장·급여 혜택', cls: 'cat-work' }
+  ];
+
+  let html = '';
+  categories.forEach(cat => {
+    const items = benefits.filter(b => b.category === cat.id);
+    const catTotal = items.reduce((s, b) => s + (b.amount || 0), 0);
+
+    html += `<div class="category-section ${cat.cls}" data-category="${cat.id}">
+      <div class="category-header">
+        <div class="category-icon">${cat.icon}</div>
+        <div class="category-title">${cat.title}</div>
+        <div class="category-total">${catTotal > 0 ? catTotal.toLocaleString() + '만원' : ''}</div>
+      </div>`;
+
+    items.forEach(b => {
+      const checked = state[b.id]?.checked || false;
+      const received = state[b.id]?.received || '';
+      const receivedDate = state[b.id]?.date || '';
+      const expanded = state[b.id]?.expanded || false;
+
+      html += `
+      <div class="benefit-card ${checked ? 'checked' : ''} ${expanded ? 'expanded' : ''}" data-id="${b.id}">
+        <div class="benefit-top">
+          <div class="benefit-check ${checked ? 'checked' : ''}" onclick="toggleCheck('${b.id}')">✓</div>
+          <div class="benefit-info">
+            <div class="benefit-name">
+              ${b.name}
+              <span class="benefit-badge ${b.badgeClass}">${b.badge}</span>
+            </div>
+            <div class="benefit-amount">${b.amountText || (b.amount > 0 ? b.amount.toLocaleString() + '만원' : '무료/현물')}</div>
+            <div class="benefit-desc">${b.desc}</div>
+            <button class="expand-btn" onclick="toggleExpand('${b.id}')">${expanded ? '접기 ▲' : '상세보기 ▼'}</button>
+            <div class="benefit-details">
+              <div class="detail-row"><span class="detail-label">신청시기</span><span class="detail-value">${b.when}</span></div>
+              <div class="detail-row"><span class="detail-label">신청방법</span><span class="detail-value">${b.how}</span></div>
+              <div class="detail-row"><span class="detail-label">조건</span><span class="detail-value">${b.condition}</span></div>
+              <div class="detail-row"><span class="detail-label">신청처</span><span class="detail-value">${b.where}</span></div>
+              ${b.note ? `<div class="detail-row"><span class="detail-label">참고</span><span class="detail-value">${b.note}</span></div>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="received-input-wrap">
+          <label>수령액</label>
+          <input type="text" class="received-input" value="${received}" placeholder="0"
+            oninput="updateReceived('${b.id}', this.value)" inputmode="numeric">
+          <span class="received-unit">만원</span>
+          <input type="date" class="received-date" value="${receivedDate}"
+            onchange="updateDate('${b.id}', this.value)">
+        </div>
+        <textarea class="benefit-memo" rows="1" placeholder="메모 (선택사항)"
+          oninput="updateMemo('${b.id}', this.value)">${state[b.id]?.memo || ''}</textarea>
+      </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function renderTimeline() {
+  const section = document.querySelector('.timeline-section');
+  if (section) section.remove();
+
+  let html = `<div class="timeline-section">
+    <div class="timeline-title">📅 타임라인</div>
+    <div class="timeline">`;
+
+  timeline.forEach(t => {
+    html += `<div class="timeline-item ${t.status}">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">${t.month}</div>
+      <div class="timeline-content">${t.text}</div>
+    </div>`;
+  });
+
+  html += '</div></div>';
+  document.getElementById('benefitsList').insertAdjacentHTML('afterend', html);
+}
+
+function updateSummary() {
+  const cashBenefits = benefits.filter(b => b.amount > 0);
+  const total = cashBenefits.reduce((s, b) => s + b.amount, 0);
+
+  let received = 0;
+  let checkedCnt = 0;
+  benefits.forEach(b => {
+    if (state[b.id]?.checked) {
+      checkedCnt++;
+      const r = parseFloat(state[b.id]?.received) || 0;
+      received += r;
+    }
+  });
+
+  document.getElementById('totalAmount').textContent = total.toLocaleString();
+  document.getElementById('receivedAmount').textContent = received.toLocaleString();
+  document.getElementById('remainingAmount').textContent = (total - received).toLocaleString();
+  document.getElementById('checkedCount').textContent = `${checkedCnt}/${benefits.length}`;
+
+  const pct = benefits.length > 0 ? Math.round((checkedCnt / benefits.length) * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${pct}% 달성 (${checkedCnt}/${benefits.length}건 완료)`;
+}
+
+// ===== 이벤트 핸들러 =====
+function toggleCheck(id) {
+  if (!state[id]) state[id] = {};
+  state[id].checked = !state[id].checked;
+  if (!state[id].checked) {
+    state[id].received = '';
+    state[id].date = '';
+  }
+  autoSave();
+  render();
+}
+
+function toggleExpand(id) {
+  if (!state[id]) state[id] = {};
+  state[id].expanded = !state[id].expanded;
+  // 펼치기/접기는 UI 상태이므로 저장하지만 토스트 안 띄움
+  autoSave();
+  render();
+}
+
+function updateReceived(id, val) {
+  if (!state[id]) state[id] = {};
+  state[id].received = val.replace(/[^0-9.]/g, '');
+  autoSave();
+  updateSummary();
+}
+
+function updateDate(id, val) {
+  if (!state[id]) state[id] = {};
+  state[id].date = val;
+  autoSave();
+}
+
+function updateMemo(id, val) {
+  if (!state[id]) state[id] = {};
+  state[id].memo = val;
+  autoSave();
+}
+
+// ===== 탭 필터 =====
+document.getElementById('tabs').addEventListener('click', e => {
+  if (!e.target.classList.contains('tab-btn')) return;
+
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+
+  const tab = e.target.dataset.tab;
+  document.querySelectorAll('.category-section').forEach(s => {
+    if (tab === 'all') {
+      s.classList.remove('hidden');
+    } else {
+      s.classList.toggle('hidden', s.dataset.category !== tab);
+    }
+  });
+});
+
+// ===== 페이지 나가기 전 저장 보장 =====
+window.addEventListener('beforeunload', () => {
+  if (saveTimer) {
+    clearTimeout(saveTimer);
+    state._lastSaved = Date.now();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+});
+
+// ===== 초기화 =====
+loadData();
+render();
+</script>
+</body>
+</html>
