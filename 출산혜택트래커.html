@@ -11,7 +11,10 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
-body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:70px;transition:background .3s}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;min-height:100vh;padding-bottom:90px;transition:background .3s;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;letter-spacing:-.01em}
+button{font-family:inherit;letter-spacing:-.01em}
+input,select,textarea{font-family:inherit;letter-spacing:-.01em}
+*{-webkit-tap-highlight-color:transparent}
 body.dark{--bg:#15111F;--txt:#E8E5F0;--txt-l:#9B92B0;--pri:#E89BAE;--pri-l:#3D2E3E;--no:#2A2539;--r:14px;--sh:0 3px 16px rgba(0,0,0,.4);--acc:#F5C77A}
 body.dark .header{background:linear-gradient(135deg,#3D2030,#1F2E3E 50%,#3E3520)}
 body.dark .onboard,body.dark .sum-card,body.dark .bc,body.dark .tool,body.dark .calw,body.dark .bnav,body.dark .share-c,body.dark .actd{background:#1E1930;color:#E8E5F0;border-color:#2E2842}
@@ -245,17 +248,24 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 .share-btn{width:100%;padding:12px;background:var(--pri);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px}
 .share-btn.sec{background:#F0E8EC;color:var(--txt)}
 
-/* Tools */
+/* Tools - 그리드 버튼 레이아웃 */
 .tools{margin:0 16px 16px}
 .tools-h{font-size:15px;font-weight:800;margin-bottom:10px;color:#6B5CE7;display:flex;align-items:center;gap:6px}
-.tool{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(107,92,231,.06);border-left:4px solid #D4C5FF;cursor:pointer}
-.tool-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
-.tool-ic{font-size:16px}
-.tool-arrow{margin-left:auto;font-size:11px;color:var(--txt-l);transition:transform .2s}
-.tool.exp .tool-arrow{transform:rotate(180deg)}
-.tool-body{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed #EEE}
+.tool-group{margin-bottom:16px}
+.tool-group-h{font-size:12px;font-weight:800;color:#C0385A;margin:0 4px 8px;display:flex;align-items:center;gap:5px}
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.tool{background:#fff;border-radius:14px;padding:14px 12px;box-shadow:0 3px 10px rgba(107,92,231,.06);cursor:pointer;transition:all .2s;border:1.5px solid transparent;position:relative;overflow:hidden}
+.tool:active{transform:scale(.97)}
+.tool.exp{grid-column:1/-1;border-color:#D4C5FF;box-shadow:0 6px 20px rgba(107,92,231,.12)}
+.tool-h{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;line-height:1.3}
+.tool-ic{font-size:22px;display:block;margin-bottom:4px}
+.tool-arrow{display:none}
+.tool.exp .tool-arrow{display:inline;position:absolute;top:10px;right:10px;font-size:11px;color:var(--txt-l);transform:rotate(180deg)}
+.tool-body{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed #EEE}
 .tool.exp .tool-body{display:block}
 .tool-desc{font-size:11px;color:var(--txt-l);margin-top:3px}
+body.dark .tool{background:#1E1930}
+body.dark .tool.exp{border-color:#3A3250}
 
 /* Weekly checkpoints */
 .wk-box{background:linear-gradient(135deg,#E8F5E9,#F3E5F5);border-radius:10px;padding:12px;margin-bottom:8px}
@@ -450,31 +460,8 @@ body.dark .tline-dot{background:#1E1930}
   </div>
 </div>
 
-<div class="hero-breakdown-wrap" style="margin:8px 16px 0">
-  <div id="hbContent" style="display:none;background:#FFF5F8;border-radius:12px;padding:14px;border:1px solid #FFD4DC;font-size:12px;line-height:1.7"></div>
-</div>
-
-<div class="hero-stat hero-v2">
-  <div class="hero-ring-wrap">
-    <svg class="hero-ring" viewBox="0 0 120 120" width="110" height="110">
-      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="10"/>
-      <circle id="heroRing" cx="60" cy="60" r="52" fill="none" stroke="url(#heroGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .7s"/>
-      <defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8FAB"/><stop offset="100%" stop-color="#FFD166"/></linearGradient></defs>
-      <text id="heroRingTxt" x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="#C0385A">0%</text>
-      <text id="heroRingSub" x="60" y="75" text-anchor="middle" font-size="10" fill="#996">0/0</text>
-    </svg>
-  </div>
-  <div class="hero-right">
-    <div class="hero-l">받을 수 있는 총 혜택 💰</div>
-    <div class="hero-v" id="heroV">-</div>
-    <div class="hero-sub-v2">
-      <div><span>✅ 수령</span><b id="heroR">0만</b></div>
-      <div><span>💸 남은</span><b id="heroM">-</b></div>
-    </div>
-  </div>
-</div>
-<!-- 육아휴직 설정 (홈 · 캘린더·이번달 수령액에 즉시 반영) -->
-<div style="margin:0 16px 12px;background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh)">
+<!-- 육아휴직 계획 (정보 입력 바로 아래) -->
+<div style="margin:12px 16px;background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh)">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
     <span style="font-size:18px">💼</span>
     <div style="font-size:13px;font-weight:800;color:var(--txt)">육아휴직 계획</div>
@@ -496,6 +483,32 @@ body.dark .tline-dot{background:#1E1930}
   <label style="display:block;font-size:11px;padding:7px 9px;background:#FFF3CD;border-radius:7px;cursor:pointer"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> <span style="color:#666">— 추가 기간X, <b>급여 상향</b> 제도. 부부 모두 생후 18개월 이내 휴직 시 첫 6개월 상한 증가</span></label>
   <div style="font-size:10px;color:#666;margin-top:6px;padding:8px;background:#F0F8F0;border-radius:7px;line-height:1.5">💡 <b>총 휴직 기간 참고</b><br>• 산모: 출산전후휴가 3개월 + 육아휴직 1~1.5년 = <b>최대 21개월</b> 가능<br>• 부/모 각자 3개월+ 사용 시 육아휴직 1.5년 연장 (2025년 확대)<br>• 육아휴직 개월 입력칸에 <b>13~18까지 입력 가능</b> (1.5년 쓸 경우)</div>
   <div style="font-size:10px;color:#999;margin-top:6px;text-align:right">🔍 상세 계산 근거는 <b style="color:#6B5CE7;cursor:pointer" onclick="goPage('Tools',document.querySelectorAll('.bnav-b')[3]);setTimeout(()=>{const t=document.getElementById('toolLeave');if(t){t.classList.add('exp');t.scrollIntoView({behavior:'smooth'});}},200);">도구 &gt; 육아휴직 계산기</b>에서</div>
+</div>
+
+<!-- 받을 수 있는 혜택 (히어로) -->
+<div class="hero-stat hero-v2">
+  <div class="hero-ring-wrap">
+    <svg class="hero-ring" viewBox="0 0 120 120" width="110" height="110">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="10"/>
+      <circle id="heroRing" cx="60" cy="60" r="52" fill="none" stroke="url(#heroGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .7s"/>
+      <defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8FAB"/><stop offset="100%" stop-color="#FFD166"/></linearGradient></defs>
+      <text id="heroRingTxt" x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="#C0385A">0%</text>
+      <text id="heroRingSub" x="60" y="75" text-anchor="middle" font-size="10" fill="#996">0/0</text>
+    </svg>
+  </div>
+  <div class="hero-right">
+    <div class="hero-l">받을 수 있는 총 혜택 💰</div>
+    <div class="hero-v" id="heroV">-</div>
+    <div class="hero-sub-v2">
+      <div><span>✅ 수령</span><b id="heroR">0만</b></div>
+      <div><span>💸 남은</span><b id="heroM">-</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- 금액 구성 breakdown -->
+<div class="hero-breakdown-wrap" style="margin:0 16px 12px">
+  <div id="hbContent" style="display:none;background:#FFF5F8;border-radius:12px;padding:14px;border:1px solid #FFD4DC;font-size:12px;line-height:1.7"></div>
 </div>
 
 <div id="thisMonthCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFF3CD,#FFE4EC);border-radius:16px;padding:14px;box-shadow:var(--sh)">
@@ -607,23 +620,38 @@ body.dark .tline-dot{background:#1E1930}
 <div id="pgTools" class="page">
 <div class="tools">
   <div class="tools-h">🛠️ 부모 도구 모음</div>
-  <div class="tool" id="toolRoadmap" onclick="togTool('toolRoadmap')"><div class="tool-h"><span class="tool-ic">🗺️</span>첫 출산 로드맵 (처음이라면 여기부터)<span class="tool-arrow">▼</span></div><div class="tool-body" id="roadmapBody"></div></div>
-  <div class="tool" id="toolVouch" onclick="togTool('toolVouch')"><div class="tool-h"><span class="tool-ic">💳</span>국민행복카드 바우처 잔액 추적<span class="tool-arrow">▼</span></div><div class="tool-body" id="vouchBody" onclick="event.stopPropagation()"></div></div>
-  <div class="tool" id="toolNB" onclick="togTool('toolNB')"><div class="tool-h"><span class="tool-ic">👶</span>신생아 로그 (수유·기저귀·수면)<span class="tool-arrow">▼</span></div><div class="tool-body" id="nbBody" onclick="event.stopPropagation()"></div></div>
-  <div class="tool" id="toolSpouse" onclick="togTool('toolSpouse')"><div class="tool-h"><span class="tool-ic">👫</span>배우자 할일 분담<span class="tool-arrow">▼</span></div><div class="tool-body" id="spouseBody" onclick="event.stopPropagation()"></div></div>
-  <div class="tool" id="toolWeek" onclick="togTool('toolWeek')"><div class="tool-h"><span class="tool-ic">📅</span>임신 주차별 체크포인트<span class="tool-arrow">▼</span></div><div class="tool-body" id="wkBody"></div></div>
-  <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><div class="tool-h"><span class="tool-ic">🧮</span>육아휴직 급여 상세 계산<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()">
-    <div style="font-size:11px;color:#666;margin-bottom:10px;background:#FFF9E6;padding:9px;border-radius:7px">💡 <b>설정은 홈 화면</b>의 "💼 육아휴직 계획"에서 변경하세요. 여기서는 월별 막대그래프와 산정 근거만 보여드립니다.</div>
-    <div class="calc-result" id="leaveResult">홈에서 휴직자를 체크하면 여기에 상세 계산이 표시됩니다</div>
-  </div></div>
-  <div class="tool" id="toolTot18" onclick="togTool('toolTot18')"><div class="tool-h"><span class="tool-ic">💰</span>0~18세 총 수령액 시뮬레이터<span class="tool-arrow">▼</span></div><div class="tool-body" id="tot18Body"></div></div>
-  <div class="tool" id="toolVac" onclick="togTool('toolVac')"><div class="tool-h"><span class="tool-ic">💉</span>국가필수 예방접종 캘린더<span class="tool-arrow">▼</span></div><div class="tool-body" id="vacBody"></div></div>
-  <div class="tool" id="toolChk" onclick="togTool('toolChk')"><div class="tool-h"><span class="tool-ic">🏥</span>영유아 건강검진 일정 (무료 7회+)<span class="tool-arrow">▼</span></div><div class="tool-body" id="chkBody"></div></div>
-  <div class="tool" id="toolPrep" onclick="togTool('toolPrep')"><div class="tool-h"><span class="tool-ic">🎒</span>출산 준비물 체크리스트<span class="tool-arrow">▼</span></div><div class="tool-body" id="prepBody"></div></div>
-  <div class="tool" id="toolDC" onclick="togTool('toolDC')"><div class="tool-h"><span class="tool-ic">🏫</span>어린이집 입소 대기 관리<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
-  <div class="tool" id="toolGrow" onclick="togTool('toolGrow')"><div class="tool-h"><span class="tool-ic">📏</span>아기 성장 기록 (키·체중)<span class="tool-arrow">▼</span></div><div class="tool-body" id="growBody" onclick="event.stopPropagation()"></div></div>
-  <div class="tool" id="toolSim" onclick="togTool('toolSim')"><div class="tool-h"><span class="tool-ic">🎛️</span>What-if 시뮬레이션 (조건 바꾸면 얼마?)<span class="tool-arrow">▼</span></div><div class="tool-body" id="simBody" onclick="event.stopPropagation()"></div></div>
-  <div class="tool" id="toolTax" onclick="togTool('toolTax')"><div class="tool-h"><span class="tool-ic">📊</span>연말정산 자녀 공제 가이드<span class="tool-arrow">▼</span></div><div class="tool-body" id="taxBody"></div></div>
+
+  <div class="tool-group">
+    <div class="tool-group-h">🤰 임신 준비·임신 중</div>
+    <div class="tool-grid">
+      <div class="tool" id="toolRoadmap" onclick="togTool('toolRoadmap')"><span class="tool-ic">🗺️</span><div class="tool-h">첫 출산 로드맵</div><div class="tool-desc">처음이라면 여기부터</div><span class="tool-arrow">▼</span><div class="tool-body" id="roadmapBody"></div></div>
+      <div class="tool" id="toolWeek" onclick="togTool('toolWeek')"><span class="tool-ic">📅</span><div class="tool-h">주차별 체크포인트</div><div class="tool-desc">이번 주 할 일</div><span class="tool-arrow">▼</span><div class="tool-body" id="wkBody"></div></div>
+      <div class="tool" id="toolVouch" onclick="togTool('toolVouch')"><span class="tool-ic">💳</span><div class="tool-h">행복카드 잔액</div><div class="tool-desc">바우처 사용 추적</div><span class="tool-arrow">▼</span><div class="tool-body" id="vouchBody" onclick="event.stopPropagation()"></div></div>
+      <div class="tool" id="toolPrep" onclick="togTool('toolPrep')"><span class="tool-ic">🎒</span><div class="tool-h">출산 준비물</div><div class="tool-desc">가방·신생아용품</div><span class="tool-arrow">▼</span><div class="tool-body" id="prepBody"></div></div>
+    </div>
+  </div>
+
+  <div class="tool-group">
+    <div class="tool-group-h">👶 출산 후·육아</div>
+    <div class="tool-grid">
+      <div class="tool" id="toolSpouse" onclick="togTool('toolSpouse')"><span class="tool-ic">👫</span><div class="tool-h">배우자 할일 분담</div><div class="tool-desc">30+ 할일 분배</div><span class="tool-arrow">▼</span><div class="tool-body" id="spouseBody" onclick="event.stopPropagation()"></div></div>
+      <div class="tool" id="toolNB" onclick="togTool('toolNB')"><span class="tool-ic">🍼</span><div class="tool-h">신생아 로그</div><div class="tool-desc">수유·기저귀·수면</div><span class="tool-arrow">▼</span><div class="tool-body" id="nbBody" onclick="event.stopPropagation()"></div></div>
+      <div class="tool" id="toolVac" onclick="togTool('toolVac')"><span class="tool-ic">💉</span><div class="tool-h">예방접종 캘린더</div><div class="tool-desc">국가 필수 30종</div><span class="tool-arrow">▼</span><div class="tool-body" id="vacBody"></div></div>
+      <div class="tool" id="toolChk" onclick="togTool('toolChk')"><span class="tool-ic">🏥</span><div class="tool-h">영유아 건강검진</div><div class="tool-desc">무료 7회+ 일정</div><span class="tool-arrow">▼</span><div class="tool-body" id="chkBody"></div></div>
+      <div class="tool" id="toolGrow" onclick="togTool('toolGrow')"><span class="tool-ic">📏</span><div class="tool-h">아기 성장 기록</div><div class="tool-desc">키·체중 추이</div><span class="tool-arrow">▼</span><div class="tool-body" id="growBody" onclick="event.stopPropagation()"></div></div>
+      <div class="tool" id="toolDC" onclick="togTool('toolDC')"><span class="tool-ic">🏫</span><div class="tool-h">어린이집 대기</div><div class="tool-desc">입소 대기번호</div><span class="tool-arrow">▼</span><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
+    </div>
+  </div>
+
+  <div class="tool-group">
+    <div class="tool-group-h">🧮 계산기·시뮬레이터</div>
+    <div class="tool-grid">
+      <div class="tool" id="toolLeave" onclick="togTool('toolLeave')"><span class="tool-ic">🧮</span><div class="tool-h">육아휴직 상세 계산</div><div class="tool-desc">월별 막대그래프</div><span class="tool-arrow">▼</span><div class="tool-body" onclick="event.stopPropagation()"><div style="font-size:11px;color:#666;margin-bottom:10px;background:#FFF9E6;padding:9px;border-radius:7px">💡 <b>설정은 홈 화면</b>의 "💼 육아휴직 계획"에서 변경하세요.</div><div class="calc-result" id="leaveResult">홈에서 휴직자를 체크하면 여기에 상세 계산이 표시됩니다</div></div></div>
+      <div class="tool" id="toolTot18" onclick="togTool('toolTot18')"><span class="tool-ic">💰</span><div class="tool-h">0~18세 총 수령</div><div class="tool-desc">시기별 시뮬레이터</div><span class="tool-arrow">▼</span><div class="tool-body" id="tot18Body"></div></div>
+      <div class="tool" id="toolSim" onclick="togTool('toolSim')"><span class="tool-ic">🎛️</span><div class="tool-h">What-if 시뮬</div><div class="tool-desc">연봉+500/둘째/이사</div><span class="tool-arrow">▼</span><div class="tool-body" id="simBody" onclick="event.stopPropagation()"></div></div>
+      <div class="tool" id="toolTax" onclick="togTool('toolTax')"><span class="tool-ic">📊</span><div class="tool-h">연말정산 가이드</div><div class="tool-desc">자녀 공제 계산</div><span class="tool-arrow">▼</span><div class="tool-body" id="taxBody"></div></div>
+    </div>
+  </div>
 </div>
 </div><!-- end pgTools -->
 
