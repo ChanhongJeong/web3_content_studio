@@ -169,14 +169,14 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
       <input type="number" class="ob-input" id="inAge2" placeholder="예: 34" onchange="saveProfile()">
     </div>
     <div class="ob-group">
-      <span class="ob-label">본인 월소득 (세전)</span>
+      <span class="ob-label">본인 연봉 (세전)</span>
       <div class="ob-row">
         <input type="number" class="ob-input" id="inInc1" placeholder="0" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
       </div>
     </div>
     <div class="ob-group">
-      <span class="ob-label">배우자 월소득 (세전)</span>
+      <span class="ob-label">배우자 연봉 (세전)</span>
       <div class="ob-row">
         <input type="number" class="ob-input" id="inInc2" placeholder="0" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
@@ -304,7 +304,7 @@ const B=[
 // ── 세금 ──
 {id:'tx_birth',cat:'tax',nm:'출산 세액공제',bg:'정부',bc:'bg-gov',amt:30,type:'cash',scope:'national',desc:'출산 연도 세액공제 (첫째 30만)',when:'연말정산',how:'자동 반영',cond:'근로소득자',where:'홈택스',amtFn:p=>p.childN>=3?70:p.childN>=2?50:30},
 {id:'tx_child',cat:'tax',nm:'자녀 세액공제 (매년)',bg:'정부',bc:'bg-gov',amt:15,at:'연 15만 (매년)',type:'cash',scope:'national',desc:'만8세 이상 자녀 매년 세액공제',when:'매년 연말정산',how:'자동',cond:'기본공제 대상 자녀',where:'홈택스'},
-{id:'tx_med',cat:'tax',nm:'산후조리원비 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'최대 200만×15%',type:'cash',scope:'national',desc:'산후조리원 비용 의료비 세액공제',when:'연말정산',how:'영수증 제출',cond:'총급여 7천만↓',where:'홈택스',eligFn:p=>(p.inc1+p.inc2)*12<=7000,eligTxt:'총급여 7천만원 이하'},
+{id:'tx_med',cat:'tax',nm:'산후조리원비 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'최대 200만×15%',type:'cash',scope:'national',desc:'산후조리원 비용 의료비 세액공제',when:'연말정산',how:'영수증 제출',cond:'총급여 7천만↓',where:'홈택스',eligFn:p=>(p.inc1+p.inc2)<=7000,eligTxt:'총급여 7천만원 이하'},
 {id:'tx_ins',cat:'tax',nm:'태아보험 보험료 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'12% 공제',type:'cash',scope:'national',desc:'보장성 보험료 12% 세액공제 (연 100만 한도)',when:'연말정산',how:'보험사 자료 제출',cond:'보장성 보험 가입',where:'홈택스'},
 {id:'tx_edu',cat:'tax',nm:'어린이집 교육비 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'15% 공제',type:'cash',scope:'national',desc:'어린이집/유치원비 15% 세액공제 (연 300만 한도)',when:'연말정산',how:'자동',cond:'어린이집 이용',where:'홈택스'},
 {id:'tx_marry',cat:'tax',nm:'혼인 세액공제',bg:'정부',bc:'bg-gov',amt:50,at:'부부 각 50만',type:'cash',scope:'national',desc:'2024~2026 혼인신고 시 각 50만원 공제',when:'연말정산',how:'혼인신고 확인',cond:'2024~2026 혼인신고',where:'홈택스',note:'이미 혼인신고 완료 시 해당 연도 적용'},
@@ -387,7 +387,7 @@ function getProfile(){
   };
   // 중위소득 계산 (3인가구 기준)
   const members = 2 + p.childN;
-  const totalInc = (p.inc1+p.inc2)*10000; // 만원→원
+  const totalInc = (p.inc1+p.inc2)*10000/12; // 연봉(만원)→월소득(원)
   const med100 = getMedian(members,100);
   p.medianPct = totalInc>0?Math.round(totalInc/med100*100):0;
   p.medianAmt = med100;
@@ -409,7 +409,7 @@ function updateMedianUI(){
     document.getElementById('medianPct').textContent=p.medianPct+'%';
     const members=2+p.childN;
     document.getElementById('medianDetail').textContent=
-      `${members}인 가구 기준 · 부부합산 월 ${(p.inc1+p.inc2).toLocaleString()}만원 · 기준중위소득 ${Math.round(p.medianAmt/10000).toLocaleString()}만원`;
+      `${members}인 가구 · 부부합산 연봉 ${(p.inc1+p.inc2).toLocaleString()}만원 (월 ${Math.round((p.inc1+p.inc2)/12).toLocaleString()}만원) · 기준중위소득 월 ${Math.round(p.medianAmt/10000).toLocaleString()}만원`;
   }else{el.style.display='none';}
   // D-Day
   if(p.due){
