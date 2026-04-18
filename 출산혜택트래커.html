@@ -7,7 +7,23 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
-body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:70px}
+/* Bottom Navigation */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F0E8EC;display:flex;z-index:100;box-shadow:0 -2px 16px rgba(0,0,0,.06)}
+@media(min-width:640px){.bnav{max-width:520px;margin:0 auto}}
+.bnav-b{flex:1;padding:10px 4px 8px;border:none;background:none;cursor:pointer;color:#999;text-align:center;transition:color .2s}
+.bnav-b.active{color:var(--pri)}
+.bnav-ic{font-size:20px;display:block;margin-bottom:2px}
+.bnav-t{font-size:10px;font-weight:600}
+/* Page sections */
+.page{display:none}
+.page.active{display:block}
+/* Hero */
+.hero-stat{background:linear-gradient(135deg,#FFD6E0,#FFF3CD);margin:12px 16px;border-radius:16px;padding:16px;text-align:center;box-shadow:var(--sh)}
+.hero-v{font-size:28px;font-weight:800;color:#C0385A;line-height:1.1}
+.hero-l{font-size:11px;color:#996;margin-top:3px}
+.hero-sub{display:flex;justify-content:center;gap:16px;margin-top:10px;font-size:11px}
+.hero-sub b{color:#C0385A;font-weight:700;font-size:13px;display:block}
 .header{background:linear-gradient(135deg,#FFD6E0,#D4F0F0 50%,#FFF3CD);padding:32px 20px 24px;text-align:center}
 .header h1{font-size:24px;font-weight:800;color:#E75480}
 .header .sub{font-size:13px;color:#C4748E;margin-top:3px}
@@ -270,6 +286,7 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <div class="sub" id="hSub">2026년 · 받을 수 있는 모든 혜택을 한눈에</div>
 </div>
 
+<div id="pgHome" class="page active">
 <div class="onboard" id="onboard">
   <h2>내 정보 입력</h2>
   <div class="ob-grid">
@@ -327,13 +344,23 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   </div>
 </div>
 
+<div class="hero-stat">
+  <div class="hero-v" id="heroV">-</div>
+  <div class="hero-l">예상 총 혜택 (현재 프로필 기준)</div>
+  <div class="hero-sub">
+    <div>수령<b id="heroR">0만</b></div>
+    <div>완료<b id="heroC">0/0</b></div>
+    <div>남은<b id="heroM">-</b></div>
+  </div>
+</div>
+<div class="prog-w" style="padding:0 16px 10px"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
+
 <div class="sum-grid">
   <div class="sum-card"><div class="sl">총 예상 혜택</div><div class="sv c1" id="sT">-</div><div class="ss">만원</div></div>
   <div class="sum-card"><div class="sl">수령 완료</div><div class="sv c2" id="sR">0</div><div class="ss">만원</div></div>
   <div class="sum-card"><div class="sl">남은 혜택</div><div class="sv c3" id="sM">-</div><div class="ss">만원</div></div>
   <div class="sum-card"><div class="sl">완료</div><div class="sv c4" id="sC">0/0</div><div class="ss">건</div></div>
 </div>
-<div class="prog-w"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
 
 <div class="actd" id="actDash" style="display:none">
   <div class="actd-h">
@@ -353,7 +380,9 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <div class="cal-grid" id="calGrid"></div>
   <div class="cal-tot">총 정기 수령액: <b id="calTot">-</b>만원</div>
 </div>
+</div><!-- end pgHome -->
 
+<div id="pgBenefits" class="page">
 <div class="search-w"><input class="search-i" id="sI" type="text" placeholder="혜택 검색..." oninput="render()"></div>
 <div class="st-bar">
   <button class="st-b active" onclick="setSt('all',this)">전체</button>
@@ -371,7 +400,9 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 </div>
 <div id="bList"></div>
 <div id="tlArea"></div>
+</div><!-- end pgBenefits -->
 
+<div id="pgTools" class="page">
 <div class="tools">
   <div class="tools-h">🛠️ 부모 도구 모음</div>
   <div class="tool" id="toolRoadmap" onclick="togTool('toolRoadmap')"><div class="tool-h"><span class="tool-ic">🗺️</span>첫 출산 로드맵 (처음이라면 여기부터)<span class="tool-arrow">▼</span></div><div class="tool-body" id="roadmapBody"></div></div>
@@ -387,12 +418,18 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <div class="tool" id="toolDC" onclick="togTool('toolDC')"><div class="tool-h"><span class="tool-ic">🏫</span>어린이집 입소 대기 관리<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
   <div class="tool" id="toolTax" onclick="togTool('toolTax')"><div class="tool-h"><span class="tool-ic">📊</span>연말정산 자녀 공제 가이드<span class="tool-arrow">▼</span></div><div class="tool-body" id="taxBody"></div></div>
 </div>
+</div><!-- end pgTools -->
+
+<div id="pgMe" class="page">
+<div class="onboard" style="margin-top:16px">
+<h2>👤 내 정보</h2>
+<div id="meInfo" style="font-size:12px;color:#666;line-height:1.8;padding:8px 0">홈 탭에서 정보를 입력하면 여기에 요약됩니다</div>
+</div>
 
 <div class="disc">
   본 정보는 2026년 4월 기준이며 정책 변경에 따라 달라질 수 있습니다.
   <a href="https://www.gov.kr" target="_blank">정부24</a> ·
   <a href="https://www.bokjiro.go.kr" target="_blank">복지로</a>에서 확인하세요.
-  중위소득은 2025년 기준표 기반 추정치입니다.
 </div>
 <div class="svst" id="svSt"></div>
 <div class="da">
@@ -403,6 +440,14 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <input type="file" id="impF" accept=".json" style="display:none" onchange="impData(event)">
 </div>
 <div class="foot">데이터 자동 저장 · 다른 기기 이동 시 백업 기능 이용</div>
+</div><!-- end pgMe -->
+
+<nav class="bnav">
+  <button class="bnav-b active" onclick="goPage('Home',this)"><span class="bnav-ic">🏠</span><span class="bnav-t">홈</span></button>
+  <button class="bnav-b" onclick="goPage('Benefits',this)"><span class="bnav-ic">🎁</span><span class="bnav-t">혜택</span></button>
+  <button class="bnav-b" onclick="goPage('Tools',this)"><span class="bnav-ic">🛠️</span><span class="bnav-t">도구</span></button>
+  <button class="bnav-b" onclick="goPage('Me',this)"><span class="bnav-ic">👤</span><span class="bnav-t">내정보</span></button>
+</nav>
 <div class="toast" id="toast"></div>
 <div class="share-md" id="shareMd">
   <div class="share-c">
@@ -778,6 +823,28 @@ function cardVisible(b,elig){
   return true;
 }
 
+function goPage(pg,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pg'+pg).classList.add('active');
+  document.querySelectorAll('.bnav-b').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  window.scrollTo(0,0);
+  if(pg==='Me')renderMe();
+}
+function renderMe(){
+  const p=getProfile();
+  const el=document.getElementById('meInfo');
+  if(!el)return;
+  const mc={'seoul':'서울','incheon':'인천'}[p.city]||'-';
+  const incK=p.inc1+p.inc2;
+  el.innerHTML=`
+    <div>📅 <b>출산예정일:</b> ${p.due||'-'}</div>
+    <div>👶 <b>출산순서:</b> ${['첫째','둘째','셋째 이상'][p.childN-1]||'-'}</div>
+    <div>🎂 <b>본인/배우자 나이:</b> ${p.age1||'-'} / ${p.age2||'-'}세</div>
+    <div>💰 <b>부부합산 연봉:</b> ${incK.toLocaleString()}만원 (중위 ${p.medianPct||'-'}%)</div>
+    <div>🏙 <b>거주지:</b> ${mc} ${p.dist||''}</div>
+  `;
+}
 function setSt(st,el){curSt=st;document.querySelectorAll('.st-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 function setSec(sec,el){curSec=sec;document.querySelectorAll('.sec-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
@@ -999,6 +1066,11 @@ function updateSum(vis,p){
   document.getElementById('sR').textContent=recv.toLocaleString();
   document.getElementById('sM').textContent=Math.max(0,total-recv).toLocaleString();
   document.getElementById('sC').textContent=`${ckCnt}/${vis.length}`;
+  // Hero
+  const hV=document.getElementById('heroV');if(hV){hV.textContent=total.toLocaleString()+'만원';}
+  const hR=document.getElementById('heroR');if(hR)hR.textContent=recv.toLocaleString()+'만';
+  const hC=document.getElementById('heroC');if(hC)hC.textContent=ckCnt+'/'+vis.length;
+  const hM=document.getElementById('heroM');if(hM)hM.textContent=Math.max(0,total-recv).toLocaleString()+'만';
   const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
   document.getElementById('pB').style.width=pct+'%';
   document.getElementById('pT').textContent=`${pct}% 달성 (${ckCnt}/${vis.length}건)`;
@@ -1021,11 +1093,45 @@ function rstData(){if(!confirm('모든 데이터를 초기화할까요?'))return
 
 window.addEventListener('beforeunload',()=>{if(svT){clearTimeout(svT);S._lastSaved=Date.now();localStorage.setItem(SK,JSON.stringify(S));}});
 
-// ===== Share =====
+// ===== Share (compact encoding) =====
+function compactState(){
+  // Only essential data: profile + checked + received + startDate + key tools
+  const p=S._profile||{};
+  const ck=[],recv={},sd={},memo={};
+  Object.keys(S).forEach(k=>{
+    if(k.startsWith('_'))return;
+    const v=S[k];if(!v||typeof v!=='object')return;
+    if(v.checked)ck.push(k);
+    if(v.received)recv[k]=v.received;
+    if(v.startDate)sd[k]=v.startDate;
+    if(v.memo)memo[k]=v.memo;
+  });
+  return {
+    p:[p.due||'',p.childN||1,p.age1||0,p.age2||0,p.inc1||0,p.inc2||0,p.city||'',p.dist||''],
+    c:ck,r:recv,s:sd,m:memo,
+    v:S._vouch?[S._vouch.total||0,(S._vouch.used||[]).length]:null,
+    d:S._daycare||[],
+  };
+}
+function expandState(cs){
+  const S2={};
+  if(cs.p){const p=cs.p;S2._profile={due:p[0],childN:p[1],age1:p[2],age2:p[3],inc1:p[4],inc2:p[5],city:p[6],dist:p[7]};}
+  (cs.c||[]).forEach(id=>{S2[id]=S2[id]||{};S2[id].checked=true;});
+  Object.entries(cs.r||{}).forEach(([id,v])=>{S2[id]=S2[id]||{};S2[id].received=v;});
+  Object.entries(cs.s||{}).forEach(([id,v])=>{S2[id]=S2[id]||{};S2[id].startDate=v;});
+  Object.entries(cs.m||{}).forEach(([id,v])=>{S2[id]=S2[id]||{};S2[id].memo=v;});
+  if(cs.d)S2._daycare=cs.d;
+  return S2;
+}
+// Simple URL-safe base64
+function b64u(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function b64uDec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return decodeURIComponent(escape(atob(s)));}
+
 function openShare(){
-  const data=JSON.stringify(S);
-  const enc=btoa(unescape(encodeURIComponent(data)));
-  const url=location.origin+location.pathname+'#d='+enc;
+  const compact=compactState();
+  const json=JSON.stringify(compact);
+  const enc=b64u(json);
+  const url=location.origin+location.pathname+'#s='+enc;
   document.getElementById('shareUrl').textContent=url;
   document.getElementById('shareMd').classList.add('show');
 }
@@ -1037,17 +1143,27 @@ function copyShare(){
   });
 }
 function loadFromUrl(){
-  if(!location.hash.startsWith('#d='))return false;
-  try{
-    const enc=location.hash.slice(3);
-    const data=decodeURIComponent(escape(atob(enc)));
-    const d=JSON.parse(data);
-    if(confirm('공유받은 데이터를 불러올까요?\n(현재 내 데이터는 덮어쓰입니다)')){
-      S=d;localStorage.setItem(SK,JSON.stringify(S));
-      history.replaceState(null,'',location.pathname);
-      return true;
-    }
-  }catch(e){console.error(e);}
+  if(location.hash.startsWith('#s=')){
+    try{
+      const enc=location.hash.slice(3);
+      const json=b64uDec(enc);
+      const cs=JSON.parse(json);
+      if(confirm('공유받은 데이터를 불러올까요?\n(현재 내 데이터는 덮어쓰입니다)')){
+        S=expandState(cs);localStorage.setItem(SK,JSON.stringify(S));
+        history.replaceState(null,'',location.pathname);
+        return true;
+      }
+    }catch(e){console.error(e);}
+  }
+  if(location.hash.startsWith('#d=')){ // legacy
+    try{
+      const data=decodeURIComponent(escape(atob(location.hash.slice(3))));
+      const d=JSON.parse(data);
+      if(confirm('공유받은 데이터를 불러올까요?\n(현재 내 데이터는 덮어쓰입니다)')){
+        S=d;localStorage.setItem(SK,JSON.stringify(S));history.replaceState(null,'',location.pathname);return true;
+      }
+    }catch(e){}
+  }
   return false;
 }
 
