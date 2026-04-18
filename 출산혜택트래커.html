@@ -1180,7 +1180,15 @@ function getWeekInfo(b,p){
 // ===== Render =====
 function render(){
   const vis=getVisible();const p=getProfile();
-  renderFilters(vis);renderDashboard(vis,p);renderCalendar(vis,p);renderThisMonth();renderAgeTimeline();renderCards(vis,p);renderTL();updateSum(vis,p);
+  try{renderFilters(vis);}catch(e){console.error('renderFilters',e);}
+  try{renderDashboard(vis,p);}catch(e){console.error('renderDashboard',e);}
+  try{renderCalendar(vis,p);}catch(e){console.error('renderCalendar',e);}
+  try{renderThisMonth();}catch(e){console.error('renderThisMonth',e);}
+  try{renderAgeTimeline();}catch(e){console.error('renderAgeTimeline',e);}
+  try{renderCards(vis,p);}catch(e){console.error('renderCards',e);}
+  try{renderTL();}catch(e){console.error('renderTL',e);}
+  try{updateSum(vis,p);}catch(e){console.error('updateSum',e);}
+  try{renderTools();}catch(e){console.error('renderTools wrapper',e);}
   setTimeout(enableCardSwipe,50);
 }
 
@@ -2037,9 +2045,7 @@ function renderTax(){
   el.innerHTML=h;
 }
 
-// Hook render to rebuild tools on profile change
-const _origRender=render;
-render=function(){_origRender();renderTools();};
+// renderTools is now called inside render() directly
 
 // ===== Onboarding =====
 function showOnb(){
@@ -2179,7 +2185,7 @@ function enableCardSwipe(){
 }
 
 if(loadFromUrl()){}
-load();initDark();updateMedianUI();render();
+load();initDark();updateMedianUI();render();renderTools();
 // First-time onboarding
 if(!S._onbDone&&!S._profile)setTimeout(showOnb,300);
 // Card swipe after render
