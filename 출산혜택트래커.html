@@ -1005,6 +1005,17 @@ function getProfile(){
 }
 
 function saveProfile(){
+  // 값 검증
+  const validate=(id,min,max,label)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const v=parseInt(el.value);if(isNaN(v))return;
+    if(v>max){alert(`⚠️ ${label}은(는) 최대 ${max.toLocaleString()}까지만 입력 가능합니다.`);el.value=max;}
+    else if(v<min){alert(`⚠️ ${label}은(는) 최소 ${min} 이상이어야 합니다.`);el.value=min;}
+  };
+  validate('inAge1',15,80,'나이');
+  validate('inAge2',15,80,'나이');
+  validate('inInc1',0,100000,'연봉(만원)');
+  validate('inInc2',0,100000,'연봉(만원)');
   S._profile = getProfile();
   autoSave();
   updateMedianUI();
@@ -2133,9 +2144,21 @@ function getLeaveSettings(){
 }
 
 function saveLeaveSettings(){
+  // 값 검증: 1~18개월만 허용
+  ['leaveM1','leaveM2'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const v=parseInt(el.value);
+    if(isNaN(v))return; // 비어있으면 그냥 pass
+    if(v>18){
+      alert(`⚠️ 육아휴직은 최대 18개월까지만 사용 가능합니다.\n입력하신 값: ${v}개월 → 18개월로 조정됩니다.\n\n📖 참고: 2025년부터 부모 각자 3개월+ 사용 시 최대 1.5년(18개월) 연장됩니다.`);
+      el.value=18;
+    }else if(v<1){
+      alert('⚠️ 최소 1개월 이상 입력해주세요.');
+      el.value=1;
+    }
+  });
   S._leave=getLeaveSettings();
   autoSave();
-  // Show/hide detail boxes based on checkbox
   const b1=document.getElementById('leaveBox1'),b2=document.getElementById('leaveBox2');
   if(b1)b1.style.display=document.getElementById('leaveUse1')?.checked?'block':'none';
   if(b2)b2.style.display=document.getElementById('leaveUse2')?.checked?'block':'none';
