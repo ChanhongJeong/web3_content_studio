@@ -625,6 +625,11 @@ body.dark .tline-dot{background:#1E1930}
 <h2>👤 내 정보</h2>
 <div id="meInfo" style="font-size:12px;color:#666;line-height:1.8;padding:8px 0">홈 탭에서 정보를 입력하면 여기에 요약됩니다</div>
 </div>
+<div class="onboard" style="margin-top:0">
+<h2>📜 수령 기록</h2>
+<div style="font-size:11px;color:#666;margin-bottom:10px">체크한 혜택이 날짜순으로 정렬돼요</div>
+<div id="recvLog" style="font-size:12px"></div>
+</div>
 
 <div class="disc">
   본 정보는 2026년 4월 기준이며 정책 변경에 따라 달라질 수 있습니다.
@@ -1162,6 +1167,52 @@ function renderMe(){
     <div>💰 <b>부부합산 연봉:</b> ${incK.toLocaleString()}만원 (중위 ${p.medianPct||'-'}%)</div>
     <div>🏙 <b>거주지:</b> ${mc} ${p.dist||''}</div>
   `;
+  renderRecvLog();
+}
+function renderRecvLog(){
+  const el=document.getElementById('recvLog');if(!el)return;
+  const items=[];
+  B.forEach(b=>{
+    const st=S[b.id];if(!st||!st.checked)return;
+    const kind=getKind(b);
+    if(kind==='recurring'){
+      if(st.startDate)items.push({date:st.startDate,nm:b.nm,type:'매월 수령 시작',amt:'매월 자동',bg:b.bg});
+    }else if(kind==='perk'){
+      items.push({date:st.date||'-',nm:b.nm,type:'가입·이용',amt:'-',bg:b.bg});
+    }else{
+      items.push({date:st.date||'-',nm:b.nm,type:'1회 수령',amt:st.received?st.received+'만원':'기록 없음',bg:b.bg,memo:st.memo});
+    }
+  });
+  items.sort((a,b)=>b.date.localeCompare(a.date));
+  if(!items.length){el.innerHTML='<div style="font-size:12px;color:#999;text-align:center;padding:30px;background:#FAFAFE;border-radius:10px">아직 체크한 혜택이 없어요<br><span style="font-size:10px">혜택 탭에서 받은 혜택을 체크해보세요</span></div>';return;}
+  // 날짜별 그룹
+  let lastDate='';let h='';let byMonth={};
+  items.forEach(x=>{
+    const mo=x.date.slice(0,7)||'미지정';
+    if(!byMonth[mo])byMonth[mo]=[];
+    byMonth[mo].push(x);
+  });
+  // 월별 총액 + 리스트
+  let grandTotal=0;
+  Object.entries(byMonth).sort((a,b)=>b[0].localeCompare(a[0])).forEach(([mo,its])=>{
+    const moTotal=its.reduce((s,x)=>{const n=parseFloat(x.amt);return s+(isNaN(n)?0:n);},0);
+    grandTotal+=moTotal;
+    const moLabel=mo==='미지정'?'📋 날짜 미지정':`📅 ${mo.replace('-','년 ')}월`;
+    h+=`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:linear-gradient(135deg,#FFE4EC,#FFF3CD);border-radius:8px;margin-bottom:6px"><b style="color:#C0385A;font-size:12px">${moLabel}</b>${moTotal?`<b style="color:#C0385A;font-size:13px">${moTotal.toLocaleString()}만원</b>`:''}</div>`;
+    its.forEach(x=>{
+      h+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:8px 10px;background:#fff;border-radius:7px;margin-bottom:4px;border-left:3px solid var(--pri)">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:700">${x.nm} <span style="font-size:9px;background:#F0E8EC;padding:1px 5px;border-radius:4px;color:#666;margin-left:3px">${x.bg}</span></div>
+          <div style="font-size:10px;color:#888;margin-top:2px">${x.date!=='-'?'📆 '+x.date:''} · ${x.type}</div>
+          ${x.memo?`<div style="font-size:10px;color:#7B5EA7;margin-top:3px;font-style:italic">💬 ${x.memo}</div>`:''}
+        </div>
+        <div style="font-size:12px;font-weight:800;color:#C0385A;white-space:nowrap">${x.amt}</div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  h=`<div style="background:linear-gradient(135deg,#FFD6E0,#F3E5F5);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px"><div style="font-size:10px;color:#666">✅ 기록된 1회성 수령 합계</div><div style="font-size:24px;font-weight:800;color:#C0385A">${grandTotal.toLocaleString()}만원</div><div style="font-size:10px;color:#888;margin-top:2px">매월 반복 수령(부모급여·아동수당 등)은 제외</div></div>`+h;
+  el.innerHTML=h;
 }
 function setSt(st,el){curSt=st;document.querySelectorAll('.st-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 function setSec(sec,el){curSec=sec;document.querySelectorAll('.sec-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
@@ -1395,15 +1446,17 @@ function renderCards(vis,p){
         </div>
         <div class="rf">
           ${(()=>{const kind=getKind(b);
+            const today=new Date().toISOString().slice(0,10);
             if(kind==='recurring'){
-              const rc=calcRecurring(b,p);const start=S[b.id]?.startDate||'';
+              const rc=calcRecurring(b,p);const start=S[b.id]?.startDate||today;
               return `<div class="rr"><span class="rl">신청일</span><input type="date" class="rd" value="${start}" onchange="upStart('${b.id}',this.value)"></div>${rc&&rc.months>0?`<div class="rsvc" style="font-size:11px;line-height:1.6">📆 <b>${rc.months}개월 경과</b> · 월 ${rc.monthly}만원<br>💰 누적 수령 <b style="color:#C0385A">${rc.accum.toLocaleString()}만원</b> / 총 ${rc.total.toLocaleString()}만원 예상</div>`:`<div class="rsvc" style="font-size:11px;color:#888">📌 신청일 입력 시 자동 누적 계산 · ${RECURRING[b.id]?.desc||''}</div>`}`;
             }
             if(kind==='perk'){
               return `<div class="rsvc">${ck?'✅ 가입·이용 중':'⚪ 아직 이용 안 함'}</div>`;
             }
             // one-time
-            return isCash?`<div class="rr"><span class="rl">수령액</span><input type="text" class="ri" value="${recv}" placeholder="0" inputmode="numeric" oninput="upRecv('${b.id}',this.value)"><span class="ru">만원</span></div><div class="rr"><span class="rl">수령일</span><input type="date" class="rd" value="${rDate}" onchange="upDate('${b.id}',this.value)"></div>`:`<div class="rsvc">✅ 혜택 이용 완료!</div><div class="rr"><span class="rl">이용일</span><input type="date" class="rd" value="${rDate}" onchange="upDate('${b.id}',this.value)"></div>`;
+            const dVal=rDate||today;
+            return isCash?`<div class="rr"><span class="rl">수령액</span><input type="text" class="ri" value="${recv}" placeholder="0" inputmode="numeric" oninput="upRecv('${b.id}',this.value)"><span class="ru">만원</span></div><div class="rr"><span class="rl">수령일</span><input type="date" class="rd" value="${dVal}" onchange="upDate('${b.id}',this.value)"></div>`:`<div class="rsvc">✅ 혜택 이용 완료!</div><div class="rr"><span class="rl">이용일</span><input type="date" class="rd" value="${dVal}" onchange="upDate('${b.id}',this.value)"></div>`;
           })()}
           ${getKind(b)!=='perk'?`<div class="rsw"><button class="rsb" onclick="saveRec('${b.id}',this)">💾 기록 저장</button></div>`:''}
         </div>
@@ -1467,7 +1520,7 @@ function updateSum(vis,p){
 
 // ===== Handlers =====
 function togCat(catId){const cur=S['_col_'+catId]===undefined?true:S['_col_'+catId];S['_col_'+catId]=!cur;autoSave();render();}
-function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}else{if(!S[id].date)S[id].date=new Date().toISOString().slice(0,10);}autoSave();render();}
+function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
 function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
 function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
 function upDate(id,v){if(!S[id])S[id]={};S[id].date=v;}
