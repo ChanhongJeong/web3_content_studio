@@ -322,6 +322,7 @@
 
   .badge-gov { background: #E0EEFF; color: #4A7DB5; }
   .badge-seoul { background: #FFE4EC; color: #C46080; }
+  .badge-gu { background: #E8E0FF; color: #7B5EA7; }
   .badge-company { background: #FFF4E4; color: #C49040; }
 
   .benefit-amount {
@@ -623,7 +624,7 @@
 
 <div class="header">
   <h1>🍼 출산 혜택 트래커</h1>
-  <div class="subtitle">2026년 서울 기준 · 하나도 놓치지 말자!</div>
+  <div class="subtitle">2026년 서울 강서구 기준 · 하나도 놓치지 말자!</div>
 </div>
 
 <div class="dday-banner" id="ddayBanner">
@@ -705,7 +706,7 @@
 <div class="footer">
   데이터는 자동 저장됩니다 (브라우저 localStorage).<br>
   다른 기기에서 사용하려면 '백업 내보내기/불러오기'를 이용하세요.<br>
-  혜택 정보 기준: 2026년 4월 · 서울 거주 · 첫째 아이
+  혜택 정보 기준: 2026년 4월 · 서울 강서구 · 첫째 아이
 </div>
 
 <div class="save-toast" id="saveToast">✅ 저장 완료!</div>
@@ -807,6 +808,47 @@ const benefits = [
     where: '치과 (건강보험 적용)',
     note: '보건소에서도 무료 구강검진 가능'
   },
+  {
+    id: 'gs_housework',
+    category: 'pregnancy',
+    name: '강서구 임산부 가사돌봄서비스',
+    badge: '강서구', badgeClass: 'badge-gu',
+    amount: 0,
+    amountText: '최대 10회 파견',
+    desc: '임산부 가정에 가사돌봄 서비스 제공 (청소, 세탁, 요리 등)',
+    when: '임신 중 ~ 출산 후',
+    how: '강서구 보건소 또는 구청 신청',
+    condition: '강서구 거주 임산부',
+    where: '강서구 보건소 (02-2600-5800)',
+    note: '2025년 기존 6회→10회로 확대!'
+  },
+  {
+    id: 'gs_prepreg_health',
+    category: 'pregnancy',
+    name: '강서구 임신 전 건강관리 지원',
+    badge: '강서구', badgeClass: 'badge-gu',
+    amount: 0,
+    amountText: '무료 검사',
+    desc: '임신 전 건강위험요인 조기 발견을 위한 검사 및 상담 지원',
+    when: '임신 계획 시',
+    how: '강서구 보건소 방문',
+    condition: '강서구 거주 임신 준비 부부',
+    where: '강서구 보건소 (02-2600-5800)'
+  },
+  {
+    id: 'gs_tube_restore',
+    category: 'pregnancy',
+    name: '강서구 정·난관 복원 시술비 지원',
+    badge: '강서구', badgeClass: 'badge-gu',
+    amount: 100,
+    amountText: '최대 100만원',
+    desc: '영구피임 후 재임신 희망 시 정·난관 복원 시술비 지원',
+    when: '해당 시',
+    how: '강서구 보건소 신청',
+    condition: '강서구 거주, 영구피임시술 기왕력',
+    where: '강서구 보건소 (02-2600-5800)',
+    note: '2025년 1월~ 시행. 해당 시에만 신청'
+  },
   // ─── 출산 후 ───
   {
     id: 'first_meet',
@@ -865,16 +907,16 @@ const benefits = [
   {
     id: 'birth_gift_gu',
     category: 'birth',
-    name: '자치구 출산축하금',
-    badge: '서울', badgeClass: 'badge-seoul',
+    name: '강서구 출산축하금',
+    badge: '강서구', badgeClass: 'badge-gu',
     amount: 0,
-    amountText: '자치구별 상이',
-    desc: '거주 자치구에서 별도 지급하는 출산축하금/선물',
+    amountText: '구청 확인 필요',
+    desc: '강서구 자체 출산축하금/선물 (금액은 구청에 확인)',
     when: '출산 후',
-    how: '주민센터 또는 자치구 온라인 신청',
-    condition: '해당 자치구 거주',
-    where: '주민센터, 자치구청 홈페이지',
-    note: '자치구마다 금액·조건 다름. 반드시 거주 구청에 확인!'
+    how: '주민센터 또는 강서구청 온라인 신청',
+    condition: '강서구 거주',
+    where: '강서구청 가족정책과 (02-2600-5273), 동주민센터',
+    note: '정확한 금액·조건은 강서구청에 전화 확인 필수!'
   },
   {
     id: 'tax_deduction',
