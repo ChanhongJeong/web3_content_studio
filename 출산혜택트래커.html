@@ -560,7 +560,7 @@ function renderCards(vis,p){
     const items=vis.filter(b=>b.cat===cat.id);
     if(!items.length)return;
     const ckCnt=items.filter(b=>S[b.id]?.checked).length;
-    const collapsed=S['_col_'+cat.id]||false;
+    const collapsed=S['_col_'+cat.id]===undefined?true:S['_col_'+cat.id];
     h+=`<div class="cat-s ${collapsed?'collapsed':''}"><div class="cat-h" onclick="togCat('${cat.id}')"><div class="cat-ic">${cat.ic}</div><div class="cat-t">${cat.t}</div><span class="cat-arrow">▼</span><div class="cat-st">${ckCnt}/${items.length}</div></div><div class="cat-body">`;
     items.forEach(b=>{
       const elig=checkElig(b,p);
@@ -638,7 +638,7 @@ function updateSum(vis,p){
 }
 
 // ===== Handlers =====
-function togCat(catId){S['_col_'+catId]=!S['_col_'+catId];render();}
+function togCat(catId){const cur=S['_col_'+catId]===undefined?true:S['_col_'+catId];S['_col_'+catId]=!cur;autoSave();render();}
 function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
 function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
 function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
