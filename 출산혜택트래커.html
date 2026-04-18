@@ -1119,6 +1119,7 @@ function goPage(pg,el){
   if(el)el.classList.add('active');
   window.scrollTo(0,0);
   if(pg==='Me')renderMe();
+  if(pg==='Tools')renderTools();
 }
 function renderMe(){
   const p=getProfile();
@@ -1624,7 +1625,7 @@ const CHECKUPS=[
   {age:'66~71개월',name:'건강검진 8차 + 구강검진 4차'},
 ];
 
-function togTool(id){const el=document.getElementById(id);el.classList.toggle('exp');if(!S._tools)S._tools={};S._tools[id]=el.classList.contains('exp');autoSave();}
+function togTool(id){const el=document.getElementById(id);el.classList.toggle('exp');if(!S._tools)S._tools={};S._tools[id]=el.classList.contains('exp');autoSave();renderTools();}
 
 function renderTools(){
   if(!S._tools)S._tools={};
@@ -1637,7 +1638,11 @@ function renderTools(){
     set('leaveM1',L.m1||12);set('leaveM2',L.m2||12);
     set('leaveStart1',L.start1||'');set('leaveStart2',L.start2||'');
   }
-  renderRoadmap();renderVouch();renderNB();renderSpouse();renderWeekTasks();renderVac();renderChk();renderPrep();renderDC();renderTot18();renderTax();calcLeave();renderGrow();renderFetus();
+  const safe=(fn,name)=>{try{fn();}catch(e){console.error('renderTools.'+name,e);}};
+  safe(renderRoadmap,'Roadmap');safe(renderVouch,'Vouch');safe(renderNB,'NB');safe(renderSpouse,'Spouse');
+  safe(renderWeekTasks,'Week');safe(renderVac,'Vac');safe(renderChk,'Chk');safe(renderPrep,'Prep');
+  safe(renderDC,'DC');safe(renderTot18,'Tot18');safe(renderTax,'Tax');safe(calcLeave,'Leave');
+  safe(renderGrow,'Grow');safe(renderFetus,'Fetus');
 }
 
 // This month card
