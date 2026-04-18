@@ -55,12 +55,18 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 .ft-b{flex-shrink:0;padding:6px 12px;border:none;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s}
 .ft-b.active{background:var(--pri);color:#fff}
 .ft-cnt{font-size:10px;opacity:.7;margin-left:2px}
-.sec-bar{display:flex;gap:6px;padding:0 16px 10px}
-.sec-b{flex:1;padding:8px;border:2px solid #F0E8EC;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--txt-l);text-align:center;transition:all .2s}
-.sec-b.active{border-color:#6B5CE7;color:#6B5CE7;background:#F0ECFF}
-.sec-b .sec-cnt{font-size:11px;font-weight:600;opacity:.6}
+.sec-bar{display:flex;gap:0;padding:0 16px 12px}
+.sec-b{flex:1;padding:10px;border:none;border-bottom:3px solid #F0E8EC;font-size:14px;font-weight:700;cursor:pointer;background:transparent;color:var(--txt-l);text-align:center;transition:all .2s}
+.sec-b.active{border-bottom-color:var(--pri);color:#E75480}
+.sec-b .sec-cnt{font-size:11px;font-weight:600;opacity:.6;display:block;margin-top:1px}
 .b-link{display:inline-block;margin-top:6px;padding:5px 10px;background:#F0ECFF;color:#6B5CE7;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;transition:background .2s}
 .b-link:hover{background:#E0D8FF}
+/* Accordion category */
+.cat-h{cursor:pointer;user-select:none}
+.cat-h .cat-arrow{margin-left:6px;font-size:12px;color:var(--txt-l);transition:transform .2s}
+.cat-s.collapsed .cat-body{display:none}
+.cat-s.collapsed .cat-arrow{transform:rotate(-90deg)}
+.cat-body{padding-top:4px}
 .elig-toggle{padding:0 16px 10px;display:flex;align-items:center;gap:8px}
 .elig-toggle label{font-size:12px;color:var(--txt-l);font-weight:600;cursor:pointer}
 .elig-switch{position:relative;width:40px;height:22px;cursor:pointer}
@@ -230,11 +236,9 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <label for="hideInelig">대상 아닌 혜택 숨기기</label>
 </div>
 <div class="sec-bar" id="secBar">
-  <button class="sec-b active" onclick="setSec('all',this)">전체</button>
-  <button class="sec-b" onclick="setSec('gov',this)">🏛 정부 혜택</button>
-  <button class="sec-b" onclick="setSec('private',this)">🏢 민간 혜택</button>
+  <button class="sec-b active" onclick="setSec('gov',this)">🏛 정부 혜택<span class="sec-cnt" id="govCnt"></span></button>
+  <button class="sec-b" onclick="setSec('private',this)">🏢 민간 혜택<span class="sec-cnt" id="priCnt"></span></button>
 </div>
-<div class="ft-bar" id="fBar"></div>
 <div id="bList"></div>
 <div id="tlArea"></div>
 
@@ -390,7 +394,7 @@ const TL=[
 ];
 
 // ===== State =====
-let S={},curCat='all',curSt='all',curSec='all';
+let S={},curCat='all',curSt='all',curSec='gov';
 const SK='btrack_v3';
 let svT=null;
 
@@ -519,7 +523,7 @@ function cardVisible(b,elig){
   if(curSt==='uck'&&ck) return false;
   if(curSt==='elig'&&elig==='inelig') return false;
   if(document.getElementById('hideInelig')?.checked&&elig==='inelig') return false;
-  if(curCat!=='all'&&b.cat!==curCat) return false;
+  // curCat removed - using accordion instead
   const q=document.getElementById('sI')?.value?.toLowerCase()||'';
   if(q&&!b.nm.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)) return false;
   return true;
@@ -535,22 +539,13 @@ function render(){
 }
 
 function renderFilters(vis){
-  // Sector counts (from full B, not filtered vis)
   const p=getProfile();
   const allVis=B.filter(b=>checkElig(b,p)!=='scope');
-  const govCnt=allVis.filter(b=>b.sec===G).length;
-  const priCnt=allVis.filter(b=>b.sec===P).length;
-  document.getElementById('secBar').innerHTML=
-    `<button class="sec-b ${curSec==='all'?'active':''}" onclick="setSec('all',this)">전체 <span class="sec-cnt">${allVis.length}</span></button>`+
-    `<button class="sec-b ${curSec==='gov'?'active':''}" onclick="setSec('gov',this)">🏛 정부 혜택 <span class="sec-cnt">${govCnt}</span></button>`+
-    `<button class="sec-b ${curSec==='private'?'active':''}" onclick="setSec('private',this)">🏢 민간 혜택 <span class="sec-cnt">${priCnt}</span></button>`;
-  // Category tabs
-  const bar=document.getElementById('fBar');
-  let cnt={all:vis.length};
-  CATS.forEach(c=>cnt[c.id]=vis.filter(b=>b.cat===c.id).length);
-  let h=`<button class="ft-b ${curCat==='all'?'active':''}" onclick="curCat='all';render()">전체<span class="ft-cnt">${cnt.all}</span></button>`;
-  CATS.forEach(c=>{if(cnt[c.id]>0)h+=`<button class="ft-b ${curCat===c.id?'active':''}" onclick="curCat='${c.id}';render()">${c.ic} ${c.t}<span class="ft-cnt">${cnt[c.id]}</span></button>`;});
-  bar.innerHTML=h;
+  document.getElementById('govCnt').textContent=allVis.filter(b=>b.sec===G).length+'건';
+  document.getElementById('priCnt').textContent=allVis.filter(b=>b.sec===P).length+'건';
+  // Update active tab
+  document.querySelectorAll('.sec-b').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.sec-b[onclick*="${curSec}"]`).classList.add('active');
 }
 
 function renderCards(vis,p){
@@ -558,9 +553,9 @@ function renderCards(vis,p){
   CATS.forEach(cat=>{
     const items=vis.filter(b=>b.cat===cat.id);
     if(!items.length)return;
-    const show=curCat==='all'||curCat===cat.id;
     const ckCnt=items.filter(b=>S[b.id]?.checked).length;
-    h+=`<div class="cat-s ${show?'':'hidden'}"><div class="cat-h"><div class="cat-ic">${cat.ic}</div><div class="cat-t">${cat.t}</div><div class="cat-st">${ckCnt}/${items.length}</div></div>`;
+    const collapsed=S['_col_'+cat.id]||false;
+    h+=`<div class="cat-s ${collapsed?'collapsed':''}"><div class="cat-h" onclick="togCat('${cat.id}')"><div class="cat-ic">${cat.ic}</div><div class="cat-t">${cat.t}</div><span class="cat-arrow">▼</span><div class="cat-st">${ckCnt}/${items.length}</div></div><div class="cat-body">`;
     items.forEach(b=>{
       const elig=checkElig(b,p);
       const v=cardVisible(b,elig);
@@ -605,14 +600,14 @@ function renderCards(vis,p){
         <textarea class="bm" rows="1" placeholder="메모 (선택)" oninput="upMemo('${b.id}',this.value)">${memo}</textarea>
       </div>`;
     });
-    h+='</div>';
+    h+='</div></div>';
   });
   ct.innerHTML=h;
 }
 
 function renderTL(){
   const a=document.getElementById('tlArea');
-  if(curCat!=='all'){a.innerHTML='';return;}
+  if(curSec!=='gov'){a.innerHTML='';return;}
   let h='<div class="tls"><div class="tlt">📅 타임라인</div><div class="tl">';
   TL.forEach(t=>h+=`<div class="tli ${t.s}"><div class="tld"></div><div class="tldt">${t.m}</div><div class="tltx">${t.t}</div></div>`);
   h+='</div></div>';a.innerHTML=h;
@@ -633,6 +628,7 @@ function updateSum(vis,p){
 }
 
 // ===== Handlers =====
+function togCat(catId){S['_col_'+catId]=!S['_col_'+catId];render();}
 function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
 function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
 function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
