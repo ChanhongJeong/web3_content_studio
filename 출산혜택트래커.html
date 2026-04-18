@@ -1157,7 +1157,17 @@ function cardVisible(b,elig){
   if(q&&!b.nm.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)) return false;
   return true;
 }
-function setStage(st,el){curStage=st;document.querySelectorAll('.lstage-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
+function setStage(st,el){
+  curStage=st;
+  document.querySelectorAll('.lstage-b').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  // 라이프스테이지 클릭 시 혜택 탭으로 자동 이동 (필터 적용)
+  const benefitsTab=document.querySelectorAll('.bnav-b')[1];
+  if(benefitsTab&&!document.getElementById('pgBenefits').classList.contains('active')){
+    goPage('Benefits',benefitsTab);
+  }
+  render();
+}
 
 function goPage(pg,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1810,6 +1820,14 @@ function renderTools(){
   const b1=document.getElementById('leaveBox1'),b2=document.getElementById('leaveBox2');
   if(b1)b1.style.display=document.getElementById('leaveUse1')?.checked?'block':'none';
   if(b2)b2.style.display=document.getElementById('leaveUse2')?.checked?'block':'none';
+  // 6+6 제도는 부부 둘다 육아휴직 시만
+  const use1c=document.getElementById('leaveUse1')?.checked;
+  const use2c=document.getElementById('leaveUse2')?.checked;
+  const cb66=document.getElementById('leave66');
+  if(cb66){
+    if(!use1c||!use2c){cb66.disabled=true;cb66.checked=false;if(cb66.parentElement)cb66.parentElement.style.opacity='0.5';}
+    else{cb66.disabled=false;if(cb66.parentElement)cb66.parentElement.style.opacity='1';}
+  }
   const safe=(fn,name)=>{try{fn();}catch(e){console.error('renderTools.'+name,e);}};
   safe(renderRoadmap,'Roadmap');safe(renderVouch,'Vouch');safe(renderNB,'NB');safe(renderSpouse,'Spouse');
   safe(renderWeekTasks,'Week');safe(renderVac,'Vac');safe(renderChk,'Chk');safe(renderPrep,'Prep');
@@ -2157,7 +2175,7 @@ function saveLeaveSettings(){
   ['leaveM1','leaveM2'].forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
     const v=parseInt(el.value);
-    if(isNaN(v))return; // 비어있으면 그냥 pass
+    if(isNaN(v))return;
     if(v>18){
       alert(`⚠️ 육아휴직은 최대 18개월까지만 사용 가능합니다.\n입력하신 값: ${v}개월 → 18개월로 조정됩니다.\n\n📖 참고: 2025년부터 부모 각자 3개월+ 사용 시 최대 1.5년(18개월) 연장됩니다.`);
       el.value=18;
@@ -2166,6 +2184,23 @@ function saveLeaveSettings(){
       el.value=1;
     }
   });
+  // 6+6 제도는 부부 둘 다 육아휴직 사용 시만 적용
+  const use1=document.getElementById('leaveUse1')?.checked;
+  const use2=document.getElementById('leaveUse2')?.checked;
+  const cb66=document.getElementById('leave66');
+  if(cb66){
+    if(!use1||!use2){
+      if(cb66.checked){
+        alert('⚠️ 6+6 부모육아휴직제는 부부 둘 다 육아휴직을 사용할 때만 적용됩니다.\n\n본인·배우자 둘 다 체크한 후 선택해주세요.');
+        cb66.checked=false;
+      }
+      cb66.disabled=true;
+      cb66.parentElement.style.opacity='0.5';
+    }else{
+      cb66.disabled=false;
+      cb66.parentElement.style.opacity='1';
+    }
+  }
   S._leave=getLeaveSettings();
   autoSave();
   const b1=document.getElementById('leaveBox1'),b2=document.getElementById('leaveBox2');
