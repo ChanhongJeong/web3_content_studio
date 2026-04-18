@@ -6,901 +6,599 @@
 <title>출산 혜택 트래커 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--sec-l:#D4F0F0;
-  --acc:#FFD166;--acc-l:#FFF3CD;--bg:#FFF9FB;--card:#FFF;
-  --txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#E8F8E8;
-  --shadow:0 4px 20px rgba(255,143,171,.1);--r:14px;
-}
+:root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
 body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#FFD6E0,#D4F0F0 50%,#FFF3CD);padding:32px 20px 24px;text-align:center}
+.header h1{font-size:24px;font-weight:800;color:#E75480}
+.header .sub{font-size:13px;color:#C4748E;margin-top:3px}
 
-/* Header */
-.header{background:linear-gradient(135deg,#FFD6E0 0%,#D4F0F0 50%,#FFF3CD 100%);padding:36px 20px 28px;text-align:center;position:relative}
-.header h1{font-size:26px;font-weight:800;color:#E75480}
-.header .sub{font-size:14px;color:#C4748E;margin-top:4px}
+/* Onboarding */
+.onboard{background:#fff;margin:-10px 16px 16px;border-radius:var(--r);padding:20px;box-shadow:var(--sh);position:relative;z-index:2}
+.onboard h2{font-size:16px;font-weight:700;margin-bottom:14px;color:#E75480}
+.ob-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ob-full{grid-column:1/-1}
+.ob-group{display:flex;flex-direction:column;gap:4px}
+.ob-label{font-size:11px;font-weight:700;color:var(--txt-l)}
+.ob-input,.ob-select{padding:9px 12px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;font-weight:600;background:#FAFAFA;color:var(--txt);width:100%}
+.ob-input:focus,.ob-select:focus{outline:none;border-color:var(--pri)}
+.ob-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.ob-row{display:flex;gap:8px;align-items:flex-end}
+.ob-unit{font-size:12px;color:var(--txt-l);font-weight:600;padding-bottom:10px;white-space:nowrap}
 
-/* Region selector */
-.region-bar{background:#fff;margin:-12px 16px 16px;border-radius:var(--r);padding:16px;box-shadow:var(--shadow);position:relative;z-index:2}
-.region-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
-.region-row:last-child{margin-bottom:0}
-.region-label{font-size:12px;font-weight:700;color:var(--txt-l);min-width:32px}
-.region-select{flex:1;padding:8px 12px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;font-weight:600;background:#FAFAFA;color:var(--txt);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-.region-select:focus{outline:none;border-color:var(--pri)}
+/* Median income result */
+.median-result{background:linear-gradient(135deg,#E8F0FF,#F0E8FF);border-radius:10px;padding:12px;margin-top:12px;text-align:center}
+.median-pct{font-size:28px;font-weight:800;color:#6B5CE7}
+.median-label{font-size:12px;color:#8B7EC7}
+.median-detail{font-size:11px;color:var(--txt-l);margin-top:4px}
 
 /* Summary */
-.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 16px}
-.summary-card{background:#fff;border-radius:var(--r);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.03);text-align:center}
-.s-label{font-size:11px;color:var(--txt-l);margin-bottom:4px}
-.s-value{font-size:20px;font-weight:800}
-.s-sub{font-size:11px;color:var(--txt-l);margin-top:2px}
-.s-total{color:#E75480}.s-received{color:var(--ok)}.s-remaining{color:#7EB3E0}.s-count{color:#FFB347}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 16px}
+.sum-card{background:#fff;border-radius:var(--r);padding:12px;box-shadow:0 2px 8px rgba(0,0,0,.03);text-align:center}
+.sl{font-size:11px;color:var(--txt-l)}
+.sv{font-size:20px;font-weight:800}
+.ss{font-size:11px;color:var(--txt-l)}
+.c1{color:#E75480}.c2{color:var(--ok)}.c3{color:#7EB3E0}.c4{color:#FFB347}
+.prog-w{padding:6px 16px 14px}
+.prog-bg{background:#F0E8EC;border-radius:10px;height:12px;overflow:hidden}
+.prog-f{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--pri),var(--acc));transition:width .5s}
+.prog-t{text-align:center;font-size:12px;color:var(--txt-l);margin-top:4px}
 
-/* Progress */
-.progress-wrap{padding:0 16px 16px}
-.progress-bg{background:#F0E8EC;border-radius:10px;height:12px;overflow:hidden}
-.progress-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--pri),var(--acc));transition:width .5s}
-.progress-fill::after{content:'';display:block;height:50%;background:rgba(255,255,255,.3);border-radius:10px 10px 0 0}
-.progress-txt{text-align:center;font-size:12px;color:var(--txt-l);margin-top:5px}
-
-/* Filter tabs */
-.filter-bar{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.filter-bar::-webkit-scrollbar{display:none}
-.f-btn{flex-shrink:0;padding:7px 14px;border:none;border-radius:18px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);box-shadow:0 1px 4px rgba(0,0,0,.05);transition:all .2s}
-.f-btn.active{background:var(--pri);color:#fff;box-shadow:0 3px 10px rgba(255,143,171,.3)}
-.f-btn .cnt{font-size:11px;opacity:.7;margin-left:2px}
-
-/* Status filter */
-.status-bar{display:flex;gap:6px;padding:0 16px 14px}
-.st-btn{flex:1;padding:8px;border:2px solid #F0E8EC;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);text-align:center;transition:all .2s}
-.st-btn.active{border-color:var(--pri);color:var(--pri);background:#FFF0F5}
-
-/* Search */
-.search-wrap{padding:0 16px 14px}
-.search-input{width:100%;padding:10px 14px 10px 36px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23999'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z'/%3E%3C/svg%3E") no-repeat 12px center;color:var(--txt)}
-.search-input:focus{outline:none;border-color:var(--pri)}
-.search-input::placeholder{color:#CCC}
+/* Filters */
+.search-w{padding:0 16px 10px}
+.search-i{width:100%;padding:9px 14px 9px 34px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23999'%3E%3Cpath d='M10.442 9.293a5.5 5.5 0 10-1.149 1.149l3.354 3.354a.813.813 0 001.149-1.149l-3.354-3.354zM5.5 9.5a4 4 0 110-8 4 4 0 010 8z'/%3E%3C/svg%3E") no-repeat 12px center;color:var(--txt)}
+.search-i:focus{outline:none;border-color:var(--pri)}
+.st-bar{display:flex;gap:6px;padding:0 16px 10px}
+.st-b{flex:1;padding:7px;border:2px solid #F0E8EC;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);text-align:center;transition:all .2s}
+.st-b.active{border-color:var(--pri);color:var(--pri);background:#FFF0F5}
+.ft-bar{display:flex;gap:5px;padding:0 16px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ft-bar::-webkit-scrollbar{display:none}
+.ft-b{flex-shrink:0;padding:6px 12px;border:none;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s}
+.ft-b.active{background:var(--pri);color:#fff}
+.ft-cnt{font-size:10px;opacity:.7;margin-left:2px}
+.elig-toggle{padding:0 16px 10px;display:flex;align-items:center;gap:8px}
+.elig-toggle label{font-size:12px;color:var(--txt-l);font-weight:600;cursor:pointer}
+.elig-switch{position:relative;width:40px;height:22px;cursor:pointer}
+.elig-switch input{opacity:0;width:0;height:0}
+.elig-slider{position:absolute;inset:0;background:#DDD;border-radius:22px;transition:.3s}
+.elig-slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.elig-switch input:checked+.elig-slider{background:var(--pri)}
+.elig-switch input:checked+.elig-slider::before{transform:translateX(18px)}
 
 /* Category */
-.cat-section{padding:0 16px 20px}
-.cat-section.hidden{display:none}
-.cat-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.cat-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.cat-pregnancy .cat-icon{background:#FFE4EC}
-.cat-birth .cat-icon{background:#E4F0FF}
-.cat-housing .cat-icon{background:#E8E0FF}
-.cat-childcare .cat-icon{background:#E8FFE4}
-.cat-work .cat-icon{background:#FFF4E4}
-.cat-title{font-size:17px;font-weight:700}
-.cat-stat{font-size:12px;color:var(--txt-l);margin-left:auto}
+.cat-s{padding:0 16px 16px}
+.cat-s.hidden{display:none}
+.cat-h{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.cat-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;background:#F0E8EC}
+.cat-t{font-size:16px;font-weight:700}
+.cat-st{font-size:11px;color:var(--txt-l);margin-left:auto}
 
-/* Benefit card */
-.b-card{background:#fff;border-radius:var(--r);padding:14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.03);transition:all .3s;border-left:4px solid transparent}
-.b-card.checked{border-left-color:var(--ok);background:var(--ok-bg)}
-.b-card.hidden{display:none}
-.b-top{display:flex;align-items:flex-start;gap:10px}
-.b-chk{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:2px solid #DDD;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent;transition:all .2s;margin-top:2px}
-.b-chk.checked{border-color:var(--ok);background:var(--ok);color:#fff}
-.b-info{flex:1;min-width:0}
-.b-name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.b-badge{font-size:10px;padding:2px 6px;border-radius:6px;font-weight:600;white-space:nowrap}
-.bg-gov{background:#E0EEFF;color:#4A7DB5}
-.bg-seoul{background:#FFE4EC;color:#C46080}
-.bg-incheon{background:#E0FFE8;color:#409060}
-.bg-gu{background:#E8E0FF;color:#7B5EA7}
-.bg-company{background:#FFF4E4;color:#C49040}
-.b-amt{font-size:17px;font-weight:800;color:#E75480;margin:4px 0}
-.b-amt.service{color:#7EB3E0;font-size:15px}
-.b-desc{font-size:12px;color:var(--txt-l);margin-bottom:6px}
-.b-expand{font-size:12px;color:var(--pri);background:none;border:none;cursor:pointer;font-weight:600;padding:2px 0}
-.b-details{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed #EEE}
-.b-card.expanded .b-details{display:block}
-.d-row{display:flex;gap:6px;margin-bottom:4px;font-size:12px}
-.d-label{flex-shrink:0;font-weight:600;color:#C46080;min-width:52px}
-.d-value{color:var(--txt)}
+/* Card */
+.bc{background:#fff;border-radius:var(--r);padding:13px;margin-bottom:7px;box-shadow:0 2px 8px rgba(0,0,0,.03);transition:all .3s;border-left:4px solid transparent}
+.bc.ck{border-left-color:var(--ok);background:var(--ok-bg)}
+.bc.inelig{opacity:.55;border-left-color:var(--no);background:#F8F8F8}
+.bc.hidden{display:none}
+.bt{display:flex;align-items:flex-start;gap:9px}
+.bchk{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:2px solid #DDD;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent;transition:all .2s;margin-top:1px}
+.bchk.ck{border-color:var(--ok);background:var(--ok);color:#fff}
+.bi{flex:1;min-width:0}
+.bn{font-size:13px;font-weight:700;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.bb{font-size:9px;padding:2px 5px;border-radius:5px;font-weight:600;white-space:nowrap}
+.bg-gov{background:#E0EEFF;color:#4A7DB5}.bg-seoul{background:#FFE4EC;color:#C46080}
+.bg-ich{background:#E0FFE8;color:#409060}.bg-gu{background:#E8E0FF;color:#7B5EA7}
+.bg-co{background:#FFF4E4;color:#C49040}.bg-life{background:#FFF0E0;color:#D4842A}
+.ba{font-size:16px;font-weight:800;color:#E75480;margin:3px 0}
+.ba.svc{color:#7EB3E0;font-size:14px}
+.bd{font-size:11px;color:var(--txt-l);margin-bottom:5px}
+.inelig-tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;background:#FFE0E0;color:#CC4444;font-weight:600;margin-left:4px}
+.bexp{font-size:11px;color:var(--pri);background:none;border:none;cursor:pointer;font-weight:600;padding:2px 0}
+.bdet{display:none;margin-top:7px;padding-top:7px;border-top:1px dashed #EEE}
+.bc.exp .bdet{display:block}
+.dr{display:flex;gap:5px;margin-bottom:3px;font-size:11px}
+.dl{flex-shrink:0;font-weight:600;color:#C46080;min-width:48px}
 
 /* Receive form */
-.recv-form{display:none;margin-top:10px;padding:10px 12px;background:#F0FBF0;border-radius:10px;border:1px solid #D0E8D0}
-.b-card.checked .recv-form{display:block}
-.recv-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.recv-row:last-child{margin-bottom:0}
-.recv-label{font-size:12px;color:#5A9A5A;font-weight:600;min-width:48px}
-.recv-input{flex:1;padding:7px 10px;border:1px solid #C5E8C5;border-radius:8px;font-size:14px;font-weight:600;background:#fff;color:var(--txt);max-width:140px;text-align:right}
-.recv-input:focus{outline:none;border-color:var(--ok)}
-.recv-unit{font-size:12px;color:#5A9A5A;font-weight:600}
-.recv-date{padding:7px 10px;border:1px solid #C5E8C5;border-radius:8px;font-size:13px;background:#fff;color:var(--txt)}
-.recv-date:focus{outline:none;border-color:var(--ok)}
-
-/* Save button */
-.recv-save{padding:8px 20px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;background:var(--ok);color:#fff;transition:all .2s;display:flex;align-items:center;gap:4px}
-.recv-save:active{transform:scale(.95)}
-.recv-save.saved{background:#4AAE4A}
-.recv-save-wrap{display:flex;justify-content:flex-end;margin-top:4px}
-
-/* Service type (non-monetary) */
-.recv-service{font-size:13px;color:#5A9A5A;font-weight:600;padding:6px 0}
-
-/* Memo */
-.b-memo{width:100%;margin-top:8px;padding:7px 10px;border:1px solid #E0E0E0;border-radius:8px;font-size:12px;background:#FAFAFA;color:var(--txt);resize:none;font-family:inherit}
-.b-memo:focus{outline:none;border-color:var(--pri);background:#fff}
-.b-card.checked .b-memo{border-color:#C5E8C5}
-
-/* Next actions */
-.next-section{padding:0 16px 20px}
-.next-title{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.next-card{background:#fff;border-radius:var(--r);padding:12px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.03);display:flex;align-items:center;gap:10px;border-left:4px solid var(--acc)}
-.next-emoji{font-size:20px}
-.next-info{flex:1}
-.next-name{font-size:13px;font-weight:700}
-.next-when{font-size:11px;color:var(--txt-l)}
+.rf{display:none;margin-top:9px;padding:9px 11px;background:#F0FBF0;border-radius:10px;border:1px solid #D0E8D0}
+.bc.ck .rf{display:block}
+.rr{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.rr:last-child{margin-bottom:0}
+.rl{font-size:11px;color:#5A9A5A;font-weight:600;min-width:44px}
+.ri{flex:1;padding:6px 9px;border:1px solid #C5E8C5;border-radius:8px;font-size:13px;font-weight:600;background:#fff;color:var(--txt);max-width:130px;text-align:right}
+.ri:focus,.rd:focus{outline:none;border-color:var(--ok)}
+.ru{font-size:11px;color:#5A9A5A;font-weight:600}
+.rd{padding:6px 9px;border:1px solid #C5E8C5;border-radius:8px;font-size:12px;background:#fff;color:var(--txt)}
+.rsvc{font-size:12px;color:#5A9A5A;font-weight:600;padding:4px 0}
+.rsw{display:flex;justify-content:flex-end;margin-top:4px}
+.rsb{padding:7px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:var(--ok);color:#fff;transition:all .2s}
+.rsb:active{transform:scale(.95)}
+.rsb.saved{background:#4AAE4A}
+.bm{width:100%;margin-top:6px;padding:6px 9px;border:1px solid #E0E0E0;border-radius:8px;font-size:11px;background:#FAFAFA;color:var(--txt);resize:none;font-family:inherit}
+.bm:focus{outline:none;border-color:var(--pri);background:#fff}
 
 /* Timeline */
-.tl-section{padding:0 16px 24px}
-.tl-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.tl{position:relative;padding-left:22px}
-.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--pri),var(--sec),var(--acc))}
-.tl-item{position:relative;margin-bottom:14px}
-.tl-dot{position:absolute;left:-18px;top:4px;width:12px;height:12px;border-radius:50%;border:3px solid}
-.tl-item.past .tl-dot{border-color:var(--ok);background:var(--ok)}
-.tl-item.current .tl-dot{border-color:var(--pri);background:#fff;animation:pulse 1.5s infinite}
-.tl-item.future .tl-dot{border-color:#DDD;background:#fff}
+.tls{padding:0 16px 20px}
+.tlt{font-size:15px;font-weight:700;margin-bottom:10px}
+.tl{position:relative;padding-left:20px}
+.tl::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(var(--pri),var(--sec),var(--acc))}
+.tli{position:relative;margin-bottom:12px}
+.tld{position:absolute;left:-17px;top:3px;width:11px;height:11px;border-radius:50%;border:3px solid}
+.tli.past .tld{border-color:var(--ok);background:var(--ok)}
+.tli.current .tld{border-color:var(--pri);background:#fff;animation:pulse 1.5s infinite}
+.tli.future .tld{border-color:#DDD;background:#fff}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,143,171,.4)}50%{box-shadow:0 0 0 5px rgba(255,143,171,0)}}
-.tl-date{font-size:11px;font-weight:700;color:var(--pri)}
-.tl-text{font-size:13px;color:var(--txt)}
+.tldt{font-size:11px;font-weight:700;color:var(--pri)}
+.tltx{font-size:12px}
 
 /* Footer */
-.disclaimer{background:var(--acc-l);margin:0 16px 16px;padding:10px 14px;border-radius:var(--r);font-size:11px;color:#9A7830;line-height:1.5}
-.disclaimer a{color:#C49040}
-.data-actions{display:flex;gap:8px;padding:0 16px 16px;justify-content:center;flex-wrap:wrap}
-.d-btn{padding:9px 18px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-export{background:var(--sec);color:#fff}
-.btn-import{background:var(--acc);color:#7A6020}
-.btn-reset{background:#F0E8EC;color:var(--txt-l)}
-.save-status{text-align:center;padding:4px 16px 10px;font-size:11px;color:var(--ok);font-weight:600}
-.footer{text-align:center;padding:16px;font-size:11px;color:var(--txt-l);border-top:1px solid #F0E8EC;background:#fff}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:#333;color:#fff;padding:10px 22px;border-radius:12px;font-size:13px;font-weight:600;z-index:100;transition:transform .3s}
+.disc{background:#FFF3CD;margin:0 16px 14px;padding:10px 12px;border-radius:var(--r);font-size:11px;color:#9A7830;line-height:1.5}
+.disc a{color:#C49040}
+.da{display:flex;gap:7px;padding:0 16px 14px;justify-content:center;flex-wrap:wrap}
+.db{padding:8px 16px;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer}
+.db-e{background:var(--sec);color:#fff}.db-i{background:var(--acc);color:#7A6020}.db-r{background:#F0E8EC;color:var(--txt-l)}
+.svst{text-align:center;padding:4px 16px 8px;font-size:11px;color:var(--ok);font-weight:600}
+.foot{text-align:center;padding:14px;font-size:11px;color:var(--txt-l);border-top:1px solid #F0E8EC;background:#fff}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);background:#333;color:#fff;padding:9px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:100;transition:transform .3s}
 .toast.show{transform:translateX(-50%) translateY(0)}
-
-/* Responsive */
-@media(min-width:640px){body{max-width:520px;margin:0 auto}.summary-grid{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:768px){body{max-width:640px}.header h1{font-size:30px}}
+@media(min-width:640px){body{max-width:520px;margin:0 auto}.sum-grid{grid-template-columns:repeat(4,1fr)}.ob-grid{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
-
 <div class="header">
   <h1>출산 혜택 트래커</h1>
-  <div class="sub" id="headerSub">2026년 · 하나도 놓치지 말자!</div>
+  <div class="sub" id="hSub">2026년 · 받을 수 있는 모든 혜택을 한눈에</div>
 </div>
 
-<div class="region-bar">
-  <div class="region-row">
-    <span class="region-label">시/도</span>
-    <select class="region-select" id="citySelect" onchange="onCityChange()">
-      <option value="">-- 선택 --</option>
-      <option value="seoul">서울특별시</option>
-      <option value="incheon">인천광역시</option>
-    </select>
+<div class="onboard" id="onboard">
+  <h2>내 정보 입력</h2>
+  <div class="ob-grid">
+    <div class="ob-group">
+      <span class="ob-label">출산 예정일</span>
+      <input type="date" class="ob-input" id="inDue" onchange="saveProfile()">
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">출산 순서</span>
+      <select class="ob-select" id="inChild" onchange="saveProfile()">
+        <option value="1">첫째</option><option value="2">둘째</option><option value="3">셋째 이상</option>
+      </select>
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">본인 나이 (만)</span>
+      <input type="number" class="ob-input" id="inAge1" placeholder="예: 32" onchange="saveProfile()">
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">배우자 나이 (만)</span>
+      <input type="number" class="ob-input" id="inAge2" placeholder="예: 34" onchange="saveProfile()">
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">본인 월소득 (세전)</span>
+      <div class="ob-row">
+        <input type="number" class="ob-input" id="inInc1" placeholder="0" onchange="saveProfile()">
+        <span class="ob-unit">만원</span>
+      </div>
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">배우자 월소득 (세전)</span>
+      <div class="ob-row">
+        <input type="number" class="ob-input" id="inInc2" placeholder="0" onchange="saveProfile()">
+        <span class="ob-unit">만원</span>
+      </div>
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">시/도</span>
+      <select class="ob-select" id="inCity" onchange="onCityChange()">
+        <option value="">-- 선택 --</option>
+        <option value="seoul">서울특별시</option>
+        <option value="incheon">인천광역시</option>
+      </select>
+    </div>
+    <div class="ob-group">
+      <span class="ob-label">구/군</span>
+      <select class="ob-select" id="inDist" onchange="saveProfile()">
+        <option value="">-- 선택 --</option>
+      </select>
+    </div>
   </div>
-  <div class="region-row">
-    <span class="region-label">구/군</span>
-    <select class="region-select" id="districtSelect" onchange="onDistrictChange()">
-      <option value="">-- 시/도를 먼저 선택 --</option>
-    </select>
+  <div class="median-result" id="medianResult" style="display:none">
+    <div class="median-label">부부합산 기준중위소득</div>
+    <div class="median-pct" id="medianPct">-</div>
+    <div class="median-detail" id="medianDetail"></div>
   </div>
 </div>
 
-<div class="summary-grid">
-  <div class="summary-card"><div class="s-label">총 예상 혜택</div><div class="s-value s-total" id="sTotal">-</div><div class="s-sub">만원</div></div>
-  <div class="summary-card"><div class="s-label">수령 완료</div><div class="s-value s-received" id="sReceived">0</div><div class="s-sub">만원</div></div>
-  <div class="summary-card"><div class="s-label">남은 혜택</div><div class="s-value s-remaining" id="sRemain">-</div><div class="s-sub">만원</div></div>
-  <div class="summary-card"><div class="s-label">완료 항목</div><div class="s-value s-count" id="sCount">0/0</div><div class="s-sub">건</div></div>
+<div class="sum-grid">
+  <div class="sum-card"><div class="sl">총 예상 혜택</div><div class="sv c1" id="sT">-</div><div class="ss">만원</div></div>
+  <div class="sum-card"><div class="sl">수령 완료</div><div class="sv c2" id="sR">0</div><div class="ss">만원</div></div>
+  <div class="sum-card"><div class="sl">남은 혜택</div><div class="sv c3" id="sM">-</div><div class="ss">만원</div></div>
+  <div class="sum-card"><div class="sl">완료</div><div class="sv c4" id="sC">0/0</div><div class="ss">건</div></div>
 </div>
+<div class="prog-w"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
 
-<div class="progress-wrap">
-  <div class="progress-bg"><div class="progress-fill" id="pBar" style="width:0%"></div></div>
-  <div class="progress-txt" id="pTxt">0% 달성</div>
+<div class="search-w"><input class="search-i" id="sI" type="text" placeholder="혜택 검색..." oninput="render()"></div>
+<div class="st-bar">
+  <button class="st-b active" onclick="setSt('all',this)">전체</button>
+  <button class="st-b" onclick="setSt('elig',this)">받을 수 있는</button>
+  <button class="st-b" onclick="setSt('ck',this)">완료</button>
+  <button class="st-b" onclick="setSt('uck',this)">미완료</button>
 </div>
-
-<div class="search-wrap">
-  <input class="search-input" id="searchInput" type="text" placeholder="혜택 검색..." oninput="onSearch()">
+<div class="elig-toggle">
+  <label class="elig-switch"><input type="checkbox" id="hideInelig" onchange="render()"><span class="elig-slider"></span></label>
+  <label for="hideInelig">대상 아닌 혜택 숨기기</label>
 </div>
+<div class="ft-bar" id="fBar"></div>
+<div id="bList"></div>
+<div id="tlArea"></div>
 
-<div class="status-bar">
-  <button class="st-btn active" data-st="all" onclick="setStatus('all',this)">전체</button>
-  <button class="st-btn" data-st="unchecked" onclick="setStatus('unchecked',this)">미완료</button>
-  <button class="st-btn" data-st="checked" onclick="setStatus('checked',this)">완료</button>
+<div class="disc">
+  본 정보는 2026년 4월 기준이며 정책 변경에 따라 달라질 수 있습니다.
+  <a href="https://www.gov.kr" target="_blank">정부24</a> ·
+  <a href="https://www.bokjiro.go.kr" target="_blank">복지로</a>에서 확인하세요.
+  중위소득은 2025년 기준표 기반 추정치입니다.
 </div>
-
-<div class="filter-bar" id="filterBar"></div>
-
-<div id="nextActions"></div>
-<div id="benefitsList"></div>
-<div id="timelineArea"></div>
-
-<div class="disclaimer">
-  본 정보는 2026년 4월 기준이며, 정책 변경에 따라 금액·조건이 달라질 수 있습니다.
-  정확한 내용은 <a href="https://www.gov.kr" target="_blank">정부24</a>, <a href="https://www.bokjiro.go.kr" target="_blank">복지로</a>에서 확인해 주세요.
+<div class="svst" id="svSt"></div>
+<div class="da">
+  <button class="db db-e" onclick="expData()">📤 백업 내보내기</button>
+  <button class="db db-i" onclick="document.getElementById('impF').click()">📥 백업 불러오기</button>
+  <button class="db db-r" onclick="rstData()">🔄 초기화</button>
+  <input type="file" id="impF" accept=".json" style="display:none" onchange="impData(event)">
 </div>
-
-<div class="save-status" id="saveStatus"></div>
-<div class="data-actions">
-  <button class="d-btn btn-export" onclick="exportData()">📤 백업 내보내기</button>
-  <button class="d-btn btn-import" onclick="document.getElementById('importFile').click()">📥 백업 불러오기</button>
-  <button class="d-btn btn-reset" onclick="resetData()">🔄 초기화</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-</div>
-<div class="footer">데이터는 자동 저장됩니다. 다른 기기로 옮기려면 백업 기능을 이용하세요.</div>
+<div class="foot">데이터 자동 저장 · 다른 기기 이동 시 백업 기능 이용</div>
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== 지역 데이터 =====
-const districts = {
-  seoul: [
-    '강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구',
-    '노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구',
-    '성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'
-  ],
-  incheon: [
-    '중구','동구','미추홀구','연수구','남동구','부평구','계양구','서구','강화군','옹진군'
-  ]
-};
+const DISTS={seoul:['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],incheon:['중구','동구','미추홀구','연수구','남동구','부평구','계양구','서구','강화군','옹진군']};
+
+// 2025 기준중위소득 (월, 원)
+const MEDIAN={2:{100:3682609},3:{100:4714657},4:{100:5729913}};
+function getMedian(members,pct){const base=MEDIAN[Math.min(members,4)]?.[100]||MEDIAN[3][100];return Math.round(base*pct/100);}
 
 // ===== 혜택 데이터 =====
-const benefits = [
-  // ─── 임신 중 ───
-  {id:'happy_card',cat:'pregnancy',name:'임신출산 진료비 지원 (국민행복카드)',badge:'정부',bc:'bg-gov',
-    amount:100,type:'cash',scope:'national',
-    desc:'임신 확인 후 산부인과 진료비 등에 사용 가능한 바우처',
-    when:'임신 확인 후 즉시',how:'국민건강보험공단 신청 → 국민행복카드 수령',
-    cond:'임신 확인서 제출, 건강보험 가입자',where:'국민건강보험공단, 카드사 앱',
-    note:'다태아 140만원. 분만 예정일 이후 2년까지 사용 가능'},
-  {id:'folic_iron',cat:'pregnancy',name:'엽산제·철분제 지원',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료 지급',type:'service',scope:'national',
-    desc:'임신 초기 엽산제, 임신 5개월~ 철분제 무료 제공',
-    when:'엽산: 임신 확인~12주 / 철분: 16주~',how:'보건소 방문 신청',
-    cond:'보건소 등록 임산부',where:'관할 보건소'},
-  {id:'seoul_transport',cat:'pregnancy',name:'서울시 임산부 교통비',badge:'서울',bc:'bg-seoul',
-    amount:70,type:'cash',scope:'seoul',
-    desc:'임산부 대중교통·택시비 바우처',
-    when:'임신 확인 후',how:'서울시 임산부 교통비 지원 사이트',
-    cond:'서울 거주 임산부',where:'서울시 임산부 교통비 포털'},
-  {id:'incheon_transport',cat:'pregnancy',name:'인천시 임산부 교통비',badge:'인천',bc:'bg-incheon',
-    amount:50,type:'cash',scope:'incheon',
-    desc:'임산부 교통비 50만원 (인천e음 포인트)',
-    when:'임신 12주 ~ 출산 후 90일 이내',how:'인천e음 앱 또는 보건소',
-    cond:'인천 거주 임산부',where:'인천e음 앱, 관할 보건소'},
-  {id:'seoul_35plus',cat:'pregnancy',name:'35세 이상 임산부 의료비',badge:'서울',bc:'bg-seoul',
-    amount:50,type:'cash',scope:'seoul',
-    desc:'35세 이상 고령 임산부 추가 의료비 지원 (최대 50만원)',
-    when:'임신 중',how:'서울시 온라인 신청',
-    cond:'서울 거주, 만 35세 이상',where:'서울시 보건정책과',
-    note:'해당 연령이 아닌 경우 대상 아님'},
-  {id:'highrisk',cat:'pregnancy',name:'고위험 임산부 의료비 지원',badge:'정부',bc:'bg-gov',
-    amount:300,amtTxt:'최대 300만원',type:'cash',scope:'national',
-    desc:'고위험 임신질환(조기진통, 전치태반 등) 입원 치료비',
-    when:'해당 시',how:'보건소 신청',
-    cond:'19대 고위험 임신질환 진단, 소득 기준',where:'관할 보건소',
-    note:'해당 없으면 미신청'},
-  {id:'prenatal_check',cat:'pregnancy',name:'임산부 건강관리 (산전검사)',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료 검사',type:'service',scope:'national',
-    desc:'초음파, 기형아검사 등 표준 산전검사 무료/할인',
-    when:'임신 기간 중',how:'보건소 등록 후 이용',
-    cond:'보건소 등록 임산부',where:'관할 보건소'},
-  {id:'dental_care',cat:'pregnancy',name:'임산부 구강검진 (스케일링)',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료 검진',type:'service',scope:'national',
-    desc:'임신 중 구강검진 및 스케일링 건강보험 적용',
-    when:'임신 기간 중',how:'치과 방문 시 임신 사실 고지',
-    cond:'건강보험 가입 임산부',where:'치과 (건강보험 적용)'},
-  // 강서구
-  {id:'gs_housework',cat:'pregnancy',name:'강서구 임산부 가사돌봄서비스',badge:'강서구',bc:'bg-gu',
-    amount:0,amtTxt:'최대 10회 파견',type:'service',scope:'district',district:'강서구',city:'seoul',
-    desc:'임산부 가정에 가사돌봄 서비스 제공 (청소, 세탁, 요리 등)',
-    when:'임신 중 ~ 출산 후',how:'강서구 보건소 또는 구청',
-    cond:'강서구 거주 임산부',where:'강서구 보건소 (02-2600-5800)',
-    note:'2025년 6회→10회 확대'},
-  {id:'gs_prepreg',cat:'pregnancy',name:'강서구 임신 전 건강관리',badge:'강서구',bc:'bg-gu',
-    amount:0,amtTxt:'무료 검사',type:'service',scope:'district',district:'강서구',city:'seoul',
-    desc:'임신 전 건강위험요인 조기 발견 검사 및 상담',
-    when:'임신 계획 시',how:'강서구 보건소 방문',
-    cond:'강서구 거주 임신 준비 부부',where:'강서구 보건소 (02-2600-5800)'},
+// eligFn: (profile)=>true/false/'maybe', type:'cash'|'service'
+const B=[
+// ── 임신 중 ──
+{id:'happy_card',cat:'pregnancy',nm:'임신출산 진료비 (국민행복카드)',bg:'정부',bc:'bg-gov',amt:100,type:'cash',scope:'national',desc:'산부인과 진료비 바우처 100만원 (다태아 140만원)',when:'임신 확인 후',how:'국민건강보험공단 신청',cond:'건강보험 가입',where:'건강보험공단, 카드사 앱',note:'분만 예정일+2년까지 사용'},
+{id:'folic',cat:'pregnancy',nm:'엽산제·철분제 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'보건소에서 엽산제·철분제 무료 제공',when:'임신 확인 후',how:'보건소 방문',cond:'보건소 등록',where:'관할 보건소'},
+{id:'prenatal',cat:'pregnancy',nm:'산전검사 (초음파·기형아 등)',bg:'정부',bc:'bg-gov',amt:0,at:'무료/할인',type:'service',scope:'national',desc:'표준 산전검사 건강보험 적용',when:'임신 중',how:'보건소/산부인과',cond:'건강보험 가입',where:'보건소, 산부인과'},
+{id:'dental',cat:'pregnancy',nm:'임산부 구강검진·스케일링',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'임신 중 스케일링 건강보험 100% 적용',when:'임신 중',how:'치과 방문 (임신 고지)',cond:'건강보험 가입',where:'치과'},
+{id:'s_trans',cat:'pregnancy',nm:'서울시 임산부 교통비',bg:'서울',bc:'bg-seoul',amt:70,type:'cash',scope:'seoul',desc:'대중교통·택시비 바우처 70만원',when:'임신 확인 후',how:'서울시 포털',cond:'서울 거주',where:'서울시 임산부 교통비 포털'},
+{id:'i_trans',cat:'pregnancy',nm:'인천시 임산부 교통비',bg:'인천',bc:'bg-ich',amt:50,type:'cash',scope:'incheon',desc:'교통비 50만원 (인천e음)',when:'임신 12주~출산 후 90일',how:'인천e음 앱',cond:'인천 거주',where:'인천e음, 보건소'},
+{id:'s_35',cat:'pregnancy',nm:'35세 이상 임산부 의료비',bg:'서울',bc:'bg-seoul',amt:50,type:'cash',scope:'seoul',desc:'고령 임산부 추가 의료비 최대 50만원',when:'임신 중',how:'서울시 온라인',cond:'서울 거주, 만 35세 이상',where:'서울시 보건정책과',eligFn:p=>p.age1>=35||p.age2>=35,eligTxt:'만 35세 이상'},
+{id:'highrisk',cat:'pregnancy',nm:'고위험 임산부 의료비',bg:'정부',bc:'bg-gov',amt:300,at:'최대 300만원',type:'cash',scope:'national',desc:'고위험 임신질환 입원 치료비',when:'해당 시',how:'보건소',cond:'고위험 진단, 소득기준',where:'보건소',note:'해당 시에만'},
+{id:'gs_care',cat:'pregnancy',nm:'강서구 임산부 가사돌봄',bg:'강서구',bc:'bg-gu',amt:0,at:'최대 10회',type:'service',scope:'district',dist:'강서구',city:'seoul',desc:'가사돌봄 서비스 최대 10회 파견',when:'임신~출산 후',how:'강서구 보건소',cond:'강서구 거주',where:'02-2600-5800'},
 
-  // ─── 출산 후 ───
-  {id:'first_meet',cat:'birth',name:'첫만남이용권',badge:'정부',bc:'bg-gov',
-    amount:200,type:'cash',scope:'national',
-    desc:'출생 신고 시 바우처 지급 (첫째 200만원)',
-    when:'출생 신고 시',how:'정부24 또는 행복출산 원스톱',
-    cond:'출생 신고 완료',where:'정부24, 주민센터',
-    note:'둘째 이상 300만원'},
-  {id:'seoul_postpartum',cat:'birth',name:'서울형 산후조리경비',badge:'서울',bc:'bg-seoul',
-    amount:100,type:'cash',scope:'seoul',
-    desc:'산후조리 비용 지원 (첫째 100만원)',
-    when:'출산 후 6개월 이내',how:'서울시 보건소 또는 온라인',
-    cond:'서울 거주, 출산일 기준 3개월 이상 거주',where:'서울아기 건강첫걸음, 보건소',
-    note:'둘째 150만원'},
-  {id:'incheon_postpartum',cat:'birth',name:'인천 맘편한 산후조리비',badge:'인천',bc:'bg-incheon',
-    amount:150,type:'cash',scope:'incheon',
-    desc:'취약계층 산모 산후조리비 150만원 (인천e음)',
-    when:'출산 후',how:'인천e음 앱 또는 보건소',
-    cond:'인천 거주, 취약계층 (소득 기준)',where:'관할 보건소, 인천e음',
-    note:'소득 기준 확인 필요'},
-  {id:'postpartum_care',cat:'birth',name:'산모신생아 건강관리사',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'건강관리사 파견',type:'service',scope:'national',
-    desc:'출산 후 건강관리사 가정 방문 (5~25일)',
-    when:'출산 후',how:'보건소 사전 신청 (출산 40일 전)',
-    cond:'소득 기준 (기준중위소득 150% 이하)',where:'관할 보건소'},
-  {id:'electricity',cat:'birth',name:'출산가정 전기요금 할인',badge:'정부',bc:'bg-gov',
-    amount:57.6,amtTxt:'월 1.6만 × 3년',type:'cash',scope:'national',
-    desc:'출산 가정 전기요금 30% 할인 (월 1.6만원 한도, 3년)',
-    when:'출산 후',how:'한국전력공사 신청',
-    cond:'출생일로부터 3년 이내',where:'KEPCO 고객센터, 앱',
-    note:'자동 적용 안 됨! 별도 신청 필요'},
-  {id:'gas_discount',cat:'birth',name:'출산가정 도시가스 감면',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'월 4,000~6,000원',type:'cash',scope:'national',
-    desc:'출산 가정 도시가스 요금 정액 감면',
-    when:'출산 후',how:'도시가스 회사 신청',
-    cond:'출산 가정',where:'관할 도시가스 회사',
-    note:'전기와 별도! 자동 적용 안 됨'},
-  {id:'water_discount_seoul',cat:'birth',name:'서울시 수도요금 감면',badge:'서울',bc:'bg-seoul',
-    amount:0,amtTxt:'상하수도 감면',type:'cash',scope:'seoul',
-    desc:'출산 가정 상하수도 요금 감면',
-    when:'출산 후',how:'서울시 수도사업소',
-    cond:'서울 거주',where:'아리수 앱, 수도사업소',
-    note:'전기·가스와 함께 3종 공과금 챙기기!'},
-  {id:'gu_birth_gift',cat:'birth',name:'자치구 출산축하금',badge:'자치구',bc:'bg-gu',
-    amount:0,amtTxt:'구청 확인 필요',type:'cash',scope:'district',district:'_all',
-    desc:'거주 자치구에서 별도 지급하는 출산축하금/선물',
-    when:'출산 후',how:'주민센터 또는 구청 온라인',
-    cond:'해당 자치구 거주',where:'동주민센터, 구청 홈페이지',
-    note:'서울 13개구는 자체 출산축하금 폐지. 반드시 구청 확인!'},
-  {id:'tax_deduction',cat:'birth',name:'출산 세액공제',badge:'정부',bc:'bg-gov',
-    amount:30,type:'cash',scope:'national',
-    desc:'자녀 출산 시 세액공제 (첫째 30만원)',
-    when:'연말정산 시',how:'연말정산 시 반영',
-    cond:'근로소득자',where:'홈택스, 회사 연말정산',
-    note:'둘째 50만원, 셋째~ 70만원'},
-  {id:'child_tax_annual',cat:'birth',name:'자녀 세액공제 (매년)',badge:'정부',bc:'bg-gov',
-    amount:15,amtTxt:'연 15만원 (매년)',type:'cash',scope:'national',
-    desc:'기본공제 대상 자녀 매년 세액공제',
-    when:'매년 연말정산',how:'자동 반영',
-    cond:'만 8세 이상 기본공제 대상 자녀',where:'홈택스',
-    note:'출산 세액공제와 별도'},
-  {id:'newborn_hearing',cat:'birth',name:'신생아 청각선별검사',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료',type:'service',scope:'national',
-    desc:'출생 직후 신생아 청각 선별검사',
-    when:'출생 직후',how:'출생 병원 자동 시행',
-    cond:'모든 출생아',where:'출생 병원'},
-  {id:'newborn_metabolism',cat:'birth',name:'선천성 대사이상 검사',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료',type:'service',scope:'national',
-    desc:'선천성 대사이상 질환 50여종 무료 선별검사',
-    when:'출생 후 2~7일',how:'출생 병원 자동 시행',
-    cond:'모든 출생아',where:'출생 병원'},
-  {id:'premature',cat:'birth',name:'미숙아·선천성이상아 의료비',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'최대 1,000만원+',type:'cash',scope:'national',
-    desc:'미숙아 또는 선천성이상아 의료비 지원',
-    when:'퇴원 후 6개월 이내',how:'보건소 신청',
-    cond:'미숙아/선천성이상 진단, 소득 기준',where:'관할 보건소',
-    note:'해당 시에만 신청'},
+// ── 출산 후 ──
+{id:'first',cat:'birth',nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 신고 시',how:'정부24 / 주민센터',cond:'출생 신고',where:'정부24',amtFn:p=>p.childN>=2?300:200},
+{id:'s_post',cat:'birth',nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'산후조리 비용 (첫째 100만, 둘째 150만)',when:'출산 후 6개월 내',how:'보건소/온라인',cond:'서울 3개월 이상 거주',where:'서울아기 건강첫걸음',amtFn:p=>p.childN>=2?150:100},
+{id:'i_post',cat:'birth',nm:'인천 맘편한 산후조리비',bg:'인천',bc:'bg-ich',amt:150,type:'cash',scope:'incheon',desc:'취약계층 산후조리비 150만원',when:'출산 후',how:'인천e음, 보건소',cond:'인천 거주, 소득기준',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하'},
+{id:'post_care',cat:'birth',nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 후',how:'보건소 사전 신청',cond:'중위소득 150% 이하',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하'},
+{id:'elec',cat:'birth',nm:'전기요금 할인',bg:'정부',bc:'bg-gov',amt:57.6,at:'월1.6만×3년',type:'cash',scope:'national',desc:'전기요금 30% 할인 (3년간)',when:'출산 후',how:'한국전력공사',cond:'별도 신청 필수!',where:'KEPCO 앱/고객센터'},
+{id:'gas',cat:'birth',nm:'도시가스 요금 감면',bg:'정부',bc:'bg-gov',amt:0,at:'월4~6천원',type:'cash',scope:'national',desc:'도시가스 정액 감면',when:'출산 후',how:'도시가스 회사',cond:'별도 신청',where:'도시가스 고객센터'},
+{id:'s_water',cat:'birth',nm:'서울 수도요금 감면',bg:'서울',bc:'bg-seoul',amt:0,at:'감면',type:'cash',scope:'seoul',desc:'상하수도 요금 감면',when:'출산 후',how:'수도사업소',cond:'서울 거주',where:'아리수 앱'},
+{id:'gu_gift',cat:'birth',nm:'자치구 출산축하금',bg:'자치구',bc:'bg-gu',amt:0,at:'구청 확인',type:'cash',scope:'district',dist:'_all',desc:'자치구별 출산축하금/선물 (13개구 폐지)',when:'출산 후',how:'주민센터',cond:'해당 구 거주',where:'구청'},
+{id:'ganghwa',cat:'birth',nm:'강화군 출산장려금',bg:'강화군',bc:'bg-gu',amt:740,type:'cash',scope:'district',dist:'강화군',city:'incheon',desc:'첫째 740만, 둘째 1,160만, 셋째 1,960만',when:'출산 후',how:'강화군청',cond:'강화군 2년 이상 거주',where:'강화군청'},
+{id:'hear',cat:'birth',nm:'신생아 청각선별검사',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'출생 직후 청각검사 자동 시행',when:'출생 직후',how:'병원 자동',cond:'전원',where:'출생병원'},
+{id:'metab',cat:'birth',nm:'선천성 대사이상 검사',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'50여종 대사이상 선별검사',when:'출생 후 2~7일',how:'병원 자동',cond:'전원',where:'출생병원'},
+{id:'premature',cat:'birth',nm:'미숙아·선천성이상아 의료비',bg:'정부',bc:'bg-gov',amt:0,at:'최대 1,000만+',type:'cash',scope:'national',desc:'미숙아/선천성이상 의료비',when:'퇴원 6개월 내',how:'보건소',cond:'해당 시, 소득기준',where:'보건소'},
 
-  // ─── 주거·대출 ───
-  {id:'newborn_mortgage',cat:'housing',name:'신생아 특례 주택담보대출',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'최대 5억, 연 1%대',type:'service',scope:'national',
-    desc:'출산 2년 이내 파격 금리 주담대 (연 1%대~)',
-    when:'출산 후 2년 이내',how:'시중은행 방문',
-    cond:'출산 2년 이내, 무주택/1주택, 소득 기준',where:'시중은행',
-    note:'2024년 신설. 추가 출산 시 금리 추가 인하!'},
-  {id:'newborn_jeonse',cat:'housing',name:'신생아 특례 전세대출',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'최대 3억, 연 1%대',type:'service',scope:'national',
-    desc:'출산 2년 이내 전세자금 금리 우대',
-    when:'출산 후 2년 이내',how:'시중은행 방문',
-    cond:'출산 2년 이내, 무주택, 소득 기준',where:'시중은행',
-    note:'기존 전세대출 대환 가능!'},
-  {id:'newborn_housing',cat:'housing',name:'신생아 특별공급 (주택 청약)',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'주택 특별공급',type:'service',scope:'national',
-    desc:'출산 2년 이내 공공분양·임대 특별공급',
-    when:'모집 공고 시',how:'청약홈에서 신청',
-    cond:'출산 2년 이내, 무주택 세대',where:'청약홈 (apply.lh.or.kr)',
-    note:'2024년 신설'},
+// ── 지원금/수당 ──
+{id:'parent_pay',cat:'money',nm:'부모급여',bg:'정부',bc:'bg-gov',amt:1800,at:'0세 월100만+1세 월50만',type:'cash',scope:'national',desc:'총 24개월 약 1,800만원',when:'출생 후 매월',how:'정부24/복지로',cond:'만 0~1세, 소득 무관',where:'정부24'},
+{id:'child_al',cat:'money',nm:'아동수당',bg:'정부',bc:'bg-gov',amt:960,at:'월10만×만8세',type:'cash',scope:'national',desc:'만 8세 미만 매월 10만원',when:'출생 후 매월',how:'정부24/복지로',cond:'만 8세 미만',where:'정부24',note:'60일 내 신청 시 소급'},
+{id:'i_1040',cat:'money',nm:'인천 천사(1040) 지원금',bg:'인천',bc:'bg-ich',amt:840,at:'연120만×7년',type:'cash',scope:'incheon',desc:'1~7세 연 120만원 = 총 840만원',when:'만 1세부터',how:'인천e음 앱',cond:'인천 거주 유지',where:'인천e음'},
+{id:'i_dream',cat:'money',nm:'인천 아이꿈수당',bg:'인천',bc:'bg-ich',amt:1980,at:'월5만×8~18세',type:'cash',scope:'incheon',desc:'8~18세 월 5만원 = 총 1,980만원',when:'만 8세부터',how:'인천e음',cond:'인천 거주',where:'인천e음'},
+{id:'baby_med',cat:'money',nm:'영유아 의료비 추가 (행복카드)',bg:'정부',bc:'bg-gov',amt:20,type:'cash',scope:'national',desc:'국민행복카드 추가 20만원',when:'출산 후 자동',how:'자동',cond:'2세 미만',where:'기존 카드'},
+{id:'grandp',cat:'money',nm:'조부모 돌봄수당',bg:'정부',bc:'bg-gov',amt:0,at:'월 최대 60만',type:'cash',scope:'national',desc:'조부모 손자녀 돌봄 시',when:'해당 시',how:'아이돌봄서비스',cond:'소득 기준',where:'idolbom.go.kr'},
+{id:'diaper',cat:'money',nm:'기저귀·분유 지원 (저소득)',bg:'정부',bc:'bg-gov',amt:0,at:'월10~11만',type:'cash',scope:'national',desc:'기저귀+분유 월 최대 21.5만',when:'출생 후',how:'복지로/주민센터',cond:'기초수급·차상위',where:'복지로',eligFn:p=>p.medianPct<=50,eligTxt:'기초수급/차상위'},
 
-  // ─── 육아 ───
-  {id:'parent_pay',cat:'childcare',name:'부모급여',badge:'정부',bc:'bg-gov',
-    amount:1800,amtTxt:'0세 월100만 + 1세 월50만',type:'cash',scope:'national',
-    desc:'0세 월 100만원, 1세 월 50만원 (총 24개월)',
-    when:'출생 후 매월',how:'정부24 또는 복지로',
-    cond:'만 0~1세, 소득 무관',where:'정부24, 복지로, 주민센터',
-    note:'어린이집 이용 시 보육료로 지원 (차액 현금)'},
-  {id:'incheon_1040',cat:'childcare',name:'인천 천사(1040) 지원금',badge:'인천',bc:'bg-incheon',
-    amount:840,amtTxt:'연 120만 × 7년',type:'cash',scope:'incheon',
-    desc:'1~7세 아동에게 연 120만원 × 7년 = 총 840만원 (인천e음)',
-    when:'만 1세부터 매년',how:'인천e음 앱 신청',
-    cond:'인천 거주, 만 1~7세 아동',where:'인천e음 앱',
-    note:'인천 거주 유지 필요'},
-  {id:'incheon_dream',cat:'childcare',name:'인천 아이꿈수당',badge:'인천',bc:'bg-incheon',
-    amount:1980,amtTxt:'월 5만 × 8~18세',type:'cash',scope:'incheon',
-    desc:'8~18세 월 5만원 × 11년 = 총 1,980만원',
-    when:'만 8세부터',how:'인천e음 앱',
-    cond:'인천 거주, 만 8~18세',where:'인천e음 앱',
-    note:'2025년 8~9세부터 순차 적용'},
-  {id:'child_allowance',cat:'childcare',name:'아동수당',badge:'정부',bc:'bg-gov',
-    amount:960,amtTxt:'월 10만 × 만8세까지',type:'cash',scope:'national',
-    desc:'만 8세(96개월) 미만 매월 10만원',
-    when:'출생 후 매월',how:'정부24 또는 복지로',
-    cond:'만 8세 미만, 국적 보유',where:'정부24, 복지로',
-    note:'출생 60일 이내 신청 시 소급'},
-  {id:'daycare',cat:'childcare',name:'어린이집 보육료 전액 지원',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'전액 지원',type:'service',scope:'national',
-    desc:'만 0~5세 어린이집 보육료 전액 정부 부담',
-    when:'어린이집 입소 시',how:'복지로 또는 어린이집',
-    cond:'어린이집 이용 아동',where:'복지로'},
-  {id:'infant_checkup',cat:'childcare',name:'영유아 건강검진 (무료 7회)',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'무료 7회',type:'service',scope:'national',
-    desc:'생후 4개월~72개월 총 7회 무료 건강검진 + 구강검진',
-    when:'검진 시기별',how:'건강보험공단 안내 → 검진기관 방문',
-    cond:'모든 영유아',where:'건강보험공단 지정 검진기관',
-    note:'시기 놓치면 무료 혜택 소멸!'},
-  {id:'baby_medical',cat:'childcare',name:'영유아 의료비 추가 (국민행복카드)',badge:'정부',bc:'bg-gov',
-    amount:20,type:'cash',scope:'national',
-    desc:'출산 후 국민행복카드 잔액 + 추가 20만원',
-    when:'출산 후 자동',how:'자동 부여',
-    cond:'2세 미만 영유아',where:'기존 국민행복카드'},
-  {id:'care_service',cat:'childcare',name:'아이돌봄 서비스',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'시간당 정부지원',type:'service',scope:'national',
-    desc:'돌봄이 필요한 가정에 아이돌보미 파견',
-    when:'필요 시',how:'아이돌봄서비스 홈페이지',
-    cond:'만 12세 이하, 소득별 차등',where:'idolbom.go.kr'},
-  {id:'grandparent',cat:'childcare',name:'조부모 돌봄수당',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'월 최대 60만원',type:'cash',scope:'national',
-    desc:'조부모가 손자녀 돌볼 경우 돌봄수당',
-    when:'해당 시',how:'아이돌봄서비스 신청',
-    cond:'조부모 돌봄, 소득 기준',where:'idolbom.go.kr'},
-  {id:'diaper',cat:'childcare',name:'저소득층 기저귀·분유',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'월 10.5~11만원',type:'cash',scope:'national',
-    desc:'기저귀(월 10.5만) + 분유(월 11만)',
-    when:'출생 후',how:'복지로 또는 주민센터',
-    cond:'기초수급·차상위·한부모 등',where:'복지로',
-    note:'소득 기준 확인 필요'},
+// ── 주거/대출 ──
+{id:'nb_mort',cat:'housing',nm:'신생아 특례 주담대',bg:'정부',bc:'bg-gov',amt:0,at:'최대 5억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 파격 금리 주담대',when:'출산 후 2년',how:'시중은행',cond:'무주택/1주택, 소득기준',where:'시중은행',note:'추가출산 시 금리 추가↓'},
+{id:'nb_jeon',cat:'housing',nm:'신생아 특례 전세대출',bg:'정부',bc:'bg-gov',amt:0,at:'최대 3억, 연1%대',type:'service',scope:'national',desc:'출산 2년 내 전세 금리 우대',when:'출산 후 2년',how:'시중은행',cond:'무주택, 소득기준',where:'시중은행',note:'기존 전세 대환 가능'},
+{id:'nb_apt',cat:'housing',nm:'신생아 특별공급 (청약)',bg:'정부',bc:'bg-gov',amt:0,at:'특별공급',type:'service',scope:'national',desc:'출산 2년 내 공공분양·임대 특공',when:'모집 공고 시',how:'청약홈',cond:'무주택 세대',where:'apply.lh.or.kr'},
+{id:'happy_h',cat:'housing',nm:'행복주택 신혼·출산',bg:'정부',bc:'bg-gov',amt:0,at:'시세 60~80%',type:'service',scope:'national',desc:'신혼·출산 가구 공공임대',when:'모집 시',how:'LH/SH 신청',cond:'혼인 7년 이내 또는 6세↓자녀',where:'LH 청약센터'},
 
-  // ─── 직장 ───
-  {id:'maternity_leave',cat:'work',name:'출산전후휴가 급여',badge:'정부',bc:'bg-gov',
-    amount:660,amtTxt:'월 최대 220만 × 3개월',type:'cash',scope:'national',
-    desc:'출산 전후 90일 휴가 (다태아 120일)',
-    when:'출산 전후',how:'회사 신청 → 고용보험 급여',
-    cond:'고용보험 가입 근로자',where:'고용보험 (ei.go.kr)'},
-  {id:'spouse_leave',cat:'work',name:'배우자 출산휴가',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'20일 유급',type:'service',scope:'national',
-    desc:'배우자(아빠) 출산휴가 20일',
-    when:'출산일 전후',how:'회사에 신청',
-    cond:'근로자',where:'회사 인사팀',
-    note:'분할 가능. 출산 120일 이내'},
-  {id:'parental_leave',cat:'work',name:'육아휴직 급여',badge:'정부',bc:'bg-gov',
-    amount:3000,amtTxt:'월 최대 250만 × 12개월',type:'cash',scope:'national',
-    desc:'만 8세 이하 자녀, 최대 1년 휴직',
-    when:'출산 후 ~ 자녀 만 8세',how:'회사 휴직 → 고용보험',
-    cond:'고용보험, 근속 6개월+',where:'고용보험 (ei.go.kr)',
-    note:'통상임금 80%, 상한 250만. 부부 각각 가능'},
-  {id:'parental_6plus6',cat:'work',name:'6+6 부모육아휴직제',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'월 최대 450만원',type:'cash',scope:'national',
-    desc:'부모 모두 휴직 시 첫 6개월 급여 상향',
-    when:'생후 18개월 이내',how:'부부 동시/순차 휴직',
-    cond:'같은 자녀 부모 모두 휴직',where:'고용보험 (ei.go.kr)',
-    note:'1개월 200만→6개월 450만 순차 상향'},
-  {id:'reduced_hours',cat:'work',name:'육아기 근로시간 단축',badge:'정부',bc:'bg-gov',
-    amount:0,amtTxt:'급여 보전',type:'service',scope:'national',
-    desc:'만 8세 이하, 주 15~35시간으로 단축',
-    when:'육아휴직 대신/이후',how:'회사에 신청',
-    cond:'고용보험 가입 근로자',where:'회사 인사팀, 고용보험'},
-  {id:'company_bonus',cat:'work',name:'기업 출산지원금 비과세',badge:'회사',bc:'bg-company',
-    amount:0,amtTxt:'회사별 상이',type:'cash',scope:'national',
-    desc:'회사 출산축하금 전액 비과세',
-    when:'출산 시',how:'회사 인사팀',
-    cond:'회사 복리후생 해당 시',where:'회사 인사팀',
-    note:'2024년~ 한도 폐지'},
-  // 인천 강화군 특별
-  {id:'ganghwa_birth',cat:'birth',name:'강화군 출산장려금',badge:'강화군',bc:'bg-gu',
-    amount:740,amtTxt:'첫째 740만원',type:'cash',scope:'district',district:'강화군',city:'incheon',
-    desc:'첫째 740만원, 둘째 1,160만원, 셋째 1,960만원',
-    when:'출산 후',how:'강화군청 신청',
-    cond:'강화군 거주 2년 이상',where:'강화군청',
-    note:'인구소멸지역 특별 지원. 거주 기간 조건 주의'},
+// ── 직장/급여 ──
+{id:'mat_leave',cat:'work',nm:'출산전후휴가 급여',bg:'정부',bc:'bg-gov',amt:660,at:'월최대220만×3개월',type:'cash',scope:'national',desc:'출산 전후 90일 휴가 급여',when:'출산 전후',how:'회사→고용보험',cond:'고용보험 가입',where:'ei.go.kr'},
+{id:'sp_leave',cat:'work',nm:'배우자 출산휴가',bg:'정부',bc:'bg-gov',amt:0,at:'20일 유급',type:'service',scope:'national',desc:'아빠 출산휴가 20일',when:'출산 전후',how:'회사 신청',cond:'근로자',where:'회사 인사팀'},
+{id:'par_leave',cat:'work',nm:'육아휴직 급여',bg:'정부',bc:'bg-gov',amt:3000,at:'월최대250만×12개월',type:'cash',scope:'national',desc:'만 8세↓ 자녀 최대 1년 휴직',when:'출산 후',how:'회사→고용보험',cond:'고용보험, 근속 6개월+',where:'ei.go.kr',note:'부부 각각 가능'},
+{id:'par_6',cat:'work',nm:'6+6 부모육아휴직제',bg:'정부',bc:'bg-gov',amt:0,at:'월최대450만',type:'cash',scope:'national',desc:'부모 동시 휴직 시 급여 상향',when:'생후 18개월 내',how:'부부 순차/동시 휴직',cond:'부모 모두 휴직',where:'ei.go.kr'},
+{id:'red_hr',cat:'work',nm:'육아기 근로시간 단축',bg:'정부',bc:'bg-gov',amt:0,at:'급여 보전',type:'service',scope:'national',desc:'주 15~35시간 단축 근무',when:'육아휴직 대신/이후',how:'회사 신청',cond:'고용보험 가입',where:'회사'},
+{id:'co_bonus',cat:'work',nm:'기업 출산지원금 비과세',bg:'회사',bc:'bg-co',amt:0,at:'회사별 상이',type:'cash',scope:'national',desc:'회사 출산축하금 전액 비과세',when:'출산 시',how:'회사 확인',cond:'회사 복리후생',where:'인사팀'},
+
+// ── 세금 ──
+{id:'tx_birth',cat:'tax',nm:'출산 세액공제',bg:'정부',bc:'bg-gov',amt:30,type:'cash',scope:'national',desc:'출산 연도 세액공제 (첫째 30만)',when:'연말정산',how:'자동 반영',cond:'근로소득자',where:'홈택스',amtFn:p=>p.childN>=3?70:p.childN>=2?50:30},
+{id:'tx_child',cat:'tax',nm:'자녀 세액공제 (매년)',bg:'정부',bc:'bg-gov',amt:15,at:'연 15만 (매년)',type:'cash',scope:'national',desc:'만8세 이상 자녀 매년 세액공제',when:'매년 연말정산',how:'자동',cond:'기본공제 대상 자녀',where:'홈택스'},
+{id:'tx_med',cat:'tax',nm:'산후조리원비 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'최대 200만×15%',type:'cash',scope:'national',desc:'산후조리원 비용 의료비 세액공제',when:'연말정산',how:'영수증 제출',cond:'총급여 7천만↓',where:'홈택스',eligFn:p=>(p.inc1+p.inc2)*12<=7000,eligTxt:'총급여 7천만원 이하'},
+{id:'tx_ins',cat:'tax',nm:'태아보험 보험료 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'12% 공제',type:'cash',scope:'national',desc:'보장성 보험료 12% 세액공제 (연 100만 한도)',when:'연말정산',how:'보험사 자료 제출',cond:'보장성 보험 가입',where:'홈택스'},
+{id:'tx_edu',cat:'tax',nm:'어린이집 교육비 세액공제',bg:'정부',bc:'bg-gov',amt:0,at:'15% 공제',type:'cash',scope:'national',desc:'어린이집/유치원비 15% 세액공제 (연 300만 한도)',when:'연말정산',how:'자동',cond:'어린이집 이용',where:'홈택스'},
+{id:'tx_marry',cat:'tax',nm:'혼인 세액공제',bg:'정부',bc:'bg-gov',amt:50,at:'부부 각 50만',type:'cash',scope:'national',desc:'2024~2026 혼인신고 시 각 50만원 공제',when:'연말정산',how:'혼인신고 확인',cond:'2024~2026 혼인신고',where:'홈택스',note:'이미 혼인신고 완료 시 해당 연도 적용'},
+{id:'tx_car',cat:'tax',nm:'다자녀 자동차 취득세 면제',bg:'정부',bc:'bg-gov',amt:0,at:'면제 (200만 한도)',type:'cash',scope:'national',desc:'18세↓ 3자녀 이상 자동차 취득세 면제',when:'차량 구입 시',how:'구청 세무과',cond:'3자녀 이상',where:'구청',eligFn:p=>p.childN>=3,eligTxt:'3자녀 이상'},
+
+// ── 육아/의료 ──
+{id:'daycare',cat:'childcare',nm:'어린이집 보육료 전액 지원',bg:'정부',bc:'bg-gov',amt:0,at:'전액',type:'service',scope:'national',desc:'만 0~5세 보육료 전액 정부 부담',when:'어린이집 입소 시',how:'복지로',cond:'어린이집 이용',where:'복지로'},
+{id:'checkup',cat:'childcare',nm:'영유아 건강검진 (무료 7회)',bg:'정부',bc:'bg-gov',amt:0,at:'무료 7회',type:'service',scope:'national',desc:'4개월~72개월 건강검진+구강검진',when:'시기별',how:'건강보험공단 안내→병원',cond:'전원',where:'지정 검진기관',note:'시기 놓치면 소멸!'},
+{id:'vaccine',cat:'childcare',nm:'국가필수 예방접종 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'BCG, B형간염, DTaP 등 필수예방접종',when:'출생~만12세',how:'보건소/지정의료기관',cond:'전원',where:'보건소, 지정병원'},
+{id:'care_svc',cat:'childcare',nm:'아이돌봄 서비스',bg:'정부',bc:'bg-gov',amt:0,at:'시간당 지원',type:'service',scope:'national',desc:'아이돌보미 파견 (시간제/종일제)',when:'필요 시',how:'idolbom.go.kr',cond:'만 12세↓, 소득별',where:'아이돌봄서비스'},
+{id:'bookstart',cat:'childcare',nm:'북스타트 (그림책 무료)',bg:'정부',bc:'bg-gov',amt:0,at:'무료 책',type:'service',scope:'national',desc:'영유아에게 그림책 꾸러미 무료 배포',when:'영유아기',how:'도서관 방문',cond:'영유아',where:'공공도서관'},
+{id:'toy_lib',cat:'childcare',nm:'육아종합지원센터 (장난감 대여)',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'장난감 대여, 부모교육, 놀이체험',when:'수시',how:'방문/온라인',cond:'영유아 가정',where:'시군구 육아종합지원센터'},
+
+// ── 생활 할인 ──
+{id:'air_baby',cat:'life',nm:'항공사 유아 할인·서비스',bg:'항공',bc:'bg-life',amt:0,at:'무료~90%할인',type:'service',scope:'national',desc:'2세↓ 국내선 무료/국제선 90%↓, 유모차·카시트 무료위탁, 바시넷',when:'항공 이용 시',how:'항공사 예약 시',cond:'만 2세 미만',where:'대한항공, 아시아나, LCC'},
+{id:'park_preg',cat:'life',nm:'임산부 전용 주차구간',bg:'정부',bc:'bg-gov',amt:0,at:'법적 보장',type:'service',scope:'national',desc:'대형마트·공공시설 임산부 전용 주차 (위반 과태료 10만원)',when:'임신~영유아 동반',how:'임산부 표지 부착',cond:'임산부/만6세↓ 동반',where:'마트, 공공시설'},
+{id:'theme',cat:'life',nm:'놀이공원 36개월↓ 무료',bg:'레저',bc:'bg-life',amt:0,at:'무료 입장',type:'service',scope:'national',desc:'에버랜드·롯데월드·서울랜드 36개월↓ 무료',when:'방문 시',how:'현장 확인',cond:'36개월 미만',where:'에버랜드, 롯데월드 등'},
+{id:'telco',cat:'life',nm:'통신사 가족결합 할인',bg:'통신',bc:'bg-life',amt:0,at:'월 할인',type:'service',scope:'national',desc:'SKT/KT/LGU+ 가족결합 할인 + 키즈 콘텐츠',when:'가입 시',how:'통신사 앱',cond:'가족 회선',where:'각 통신사'},
+{id:'dept',cat:'life',nm:'백화점·마트 맘키즈 클럽',bg:'유통',bc:'bg-life',amt:0,at:'할인+혜택',type:'service',scope:'national',desc:'임산부/영유아 할인쿠폰, 무료주차, 라운지',when:'가입 시',how:'앱/매장 가입',cond:'임산부/영유아 가정',where:'신세계, 롯데, 현대, 이마트'},
+{id:'bank_save',cat:'life',nm:'신생아 우대금리 적금',bg:'금융',bc:'bg-life',amt:0,at:'금리 우대',type:'service',scope:'national',desc:'출산가정 대상 적금 금리 우대 0.5~1%p',when:'출산 후',how:'은행 방문/앱',cond:'출산가정',where:'시중은행'},
+{id:'tai_ins',cat:'life',nm:'태아보험 (가입 권장)',bg:'보험',bc:'bg-life',amt:0,at:'가입 권장',type:'service',scope:'national',desc:'임신 16~22주 가입 권장. 선천이상·인큐베이터 보장',when:'임신 16~22주',how:'보험사',cond:'임산부',where:'삼성·한화·DB·현대해상 등',note:'출생 전 가입해야 선천이상 보장!'},
+{id:'mat_class',cat:'life',nm:'산모교실 무료 (분유사·보건소)',bg:'교육',bc:'bg-life',amt:0,at:'무료+선물',type:'service',scope:'national',desc:'보건소·남양·매일·일동 무료 산모교실+샘플',when:'임신 중',how:'보건소/분유사 앱',cond:'임산부',where:'보건소, 분유사 홈페이지'},
+{id:'nat_park',cat:'life',nm:'국립공원 6세↓ 무료',bg:'공공',bc:'bg-life',amt:0,at:'무료',type:'service',scope:'national',desc:'국립공원 만 6세 이하 무료 입장',when:'방문 시',how:'현장',cond:'만 6세 이하',where:'전국 국립공원'},
+{id:'forest',cat:'life',nm:'유아숲체험원',bg:'공공',bc:'bg-life',amt:0,at:'무료',type:'service',scope:'national',desc:'전국 유아숲체험원 무료 이용',when:'수시',how:'사전 예약',cond:'영유아 가정',where:'전국 유아숲체험원'},
+{id:'pink_seat',cat:'life',nm:'지하철 임산부 배려석·핑크라이트',bg:'교통',bc:'bg-life',amt:0,at:'배려석',type:'service',scope:'national',desc:'지하철 임산부석 + 핑크라이트 앱 (알림 서비스)',when:'임신 중',how:'핑크라이트 앱 설치',cond:'임산부',where:'수도권 지하철'},
+{id:'hotel_fam',cat:'life',nm:'호텔·리조트 가족 객실',bg:'숙박',bc:'bg-life',amt:0,at:'서비스',type:'service',scope:'national',desc:'아기침대·분유포트 구비 객실, 키즈 프로그램',when:'이용 시',how:'예약 시 요청',cond:'영유아 동반',where:'한화·대명·롯데리조트 등'},
 ];
 
-const timeline = [
-  {month:'2026.01~03',text:'임신 초기 — 국민행복카드, 보건소 등록, 엽산제',status:'past'},
-  {month:'2026.04',text:'현재 — 교통비 신청, 철분제, 산전검사',status:'current'},
-  {month:'2026.05~08',text:'임신 중·후기 — 산모교실, 산후조리 예약',status:'future'},
-  {month:'2026.09',text:'출산! — 출생신고 + 첫만남이용권 + 부모급여 + 아동수당 동시 신청',status:'future'},
-  {month:'2026.09~10',text:'산후조리경비, 전기·가스·수도 감면, 구 축하금',status:'future'},
-  {month:'2026.10~',text:'부모급여·아동수당 매월 수령',status:'future'},
-  {month:'2027.01',text:'연말정산 출산 세액공제',status:'future'},
+const CATS=[
+  {id:'pregnancy',ic:'🤰',t:'임신 중'},
+  {id:'birth',ic:'👶',t:'출산 후'},
+  {id:'money',ic:'💰',t:'지원금/수당'},
+  {id:'housing',ic:'🏠',t:'주거/대출'},
+  {id:'work',ic:'💼',t:'직장/급여'},
+  {id:'tax',ic:'🧾',t:'세금 혜택'},
+  {id:'childcare',ic:'🧸',t:'육아/의료'},
+  {id:'life',ic:'🎁',t:'생활 할인'},
 ];
 
-const categories = [
-  {id:'pregnancy',icon:'🤰',title:'임신 중',cls:'cat-pregnancy'},
-  {id:'birth',icon:'👶',title:'출산 후',cls:'cat-birth'},
-  {id:'housing',icon:'🏠',title:'주거·대출',cls:'cat-housing'},
-  {id:'childcare',icon:'🧸',title:'육아',cls:'cat-childcare'},
-  {id:'work',icon:'💼',title:'직장·급여',cls:'cat-work'},
+const TL=[
+  {m:'임신 초기',t:'국민행복카드, 보건소 등록, 엽산제, 태아보험 가입',s:'past'},
+  {m:'임신 중기',t:'산모교실, 철분제, 산전검사, 임산부 교통비',s:'current'},
+  {m:'임신 후기',t:'산후조리원 예약, 육아휴직 계획, 출산용품 준비',s:'future'},
+  {m:'출산!',t:'출생신고→첫만남이용권+부모급여+아동수당 동시 신청',s:'future'},
+  {m:'출산 직후',t:'산후조리경비, 전기·가스·수도 감면, 구 축하금',s:'future'},
+  {m:'육아기',t:'부모급여·아동수당 매월 수령, 건강검진',s:'future'},
+  {m:'연말정산',t:'출산·자녀 세액공제, 산후조리원비 공제 반영',s:'future'},
 ];
 
 // ===== State =====
-let state = {};
-const SK = 'birth_tracker_v2';
-let saveTimer = null;
-let currentCat = 'all';
-let currentStatus = 'all';
-let searchQuery = '';
+let S={},curCat='all',curSt='all';
+const SK='btrack_v3';
+let svT=null;
 
-function loadData(){
-  try{
-    const s = localStorage.getItem(SK);
-    if(s) state = JSON.parse(s);
-  }catch(e){}
-  // Restore region
-  if(state._city){
-    document.getElementById('citySelect').value = state._city;
-    onCityChange(true);
-    if(state._district){
-      document.getElementById('districtSelect').value = state._district;
-    }
+function load(){
+  try{const d=localStorage.getItem(SK);if(d)S=JSON.parse(d);}catch(e){}
+  if(S._profile){
+    const p=S._profile;
+    if(p.due)document.getElementById('inDue').value=p.due;
+    if(p.childN)document.getElementById('inChild').value=p.childN;
+    if(p.age1)document.getElementById('inAge1').value=p.age1;
+    if(p.age2)document.getElementById('inAge2').value=p.age2;
+    if(p.inc1)document.getElementById('inInc1').value=p.inc1;
+    if(p.inc2)document.getElementById('inInc2').value=p.inc2;
+    if(p.city){document.getElementById('inCity').value=p.city;onCityChange(true);
+      if(p.dist)document.getElementById('inDist').value=p.dist;}
+  }
+}
+
+function getProfile(){
+  const p={
+    due:document.getElementById('inDue').value,
+    childN:parseInt(document.getElementById('inChild').value)||1,
+    age1:parseInt(document.getElementById('inAge1').value)||0,
+    age2:parseInt(document.getElementById('inAge2').value)||0,
+    inc1:parseInt(document.getElementById('inInc1').value)||0,
+    inc2:parseInt(document.getElementById('inInc2').value)||0,
+    city:document.getElementById('inCity').value,
+    dist:document.getElementById('inDist').value,
+  };
+  // 중위소득 계산 (3인가구 기준)
+  const members = 2 + p.childN;
+  const totalInc = (p.inc1+p.inc2)*10000; // 만원→원
+  const med100 = getMedian(members,100);
+  p.medianPct = totalInc>0?Math.round(totalInc/med100*100):0;
+  p.medianAmt = med100;
+  return p;
+}
+
+function saveProfile(){
+  S._profile = getProfile();
+  autoSave();
+  updateMedianUI();
+  render();
+}
+
+function updateMedianUI(){
+  const p = getProfile();
+  const el = document.getElementById('medianResult');
+  if(p.inc1>0||p.inc2>0){
+    el.style.display='';
+    document.getElementById('medianPct').textContent=p.medianPct+'%';
+    const members=2+p.childN;
+    document.getElementById('medianDetail').textContent=
+      `${members}인 가구 기준 · 부부합산 월 ${(p.inc1+p.inc2).toLocaleString()}만원 · 기준중위소득 ${Math.round(p.medianAmt/10000).toLocaleString()}만원`;
+  }else{el.style.display='none';}
+  // D-Day
+  if(p.due){
+    const dd=new Date(p.due);const today=new Date();
+    const diff=Math.ceil((dd-today)/(864e5));
+    const lmp=new Date(dd);lmp.setDate(lmp.getDate()-280);
+    const wk=Math.floor((today-lmp)/(864e5*7));
+    const ddTxt=diff>0?`D-${diff}`:diff===0?'D-Day!':`D+${Math.abs(diff)}`;
+    const wkTxt=wk>0&&wk<=42?wk+'주차':'';
+    document.getElementById('hSub').textContent=`${ddTxt}${wkTxt?' · '+wkTxt:''} · 받을 수 있는 모든 혜택`;
   }
 }
 
 function autoSave(){
-  if(saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(()=>{
-    state._lastSaved = Date.now();
-    localStorage.setItem(SK, JSON.stringify(state));
-    document.getElementById('saveStatus').textContent = '💾 자동 저장됨 · ' + new Date().toLocaleString('ko-KR');
+  if(svT)clearTimeout(svT);
+  svT=setTimeout(()=>{
+    S._lastSaved=Date.now();
+    localStorage.setItem(SK,JSON.stringify(S));
+    document.getElementById('svSt').textContent='💾 자동 저장 · '+new Date().toLocaleString('ko-KR');
   },400);
 }
 
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
-}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 
 // ===== Region =====
 function onCityChange(noSave){
-  const city = document.getElementById('citySelect').value;
-  const ds = document.getElementById('districtSelect');
-  ds.innerHTML = '<option value="">-- 선택 --</option>';
-  if(city && districts[city]){
-    districts[city].forEach(d=>{
-      ds.innerHTML += `<option value="${d}">${d}</option>`;
-    });
+  const c=document.getElementById('inCity').value;
+  const d=document.getElementById('inDist');
+  d.innerHTML='<option value="">-- 선택 --</option>';
+  if(c&&DISTS[c])DISTS[c].forEach(x=>d.innerHTML+=`<option value="${x}">${x}</option>`);
+  if(!noSave)saveProfile();
+}
+
+// ===== Eligibility =====
+function checkElig(b,p){
+  // Scope
+  if(b.scope==='seoul'&&p.city!=='seoul') return 'scope';
+  if(b.scope==='incheon'&&p.city!=='incheon') return 'scope';
+  if(b.scope==='district'){
+    if(b.dist==='_all') return 'ok';
+    if(b.city&&b.city!==p.city) return 'scope';
+    if(b.dist&&b.dist!==p.dist) return 'scope';
   }
-  if(!noSave){
-    state._city = city;
-    state._district = '';
-    autoSave();
+  // Custom eligibility
+  if(b.eligFn){
+    const r=b.eligFn(p);
+    if(r===false) return 'inelig';
+    if(r==='maybe') return 'maybe';
   }
-  updateHeader();
-  render();
+  return 'ok';
 }
 
-function onDistrictChange(){
-  state._district = document.getElementById('districtSelect').value;
-  autoSave();
-  updateHeader();
-  render();
+function getAmt(b,p){
+  if(b.amtFn) return b.amtFn(p);
+  return b.amt;
 }
 
-function updateHeader(){
-  const city = state._city === 'seoul' ? '서울' : state._city === 'incheon' ? '인천' : '';
-  const dist = state._district || '';
-  document.getElementById('headerSub').textContent = `2026년${city ? ' · '+city : ''}${dist ? ' '+dist : ''} · 하나도 놓치지 말자!`;
-}
-
-// ===== Filtering =====
-function getVisibleBenefits(){
-  const city = state._city || '';
-  const dist = state._district || '';
-  return benefits.filter(b=>{
-    // Scope filter
-    if(b.scope === 'seoul' && city !== 'seoul') return false;
-    if(b.scope === 'incheon' && city !== 'incheon') return false;
-    if(b.scope === 'district'){
-      if(b.district === '_all') return true; // 자치구 공통
-      if(b.city && b.city !== city) return false;
-      if(b.district && b.district !== dist) return false;
-    }
-    return true;
+// ===== Filter =====
+function getVisible(){
+  const p=getProfile();
+  return B.filter(b=>{
+    const e=checkElig(b,p);
+    return e!=='scope';
   });
 }
 
-function filterCard(b){
-  // Status filter
-  const checked = state[b.id]?.checked || false;
-  if(currentStatus === 'checked' && !checked) return false;
-  if(currentStatus === 'unchecked' && checked) return false;
-  // Category filter
-  if(currentCat !== 'all' && b.cat !== currentCat) return false;
-  // Search
-  if(searchQuery){
-    const q = searchQuery.toLowerCase();
-    if(!b.name.toLowerCase().includes(q) && !b.desc.toLowerCase().includes(q)) return false;
-  }
+function cardVisible(b,elig){
+  const ck=S[b.id]?.checked||false;
+  if(curSt==='ck'&&!ck) return false;
+  if(curSt==='uck'&&ck) return false;
+  if(curSt==='elig'&&elig==='inelig') return false;
+  if(document.getElementById('hideInelig')?.checked&&elig==='inelig') return false;
+  if(curCat!=='all'&&b.cat!==curCat) return false;
+  const q=document.getElementById('sI')?.value?.toLowerCase()||'';
+  if(q&&!b.nm.toLowerCase().includes(q)&&!b.desc.toLowerCase().includes(q)) return false;
   return true;
 }
 
-function setStatus(st, el){
-  currentStatus = st;
-  document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  render();
-}
-
-function onSearch(){
-  searchQuery = document.getElementById('searchInput').value;
-  render();
-}
+function setSt(st,el){curSt=st;document.querySelectorAll('.st-b').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
 // ===== Render =====
 function render(){
-  const visible = getVisibleBenefits();
-  renderFilters(visible);
-  renderBenefits(visible);
-  renderNextActions(visible);
-  renderTimeline();
-  updateSummary(visible);
+  const vis=getVisible();const p=getProfile();
+  renderFilters(vis);renderCards(vis,p);renderTL();updateSum(vis,p);
 }
 
-function renderFilters(visible){
-  const bar = document.getElementById('filterBar');
-  let counts = {all: visible.length};
-  categories.forEach(c=>counts[c.id] = visible.filter(b=>b.cat===c.id).length);
-
-  let html = `<button class="f-btn ${currentCat==='all'?'active':''}" onclick="setCat('all',this)">전체<span class="cnt">${counts.all}</span></button>`;
-  categories.forEach(c=>{
-    if(counts[c.id] > 0){
-      html += `<button class="f-btn ${currentCat===c.id?'active':''}" onclick="setCat('${c.id}',this)">${c.icon} ${c.title}<span class="cnt">${counts[c.id]}</span></button>`;
-    }
-  });
-  bar.innerHTML = html;
+function renderFilters(vis){
+  const bar=document.getElementById('fBar');
+  let cnt={all:vis.length};
+  CATS.forEach(c=>cnt[c.id]=vis.filter(b=>b.cat===c.id).length);
+  let h=`<button class="ft-b ${curCat==='all'?'active':''}" onclick="curCat='all';render()">전체<span class="ft-cnt">${cnt.all}</span></button>`;
+  CATS.forEach(c=>{if(cnt[c.id]>0)h+=`<button class="ft-b ${curCat===c.id?'active':''}" onclick="curCat='${c.id}';render()">${c.ic} ${c.t}<span class="ft-cnt">${cnt[c.id]}</span></button>`;});
+  bar.innerHTML=h;
 }
 
-function setCat(cat){
-  currentCat = cat;
-  render();
-}
-
-function renderBenefits(visible){
-  const container = document.getElementById('benefitsList');
-  let html = '';
-
-  categories.forEach(cat=>{
-    const items = visible.filter(b=>b.cat===cat.id);
-    if(items.length === 0) return;
-
-    const filteredItems = items.filter(filterCard);
-    const catChecked = items.filter(b=>state[b.id]?.checked).length;
-    const show = currentCat === 'all' || currentCat === cat.id;
-
-    html += `<div class="cat-section ${cat.cls} ${show?'':'hidden'}" data-cat="${cat.id}">
-      <div class="cat-hdr">
-        <div class="cat-icon">${cat.icon}</div>
-        <div class="cat-title">${cat.title}</div>
-        <div class="cat-stat">${catChecked}/${items.length} 완료</div>
-      </div>`;
-
+function renderCards(vis,p){
+  const ct=document.getElementById('bList');let h='';
+  CATS.forEach(cat=>{
+    const items=vis.filter(b=>b.cat===cat.id);
+    if(!items.length)return;
+    const show=curCat==='all'||curCat===cat.id;
+    const ckCnt=items.filter(b=>S[b.id]?.checked).length;
+    h+=`<div class="cat-s ${show?'':'hidden'}"><div class="cat-h"><div class="cat-ic">${cat.ic}</div><div class="cat-t">${cat.t}</div><div class="cat-st">${ckCnt}/${items.length}</div></div>`;
     items.forEach(b=>{
-      const ck = state[b.id]?.checked || false;
-      const exp = state[b.id]?.expanded || false;
-      const recv = state[b.id]?.received || '';
-      const rDate = state[b.id]?.date || '';
-      const memo = state[b.id]?.memo || '';
-      const vis = filterCard(b);
-      const isCash = b.type === 'cash' && b.amount > 0;
-      const amtDisplay = b.amtTxt || (b.amount > 0 ? b.amount.toLocaleString()+'만원' : '무료/현물');
+      const elig=checkElig(b,p);
+      const v=cardVisible(b,elig);
+      const ck=S[b.id]?.checked||false;
+      const exp=S[b.id]?.expanded||false;
+      const recv=S[b.id]?.received||'';
+      const rDate=S[b.id]?.date||'';
+      const memo=S[b.id]?.memo||'';
+      const amt=getAmt(b,p);
+      const amtD=b.at||(amt>0?amt.toLocaleString()+'만원':'무료/현물');
+      const isCash=b.type==='cash'&&amt>0;
+      const inelig=elig==='inelig';
 
-      html += `
-      <div class="b-card ${ck?'checked':''} ${exp?'expanded':''} ${vis?'':'hidden'}" data-id="${b.id}">
-        <div class="b-top">
-          <div class="b-chk ${ck?'checked':''}" onclick="toggleCheck('${b.id}')">✓</div>
-          <div class="b-info">
-            <div class="b-name">${b.name}<span class="b-badge ${b.bc}">${b.badge}</span></div>
-            <div class="b-amt ${b.type==='service'?'service':''}">${amtDisplay}</div>
-            <div class="b-desc">${b.desc}</div>
-            <button class="b-expand" onclick="toggleExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>
-            <div class="b-details">
-              <div class="d-row"><span class="d-label">신청시기</span><span class="d-value">${b.when}</span></div>
-              <div class="d-row"><span class="d-label">신청방법</span><span class="d-value">${b.how}</span></div>
-              <div class="d-row"><span class="d-label">조건</span><span class="d-value">${b.cond}</span></div>
-              <div class="d-row"><span class="d-label">신청처</span><span class="d-value">${b.where}</span></div>
-              ${b.note?`<div class="d-row"><span class="d-label">참고</span><span class="d-value">${b.note}</span></div>`:''}
+      h+=`<div class="bc ${ck?'ck':''} ${exp?'exp':''} ${inelig?'inelig':''} ${v?'':'hidden'}" data-id="${b.id}">
+        <div class="bt">
+          <div class="bchk ${ck?'ck':''}" onclick="togCk('${b.id}')">✓</div>
+          <div class="bi">
+            <div class="bn">${b.nm}<span class="bb ${b.bc}">${b.bg}</span>${inelig?`<span class="inelig-tag">대상 아님${b.eligTxt?' · '+b.eligTxt:''}</span>`:''}</div>
+            <div class="ba ${b.type==='service'?'svc':''}">${amtD}</div>
+            <div class="bd">${b.desc}</div>
+            <button class="bexp" onclick="togExp('${b.id}')">${exp?'접기 ▲':'상세보기 ▼'}</button>
+            <div class="bdet">
+              <div class="dr"><span class="dl">신청시기</span><span>${b.when}</span></div>
+              <div class="dr"><span class="dl">방법</span><span>${b.how}</span></div>
+              <div class="dr"><span class="dl">조건</span><span>${b.cond}</span></div>
+              <div class="dr"><span class="dl">신청처</span><span>${b.where}</span></div>
+              ${b.note?`<div class="dr"><span class="dl">참고</span><span>${b.note}</span></div>`:''}
             </div>
           </div>
         </div>
-        <div class="recv-form">
-          ${isCash ? `
-            <div class="recv-row">
-              <span class="recv-label">수령액</span>
-              <input type="text" class="recv-input" value="${recv}" placeholder="0" inputmode="numeric"
-                oninput="updateRecv('${b.id}',this.value)" data-id="${b.id}">
-              <span class="recv-unit">만원</span>
-            </div>
-            <div class="recv-row">
-              <span class="recv-label">수령일</span>
-              <input type="date" class="recv-date" value="${rDate}" onchange="updateDate('${b.id}',this.value)">
-            </div>
-          ` : `
-            <div class="recv-service">✅ 혜택 이용 완료!</div>
-            <div class="recv-row">
-              <span class="recv-label">이용일</span>
-              <input type="date" class="recv-date" value="${rDate}" onchange="updateDate('${b.id}',this.value)">
-            </div>
+        <div class="rf">
+          ${isCash?`
+            <div class="rr"><span class="rl">수령액</span><input type="text" class="ri" value="${recv}" placeholder="0" inputmode="numeric" oninput="upRecv('${b.id}',this.value)"><span class="ru">만원</span></div>
+            <div class="rr"><span class="rl">수령일</span><input type="date" class="rd" value="${rDate}" onchange="upDate('${b.id}',this.value)"></div>
+          `:`
+            <div class="rsvc">✅ 혜택 이용 완료!</div>
+            <div class="rr"><span class="rl">이용일</span><input type="date" class="rd" value="${rDate}" onchange="upDate('${b.id}',this.value)"></div>
           `}
-          <div class="recv-save-wrap">
-            <button class="recv-save" onclick="saveRecv('${b.id}',this)">💾 기록 저장</button>
-          </div>
+          <div class="rsw"><button class="rsb" onclick="saveRec('${b.id}',this)">💾 기록 저장</button></div>
         </div>
-        <textarea class="b-memo" rows="1" placeholder="메모 (선택)" oninput="updateMemo('${b.id}',this.value)">${memo}</textarea>
+        <textarea class="bm" rows="1" placeholder="메모 (선택)" oninput="upMemo('${b.id}',this.value)">${memo}</textarea>
       </div>`;
     });
-    html += '</div>';
+    h+='</div>';
   });
-  container.innerHTML = html;
+  ct.innerHTML=h;
 }
 
-function renderNextActions(visible){
-  const container = document.getElementById('nextActions');
-  const unchecked = visible.filter(b=>!state[b.id]?.checked);
-  // Show top 3 upcoming items
-  const upcoming = unchecked.filter(b=>b.cat==='pregnancy').slice(0,2)
-    .concat(unchecked.filter(b=>b.cat==='birth').slice(0,1));
-
-  if(upcoming.length === 0 || currentCat !== 'all' || currentStatus === 'checked' || searchQuery){
-    container.innerHTML = '';
-    return;
-  }
-
-  let html = '<div class="next-section"><div class="next-title">⚡ 다음에 할 일</div>';
-  upcoming.forEach(b=>{
-    const emoji = b.cat==='pregnancy'?'🤰':b.cat==='birth'?'👶':'📋';
-    html += `<div class="next-card">
-      <div class="next-emoji">${emoji}</div>
-      <div class="next-info">
-        <div class="next-name">${b.name}</div>
-        <div class="next-when">${b.when} · ${b.where}</div>
-      </div>
-    </div>`;
-  });
-  html += '</div>';
-  container.innerHTML = html;
+function renderTL(){
+  const a=document.getElementById('tlArea');
+  if(curCat!=='all'){a.innerHTML='';return;}
+  let h='<div class="tls"><div class="tlt">📅 타임라인</div><div class="tl">';
+  TL.forEach(t=>h+=`<div class="tli ${t.s}"><div class="tld"></div><div class="tldt">${t.m}</div><div class="tltx">${t.t}</div></div>`);
+  h+='</div></div>';a.innerHTML=h;
 }
 
-function renderTimeline(){
-  const area = document.getElementById('timelineArea');
-  if(currentCat !== 'all' || searchQuery){area.innerHTML='';return;}
-
-  let html = `<div class="tl-section"><div class="tl-title">📅 타임라인</div><div class="tl">`;
-  timeline.forEach(t=>{
-    html += `<div class="tl-item ${t.status}"><div class="tl-dot"></div><div class="tl-date">${t.month}</div><div class="tl-text">${t.text}</div></div>`;
-  });
-  html += '</div></div>';
-  area.innerHTML = html;
-}
-
-function updateSummary(visible){
-  const cash = visible.filter(b=>b.amount>0);
-  const total = cash.reduce((s,b)=>s+b.amount,0);
-  let recv=0, ckCnt=0;
-  visible.forEach(b=>{
-    if(state[b.id]?.checked){
-      ckCnt++;
-      recv += parseFloat(state[b.id]?.received)||0;
-    }
-  });
-  document.getElementById('sTotal').textContent = total.toLocaleString();
-  document.getElementById('sReceived').textContent = recv.toLocaleString();
-  document.getElementById('sRemain').textContent = (total-recv).toLocaleString();
-  document.getElementById('sCount').textContent = `${ckCnt}/${visible.length}`;
-  const pct = visible.length>0? Math.round(ckCnt/visible.length*100):0;
-  document.getElementById('pBar').style.width = pct+'%';
-  document.getElementById('pTxt').textContent = `${pct}% 달성 (${ckCnt}/${visible.length}건)`;
+function updateSum(vis,p){
+  const cash=vis.filter(b=>getAmt(b,p)>0&&checkElig(b,p)!=='inelig');
+  const total=cash.reduce((s,b)=>s+getAmt(b,p),0);
+  let recv=0,ckCnt=0;
+  vis.forEach(b=>{if(S[b.id]?.checked){ckCnt++;recv+=parseFloat(S[b.id]?.received)||0;}});
+  document.getElementById('sT').textContent=total.toLocaleString();
+  document.getElementById('sR').textContent=recv.toLocaleString();
+  document.getElementById('sM').textContent=(total-recv).toLocaleString();
+  document.getElementById('sC').textContent=`${ckCnt}/${vis.length}`;
+  const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
+  document.getElementById('pB').style.width=pct+'%';
+  document.getElementById('pT').textContent=`${pct}% 달성 (${ckCnt}/${vis.length}건)`;
 }
 
 // ===== Handlers =====
-function toggleCheck(id){
-  if(!state[id]) state[id]={};
-  state[id].checked = !state[id].checked;
-  if(!state[id].checked){state[id].received='';state[id].date='';}
-  autoSave();
-  render();
-}
-
-function toggleExp(id){
-  if(!state[id]) state[id]={};
-  state[id].expanded = !state[id].expanded;
-  autoSave();
-  render();
-}
-
-function updateRecv(id,val){
-  if(!state[id]) state[id]={};
-  state[id].received = val.replace(/[^0-9.]/g,'');
-  updateSummary(getVisibleBenefits());
-}
-
-function updateDate(id,val){
-  if(!state[id]) state[id]={};
-  state[id].date = val;
-}
-
-function updateMemo(id,val){
-  if(!state[id]) state[id]={};
-  state[id].memo = val;
-  autoSave();
-}
-
-function saveRecv(id,btn){
-  if(!state[id]) state[id]={};
-  autoSave();
-  btn.textContent = '✅ 저장 완료!';
-  btn.classList.add('saved');
-  setTimeout(()=>{
-    btn.textContent = '💾 기록 저장';
-    btn.classList.remove('saved');
-  },1500);
-  toast('✅ 기록이 저장되었습니다');
-}
+function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
+function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
+function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
+function upDate(id,v){if(!S[id])S[id]={};S[id].date=v;}
+function upMemo(id,v){if(!S[id])S[id]={};S[id].memo=v;autoSave();}
+function saveRec(id,btn){autoSave();btn.textContent='✅ 저장 완료!';btn.classList.add('saved');setTimeout(()=>{btn.textContent='💾 기록 저장';btn.classList.remove('saved');},1500);toast('✅ 기록 저장됨');}
 
 // ===== Export/Import =====
-function exportData(){
-  state._lastSaved = Date.now();
-  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = '출산혜택_백업_'+new Date().toISOString().slice(0,10)+'.json';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  toast('📤 백업 파일 다운로드!');
-}
+function expData(){S._lastSaved=Date.now();const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='출산혜택_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);toast('📤 백업 다운로드');}
+function impData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(typeof d!=='object')return alert('잘못된 파일');S=d;localStorage.setItem(SK,JSON.stringify(S));load();updateMedianUI();render();toast('📥 복원 완료');}catch(err){alert('파일 오류');}};r.readAsText(f);e.target.value='';}
+function rstData(){if(!confirm('모든 데이터를 초기화할까요?'))return;S={};localStorage.removeItem(SK);['inDue','inAge1','inAge2','inInc1','inInc2'].forEach(x=>document.getElementById(x).value='');document.getElementById('inChild').value='1';document.getElementById('inCity').value='';document.getElementById('inDist').innerHTML='<option value="">-- 선택 --</option>';document.getElementById('medianResult').style.display='none';document.getElementById('hSub').textContent='2026년 · 받을 수 있는 모든 혜택을 한눈에';render();toast('🔄 초기화 완료');}
 
-function importData(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    try{
-      const d = JSON.parse(ev.target.result);
-      if(typeof d!=='object') return alert('올바른 파일이 아닙니다.');
-      if(Object.keys(state).filter(k=>!k.startsWith('_')).length>0){
-        if(!confirm('기존 데이터를 덮어쓸까요?')) return;
-      }
-      state = d;
-      localStorage.setItem(SK,JSON.stringify(state));
-      if(state._city){
-        document.getElementById('citySelect').value=state._city;
-        onCityChange(true);
-        if(state._district) document.getElementById('districtSelect').value=state._district;
-      }
-      render();
-      toast('📥 백업 복원 완료!');
-    }catch(err){alert('파일 읽기 실패');}
-  };
-  reader.readAsText(file);
-  e.target.value='';
-}
+window.addEventListener('beforeunload',()=>{if(svT){clearTimeout(svT);S._lastSaved=Date.now();localStorage.setItem(SK,JSON.stringify(S));}});
 
-function resetData(){
-  if(!confirm('모든 데이터를 초기화할까요?\n\n(백업을 먼저 권장합니다)')) return;
-  state={};
-  localStorage.removeItem(SK);
-  document.getElementById('citySelect').value='';
-  document.getElementById('districtSelect').innerHTML='<option value="">-- 시/도를 먼저 선택 --</option>';
-  updateHeader();
-  render();
-  toast('🔄 초기화 완료');
-}
-
-// ===== Init =====
-window.addEventListener('beforeunload',()=>{
-  if(saveTimer){clearTimeout(saveTimer);state._lastSaved=Date.now();localStorage.setItem(SK,JSON.stringify(state));}
-});
-
-loadData();
-render();
+load();updateMedianUI();render();
 </script>
 </body>
 </html>
