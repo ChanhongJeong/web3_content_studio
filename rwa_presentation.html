@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XRPL 기반 RWA 시대, 디센트가 그리는 자산 보관의 미래</title>
+<meta property="og:title" content="XRPL × RWA × D'CENT — 자산 보관의 미래">
+<meta property="og:description" content="D'CENT Wallet | XRPL 기반 RWA 시대, 지갑의 관점에서 본 자산 보관의 미래">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --dark: #111111;
+    --card: #1E1E1E;
+    --card-hover: #2A2A2A;
+    --gray: #888888;
+    --light-gray: #AAAAAA;
+    --white: #FFFFFF;
+    --green: #4ADE80;
+    --green-dark: #0A1F0A;
+    --red: #EF4444;
+    --red-dark: #1C0000;
+    --yellow: #FACC15;
+    --blue: #60A5FA;
+    --purple: #A78BFA;
+    --slide-w: 1280px;
+    --slide-h: 720px;
+  }
+
+  html { width: 100vw; height: 100vh; overflow: hidden; }
+  body {
+    background: #0a0a0a;
+    margin: 0; padding: 0;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  @media (max-width: 1024px) {
+    html, body { overflow: hidden; }
+    body { touch-action: auto; }
+    .nav-hint { display: none; }
+  }
+
+  .presentation {
+    width: var(--slide-w);
+    height: var(--slide-h);
+    position: absolute;
+    top: 0; left: 0;
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+    transform-origin: top left;
+  }
+
+  :fullscreen body, :-webkit-full-screen body { background: #000; }
+  :fullscreen .presentation, :-webkit-full-screen .presentation { box-shadow: none; }
+  :fullscreen .fullscreen-btn, :-webkit-full-screen .fullscreen-btn { display: none; }
+  :fullscreen .nav-hint, :-webkit-full-screen .nav-hint,
+  :fullscreen .slide-counter, :-webkit-full-screen .slide-counter { display: none; }
+
+  .slide {
+    width: var(--slide-w);
+    height: var(--slide-h);
+    position: absolute;
+    top: 0; left: 0;
+    background: var(--black);
+    padding: 50px 60px;
+    display: none;
+    flex-direction: column;
+    color: var(--white);
+    transition: opacity 0.3s ease;
+  }
+  .slide.active { display: flex; }
+
+  .logo-wrap {
+    position: absolute !important;
+    top: 20px; left: 24px;
+    z-index: 20 !important;
+  }
+  .logo-wrap img { height: 30px; }
+
+  .footer {
+    position: absolute;
+    bottom: 16px; left: 0; right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-hint {
+    position: fixed;
+    bottom: 15px; right: 20px;
+    color: #444;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
+  }
+  .fullscreen-btn {
+    position: fixed;
+    top: 18px; right: 20px;
+    z-index: 100;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #888;
+    font-size: 18px;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .fullscreen-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  .slide-counter {
+    position: fixed;
+    bottom: 15px; left: 20px;
+    color: #444;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
+  }
+
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .yellow { color: var(--yellow); }
+  .blue { color: var(--blue); }
+  .purple { color: var(--purple); }
+  .gray { color: var(--gray); }
+  .bold { font-weight: 700; }
+  .light { font-weight: 300; }
+
+  h1 { font-size: 48px; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; }
+  h2 { font-size: 38px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+  h3 { font-size: 24px; font-weight: 600; line-height: 1.3; }
+
+  .subtitle { font-size: 18px; color: var(--gray); font-weight: 300; line-height: 1.5; }
+  .tiny { font-size: 12px; color: var(--gray); }
+  .divider { width: 200px; height: 2px; background: var(--green); margin: 12px 0; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge-green { background: var(--green); color: #000; }
+  .badge-blue { background: var(--blue); color: #000; }
+  .badge-purple { background: var(--purple); color: #000; }
+
+  /* Slide background */
+  .slide:has(.slide-bg) { background: transparent; }
+  .slide-bg {
+    position: absolute;
+    top: -50px; left: -60px; right: -60px; bottom: -50px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .slide-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) saturate(0.8);
+  }
+  .slide-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(100deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,15,8,0.3) 100%);
+  }
+  .slide-bg ~ *:not(.footer) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 1 — Cover                    */
+  /* ═══════════════════════════════════ */
+  .s1-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .s1-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.25) saturate(0.8);
+  }
+  .s1-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(100deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 50%, rgba(0,15,8,0.2) 100%);
+  }
+  .s1-content {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+  }
+  .s1-left { flex: 1; padding-top: 20px; }
+  .s1-left h1 { font-size: 46px; line-height: 1.2; }
+  .s1-right {
+    width: 420px; height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .s1-hero-img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+    filter: drop-shadow(0 10px 40px rgba(74,222,128,0.2));
+  }
+  .s1-right::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    border-radius: 2px;
+    z-index: 5;
+  }
+  .s1-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    border: 1.5px solid rgba(74,222,128,0.15);
+    z-index: 4;
+    pointer-events: none;
+  }
+  .s1-event-info {
+    position: relative; z-index: 1;
+    position: absolute;
+    bottom: 30px; left: 60px;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .s1-event-info span { display: flex; align-items: center; gap: 6px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 2 — RWA Numbers              */
+  /* ═══════════════════════════════════ */
+  .s2-content {
+    display: flex; align-items: center; height: 100%; gap: 50px; margin-top: -10px;
+  }
+  .s2-left { flex: 1; }
+  .s2-left .s2-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s2-left .s2-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s2-left .s2-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s2-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .s2-stat-card {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .s2-stat-card .s2-num {
+    font-size: 42px; font-weight: 900;
+    flex-shrink: 0; min-width: 140px;
+  }
+  .s2-stat-card .s2-info { flex: 1; }
+  .s2-stat-card .s2-info .name { font-size: 16px; font-weight: 700; }
+  .s2-stat-card .s2-info .unit { font-size: 13px; color: var(--light-gray); margin-top: 4px; line-height: 1.5; }
+  .s2-bottom-quote {
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 18px 24px;
+    background: rgba(10,31,10,0.8);
+    border-radius: 12px;
+    border-left: 3px solid var(--green);
+    font-weight: 500;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 3 — Why XRPL                 */
+  /* ═══════════════════════════════════ */
+  .s3-content {
+    display: flex; align-items: center; height: 100%; gap: 45px; margin-top: -10px;
+  }
+  .s3-left { flex: 1; }
+  .s3-left .s3-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s3-left .s3-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s3-left .s3-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s3-left .s3-compare {
+    margin-top: 20px;
+    display: flex; gap: 12px;
+  }
+  .s3-compare-box {
+    flex: 1;
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .s3-compare-box.other {
+    background: rgba(28,0,0,0.6);
+    border: 1.5px solid rgba(239,68,68,0.4);
+  }
+  .s3-compare-box.xrpl {
+    background: rgba(10,31,10,0.6);
+    border: 1.5px solid rgba(74,222,128,0.4);
+  }
+  .s3-compare-box .label { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+  .s3-compare-box .result { font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .s3-vs { display: flex; align-items: center; font-size: 14px; color: #555; font-weight: 700; }
+  .s3-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .s3-feature {
+    background: rgba(30,30,30,0.85);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .s3-feature .s3-icon {
+    font-size: 24px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: rgba(74,222,128,0.1);
+  }
+  .s3-feature .s3-info { flex: 1; }
+  .s3-feature .name { font-size: 15px; font-weight: 700; color: var(--green); }
+  .s3-feature .desc { font-size: 12px; color: var(--light-gray); margin-top: 2px; line-height: 1.5; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 4 — The Real Problem         */
+  /* ═══════════════════════════════════ */
+  .s4-content {
+    display: flex; align-items: center; height: 100%; gap: 45px; margin-top: -10px;
+  }
+  .s4-left { flex: 1; }
+  .s4-left .s4-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--yellow); margin-bottom: 4px;
+  }
+  .s4-left .s4-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s4-left .s4-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s4-danger-box {
+    margin-top: 24px;
+    background: rgba(28,0,0,0.7);
+    border: 2px solid var(--red);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .s4-danger-box h3 { color: var(--red); font-size: 20px; line-height: 1.4; }
+  .s4-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 12px; justify-content: center;
+  }
+  .s4-pillar {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .s4-pillar .pillar-icon {
+    font-size: 28px;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .s4-pillar .pillar-info { flex: 1; }
+  .s4-pillar .pillar-name { font-size: 17px; font-weight: 800; }
+  .s4-pillar .pillar-desc { font-size: 13px; color: var(--light-gray); line-height: 1.6; margin-top: 6px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 5 — D'CENT × XRPL Track      */
+  /* ═══════════════════════════════════ */
+  .s5-content {
+    display: flex; align-items: center; height: 100%; gap: 40px; margin-top: -10px;
+  }
+  .s5-left { flex: 1; }
+  .s5-left .s5-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s5-left .s5-big { font-size: 44px; font-weight: 900; line-height: 1.1; }
+  .s5-left .s5-desc { font-size: 16px; color: var(--light-gray); margin-top: 14px; line-height: 1.8; }
+  .s5-stats {
+    display: flex; gap: 12px; margin-top: 20px;
+  }
+  .s5-stat-box {
+    flex: 1;
+    background: rgba(10,31,10,0.8);
+    border: 1.5px solid rgba(74,222,128,0.3);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .s5-stat-box .num { font-size: 32px; font-weight: 900; color: var(--green); }
+  .s5-stat-box .label { font-size: 11px; color: var(--light-gray); margin-top: 4px; line-height: 1.4; }
+  .s5-right {
+    width: 520px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 12px; justify-content: center;
+  }
+  .s5-doppler-img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1.5px solid rgba(74,222,128,0.2);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .s5-step {
+    background: rgba(30,30,30,0.85);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .s5-step.highlight {
+    border: 1.5px solid var(--purple);
+    background: linear-gradient(180deg, rgba(20,15,30,0.9) 0%, rgba(30,30,30,0.9) 100%);
+  }
+  .s5-step-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+  }
+  .s5-step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: #000;
+    flex-shrink: 0;
+  }
+  .s5-step-title {
+    font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .s5-step-status {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 2px 8px; border-radius: 4px;
+  }
+  .s5-step-status.done { background: rgba(74,222,128,0.15); color: var(--green); }
+  .s5-step-status.building { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .s5-step-status.next { background: rgba(167,139,250,0.15); color: var(--purple); }
+  .s5-step-body {
+    font-size: 13px; color: var(--light-gray); line-height: 1.6;
+    padding-left: 40px;
+  }
+  .s5-step-connector {
+    width: 2px; height: 10px;
+    background: rgba(255,255,255,0.15);
+    margin-left: 33px;
+  }
+  .s5-partner-tags {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .s5-tag {
+    background: rgba(96,165,250,0.1);
+    border: 1px solid rgba(96,165,250,0.25);
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 11px; font-weight: 600;
+    color: var(--blue);
+  }
+  .s5-tag.more {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+    color: var(--gray);
+  }
+
+  .s5-alliance-box {
+    background: rgba(30,30,30,0.85);
+    border: 1.5px solid rgba(74,222,128,0.3);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .s5-alliance-box .alliance-title {
+    font-size: 16px; font-weight: 800; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .s5-alliance-partners {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .s5-partner-tag {
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.25);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--green);
+  }
+  .s5-partner-tag.upcoming {
+    background: rgba(96,165,250,0.1);
+    border-color: rgba(96,165,250,0.25);
+    color: var(--blue);
+  }
+  .s5-alliance-desc {
+    font-size: 12px; color: var(--light-gray); margin-top: 10px; line-height: 1.6;
+  }
+  .s5-alliance-stats {
+    display: flex; gap: 12px; margin-top: 10px;
+  }
+  .s5-a-stat {
+    flex: 1; text-align: center;
+  }
+  .s5-a-stat .num { font-size: 18px; font-weight: 900; color: var(--green); }
+  .s5-a-stat .label { font-size: 10px; color: var(--gray); margin-top: 2px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 6A — XRP Alliance            */
+  /* ═══════════════════════════════════ */
+  .s6a-content {
+    display: flex; align-items: center; height: 100%; gap: 45px; margin-top: -10px;
+  }
+  .s6a-left { flex: 1; }
+  .s6a-left .s6a-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s6a-left .s6a-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s6a-left .s6a-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s6a-why {
+    margin-top: 24px;
+    padding: 18px 22px;
+    background: rgba(30,30,30,0.8);
+    border-radius: 12px;
+    border-left: 3px solid var(--yellow);
+  }
+  .s6a-why .why-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .s6a-why .why-desc { font-size: 14px; color: var(--light-gray); line-height: 1.7; }
+  .s6a-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 14px; justify-content: center;
+  }
+  .s6a-alliance-header { text-align: center; margin-bottom: 4px; }
+  .s6a-alliance-name { font-size: 28px; font-weight: 900; }
+  .s6a-alliance-sub { font-size: 14px; color: var(--light-gray); margin-top: 4px; }
+  .s6a-flywheel {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .s6a-phase {
+    background: rgba(30,30,30,0.85);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .s6a-phase .phase-icon {
+    font-size: 24px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px; flex-shrink: 0;
+  }
+  .s6a-phase .phase-info { flex: 1; }
+  .s6a-phase .phase-name { font-size: 15px; font-weight: 700; }
+  .s6a-phase .phase-desc { font-size: 12px; color: var(--light-gray); margin-top: 2px; line-height: 1.5; }
+  .s6a-connector {
+    width: 2px; height: 10px;
+    background: rgba(74,222,128,0.3);
+    margin-left: 21px;
+  }
+  .s6a-partners-row {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    margin-top: 4px;
+  }
+  .s6a-partner-tag {
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.25);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px; font-weight: 600;
+    color: var(--green);
+  }
+  .s6a-partner-tag.more {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+    color: var(--gray);
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 6 — Custody Future           */
+  /* ═══════════════════════════════════ */
+  .s6-content {
+    display: flex; align-items: center; height: 100%; gap: 45px; margin-top: -10px;
+  }
+  .s6-left { flex: 1; }
+  .s6-left .s6-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s6-left .s6-big { font-size: 44px; font-weight: 900; line-height: 1.1; }
+  .s6-left .s6-desc { font-size: 16px; color: var(--light-gray); margin-top: 14px; line-height: 1.8; }
+  .s6-timeline {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .s6-step {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .s6-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .s6-step-label { font-size: 15px; font-weight: 600; }
+  .s6-step-desc { font-size: 12px; color: var(--gray); margin-left: 4px; }
+  .s6-connector {
+    width: 2px; height: 16px;
+    background: rgba(74,222,128,0.3);
+    margin-left: 6px;
+  }
+  .s6-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 12px; justify-content: center;
+  }
+  .s6-card {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .s6-card.highlight {
+    border: 1.5px solid var(--green);
+    background: linear-gradient(180deg, rgba(10,31,10,0.9) 0%, rgba(30,30,30,0.9) 100%);
+  }
+  .s6-card .card-icon {
+    font-size: 28px;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .s6-card .card-info { flex: 1; }
+  .s6-card .card-name { font-size: 17px; font-weight: 800; }
+  .s6-card .card-desc { font-size: 13px; color: var(--light-gray); line-height: 1.6; margin-top: 6px; }
+  .s6-card .card-tag {
+    display: inline-block;
+    background: rgba(74,222,128,0.12);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+  .s6-metaco-ref {
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: rgba(30,30,30,0.6);
+    border-radius: 10px;
+    border-left: 3px solid var(--blue);
+    font-size: 14px;
+    color: var(--light-gray);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 7 — For Builders             */
+  /* ═══════════════════════════════════ */
+  .s7-content {
+    display: flex; align-items: center; height: 100%; gap: 45px; margin-top: -10px;
+  }
+  .s7-left { flex: 1; }
+  .s7-left .s7-label {
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 4px;
+  }
+  .s7-left .s7-big { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  .s7-left .s7-desc { font-size: 17px; color: var(--light-gray); margin-top: 16px; line-height: 1.8; }
+  .s7-quote {
+    margin-top: 20px;
+    background: rgba(10,31,10,0.85);
+    border: 2px solid var(--green);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1.5;
+  }
+  .s7-right {
+    width: 500px; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 14px; justify-content: center;
+  }
+  .s7-check {
+    background: rgba(30,30,30,0.85);
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .s7-check .check-num {
+    width: 40px; height: 40px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #000;
+    flex-shrink: 0;
+  }
+  .s7-check .check-info { flex: 1; }
+  .s7-check .check-name { font-size: 18px; font-weight: 700; }
+  .s7-check .check-desc { font-size: 13px; color: var(--light-gray); line-height: 1.6; margin-top: 6px; }
+
+  /* ═══════════════════════════════════ */
+  /* SLIDE 8 — Closing                  */
+  /* ═══════════════════════════════════ */
+  .s8-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  }
+  .s8-thankyou {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--green) 0%, #60A5FA 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .s8-subtitle {
+    font-size: 22px;
+    color: var(--light-gray);
+    font-weight: 300;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .s8-divider {
+    width: 300px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    margin: 28px auto;
+  }
+  .s8-contact-grid {
+    display: flex;
+    gap: 60px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+  .s8-contact-item {
+    background: rgba(30,30,30,0.85);
+    border-radius: 10px;
+    padding: 20px 32px;
+    text-align: center;
+    min-width: 180px;
+  }
+  .s8-contact-item .c-label {
+    font-size: 10px; color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .s8-contact-item .c-value {
+    font-size: 18px; font-weight: 600;
+  }
+  .s8-key-msg {
+    margin-top: 24px;
+    padding: 16px 32px;
+    background: rgba(10,31,10,0.85);
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    display: inline-block;
+  }
+  .s8-key-msg .msg { font-size: 20px; font-weight: 700; color: var(--green); }
+</style>
+</head>
+<body>
+
+<div class="presentation" id="pres">
+
+<!-- ═══════════ SLIDE 1 — Cover ═══════════ -->
+<div class="slide active" data-slide="1">
+  <div class="s1-bg">
+    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&q=80" alt="">
+  </div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s1-content">
+    <div class="s1-left">
+      <h1>XRPL 기반 <span class="green">RWA</span> 시대,<br>디센트가 그리는<br><span class="green">자산 보관</span>의 미래</h1>
+      <p style="font-size:18px; color:var(--light-gray); font-weight:300; margin-top:20px">지갑의 관점에서 바라본 실물자산 토큰화</p>
+      <div class="divider" style="margin-top:24px; width:260px"></div>
+      <p style="font-size:22px; margin-top:16px; font-weight:600">Tani Jeong (정찬홍)</p>
+      <p style="font-size:17px; color:var(--gray); margin-top:6px">BD Lead &nbsp;•&nbsp; D'CENT Wallet (IoTrust)</p>
+    </div>
+    <div class="s1-right">
+      <img class="s1-hero-img" src="dcent_hero.jpg" alt="D'CENT Wallet">
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved &nbsp;|&nbsp; April 22, 2026</div>
+</div>
+
+<!-- ═══════════ SLIDE 2 — RWA Numbers ═══════════ -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s2-content">
+    <div class="s2-left">
+      <div class="s2-label">The RWA Wave</div>
+      <div class="s2-big">토큰화는<br>이미 <span class="green">시작</span>됐다</div>
+      <div class="s2-desc">
+        •  BlackRock, Ondo Finance, Franklin Templeton 진입<br>
+        •  토큰화 국채 시장 2년 만에 <span class="green bold">25배</span> 성장<br>
+        •  스테이블코인 포함 시 $150B+ 온체인 RWA
+      </div>
+      <div class="s2-bottom-quote">
+        "이건 트렌드가 아니라 <span class="green bold">인프라 전환</span>입니다."
+      </div>
+    </div>
+    <div class="s2-right">
+      <div class="s2-stat-card">
+        <div class="s2-num green">$16T</div>
+        <div class="s2-info">
+          <div class="name">2030년 토큰화 자산 시장 전망</div>
+          <div class="unit">BCG 리포트 — 부동산, 채권, 대체투자 자산 포함</div>
+        </div>
+      </div>
+      <div class="s2-stat-card">
+        <div class="s2-num blue">$2.5B+</div>
+        <div class="s2-info">
+          <div class="name">온체인 토큰화 국채 (2025)</div>
+          <div class="unit">2023년 $100M → 2025년 $2.5B — 기관 자금 유입 가속</div>
+        </div>
+      </div>
+      <div class="s2-stat-card">
+        <div class="s2-num purple">$1.25B</div>
+        <div class="s2-info">
+          <div class="name">Ripple의 Hidden Road 인수</div>
+          <div class="unit">기관 프라임 브로커리지 — RWA 인프라 확보 전략</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 3 — Why XRPL ═══════════ -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s3-content">
+    <div class="s3-left">
+      <div class="s3-label">Why XRPL</div>
+      <div class="s3-big">RWA를 위해<br><span class="green">설계된</span> 체인</div>
+      <div class="s3-desc">
+        •  다른 체인은 스마트 컨트랙트로 구현<br>
+        •  XRPL은 <span class="green bold">프로토콜 레벨</span>에 내장<br>
+        •  컨트랙트 버그 없이 규제 기능 보장
+      </div>
+      <div class="s3-compare">
+        <div class="s3-compare-box other">
+          <div class="label red">Other Chains</div>
+          <div class="result red" style="font-size:14px">스마트 컨트랙트 의존<br>→ 버그·해킹 리스크</div>
+        </div>
+        <div class="s3-vs">vs</div>
+        <div class="s3-compare-box xrpl">
+          <div class="label green">XRPL</div>
+          <div class="result green" style="font-size:14px">프로토콜 레벨 내장<br>→ 합의로 보장</div>
+        </div>
+      </div>
+    </div>
+    <div class="s3-right">
+      <div class="s3-feature">
+        <div class="s3-icon">🔐</div>
+        <div class="s3-info">
+          <div class="name">Clawback</div>
+          <div class="desc">규제 회수 — 법원 명령, 컴플라이언스 위반 시 토큰 회수 가능</div>
+        </div>
+      </div>
+      <div class="s3-feature">
+        <div class="s3-icon">🧊</div>
+        <div class="s3-info">
+          <div class="name">Freeze / Global Freeze</div>
+          <div class="desc">개별 또는 전체 토큰 동결 — 조사·제재 시 즉시 대응</div>
+        </div>
+      </div>
+      <div class="s3-feature">
+        <div class="s3-icon">✅</div>
+        <div class="s3-info">
+          <div class="name">RequireAuth (KYC Gate)</div>
+          <div class="desc">사전 승인된 계정만 토큰 보유 가능 — KYC/AML 네이티브</div>
+        </div>
+      </div>
+      <div class="s3-feature">
+        <div class="s3-icon">👥</div>
+        <div class="s3-info">
+          <div class="name">Multi-Sign (최대 32명)</div>
+          <div class="desc">가중치 기반 다중 서명 — 기관 거버넌스 구조 지원</div>
+        </div>
+      </div>
+      <div class="s3-feature">
+        <div class="s3-icon">⏱️</div>
+        <div class="s3-info">
+          <div class="name">Escrow + Native DEX</div>
+          <div class="desc">조건부 정산 + 내장 거래소 — 외부 의존 없는 유동성</div>
+        </div>
+      </div>
+      <div class="s3-feature" style="border:1px solid rgba(96,165,250,0.3);background:rgba(15,25,40,0.85)">
+        <div class="s3-icon" style="background:rgba(96,165,250,0.15)">🪙</div>
+        <div class="s3-info">
+          <div class="name" style="color:var(--blue)">XLS-33 Multi-Purpose Tokens <span style="font-size:10px;background:rgba(74,222,128,0.15);color:var(--green);padding:2px 6px;border-radius:3px;font-weight:700">LIVE</span></div>
+          <div class="desc">기관급 토큰 표준 — 세밀한 발행자 권한, 온체인 메타데이터, 1/4 리저브. '25년 메인넷 활성화</div>
+        </div>
+      </div>
+      <div class="s3-feature" style="border:1px solid rgba(167,139,250,0.3);background:rgba(20,15,30,0.85)">
+        <div class="s3-icon" style="background:rgba(167,139,250,0.15)">🏦</div>
+        <div class="s3-info">
+          <div class="name" style="color:var(--purple)">XLS-66d Lending Protocol <span style="font-size:10px;background:rgba(167,139,250,0.15);color:var(--purple);padding:2px 6px;border-radius:3px;font-weight:700">DRAFT</span></div>
+          <div class="desc">프로토콜 네이티브 렌딩 — 풀 기반 고정 기간 대출을 체인 레벨에서 구현. RWA 담보 대출 등 기관 금융의 기반</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 4 — The Real Problem ═══════════ -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s4-content">
+    <div class="s4-left">
+      <div class="s4-label" style="color:var(--yellow)">The Real Problem</div>
+      <div class="s4-big">토큰화 이후의<br><span class="yellow">진짜</span> 문제</div>
+      <div class="s4-desc">
+        •  토큰 발행? 5분이면 됩니다<br>
+        •  <span class="bold">진짜 문제는 그 다음</span>입니다
+      </div>
+      <div class="s4-danger-box">
+        <h3>비트코인 잃으면 <span style="color:var(--light-gray)">내 돈</span> 잃는 것<br>RWA 토큰 잃으면 <span style="text-decoration:underline">실물 소유권</span>이 날아갑니다</h3>
+      </div>
+    </div>
+    <div class="s4-right">
+      <div class="s4-pillar" style="border-left:3px solid var(--yellow);background:rgba(40,35,20,0.85)">
+        <div class="pillar-icon">🏢</div>
+        <div class="pillar-info">
+          <div class="pillar-name" style="color:var(--yellow)">시나리오</div>
+          <div class="pillar-desc" style="font-size:14px">여러분이 10억짜리 건물을 토큰화했습니다.<br>100만 개 토큰이 발행됐고, 그 토큰이 담긴 지갑의<br>시드구문을 대표이사가 메모장에 적어뒀습니다.<br><span class="yellow bold">그 사람이 퇴사하면?</span></div>
+        </div>
+      </div>
+      <div class="s4-pillar">
+        <div class="pillar-icon">🔑</div>
+        <div class="pillar-info">
+          <div class="pillar-name">권한 분리</div>
+          <div class="pillar-desc">한 사람이 서명·승인·감독을 다 쥐고 있으면<br>그 사람이 곧 <span class="red bold">단일 장애점</span>이 됩니다</div>
+        </div>
+      </div>
+      <div class="s4-pillar">
+        <div class="pillar-icon">📋</div>
+        <div class="pillar-info">
+          <div class="pillar-name">승인 플로우</div>
+          <div class="pillar-desc">은행은 1억 이체에 결재 3단계를 거칩니다<br>그런데 10억짜리 토큰은 <span class="red bold">클릭 한 번</span>에 이동합니다</div>
+        </div>
+      </div>
+      <div class="s4-pillar">
+        <div class="pillar-icon">🔍</div>
+        <div class="pillar-info">
+          <div class="pillar-name">감사 & 복구</div>
+          <div class="pillar-desc">금감원이 물었을 때 — "메타마스크에 있었는데요"<br>디바이스 분실 시 — 실물자산은 "잃어버렸어요"가 <span class="red bold">통하지 않습니다</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 5 — D'CENT's XRPL Journey ═══════════ -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s5-content">
+    <div class="s5-left">
+      <div class="s5-label">D'CENT's Roadmap</div>
+      <div class="s5-big">하루아침에 되는 일이 <span class="green">아닙니다</span></div>
+      <div class="s5-desc" style="margin-bottom:16px">
+        디센트는 XRPL 위에서<br>
+        <span class="green bold">단계적으로</span> 역량을 쌓아왔습니다.
+      </div>
+      <img src="doppler_success.png" alt="D'CENT × Doppler Finance" style="width:100%;border-radius:10px;border:1px solid rgba(74,222,128,0.15);max-height:320px;object-fit:contain">
+    </div>
+    <div class="s5-right">
+      <!-- Step 1 -->
+      <div class="s5-step">
+        <div class="s5-step-header">
+          <div class="s5-step-num" style="background:var(--green)">1</div>
+          <div class="s5-step-title">XRPL 생태계 진입 <span class="s5-step-status done">DONE</span></div>
+        </div>
+        <div class="s5-step-body">
+          XRPL 네이티브 지원, TrustLine 토큰 완벽 호환, DEX 통합.<br>
+          <span class="green bold">Doppler Finance</span>와 XRPfi — 3일 만에 12M+ XRP, TVL 리텐션 90%
+        </div>
+      </div>
+      <div class="s5-step-connector"></div>
+      <!-- Step 2 -->
+      <div class="s5-step">
+        <div class="s5-step-header">
+          <div class="s5-step-num" style="background:var(--blue)">2</div>
+          <div class="s5-step-title">생태계 허브 구축 <span class="s5-step-status building">BUILDING</span></div>
+        </div>
+        <div class="s5-step-body">
+          <span class="blue bold">XRP Alliance</span> — 온램프, 스왑, DeFi, 결제 파트너를 하나로 연결.<br>
+          "디센트 하나로 XRP의 모든 것" — 원스톱 경험 제공
+          <div class="s5-partner-tags">
+            <span class="s5-tag">Doppler</span>
+            <span class="s5-tag">Squid Router</span>
+            <span class="s5-tag">OSL / Banxa</span>
+            <span class="s5-tag">Girin Payment</span>
+            <span class="s5-tag more">+ more</span>
+          </div>
+        </div>
+      </div>
+      <div class="s5-step-connector"></div>
+      <!-- Step 3 -->
+      <div class="s5-step highlight">
+        <div class="s5-step-header">
+          <div class="s5-step-num" style="background:var(--purple)">3</div>
+          <div class="s5-step-title">기관용 지갑 <span class="s5-step-status next">2026 H2</span></div>
+        </div>
+        <div class="s5-step-body">
+          <span class="purple bold">기관용 커스터디 솔루션</span> — 멀티시그 거버넌스, 정책 승인 엔진, 감사 로그.<br>
+          개인용을 넘어 기관이 신뢰할 수 있는 보관 인프라로
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 6 — Our Questions ═══════════ -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s7-content">
+    <div class="s7-left">
+      <div class="s7-label">Our Perspective</div>
+      <div class="s7-big">지갑을 만드는 사람으로서<br>하는 <span class="green">고민</span></div>
+      <div class="s7-desc">
+        RWA 토큰이 본격적으로 발행되기 시작하면<br>
+        지갑은 단순한 앱이 아니라<br>
+        <span class="green bold">자산 운영의 인프라</span>가 되어야 합니다.<br><br>
+        저희는 이런 질문들을 매일 하고 있습니다.
+      </div>
+    </div>
+    <div class="s7-right">
+      <div class="s7-check">
+        <div class="check-num">1</div>
+        <div class="check-info">
+          <div class="check-name">보관 구조</div>
+          <div class="check-desc">10억짜리 건물이 토큰화됐는데, 그 토큰이 한 사람의 메타마스크에 있다면? 토큰은 누구나 발행하지만, <span class="green bold">어디에 어떻게 보관할지</span>는 아직 답이 없습니다.</div>
+        </div>
+      </div>
+      <div class="s7-check">
+        <div class="check-num">2</div>
+        <div class="check-info">
+          <div class="check-name">권한과 복구</div>
+          <div class="check-desc">담당자가 퇴사하면? 디바이스를 분실하면? 은행이라면 당연히 있는 <span class="green bold">권한 분리와 복구 체계</span>가 크립토에는 아직 없습니다. 실물자산은 "잃어버렸어요"가 통하지 않습니다.</div>
+        </div>
+      </div>
+      <div class="s7-check">
+        <div class="check-num">3</div>
+        <div class="check-info">
+          <div class="check-name">규제 대응</div>
+          <div class="check-desc">금감원이 "이 토큰 언제 누가 왜 이동했어요?"라고 물었을 때, 보여줄 수 있는 <span class="green bold">감사 체계</span>가 있는가? RWA는 규제 안에서 돌아가야 합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 7 — Closing Thought ═══════════ -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s7-content" style="gap:50px">
+    <div class="s7-left" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+      <div class="s7-label">Closing Thought</div>
+      <div class="s7-big">보관이 <span class="green">중요해지는</span> 시대</div>
+      <div class="s6-metaco-ref" style="margin-top:24px">
+        Ripple이 커스터디 회사 <span class="blue bold">Metaco를 $250M</span>에,<br>
+        프라임 브로커 <span class="blue bold">Hidden Road를 $1.25B</span>에 인수했습니다.<br><br>
+        XRPL 자체도 기관급 토큰 표준(<span class="blue bold">XLS-33</span>)을 메인넷에 올렸고,<br>
+        네이티브 렌딩 프로토콜(<span class="purple bold">XLS-66d</span>)까지 준비하고 있습니다.<br><br>
+        인수도, 체인의 진화도 — 모두 <span class="bold" style="color:var(--white)">보관과 운영</span>의<br>
+        중요성이 커지고 있다는 신호라고 생각합니다.
+      </div>
+      <div class="s7-desc" style="margin-top:20px">
+        여러분도 디지털 자산 사업을 설계하실 때<br>
+        이런 관점에서 한번 생각해보시면 좋겠습니다.
+      </div>
+    </div>
+    <div class="s7-right" style="width:480px;display:flex;flex-direction:column;justify-content:center;gap:20px">
+      <div style="background:rgba(30,30,30,0.85);border-radius:14px;padding:28px 24px;text-align:center">
+        <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT" style="height:36px;margin-bottom:20px;opacity:0.8">
+        <div style="font-size:18px;font-weight:700;color:var(--white);line-height:1.6">
+          디센트는 이 고민의 답을<br>
+          <span class="green">XRPL 위에서</span> 만들어가고 있습니다.
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:var(--gray);line-height:1.8">
+          개인용 하드웨어 지갑에서 출발해<br>
+          XRPL 생태계에서 실적을 증명하고<br>
+          XRP Alliance로 허브를 구축하고<br>
+          이제 기관용 보관 인프라로 나아갑니다.
+        </div>
+      </div>
+      <div style="text-align:center">
+        <div style="padding:16px 28px;background:rgba(10,31,10,0.85);border:1.5px solid var(--green);border-radius:12px;display:inline-block">
+          <div style="font-size:20px;font-weight:700;color:var(--green)">"토큰화는 시작이고, 보관이 완성입니다."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved</div>
+</div>
+
+<!-- ═══════════ SLIDE 8 — Closing ═══════════ -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&q=80" alt=""></div>
+  <div class="logo-wrap"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"></div>
+  <div class="s8-wrap">
+    <div class="s8-thankyou">Thank You</div>
+    <div class="s8-subtitle">XRPL 기반 RWA 시대,<br>디센트와 함께 <span class="green bold">자산 보관의 미래</span>를 만들어 갑니다.</div>
+    <div class="s8-divider"></div>
+    <div class="s8-key-msg">
+      <div class="msg">"토큰화는 시작이고, 보관이 완성입니다."</div>
+    </div>
+    <div class="s8-contact-grid">
+      <div class="s8-contact-item">
+        <div class="c-label">Telegram</div>
+        <div class="c-value green" style="display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#4ADE80"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          @tani_9325
+        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://t.me/tani_9325&bgcolor=ffffff&color=000000" alt="QR" style="width:100px;height:100px;border-radius:8px;background:#fff;padding:4px;margin-top:12px">
+      </div>
+      <div class="s8-contact-item">
+        <div class="c-label">D'CENT Wallet</div>
+        <div class="c-value green" style="font-size:18px">dcentwallet.com</div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://dcentwallet.com&bgcolor=ffffff&color=000000" alt="QR" style="width:100px;height:100px;border-radius:8px;background:#fff;padding:4px;margin-top:12px">
+      </div>
+    </div>
+  </div>
+  <div class="footer">&copy; 2026 IoTrust All rights reserved &nbsp;|&nbsp; April 22, 2026</div>
+</div>
+
+</div>
+
+<div class="slide-counter" id="counter">1 / 8</div>
+<div class="nav-hint">← → Navigate</div>
+<button class="fullscreen-btn" id="fsBtn" title="Fullscreen">⛶</button>
+
+<script>
+  var current = 1;
+  var total = 8;
+
+  function showSlide(n) {
+    if (n < 1) n = 1;
+    if (n > total) n = total;
+    current = n;
+    document.querySelectorAll('.slide').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    document.querySelector('[data-slide="' + n + '"]').classList.add('active');
+    document.getElementById('counter').textContent = n + ' / ' + total;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); showSlide(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); showSlide(current - 1); }
+    if (e.key === 'Home') showSlide(1);
+    if (e.key === 'End') showSlide(total);
+    if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      var el = document.documentElement;
+      var isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!isFullscreen) {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  });
+
+  document.querySelector('.presentation').addEventListener('click', function(e) {
+    var rect = this.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    if (x > rect.width / 2) showSlide(current + 1);
+    else showSlide(current - 1);
+  });
+
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchFingers = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchFingers = e.touches.length;
+    if (touchFingers === 1) {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (touchFingers !== 1) return;
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    var dy = e.changedTouches[0].screenY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) showSlide(current + 1);
+      else showSlide(current - 1);
+    }
+  }, { passive: true });
+
+  function fitToScreen() {
+    var pres = document.getElementById('pres');
+    var nativeFs = document.fullscreenElement || document.webkitFullscreenElement;
+    var expand = nativeFs || window.mobileExpand;
+    var w = document.documentElement.clientWidth || window.innerWidth;
+    var h = document.documentElement.clientHeight || window.innerHeight;
+    var scaleX = w / 1280;
+    var scaleY = h / 720;
+    var scale = Math.min(scaleX, scaleY);
+    if (!expand && scale > 1) scale = 1;
+    var offsetX = (w - 1280 * scale) / 2;
+    var offsetY = (h - 720 * scale) / 2;
+    pres.style.transform = 'scale(' + scale + ')';
+    pres.style.left = Math.max(0, offsetX) + 'px';
+    pres.style.top = Math.max(0, offsetY) + 'px';
+  }
+  fitToScreen();
+  window.addEventListener('load', fitToScreen);
+  window.addEventListener('resize', fitToScreen);
+  window.addEventListener('orientationchange', function() {
+    setTimeout(fitToScreen, 100);
+    setTimeout(fitToScreen, 300);
+    setTimeout(fitToScreen, 500);
+  });
+
+  window.mobileExpand = false;
+  function toggleFullscreen() {
+    var el = document.documentElement;
+    var isFs = document.fullscreenElement || document.webkitFullscreenElement;
+    if (!isFs) {
+      if (el.requestFullscreen) { el.requestFullscreen(); return; }
+      else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); return; }
+    } else {
+      if (document.exitFullscreen) { document.exitFullscreen(); return; }
+      else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); return; }
+    }
+    window.mobileExpand = !window.mobileExpand;
+    var btn = document.getElementById('fsBtn');
+    btn.textContent = window.mobileExpand ? '✕' : '⛶';
+    fitToScreen();
+  }
+  document.getElementById('fsBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleFullscreen();
+  });
+
+  function onFsChange() {
+    fitToScreen();
+    setTimeout(fitToScreen, 50);
+    setTimeout(fitToScreen, 150);
+    setTimeout(fitToScreen, 300);
+    setTimeout(fitToScreen, 500);
+  }
+  document.addEventListener('fullscreenchange', onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
+</script>
+
+</body>
+</html>
