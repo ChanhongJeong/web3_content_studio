@@ -446,9 +446,8 @@ body.dark .tline-dot{background:#1E1930}
   </div>
 </div>
 
-<div class="hero-breakdown-wrap" style="margin:0 16px">
-  <button class="hero-breakdown-btn" id="hbBtn" onclick="togHB()" style="width:100%;padding:10px;background:#FFF5F8;border:1.5px dashed #FFD4DC;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#C0385A;margin-top:8px;display:none">💡 이 금액이 어떻게 나왔는지 보기 ▼</button>
-  <div id="hbContent" style="display:none;background:#FFF5F8;border-radius:12px;padding:14px;margin-top:6px;border:1px solid #FFD4DC;font-size:12px;line-height:1.7"></div>
+<div class="hero-breakdown-wrap" style="margin:8px 16px 0">
+  <div id="hbContent" style="display:none;background:#FFF5F8;border-radius:12px;padding:14px;border:1px solid #FFD4DC;font-size:12px;line-height:1.7"></div>
 </div>
 
 <div class="hero-stat hero-v2">
@@ -1457,8 +1456,9 @@ function updateSum(vis,p){
   }
   const rT=document.getElementById('heroRingTxt');if(rT)rT.textContent=pct+'%';
   const rS=document.getElementById('heroRingSub');if(rS)rS.textContent=ckCnt+'/'+vis.length;
-  // Breakdown button + content
-  const hbBtn=document.getElementById('hbBtn');if(hbBtn)hbBtn.style.display=total>0?'block':'none';
+  // Breakdown (always visible if total > 0)
+  const hbC=document.getElementById('hbContent');
+  if(hbC)hbC.style.display=total>0?'block':'none';
   renderBreakdown(vis,p,total);
   const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
   document.getElementById('pB').style.width=pct+'%';
@@ -1467,7 +1467,7 @@ function updateSum(vis,p){
 
 // ===== Handlers =====
 function togCat(catId){const cur=S['_col_'+catId]===undefined?true:S['_col_'+catId];S['_col_'+catId]=!cur;autoSave();render();}
-function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}autoSave();render();}
+function togCk(id){if(!S[id])S[id]={};S[id].checked=!S[id].checked;if(!S[id].checked){S[id].received='';S[id].date='';}else{if(!S[id].date)S[id].date=new Date().toISOString().slice(0,10);}autoSave();render();}
 function togExp(id){if(!S[id])S[id]={};S[id].expanded=!S[id].expanded;autoSave();render();}
 function upRecv(id,v){if(!S[id])S[id]={};S[id].received=v.replace(/[^0-9.]/g,'');updateSum(getVisible(),getProfile());}
 function upDate(id,v){if(!S[id])S[id]={};S[id].date=v;}
@@ -1729,38 +1729,34 @@ function renderThisMonth(){
   card.style.display='';
 }
 
-// Hero breakdown
-function togHB(){
-  const c=document.getElementById('hbContent');const b=document.getElementById('hbBtn');
-  const open=c.style.display==='block';
-  c.style.display=open?'none':'block';
-  b.innerHTML=open?'💡 이 금액이 어떻게 나왔는지 보기 ▼':'💡 이 금액이 어떻게 나왔는지 보기 ▲';
-}
 function renderBreakdown(vis,p,total){
   const c=document.getElementById('hbContent');if(!c)return;
   const byCat={};
-  const catNames={pregnancy:'🤰 임신 중',birth:'👶 출산 직후',money:'💰 지원금/수당',housing:'🏠 주거/대출',work:'💼 직장/급여',tax:'🧾 세금',childcare:'🧸 육아/의료',airline:'✈️ 항공',shopping:'🛍 쇼핑',finance:'🏦 금융/보험',leisure:'🎢 레저',telecom:'📱 통신/앱'};
-  const top5=[];
+  const catNames={pregnancy:'🤰 임신 중 지원',birth:'👶 출산 직후',money:'💰 매월 지원금',housing:'🏠 주거·대출',work:'💼 직장·휴직',tax:'🧾 세금 환급',childcare:'🧸 육아·의료'};
+  const topByCat={};
   vis.forEach(b=>{
     if(checkElig(b,p)==='inelig')return;
     if(getKind(b)==='perk')return;
     const amt=getAmt(b,p);if(!amt||amt<=0)return;
     byCat[b.cat]=(byCat[b.cat]||0)+amt;
-    top5.push({nm:b.nm,amt,cat:b.cat});
+    if(!topByCat[b.cat])topByCat[b.cat]=[];
+    topByCat[b.cat].push({nm:b.nm,amt});
   });
-  top5.sort((a,b)=>b.amt-a.amt);
-  let h=`<div style="font-weight:700;color:#C0385A;margin-bottom:8px">총 <b style="font-size:16px">${total.toLocaleString()}만원</b> 내역</div>`;
-  h+='<div style="margin-bottom:10px">';
-  Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(([cat,amt])=>{
+  let h=`<div style="font-size:12px;font-weight:700;color:#C0385A;margin-bottom:10px">💡 이 ${total.toLocaleString()}만원은 이렇게 구성돼요</div>`;
+  const sorted=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+  sorted.forEach(([cat,amt])=>{
     const pct=Math.round(amt/total*100);
-    h+=`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>${catNames[cat]||cat}</span><b style="color:#C0385A">${amt.toLocaleString()}만 (${pct}%)</b></div><div style="background:#FFE4EC;border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#FF8FAB,#FFD166);width:${pct}%"></div></div></div>`;
+    const items=(topByCat[cat]||[]).sort((a,b)=>b.amt-a.amt).slice(0,3);
+    h+=`<div style="margin-bottom:10px;background:#fff;border-radius:10px;padding:9px 11px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+        <b style="color:#333">${catNames[cat]||cat}</b>
+        <span><b style="color:#C0385A;font-size:13px">${amt.toLocaleString()}만</b> <span style="color:#888;font-size:10px">(${pct}%)</span></span>
+      </div>
+      <div style="background:#FFE4EC;border-radius:3px;height:4px;overflow:hidden;margin-bottom:5px"><div style="height:100%;background:linear-gradient(90deg,#FF8FAB,#FFD166);width:${pct}%"></div></div>
+      <div style="font-size:10px;color:#666;line-height:1.5">${items.map(x=>`• ${x.nm} <b style="color:#C0385A">${x.amt.toLocaleString()}만</b>`).join('<br>')}</div>
+    </div>`;
   });
-  h+='</div>';
-  h+='<div style="font-weight:700;color:#7B5EA7;margin:10px 0 5px;font-size:11px">💎 큰 금액 TOP 5</div>';
-  top5.slice(0,5).forEach(x=>{
-    h+=`<div style="display:flex;justify-content:space-between;padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:3px;font-size:11px"><span>${x.nm}</span><b style="color:#C0385A">${x.amt.toLocaleString()}만</b></div>`;
-  });
-  h+='<div style="font-size:10px;color:#888;margin-top:10px;padding-top:8px;border-top:1px dashed #FFD4DC">* 회사 복리후생·민간 제휴 혜택은 금액이 불확실해 제외. "받을 가능성 있는 최대값" 기준입니다.</div>';
+  h+='<div style="font-size:10px;color:#888;padding:8px;background:rgba(255,255,255,.6);border-radius:6px;line-height:1.5">ℹ️ 회사 복리후생·민간 제휴는 제외. <b>법정·공식 지원 최대값</b> 기준. 소득/지역 조건에 따라 실제 수령액은 달라질 수 있어요.</div>';
   c.innerHTML=h;
 }
 
