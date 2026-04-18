@@ -7,7 +7,17 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--pri:#FF8FAB;--pri-l:#FFD6E0;--sec:#A0D2DB;--acc:#FFD166;--bg:#FFF9FB;--txt:#3D3D3D;--txt-l:#999;--ok:#5EC269;--ok-bg:#EEFAEE;--no:#E8E8E8;--r:14px;--sh:0 3px 16px rgba(255,143,171,.1)}
-body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:70px}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;padding-bottom:70px;transition:background .3s}
+body.dark{--bg:#1a1625;--txt:#E0DEEA;--txt-l:#8B839E;--pri-l:#3D2E3E;--no:#2A2539;--r:14px;--sh:0 3px 16px rgba(0,0,0,.3)}
+body.dark .header{background:linear-gradient(135deg,#4A2A3A,#2E3E4A 50%,#4E4530)}
+body.dark .onboard,body.dark .sum-card,body.dark .bc,body.dark .tool,body.dark .calw,body.dark .bnav,body.dark .share-c{background:#262036;color:#E0DEEA}
+body.dark .ob-input,body.dark .ob-select,body.dark .search-i,body.dark .ri,body.dark .rd,body.dark .calc-input,body.dark .dc-inp{background:#332A42;color:#E0DEEA;border-color:#4A4056}
+body.dark .st-b,body.dark .sec-b,body.dark .ft-b{background:#332A42;color:#B0A8C0}
+body.dark .prep-item,body.dark .dc-row,body.dark .vac-item,body.dark .wk-task,body.dark .actd-item{background:#332A42;color:#E0DEEA}
+body.dark .det-highlight{background:#3D3349;color:#E0DEEA}
+body.dark .doc-tag{background:#3D3349}
+body.dark .hero-stat{background:linear-gradient(135deg,#4A2A3A,#3E3D4A)}
+body.dark .fade-bg{filter:brightness(.6)}
 /* Bottom Navigation */
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F0E8EC;display:flex;z-index:100;box-shadow:0 -2px 16px rgba(0,0,0,.06)}
 @media(min-width:640px){.bnav{max-width:520px;margin:0 auto}}
@@ -353,6 +363,17 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
     <div>남은<b id="heroM">-</b></div>
   </div>
 </div>
+<div id="fetusCard" style="display:none;margin:0 16px 12px;background:linear-gradient(135deg,#FFE4EC,#F0E8FF);border-radius:16px;padding:14px;box-shadow:var(--sh)">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div id="fetusEmo" style="font-size:38px">🌼</div>
+    <div style="flex:1">
+      <div style="font-size:11px;color:#996"><span id="fetusWk">-</span>주차 아기는</div>
+      <div style="font-size:16px;font-weight:800;color:#C0385A" id="fetusName">-</div>
+      <div style="font-size:11px;color:#666;margin-top:2px" id="fetusSpec">-</div>
+    </div>
+  </div>
+  <div id="fetusTip" style="font-size:11px;color:#7B5EA7;margin-top:8px;padding-top:8px;border-top:1px dashed #D4C5FF">💡 -</div>
+</div>
 <div class="prog-w" style="padding:0 16px 10px"><div class="prog-bg"><div class="prog-f" id="pB" style="width:0%"></div></div><div class="prog-t" id="pT">0%</div></div>
 
 <div class="sum-grid">
@@ -416,6 +437,7 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
   <div class="tool" id="toolChk" onclick="togTool('toolChk')"><div class="tool-h"><span class="tool-ic">🏥</span>영유아 건강검진 일정 (무료 7회+)<span class="tool-arrow">▼</span></div><div class="tool-body" id="chkBody"></div></div>
   <div class="tool" id="toolPrep" onclick="togTool('toolPrep')"><div class="tool-h"><span class="tool-ic">🎒</span>출산 준비물 체크리스트<span class="tool-arrow">▼</span></div><div class="tool-body" id="prepBody"></div></div>
   <div class="tool" id="toolDC" onclick="togTool('toolDC')"><div class="tool-h"><span class="tool-ic">🏫</span>어린이집 입소 대기 관리<span class="tool-arrow">▼</span></div><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
+  <div class="tool" id="toolGrow" onclick="togTool('toolGrow')"><div class="tool-h"><span class="tool-ic">📏</span>아기 성장 기록 (키·체중)<span class="tool-arrow">▼</span></div><div class="tool-body" id="growBody" onclick="event.stopPropagation()"></div></div>
   <div class="tool" id="toolTax" onclick="togTool('toolTax')"><div class="tool-h"><span class="tool-ic">📊</span>연말정산 자녀 공제 가이드<span class="tool-arrow">▼</span></div><div class="tool-body" id="taxBody"></div></div>
 </div>
 </div><!-- end pgTools -->
@@ -434,6 +456,7 @@ body{font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',sans-serif;bac
 <div class="svst" id="svSt"></div>
 <div class="da">
   <button class="db db-s" onclick="openShare()">🔗 배우자와 공유</button>
+  <button class="db" style="background:#333;color:#fff" onclick="togDark()">🌙 다크모드</button>
   <button class="db db-e" onclick="expData()">📤 백업 내보내기</button>
   <button class="db db-i" onclick="document.getElementById('impF').click()">📥 백업 불러오기</button>
   <button class="db db-r" onclick="rstData()">🔄 초기화</button>
@@ -476,19 +499,23 @@ const B=[
 {id:'folic',cat:'pregnancy',sec:G,nm:'엽산제·철분제 무료',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'보건소에서 엽산제·철분제 무료 제공 (엽산 3개월치, 철분 5개월치)',when:'임신 확인 후 즉시',how:'보건소 방문하여 임신 등록',cond:'보건소 등록',where:'관할 보건소',week:[5,20],docs:['임신확인서','신분증'],url:'https://www.e-health.go.kr'},
 {id:'prenatal',cat:'pregnancy',sec:G,nm:'산전검사 (초음파·기형아)',bg:'정부',bc:'bg-gov',amt:0,at:'무료/할인',type:'service',scope:'national',desc:'표준 산전검사 건강보험 적용',when:'임신 중',how:'보건소/산부인과',cond:'건강보험 가입',where:'보건소'},
 {id:'dental',cat:'pregnancy',sec:G,nm:'임산부 구강검진·스케일링',bg:'정부',bc:'bg-gov',amt:0,at:'무료',type:'service',scope:'national',desc:'스케일링 건강보험 100% 적용',when:'임신 중',how:'치과 방문 (임신 고지)',cond:'건강보험 가입',where:'치과'},
-{id:'s_trans',cat:'pregnancy',sec:G,nm:'서울시 임산부 교통비',bg:'서울',bc:'bg-seoul',amt:70,type:'cash',scope:'seoul',desc:'임신~출산 후 12개월까지 사용 가능 바우처',when:'임신 확인 후 즉시 신청',how:'서울시 임산부 교통비 포털 온라인 신청',cond:'서울 거주 (2024년 거주요건 폐지, 2026년 3~6개월 부활 논의 중 - 공식공고 확인)',where:'서울시 임산부 교통비 포털',week:[5,40],docs:['임신확인서','주민등록등본','본인 신용/체크카드'],note:'⚠️ 2026년 거주요건 부활 가능성 - 서울시 공지 확인',detail:'<b>지원금:</b> 70만원 교통비 바우처<br><b>사용처:</b> 대중교통, 택시, 자가용 유류비<br><b>사용기한:</b> 임신~출산 후 12개월<br><b>거주요건:</b> 2024년 3월 폐지 → <b>2026년 위장전입 방지 목적으로 3~6개월 부활 논의</b>',url:'https://seoul-agi.seoul.go.kr'},
+{id:'s_trans',cat:'pregnancy',sec:G,nm:'서울시 임산부 교통비',bg:'서울',bc:'bg-seoul',amt:70,type:'cash',scope:'seoul',desc:'자녀 순서별 차등 (첫째 70 / 둘째 80 / 셋째+ 100만)',when:'임신 확인 후 즉시 신청',how:'서울시 임산부 교통비 포털 온라인 신청',cond:'서울 거주 (2024년 거주요건 폐지, 2026년 3~6개월 부활 논의 중)',where:'서울시 임산부 교통비 포털',week:[5,40],docs:['임신확인서','주민등록등본','본인 신용/체크카드'],amtFn:p=>p.childN>=3?100:p.childN>=2?80:70,note:'⚠️ 2026년 거주요건 부활 가능성',detail:'<b>지원금 (자녀순서별):</b> 첫째 70만 / 둘째 80만 / 셋째 이상 100만원<br><b>사용처:</b> 대중교통, 택시, 자가용 유류비<br><b>사용기한:</b> 임신~출산 후 12개월<br><b>거주요건:</b> 2024년 3월 폐지 → <b>2026년 부활 논의 중</b>',url:'https://seoul-agi.seoul.go.kr'},
 {id:'i_trans',cat:'pregnancy',sec:G,nm:'인천시 임산부 교통비',bg:'인천',bc:'bg-ich',amt:50,type:'cash',scope:'incheon',desc:'교통비 50만원 (인천e음)',when:'임신 12주~출산 후 90일',how:'인천e음 앱',cond:'인천 거주',where:'인천e음'},
 {id:'s_35',cat:'pregnancy',sec:G,nm:'35세 이상 임산부 의료비',bg:'서울',bc:'bg-seoul',amt:50,type:'cash',scope:'seoul',desc:'고령 임산부 추가 의료비 최대 50만원',when:'임신 중',how:'서울시 온라인',cond:'서울 거주, 만 35세 이상',where:'서울시 보건정책과',eligFn:p=>p.age1>=35||p.age2>=35,eligTxt:'만 35세 이상'},
 {id:'highrisk',cat:'pregnancy',sec:G,nm:'고위험 임산부 의료비',bg:'정부',bc:'bg-gov',amt:300,at:'최대 300만원',type:'cash',scope:'national',desc:'19대 고위험 임신질환 입원치료비 (2024년부터 소득 무관)',when:'해당 시',how:'보건소 또는 온라인 신청 (입원치료 후 6개월 내)',cond:'19대 고위험 진단 입원 (조기진통·전치태반·임신중독증 등) · 소득 무관!',where:'관할 보건소',note:'해당 시에만',detail:'<b>지원금액:</b> 1인당 최대 300만원 (비급여 본인부담금 90%)<br><b>대상 질환 (19대):</b> 조기진통, 전치태반, 자궁경부무력증, 임신중독증, 태반조기박리, 분만관련 출혈 등<br><b>소득 기준:</b> 없음 (2024년부터 소득 제한 폐지)<br><b>신청 기한:</b> 입원치료 후 6개월 이내',url:'https://www.bokjiro.go.kr'},
 {id:'park_preg',cat:'pregnancy',sec:G,nm:'임산부 전용 주차구간',bg:'정부',bc:'bg-gov',amt:0,at:'법적 보장',type:'service',scope:'national',desc:'마트·공공시설 전용 주차 (위반 과태료 10만원)',when:'임신~영유아 동반',how:'임산부 표지 부착',cond:'임산부/만6세↓ 동반',where:'마트, 공공시설'},
 {id:'pink_seat',cat:'pregnancy',sec:G,nm:'지하철 임산부 배려석·핑크라이트',bg:'정부',bc:'bg-gov',amt:0,at:'배려석',type:'service',scope:'national',desc:'지하철 임산부석 + 핑크라이트 앱',when:'임신 중',how:'핑크라이트 앱 설치',cond:'임산부',where:'수도권 지하철'},
+{id:'ktx_preg',cat:'pregnancy',sec:G,nm:'KTX·SRT 임산부 특실 할인',bg:'정부',bc:'bg-gov',amt:0,at:'특실 40~50% 할인',type:'service',scope:'national',desc:'임산부 동반 1인까지 특실 요금 40~50% 할인',when:'임신 중',how:'코레일톡/SRT 앱에서 맘편한임신 연동',cond:'임산부 (정보연계 동의)',where:'코레일톡·SRT',detail:'<b>할인 내용:</b> KTX 특실 30~40% / SRT 특실 30% 할인 (임산부 + 동반 1인)<br><b>이용 방법:</b> 맘편한임신 앱에서 정보연계 → 코레일/SRT 앱 자동 연동<br><b>주의:</b> 사전 온라인 예매 필수, 현장 구매 불가',links:[{t:'맘편한임신 서비스',u:'https://www.gov.kr/portal/onestopSvc/fertility'},{t:'코레일톡',u:'https://www.letskorail.com'},{t:'SRT',u:'https://etk.srail.kr'}]},
+{id:'multi_ktx',cat:'money',sec:G,nm:'다자녀 KTX·SRT 할인',bg:'정부',bc:'bg-gov',amt:0,at:'30~50% 할인',type:'service',scope:'national',desc:'자녀 2명+ 30% / 3명+ 50% KTX·SRT 운임 할인',when:'자녀 2명 이상 시',how:'코레일톡/SRT 앱 가족회원 등록',cond:'만 18세 미만 자녀 2명 이상',where:'코레일·SRT',eligFn:p=>p.childN>=2,eligTxt:'자녀 2명 이상',detail:'<b>2자녀:</b> KTX 30% / SRT 30% 할인<br><b>3자녀+:</b> KTX·SRT <b>50% 할인</b> (2024년 확대)<br><b>등록:</b> 코레일 가족회원 / SRT 가족회원 등록 필요'},
+{id:'multi_pub',cat:'money',sec:G,nm:'다자녀 공공요금 할인',bg:'정부',bc:'bg-gov',amt:0,at:'요금 감면',type:'service',scope:'national',desc:'고속도로·자동차세·문화시설 등 다양한 다자녀 할인',when:'자녀 2명 이상',how:'각 기관별 신청',cond:'만 18세 미만 자녀 2명+',where:'각 기관',eligFn:p=>p.childN>=2,eligTxt:'자녀 2명 이상',detail:'<b>고속도로 통행료:</b> 다자녀 할인카드 발급 시 50% 할인<br><b>자동차세:</b> 다자녀 감면 (지자체별)<br><b>문화시설:</b> 국립박물관/미술관 무료<br><b>항공·공항:</b> 일부 항공사 다자녀 우선 탑승'},
+{id:'infertility',cat:'pregnancy',sec:G,nm:'난임부부 시술비 지원',bg:'정부',bc:'bg-gov',amt:110,at:'회당 최대 110만',type:'cash',scope:'national',desc:'체외수정 110만/인공수정 30만 (2024년 소득기준 폐지)',when:'난임 진단 후',how:'보건소 신청',cond:'난임 진단 (소득 무관)',where:'관할 보건소',detail:'<b>지원금액:</b><br>• 체외수정(IVF): 신선배아 회당 <b>최대 110만원</b><br>• 동결배아: 50만원<br>• 인공수정(IUI): 회당 <b>최대 30만원</b><br><b>소득 기준:</b> <b style="color:#27AE60">2024년부터 폐지</b> (전 국민)<br><b>지원 횟수:</b> 시술 종류 합산 최대 25회',url:'https://www.bokjiro.go.kr'},
 {id:'gs_care',cat:'pregnancy',sec:G,nm:'강서구 임산부 가사돌봄',bg:'강서구',bc:'bg-gu',amt:0,at:'최대 10회',type:'service',scope:'district',dist:'강서구',city:'seoul',desc:'가사돌봄 서비스 최대 10회 파견',when:'임신~출산 후',how:'강서구 보건소',cond:'강서구 거주',where:'02-2600-5800'},
 // ── 출산 후 ──
-{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 후 60일 이내 신청 권장',how:'① 출생신고 (정부24 온라인 또는 주민센터) → ② 행복출산 원스톱서비스에서 첫만남이용권 신청 → ③ 국민행복카드로 바우처 지급',cond:'출생 신고 완료된 모든 출생아 (소득 무관)',where:'정부24, 주민센터',amtFn:p=>p.childN>=2?300:200,dl:{after:'birth',days:365,warn:60},docs:['출생신고서','부모 신분증'],detail:'<b>지원금액:</b> 첫째 200만원 / 둘째 이상 300만원 (국민행복카드 바우처)<br><b>사용처:</b> 유아용품, 생필품, 식료품 등 (유흥·사행업소 제외)<br><b>사용기한:</b> 지급일로부터 1년<br><b>소득 기준:</b> 없음 (전 국민)<br><b>신청기한:</b> 출생일로부터 1년 이내 (60일 이내 권장)<br><b>동시 신청 가능:</b> 부모급여, 아동수당, 건강보험 자격취득 등 원스톱 신청',url:'https://www.gov.kr/portal/onestopSvc/happyBirth',links:[{t:'정부24 행복출산 원스톱',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'},{t:'복지로',u:'https://www.bokjiro.go.kr'}]},
+{id:'first',cat:'birth',sec:G,nm:'첫만남이용권',bg:'정부',bc:'bg-gov',amt:200,type:'cash',scope:'national',desc:'출생신고 시 바우처 (첫째 200만, 둘째 300만)',when:'출생 후 60일 이내 신청 권장',how:'① 출생신고 (정부24 온라인 또는 주민센터) → ② 행복출산 원스톱서비스에서 첫만남이용권 신청 → ③ 국민행복카드로 바우처 지급',cond:'출생 신고 완료된 모든 출생아 (소득 무관)',where:'정부24, 주민센터',amtFn:p=>p.childN>=2?400:200,dl:{after:'birth',days:365,warn:60},docs:['출생신고서','부모 신분증'],detail:'<b>지원금액:</b> 첫째 200만원 / 둘째 이상 300만원 (바우처) <b style="color:#C0385A">+ 둘째 이상 현금 100만원 추가 지급</b><br><b>사용처:</b> 유아용품, 생필품, 식료품 등 (유흥·사행업소 제외)<br><b>사용기한:</b> 지급일로부터 1년<br><b>소득 기준:</b> 없음 (전 국민)<br><b>신청기한:</b> 출생일로부터 1년 이내 (60일 이내 권장)<br><b>동시 신청 가능:</b> 부모급여, 아동수당, 건강보험 자격취득 등 원스톱 신청',url:'https://www.gov.kr/portal/onestopSvc/happyBirth',links:[{t:'정부24 행복출산 원스톱',u:'https://www.gov.kr/portal/onestopSvc/happyBirth'},{t:'복지로',u:'https://www.bokjiro.go.kr'}]},
 {id:'s_post',cat:'birth',sec:G,nm:'서울형 산후조리경비',bg:'서울',bc:'bg-seoul',amt:100,type:'cash',scope:'seoul',desc:'2024년부터 거주요건 폐지, 서울 출생신고만 필요',when:'출산 후 60일 이내 신청',how:'① 서울아기 건강첫걸음 온라인 → ② 서울 거주+출생신고 확인 → ③ 바우처 지급',cond:'산모+자녀 서울 거주 + 서울시 출생신고 (거주요건 폐지!)',where:'서울아기 건강첫걸음',amtFn:p=>p.childN>=3?150:p.childN>=2?120:100,dl:{after:'birth',days:60,warn:20},docs:['출생증명서','주민등록등본'],detail:'<b>지원금액:</b> 첫째 100만원 / 둘째 120만원 / 셋째 이상 150만원<br><b>지급방식:</b> 산후조리원·건강식품 등 사용 가능 바우처<br><b>거주요건:</b> 2024년 1월부터 <b style="color:#27AE60">폐지</b> (산모+자녀 서울 거주하고 서울에 출생신고하면 OK)<br><b>신청기한:</b> 출산 후 60일 이내',url:'https://seoul-agi.seoul.go.kr',links:[{t:'서울아기 건강첫걸음',u:'https://seoul-agi.seoul.go.kr'}]},
 {id:'i_post',cat:'birth',sec:G,nm:'인천 맘편한 산후조리비',bg:'인천',bc:'bg-ich',amt:150,type:'cash',scope:'incheon',desc:'취약계층 산후조리비 150만원',when:'출산 후',how:'인천e음, 보건소',cond:'인천 거주, 소득기준',where:'보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하'},
 {id:'post_care',cat:'birth',sec:G,nm:'산모신생아 건강관리사',bg:'정부',bc:'bg-gov',amt:0,at:'5~25일 파견',type:'service',scope:'national',desc:'건강관리사 가정 방문 돌봄',when:'출산 예정일 40일 전까지 사전 신청',how:'① 출산 40일 전 관할 보건소에 신청 → ② 소득 확인 후 승인 → ③ 출산 후 건강관리사 가정 방문',cond:'기준중위소득 150% 이하',where:'관할 보건소',eligFn:p=>p.medianPct<=150,eligTxt:'중위 150% 이하',dl:{before:'birth',days:40,warn:60},week:[32,40],docs:['임신확인서','건강보험료 납부확인서'],detail:'<b>소득 기준 (3인가구 150%):</b> 월 약 707만원 이하<br><b>서비스 내용:</b> 산모 건강관리(산후체조, 유방관리), 신생아 돌봄(목욕, 수유지원), 가사지원(산모 식사, 청소)<br><b>서비스 기간:</b> 첫째 5~15일, 둘째 10~20일, 셋째 이상 10~25일<br><b>본인부담금:</b> 소득 구간별 차등 (기초수급 면제 ~ 150% 이하 자부담 있음)<br><b>주의:</b> 출산 전 사전 신청 필수! 출산 후 신청 시 대기 길어질 수 있음',url:'https://www.bokjiro.go.kr',links:[{t:'복지로 상세',u:'https://www.bokjiro.go.kr'},{t:'보건소 찾기',u:'https://www.e-health.go.kr'}]},
-{id:'elec',cat:'birth',sec:G,nm:'전기요금 할인',bg:'정부',bc:'bg-gov',amt:57.6,at:'월1.6만×3년',type:'cash',scope:'national',desc:'전기요금 30% 할인 (3년간)',when:'출산 후',how:'한국전력공사',cond:'별도 신청 필수!',where:'KEPCO 앱'},
+{id:'elec',cat:'birth',sec:G,nm:'출산가구 전기요금 30% 할인',bg:'정부',bc:'bg-gov',amt:19,at:'월최대1.6만×12개월',type:'cash',scope:'national',desc:'3세 미만 영아 출생가구 1년간 월 최대 1.6만 할인',when:'출산 후 3세 미만까지',how:'한전 고객센터(123) 또는 KEPCO 앱',cond:'출생일~만3세 미만 자녀 있는 가구',where:'한국전력공사',dl:{after:'birth',days:60,warn:30},docs:['주민등록등본','한전 고객번호'],detail:'<b>할인율:</b> 전기요금 30% (월 최대 16,000원 한도)<br><b>기간:</b> 1년 (생후 3년 이내 신청 시 소급 가능)<br><b>신청:</b> 한전 고객센터 123 또는 KEPCO 모바일 앱<br><b>참고:</b> 별도 신청 필수! 자동 적용 안 됨',url:'https://cyber.kepco.co.kr'},
 {id:'gas',cat:'birth',sec:G,nm:'도시가스 요금 감면',bg:'정부',bc:'bg-gov',amt:0,at:'월4~6천원',type:'cash',scope:'national',desc:'도시가스 정액 감면',when:'출산 후',how:'도시가스 회사',cond:'별도 신청',where:'도시가스 고객센터'},
 {id:'s_water',cat:'birth',sec:G,nm:'서울 수도요금 감면',bg:'서울',bc:'bg-seoul',amt:0,at:'감면',type:'cash',scope:'seoul',desc:'상하수도 요금 감면',when:'출산 후',how:'수도사업소',cond:'서울 거주',where:'아리수 앱'},
 {id:'gu_gift',cat:'birth',sec:G,nm:'자치구 출산축하금',bg:'자치구',bc:'bg-gu',amt:0,at:'구청 확인',type:'cash',scope:'district',dist:'_all',desc:'자치구별 출산축하금/선물',when:'출산 후',how:'주민센터',cond:'해당 구 거주',where:'구청',url:'https://www.gov.kr/portal/onestopSvc/happyBirthLocalBirth'},
@@ -1167,6 +1194,47 @@ function loadFromUrl(){
   return false;
 }
 
+// ===== 주차별 태아 크기 =====
+const FETUS_SIZE={
+  4:{e:'🌼',s:'양귀비씨',mm:'약 1mm',w:'< 1g',tip:'심장이 뛰기 시작'},
+  5:{e:'🌱',s:'참깨',mm:'약 2mm',w:'< 1g',tip:'신경관 발달'},
+  6:{e:'🫐',s:'블루베리',mm:'약 5mm',w:'< 1g',tip:'심장 초음파 확인 가능'},
+  7:{e:'🫐',s:'크랜베리',mm:'약 10mm',w:'< 1g',tip:'팔·다리 싹 형성'},
+  8:{e:'🫒',s:'올리브',mm:'약 16mm',w:'1g',tip:'손가락 분화'},
+  9:{e:'🍇',s:'포도알',mm:'약 23mm',w:'2g',tip:'얼굴 이목구비 형성'},
+  10:{e:'🍓',s:'딸기',mm:'약 32mm',w:'4g',tip:'꼬리가 사라짐'},
+  11:{e:'🫐',s:'라임',mm:'약 41mm',w:'7g',tip:'손톱 발달'},
+  12:{e:'🍋',s:'레몬',mm:'약 54mm',w:'14g',tip:'1차 기형아 검사 시기'},
+  13:{e:'🫛',s:'완두콩 꼬투리',mm:'약 74mm',w:'23g',tip:'성별 구분 시작'},
+  14:{e:'🍑',s:'복숭아',mm:'약 87mm',w:'43g',tip:'양수에서 움직임'},
+  15:{e:'🍎',s:'사과',mm:'약 10cm',w:'70g',tip:'태동 감지 시작 가능'},
+  16:{e:'🥑',s:'아보카도',mm:'약 11.6cm',w:'100g',tip:'태아보험 가입 적기'},
+  17:{e:'🍐',s:'배',mm:'약 13cm',w:'140g',tip:'지방 축적 시작'},
+  18:{e:'🫑',s:'피망',mm:'약 14cm',w:'190g',tip:'청각 발달'},
+  19:{e:'🍅',s:'토마토',mm:'약 15cm',w:'240g',tip:'첫 태동 선명'},
+  20:{e:'🍌',s:'바나나',mm:'약 16cm',w:'300g',tip:'정밀 초음파 시기'},
+  21:{e:'🥕',s:'당근',mm:'약 27cm',w:'360g',tip:'눈썹 형성'},
+  22:{e:'🥬',s:'양상추',mm:'약 28cm',w:'430g',tip:'태아가 외부 소리 인지'},
+  23:{e:'🥭',s:'망고',mm:'약 29cm',w:'500g',tip:'폐 발달'},
+  24:{e:'🌽',s:'옥수수',mm:'약 30cm',w:'600g',tip:'임신성 당뇨 검사'},
+  25:{e:'🥕',s:'큰 무',mm:'약 34cm',w:'700g',tip:'머리카락 색소'},
+  26:{e:'🥒',s:'오이',mm:'약 35cm',w:'760g',tip:'눈을 뜨기 시작'},
+  27:{e:'🥦',s:'컬리플라워',mm:'약 36cm',w:'875g',tip:'뇌 활성도 증가'},
+  28:{e:'🍆',s:'가지',mm:'약 37cm',w:'1kg',tip:'3차 초음파 시기'},
+  29:{e:'🎃',s:'단호박',mm:'약 38cm',w:'1.15kg',tip:'근육 발달'},
+  30:{e:'🥥',s:'코코넛',mm:'약 40cm',w:'1.3kg',tip:'수면 주기 형성'},
+  31:{e:'🥥',s:'파인애플',mm:'약 41cm',w:'1.5kg',tip:'양수량 최대'},
+  32:{e:'🍈',s:'멜론',mm:'약 42cm',w:'1.7kg',tip:'산모·신생아 도우미 신청 시기'},
+  33:{e:'🍍',s:'파인애플',mm:'약 43cm',w:'1.9kg',tip:'면역 체계 발달'},
+  34:{e:'🍈',s:'큰 멜론',mm:'약 45cm',w:'2.1kg',tip:'폐 성숙'},
+  35:{e:'🍈',s:'허니듀멜론',mm:'약 46cm',w:'2.4kg',tip:'머리뼈 말랑말랑 유지'},
+  36:{e:'🥬',s:'배추',mm:'약 47cm',w:'2.6kg',tip:'출산 임박 - 출산가방'},
+  37:{e:'🎃',s:'청대 호박',mm:'약 48cm',w:'2.8kg',tip:'만삭 (예정일 3주 전)'},
+  38:{e:'🎃',s:'중간 호박',mm:'약 49cm',w:'3.0kg',tip:'태아 위치 고정'},
+  39:{e:'🍉',s:'작은 수박',mm:'약 50cm',w:'3.3kg',tip:'언제든 출산 가능'},
+  40:{e:'🍉',s:'수박',mm:'약 51cm',w:'3.5kg',tip:'출산 예정일! 🎉'},
+};
+
 // ===== 도구 데이터 =====
 const WEEK_TASKS={
   4:['산부인과 방문해 임신 확인','임신확인서 발급 받기'],
@@ -1247,8 +1315,62 @@ function togTool(id){const el=document.getElementById(id);el.classList.toggle('e
 function renderTools(){
   if(!S._tools)S._tools={};
   Object.keys(S._tools).forEach(k=>{const el=document.getElementById(k);if(el&&S._tools[k])el.classList.add('exp');});
-  renderRoadmap();renderVouch();renderNB();renderSpouse();renderWeekTasks();renderVac();renderChk();renderPrep();renderDC();renderTot18();renderTax();calcLeave();
+  renderRoadmap();renderVouch();renderNB();renderSpouse();renderWeekTasks();renderVac();renderChk();renderPrep();renderDC();renderTot18();renderTax();calcLeave();renderGrow();renderFetus();
 }
+
+// Fetal size card
+function renderFetus(){
+  const el=document.getElementById('fetusCard');if(!el)return;
+  const p=getProfile();const wk=getPregWeek(p);
+  if(!p.due||wk<4||wk>40){el.style.display='none';return;}
+  const f=FETUS_SIZE[wk]||FETUS_SIZE[Math.max(4,Math.min(40,wk))];
+  document.getElementById('fetusEmo').textContent=f.e;
+  document.getElementById('fetusWk').textContent=wk;
+  document.getElementById('fetusName').textContent=f.s+' 크기';
+  document.getElementById('fetusSpec').textContent=`${f.mm} · ${f.w}`;
+  document.getElementById('fetusTip').innerHTML='💡 '+f.tip;
+  el.style.display='';
+}
+
+// Dark mode
+function togDark(){document.body.classList.toggle('dark');S._dark=document.body.classList.contains('dark');autoSave();toast(S._dark?'🌙 다크모드 ON':'☀️ 라이트모드 ON');}
+function initDark(){if(S._dark)document.body.classList.add('dark');}
+
+// Growth tracking
+function renderGrow(){
+  const el=document.getElementById('growBody');if(!el)return;
+  if(!S._growth)S._growth=[];
+  let h='<div style="font-size:11px;color:#666;margin-bottom:10px">📏 영유아 건강검진·예방접종 시 측정한 키/체중을 기록하세요</div>';
+  h+=`<div class="dc-add"><input class="dc-inp" id="gDate" type="date" value="${new Date().toISOString().slice(0,10)}"><input class="dc-inp dc-num" id="gH" type="number" placeholder="키(cm)" step="0.1"><input class="dc-inp dc-num" id="gW" type="number" placeholder="체중(kg)" step="0.01"><button class="dc-btn" onclick="addGrow()">추가</button></div>`;
+  if(!S._growth.length){el.innerHTML=h+'<div style="font-size:11px;color:#999;text-align:center;padding:10px">기록이 없습니다</div>';return;}
+  const sorted=[...S._growth].sort((a,b)=>a.date.localeCompare(b.date));
+  // Simple visualization
+  h+='<div class="dc-list">';
+  sorted.slice(-20).reverse().forEach((g,i)=>{
+    const realIdx=S._growth.indexOf(g);
+    h+=`<div class="dc-row"><div style="font-size:10px;color:#999;min-width:70px">${g.date}</div><div style="flex:1;font-size:11px"><b>📏 ${g.h||'-'}cm</b> · <b>⚖️ ${g.w||'-'}kg</b></div><span class="dc-del" onclick="delGrow(${realIdx})">🗑️</span></div>`;
+  });
+  h+='</div>';
+  // 최근 성장 추이
+  if(sorted.length>=2){
+    const first=sorted[0],last=sorted[sorted.length-1];
+    const dH=(last.h&&first.h)?(last.h-first.h).toFixed(1):'-';
+    const dW=(last.w&&first.w)?(last.w-first.w).toFixed(2):'-';
+    h+=`<div class="calc-result" style="margin-top:10px">📈 첫 기록 대비 <b>키 +${dH}cm</b> · <b>체중 +${dW}kg</b></div>`;
+  }
+  el.innerHTML=h;
+}
+function addGrow(){
+  const d=document.getElementById('gDate').value;
+  const h=document.getElementById('gH').value;
+  const w=document.getElementById('gW').value;
+  if(!d||(!h&&!w))return;
+  if(!S._growth)S._growth=[];
+  S._growth.push({date:d,h:h||null,w:w||null});
+  document.getElementById('gH').value='';document.getElementById('gW').value='';
+  autoSave();renderGrow();
+}
+function delGrow(i){S._growth.splice(i,1);autoSave();renderGrow();}
 
 // 첫 출산 로드맵
 const ROADMAP=[
@@ -1519,7 +1641,7 @@ const _origRender=render;
 render=function(){_origRender();renderTools();};
 
 if(loadFromUrl()){}
-load();updateMedianUI();render();
+load();initDark();updateMedianUI();render();
 </script>
 </body>
 </html>
