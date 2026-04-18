@@ -390,9 +390,10 @@ body.dark .tline-dot{background:#1E1930}
 <div id="pgHome" class="page active">
 <div class="onboard" id="onboard">
   <h2>내 정보 입력</h2>
+  <div style="font-size:11px;color:#666;background:#FFF9E6;padding:9px 11px;border-radius:8px;margin-bottom:12px;line-height:1.5">💡 정보를 입력할수록 <b>받을 수 있는 혜택이 더 정확하게</b> 계산됩니다. 연봉과 지역에 따라 받을 수 있는 혜택이 달라져요.</div>
   <div class="ob-grid">
     <div class="ob-group">
-      <span class="ob-label">출산 예정일</span>
+      <span class="ob-label">출산 예정일 (또는 출산일)</span>
       <input type="date" class="ob-input" id="inDue" onchange="saveProfile()">
     </div>
     <div class="ob-group">
@@ -412,14 +413,14 @@ body.dark .tline-dot{background:#1E1930}
     <div class="ob-group">
       <span class="ob-label">본인 연봉 (세전)</span>
       <div class="ob-row">
-        <input type="number" class="ob-input" id="inInc1" placeholder="0" onchange="saveProfile()">
+        <input type="number" class="ob-input" id="inInc1" placeholder="예: 5000" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
       </div>
     </div>
     <div class="ob-group">
       <span class="ob-label">배우자 연봉 (세전)</span>
       <div class="ob-row">
-        <input type="number" class="ob-input" id="inInc2" placeholder="0" onchange="saveProfile()">
+        <input type="number" class="ob-input" id="inInc2" placeholder="예: 5000" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
       </div>
     </div>
@@ -445,6 +446,11 @@ body.dark .tline-dot{background:#1E1930}
   </div>
 </div>
 
+<div class="hero-breakdown-wrap" style="margin:0 16px">
+  <button class="hero-breakdown-btn" id="hbBtn" onclick="togHB()" style="width:100%;padding:10px;background:#FFF5F8;border:1.5px dashed #FFD4DC;border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;color:#C0385A;margin-top:8px;display:none">💡 이 금액이 어떻게 나왔는지 보기 ▼</button>
+  <div id="hbContent" style="display:none;background:#FFF5F8;border-radius:12px;padding:14px;margin-top:6px;border:1px solid #FFD4DC;font-size:12px;line-height:1.7"></div>
+</div>
+
 <div class="hero-stat hero-v2">
   <div class="hero-ring-wrap">
     <svg class="hero-ring" viewBox="0 0 120 120" width="110" height="110">
@@ -456,7 +462,7 @@ body.dark .tline-dot{background:#1E1930}
     </svg>
   </div>
   <div class="hero-right">
-    <div class="hero-l">예상 총 혜택</div>
+    <div class="hero-l">받을 수 있는 총 혜택 💰</div>
     <div class="hero-v" id="heroV">-</div>
     <div class="hero-sub-v2">
       <div><span>✅ 수령</span><b id="heroR">0만</b></div>
@@ -530,13 +536,20 @@ body.dark .tline-dot{background:#1E1930}
 
 <div class="calw" id="calWrap" style="display:none">
   <div class="calw-h">
-    <span style="font-size:18px">💰</span>
-    <div class="calw-t">월별 수령 캘린더 (24개월)</div>
-    <div class="calw-sum" id="calSum"></div>
+    <span style="font-size:18px">📅</span>
+    <div class="calw-t">매달 얼마 들어오나요?</div>
+  </div>
+  <div style="font-size:11px;color:#666;line-height:1.5;margin-bottom:10px">출산예정일부터 24개월간 매달 통장에 들어올 예상 금액이에요. 막대 높이로 금액 크기를 표시.</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;margin-bottom:10px">
+    <span style="background:#FFE4EC;padding:3px 7px;border-radius:6px;color:#C0385A">💖 부모급여</span>
+    <span style="background:#FFF3CD;padding:3px 7px;border-radius:6px;color:#9A7830">💛 아동수당</span>
+    <span style="background:#E0F0FF;padding:3px 7px;border-radius:6px;color:#2A6DC0">💙 육아휴직급여</span>
   </div>
   <div class="cal-grid" id="calGrid"></div>
-  <div class="cal-tot">총 정기 수령액: <b id="calTot">-</b>만원</div>
+  <div id="calSum" style="font-size:11px;color:#666;margin-top:8px;text-align:center"></div>
+  <div class="cal-tot" style="margin-top:6px">24개월 총 수령: <b id="calTot">-</b>만원</div>
   <div id="calDetail"></div>
+  <div style="font-size:10px;color:#888;margin-top:8px;padding-top:8px;border-top:1px dashed #F0E8EC">💡 월 막대를 <b>탭</b>하면 해당 월 금액 상세가 보여요. 금액이 바뀌는 이유: 부모급여는 0세 100만→1세 50만으로 감소, 육아휴직은 시작일부터 휴직 기간만큼 추가.</div>
 </div>
 
 <div class="tline" id="ageTline" style="display:none"></div>
@@ -948,6 +961,9 @@ function load(){
     if(p.city){document.getElementById('inCity').value=p.city;onCityChange(true);
       if(p.dist)document.getElementById('inDist').value=p.dist;}
   }
+  // 출산 예정일 기본값: 오늘
+  const inDue=document.getElementById('inDue');
+  if(inDue&&!inDue.value){inDue.value=new Date().toISOString().slice(0,10);}
 }
 
 function getProfile(){
@@ -1265,15 +1281,12 @@ function renderCalendar(vis,p){
   document.getElementById('calSum').textContent=summary+'만원';
   document.getElementById('calTot').textContent=tot.toLocaleString();
   const maxAmt=Math.max(...months.map(m=>m.amt),1);
-  document.getElementById('calGrid').innerHTML=months.map(m=>{
+  window._calMonths=months;
+  document.getElementById('calGrid').innerHTML=months.map((m,i)=>{
     const lbl=`${m.mo.getFullYear()%100}.${(m.mo.getMonth()+1).toString().padStart(2,'0')}`;
-    const parts=[`부모급여 ${m.pp}만`,`아동수당 ${m.al}만`];
-    if(m.lv1)parts.push(`본인 ${m.lv1}만`);
-    if(m.lv2)parts.push(`배우자 ${m.lv2}만`);
-    const tooltip=`${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월\n${parts.join('\n')}\n= ${m.amt}만원`;
     const hasLeave=m.lv1||m.lv2;
     const barH=Math.round(m.amt/maxAmt*100);
-    return `<div class="cal-m ${m.isBirth?'birth':hasLeave?'has leave':'has'}" title="${tooltip}"><div class="cal-m-bar" style="height:${barH}%"></div><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
+    return `<div class="cal-m ${m.isBirth?'birth':hasLeave?'has leave':'has'}" onclick="showMonthDetail(${i})" style="cursor:pointer"><div class="cal-m-bar" style="height:${barH}%"></div><div class="cal-m-mo">${lbl}</div><div class="cal-m-am">${m.amt}만</div></div>`;
   }).join('');
   // 상세 요약 표시
   const detEl=document.getElementById('calDetail');
@@ -1290,6 +1303,16 @@ function renderCalendar(vis,p){
   w.style.display='';
 }
 
+function showMonthDetail(idx){
+  const m=(window._calMonths||[])[idx];if(!m)return;
+  const parts=[];
+  if(m.pp>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#FFE4EC;border-radius:7px;margin-bottom:4px"><span>💖 부모급여 (${idx<12?'0세':'1세'})</span><b style="color:#C0385A">${m.pp}만원</b></div>`);
+  if(m.al>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#FFF3CD;border-radius:7px;margin-bottom:4px"><span>💛 아동수당</span><b style="color:#9A7830">${m.al}만원</b></div>`);
+  if(m.lv1>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#E0F0FF;border-radius:7px;margin-bottom:4px"><span>💙 본인 육아휴직급여</span><b style="color:#2A6DC0">${m.lv1}만원</b></div>`);
+  if(m.lv2>0)parts.push(`<div style="display:flex;justify-content:space-between;padding:7px 10px;background:#E0FFE8;border-radius:7px;margin-bottom:4px"><span>💚 배우자 육아휴직급여</span><b style="color:#2A8A4A">${m.lv2}만원</b></div>`);
+  const ttl=`${m.mo.getFullYear()}년 ${m.mo.getMonth()+1}월`;
+  alert(`📅 ${ttl} 예상 수령액\n\n` + parts.map(p=>p.replace(/<[^>]+>/g,'').replace(/\s+/g,' ')).join('\n') + `\n\n✅ 합계: ${m.amt}만원\n\n💡 부모급여는 0세 100만/1세 50만. 육아휴직급여는 연봉과 휴직기간에 따라 계산됩니다.`);
+}
 function jumpTo(id){
   const el=document.querySelector(`[data-id="${id}"]`);
   if(!el)return;
@@ -1421,6 +1444,9 @@ function updateSum(vis,p){
   }
   const rT=document.getElementById('heroRingTxt');if(rT)rT.textContent=pct+'%';
   const rS=document.getElementById('heroRingSub');if(rS)rS.textContent=ckCnt+'/'+vis.length;
+  // Breakdown button + content
+  const hbBtn=document.getElementById('hbBtn');if(hbBtn)hbBtn.style.display=total>0?'block':'none';
+  renderBreakdown(vis,p,total);
   const pct=vis.length>0?Math.round(ckCnt/vis.length*100):0;
   document.getElementById('pB').style.width=pct+'%';
   document.getElementById('pT').textContent=`${pct}% 달성 (${ckCnt}/${vis.length}건)`;
@@ -1646,6 +1672,13 @@ function renderTools(){
     set('leaveM1',L.m1||12);set('leaveM2',L.m2||12);
     set('leaveStart1',L.start1||'');set('leaveStart2',L.start2||'');
   }
+  // 휴직 시작일 비어있으면 출산예정일로 자동
+  const pProf=getProfile();
+  if(pProf.due){
+    const s1=document.getElementById('leaveStart1'),s2=document.getElementById('leaveStart2');
+    if(s1&&!s1.value)s1.value=pProf.due;
+    if(s2&&!s2.value)s2.value=pProf.due;
+  }
   const safe=(fn,name)=>{try{fn();}catch(e){console.error('renderTools.'+name,e);}};
   safe(renderRoadmap,'Roadmap');safe(renderVouch,'Vouch');safe(renderNB,'NB');safe(renderSpouse,'Spouse');
   safe(renderWeekTasks,'Week');safe(renderVac,'Vac');safe(renderChk,'Chk');safe(renderPrep,'Prep');
@@ -1677,6 +1710,41 @@ function renderThisMonth(){
   document.getElementById('tmLV2').textContent=lv2?lv2+'만':'-';
   document.getElementById('tmTotal').textContent=total.toLocaleString();
   card.style.display='';
+}
+
+// Hero breakdown
+function togHB(){
+  const c=document.getElementById('hbContent');const b=document.getElementById('hbBtn');
+  const open=c.style.display==='block';
+  c.style.display=open?'none':'block';
+  b.innerHTML=open?'💡 이 금액이 어떻게 나왔는지 보기 ▼':'💡 이 금액이 어떻게 나왔는지 보기 ▲';
+}
+function renderBreakdown(vis,p,total){
+  const c=document.getElementById('hbContent');if(!c)return;
+  const byCat={};
+  const catNames={pregnancy:'🤰 임신 중',birth:'👶 출산 직후',money:'💰 지원금/수당',housing:'🏠 주거/대출',work:'💼 직장/급여',tax:'🧾 세금',childcare:'🧸 육아/의료',airline:'✈️ 항공',shopping:'🛍 쇼핑',finance:'🏦 금융/보험',leisure:'🎢 레저',telecom:'📱 통신/앱'};
+  const top5=[];
+  vis.forEach(b=>{
+    if(checkElig(b,p)==='inelig')return;
+    if(getKind(b)==='perk')return;
+    const amt=getAmt(b,p);if(!amt||amt<=0)return;
+    byCat[b.cat]=(byCat[b.cat]||0)+amt;
+    top5.push({nm:b.nm,amt,cat:b.cat});
+  });
+  top5.sort((a,b)=>b.amt-a.amt);
+  let h=`<div style="font-weight:700;color:#C0385A;margin-bottom:8px">총 <b style="font-size:16px">${total.toLocaleString()}만원</b> 내역</div>`;
+  h+='<div style="margin-bottom:10px">';
+  Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(([cat,amt])=>{
+    const pct=Math.round(amt/total*100);
+    h+=`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>${catNames[cat]||cat}</span><b style="color:#C0385A">${amt.toLocaleString()}만 (${pct}%)</b></div><div style="background:#FFE4EC;border-radius:4px;height:6px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#FF8FAB,#FFD166);width:${pct}%"></div></div></div>`;
+  });
+  h+='</div>';
+  h+='<div style="font-weight:700;color:#7B5EA7;margin:10px 0 5px;font-size:11px">💎 큰 금액 TOP 5</div>';
+  top5.slice(0,5).forEach(x=>{
+    h+=`<div style="display:flex;justify-content:space-between;padding:5px 8px;background:#fff;border-radius:6px;margin-bottom:3px;font-size:11px"><span>${x.nm}</span><b style="color:#C0385A">${x.amt.toLocaleString()}만</b></div>`;
+  });
+  h+='<div style="font-size:10px;color:#888;margin-top:10px;padding-top:8px;border-top:1px dashed #FFD4DC">* 회사 복리후생·민간 제휴 혜택은 금액이 불확실해 제외. "받을 가능성 있는 최대값" 기준입니다.</div>';
+  c.innerHTML=h;
 }
 
 // Fetal size card
@@ -1962,26 +2030,52 @@ function calcLeave(){
   const el=document.getElementById('leaveResult');
   if(!el)return;
   const s=getLeaveSettings();
-  if(!s.use1&&!s.use2){el.innerHTML='<div style="font-size:11px;color:#888;padding:8px">휴직할 사람을 체크하세요 👆</div>';return;}
+  if(!s.use1&&!s.use2){el.innerHTML='<div style="font-size:12px;color:#666;padding:12px;background:#FFF9E6;border-radius:10px;line-height:1.6">👆 위에서 <b>휴직할 사람을 체크</b>하면 월별 수령액이 자동으로 계산됩니다!</div>';return;}
   let html='';let totalAll=0;
-  const render1=(annual,label,months,startDate,color)=>{
-    if(!annual)return `<div style="padding:8px 10px;background:#FFF5F5;border-radius:8px;margin-bottom:6px;font-size:11px;color:#C0385A">${label}: 연봉 미입력</div>`;
+  const render1=(annual,label,months,startDate,color,darkC)=>{
+    if(!annual)return `<div style="padding:10px;background:#FFF5F5;border-radius:10px;margin-bottom:8px;font-size:11px;color:#C0385A">⚠️ ${label}: 연봉 미입력 — 위 "내 정보"에서 입력하세요</div>`;
     const arr=leaveMonthly(annual,months,s.use66);
     const total=arr.reduce((a,b)=>a+b,0);
     totalAll+=total;
-    const first=arr[0]||0;const mid=arr[Math.min(3,arr.length-1)]||0;const last=arr[arr.length-1]||0;
-    const rangeTxt=arr.length<=3?`월 ${first}만`:`${first}→${mid}→${last}만`;
-    return `<div style="padding:10px;background:${color};border-radius:10px;margin-bottom:6px">
-      <div style="font-size:11px;font-weight:700;color:${color==='#FFE4EC'?'#C0385A':'#2A6DC0'};margin-bottom:3px">${label} (${months}개월 휴직${startDate?` · ${startDate}~`:''})</div>
-      <div style="font-size:18px;font-weight:800;color:${color==='#FFE4EC'?'#C0385A':'#2A6DC0'}">${total.toLocaleString()}<span style="font-size:11px">만원</span></div>
-      <div style="font-size:10px;color:#666;margin-top:3px">${rangeTxt}${s.use66?' · 6+6제 상향 반영':''}</div>
+    const maxM=Math.max(...arr,1);
+    let bars='<div style="display:flex;gap:2px;align-items:flex-end;height:60px;margin:8px 0">';
+    arr.forEach((m,i)=>{
+      const h=Math.round(m/maxM*100);
+      bars+=`<div style="flex:1;background:linear-gradient(to top,${darkC},${color});border-radius:3px 3px 0 0;height:${h}%;min-height:8px;position:relative" title="${i+1}개월차 ${m}만원"></div>`;
+    });
+    bars+='</div>';
+    bars+='<div style="display:flex;gap:2px;font-size:8px;color:#888;text-align:center">';
+    arr.forEach((_,i)=>{bars+=`<div style="flex:1">${i+1}</div>`;});
+    bars+='</div>';
+    bars+='<div style="font-size:9px;color:#888;text-align:center;margin-top:2px">↑ 개월</div>';
+    const monthly=Math.round(annual/12);
+    let logic='<div style="font-size:10px;color:#555;margin-top:10px;padding:8px;background:rgba(255,255,255,.7);border-radius:6px;line-height:1.6">';
+    logic+=`📐 <b>산정 근거</b><br>연봉 ${annual.toLocaleString()}만 → 월 통상임금 약 <b>${monthly}만원</b><br>`;
+    if(s.use66){
+      logic+=`• 6+6제 첫 6개월 상한: 250→250→300→350→400→450만<br>`;
+      if(months>6)logic+=`• 7개월~: 통상임금 80%, 상한 160만<br>`;
+    }else{
+      logic+=`• 1~3개월: 통상임금 100%, 상한 <b>250만</b><br>`;
+      if(months>3)logic+=`• 4~6개월: 통상임금 100%, 상한 <b>200만</b><br>`;
+      if(months>6)logic+=`• 7~12개월: 통상임금 80%, 상한 <b>160만</b><br>`;
+    }
+    logic+=`• 하한 70만원 보장<br>• <b style="color:#27AE60">2025년부터 사후지급 폐지</b> — 매월 전액 지급`;
+    logic+='</div>';
+    return `<div style="padding:12px;background:${color};border-radius:12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div style="font-size:12px;font-weight:700;color:${darkC}">${label}</div>
+        <div style="font-size:10px;color:#666">${months}개월${startDate?' · '+startDate+'~':''}${s.use66?' · 6+6':''}</div>
+      </div>
+      <div style="font-size:22px;font-weight:800;color:${darkC}">${total.toLocaleString()}<span style="font-size:12px">만원</span> <span style="font-size:10px;color:#888;font-weight:500">총 수령</span></div>
+      ${bars}
+      ${logic}
     </div>`;
   };
-  if(s.use1)html+=render1(p.inc1,'👩 본인',s.m1,s.start1,'#FFE4EC');
-  if(s.use2)html+=render1(p.inc2,'👨 배우자',s.m2,s.start2,'#E0F0FF');
-  html+=`<div style="background:linear-gradient(135deg,#FFD6E0,#F3E5F5);border-radius:10px;padding:12px;text-align:center;margin-top:8px"><div style="font-size:22px;font-weight:800;color:#C0385A">${totalAll.toLocaleString()}<span style="font-size:12px">만원</span></div><div style="font-size:10px;color:#666;margin-top:2px">부부 합산 예상 수령액 · 2025년 사후지급 폐지</div></div>`;
+  if(s.use1)html+=render1(p.inc1,'👩 본인 예상 수령',s.m1,s.start1,'#FFE4EC','#C0385A');
+  if(s.use2)html+=render1(p.inc2,'👨 배우자 예상 수령',s.m2,s.start2,'#E0F0FF','#2A6DC0');
+  html+=`<div style="background:linear-gradient(135deg,#FFD6E0,#F3E5F5);border-radius:12px;padding:14px;text-align:center;margin-top:8px"><div style="font-size:11px;color:#666;margin-bottom:2px">💰 부부 합산 총 수령</div><div style="font-size:26px;font-weight:800;color:#C0385A">${totalAll.toLocaleString()}<span style="font-size:13px">만원</span></div></div>`;
   if(s.use66){
-    html+=`<div style="background:#FFF3CD;border-radius:8px;padding:9px;margin-top:8px;font-size:11px;line-height:1.5"><b>💡 6+6 부모육아휴직제</b><br>부모 각자 생후 18개월 이내 <b>3개월 이상 휴직</b> 시 첫 6개월 상한이 크게 오름:<br>1·2개월 250만 → 3개월 300 → 4개월 350 → 5개월 400 → <b>6개월 450만</b></div>`;
+    html+=`<div style="background:#FFF3CD;border-radius:10px;padding:10px;margin-top:8px;font-size:11px;line-height:1.6"><b>💡 6+6 부모육아휴직제란?</b><br>부모 각자 생후 18개월 이내 <b>3개월 이상</b> 휴직 시 적용. 첫 6개월 상한이 점진적으로 올라가요:<br>1·2개월 <b>250만</b> → 3개월 <b>300만</b> → 4개월 <b>350만</b> → 5개월 <b>400만</b> → 6개월 <b>450만</b></div>`;
   }
   el.innerHTML=html;
 }
@@ -1990,19 +2084,44 @@ function renderTot18(){
   const p=getProfile();
   const el=document.getElementById('tot18Body');
   const list=[
-    {name:'첫만남이용권',amt:p.childN>=2?300:200,age:'출생'},
-    {name:'부모급여 (0~1세)',amt:1800,age:'0~24개월'},
-    {name:'아동수당 (0~만9세)',amt:1080,age:'0~108개월, 월10만 (2026년 확대)'},
-    {name:'출산 세액공제 (1회)',amt:p.childN>=3?70:p.childN>=2?50:30,age:'출산연도'},
-    {name:'자녀 세액공제 (매년)',amt:15*10,age:'연 15만원 × 10년 누적 예상'},
-    {name:'전기요금 감면 (3년)',amt:57,age:'월 1.6만 × 36개월'},
+    {name:'첫만남이용권',amt:p.childN>=2?300:200,age:'출생',when:'출생 직후 1회',phase:'출산'},
+    {name:'부모급여 (0~1세)',amt:1800,age:'0~24개월',when:'0세 월100만+1세 월50만, 매월',phase:'영아'},
+    {name:'아동수당 (0~만9세)',amt:1080,age:'0~108개월',when:'매월 10만원 (2026년 만9세로 확대)',phase:'영아~유아'},
+    {name:'출산 세액공제 (1회)',amt:p.childN>=3?70:p.childN>=2?50:30,age:'출산연도',when:'출산 당해 연말정산',phase:'출산'},
+    {name:'자녀 세액공제 (매년, 만8세+)',amt:25*10,age:'만8세~20세',when:'매년 연말정산 (2025년 인상: 연 25만)',phase:'유아~학령'},
+    {name:'전기요금 감면',amt:19,age:'만3세 미만',when:'월 1.6만원 × 12개월',phase:'영아'},
   ];
   let total=list.reduce((s,x)=>s+x.amt,0);
-  if(p.city==='seoul'){list.push({name:'서울 임산부 교통비',amt:70,age:'임신 중'});list.push({name:'서울형 산후조리경비',amt:p.childN>=2?150:100,age:'출산 후'});total+=70+(p.childN>=2?150:100);}
-  if(p.city==='incheon'){list.push({name:'인천 임산부 교통비',amt:50,age:'임신 중'});list.push({name:'인천 천사지원금',amt:840,age:'1~7세 연 120만'});list.push({name:'인천 아이꿈수당',amt:1980,age:'8~18세 월 5만'});total+=50+840+1980;}
-  let h='<div style="font-size:11px;color:#666;margin-bottom:8px">현재 프로필 기준 18세까지 받을 수 있는 주요 현금성 혜택 추정치 (육아휴직 급여·세액공제 제외 가능)</div>';
-  list.forEach(x=>{h+=`<div style="display:flex;justify-content:space-between;padding:6px 9px;background:#FFF5F5;border-radius:6px;margin-bottom:4px;font-size:12px"><span><b>${x.name}</b><br><span style="font-size:10px;color:#999">${x.age}</span></span><span style="font-weight:700;color:#C0385A">${x.amt.toLocaleString()}만원</span></div>`;});
-  h+=`<div class="calc-total"><div class="calc-total-v">${total.toLocaleString()}만원</div><div class="calc-total-l">총 예상 수령액 (현재 프로필 기준)</div></div>`;
+  if(p.city==='seoul'){list.push({name:'서울 임산부 교통비',amt:p.childN>=3?100:p.childN>=2?80:70,age:'임신 중',when:'임신 12주~출산 후 3개월',phase:'임신'});list.push({name:'서울형 산후조리경비',amt:p.childN>=3?150:p.childN>=2?120:100,age:'출산 후',when:'출산 후 60일 이내 1회',phase:'출산'});total+=(p.childN>=3?100:p.childN>=2?80:70)+(p.childN>=3?150:p.childN>=2?120:100);}
+  if(p.city==='incheon'){list.push({name:'인천 임산부 교통비',amt:50,age:'임신 중',when:'임신 12주~출산 후 90일',phase:'임신'});list.push({name:'인천 천사지원금',amt:840,age:'1~7세',when:'연 120만원 × 7년 (인천e음)',phase:'영아~유아'});list.push({name:'인천 아이꿈수당',amt:1980,age:'8~18세',when:'월 5만원 × 11년',phase:'학령~청소년'},);total+=50+840+1980;}
+
+  // phase별 그룹핑
+  const phases={'임신':[],'출산':[],'영아':[],'영아~유아':[],'유아~학령':[],'학령~청소년':[]};
+  list.forEach(x=>{(phases[x.phase]||phases['영아']).push(x);});
+
+  let h='<div style="font-size:11px;color:#666;margin-bottom:10px;background:#FFF9E6;padding:10px;border-radius:8px;line-height:1.5">💡 <b>"내가 아이 키우는 동안 받을 수 있는 돈"</b>을 언제/얼마나 받는지 시기별로 보여드려요. 민간·멤버십 혜택은 제외 (확실한 현금/바우처만).</div>';
+
+  // 시기별 타임라인
+  Object.entries(phases).forEach(([phase,items])=>{
+    if(!items.length)return;
+    const phaseTotal=items.reduce((s,x)=>s+x.amt,0);
+    const phaseIcons={'임신':'🤰','출산':'👶','영아':'🍼','영아~유아':'🧸','유아~학령':'🎒','학령~청소년':'📚'};
+    h+=`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:12px;font-weight:700;color:#7B5EA7">${phaseIcons[phase]||'💰'} ${phase}</div><div style="font-size:11px;color:#C0385A;font-weight:700">${phaseTotal.toLocaleString()}만원</div></div>`;
+    items.forEach(x=>{
+      const pct=Math.min(100,x.amt/total*400);
+      h+=`<div style="padding:8px 10px;background:#FFF5F5;border-radius:7px;margin-bottom:4px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${x.name}</div><div style="font-size:10px;color:#888;margin-top:2px">⏰ ${x.when}</div></div>
+          <div style="font-weight:700;color:#C0385A;font-size:13px;white-space:nowrap">${x.amt.toLocaleString()}만</div>
+        </div>
+        <div style="background:#FFE4EC;border-radius:3px;height:4px;margin-top:6px;overflow:hidden"><div style="background:linear-gradient(90deg,#FF8FAB,#FFD166);height:100%;width:${pct}%"></div></div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+
+  h+=`<div class="calc-total"><div class="calc-total-v">${total.toLocaleString()}만원</div><div class="calc-total-l">🎉 출생~18세 총 예상 수령</div></div>`;
+  h+='<div style="font-size:10px;color:#888;margin-top:10px;padding:8px;background:#F5F5F7;border-radius:7px;line-height:1.5">⚠️ 이 금액은 <b>고정 현금성 혜택</b>만 합산한 값이에요. 추가로 육아휴직 급여(부모별 연봉에 따라 수천만원), 산후도우미 지원(수백만원), 각종 의료비·검진 무료 혜택 등이 더해집니다.</div>';
   el.innerHTML=h;
 }
 
