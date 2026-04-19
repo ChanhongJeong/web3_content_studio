@@ -72,7 +72,7 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 .ob-full{grid-column:1/-1}
 .ob-group{display:flex;flex-direction:column;gap:4px}
 .ob-label{font-size:11px;font-weight:700;color:var(--txt-l)}
-.ob-input,.ob-select{padding:9px 12px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;font-weight:600;background:#FAFAFA;color:var(--txt);width:100%}
+.ob-input,.ob-select{padding:11px 12px;border:2px solid #F0E8EC;border-radius:10px;font-size:16px;font-weight:600;background:#FAFAFA;color:var(--txt);width:100%;-webkit-appearance:none;appearance:none}
 .ob-input:focus,.ob-select:focus{outline:none;border-color:var(--pri)}
 .ob-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 .ob-row{display:flex;gap:8px;align-items:flex-end}
@@ -98,7 +98,7 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 
 /* Filters */
 .search-w{padding:0 16px 10px}
-.search-i{width:100%;padding:9px 14px 9px 34px;border:2px solid #F0E8EC;border-radius:10px;font-size:14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23999'%3E%3Cpath d='M10.442 9.293a5.5 5.5 0 10-1.149 1.149l3.354 3.354a.813.813 0 001.149-1.149l-3.354-3.354zM5.5 9.5a4 4 0 110-8 4 4 0 010 8z'/%3E%3C/svg%3E") no-repeat 12px center;color:var(--txt)}
+.search-i{width:100%;padding:11px 14px 11px 34px;border:2px solid #F0E8EC;border-radius:10px;font-size:16px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23999'%3E%3Cpath d='M10.442 9.293a5.5 5.5 0 10-1.149 1.149l3.354 3.354a.813.813 0 001.149-1.149l-3.354-3.354zM5.5 9.5a4 4 0 110-8 4 4 0 010 8z'/%3E%3C/svg%3E") no-repeat 12px center;color:var(--txt)}
 .search-i:focus{outline:none;border-color:var(--pri)}
 .st-bar{display:flex;gap:6px;padding:0 16px 10px}
 .st-b{flex:1;padding:7px;border:2px solid #F0E8EC;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;color:var(--txt-l);text-align:center;transition:all .2s}
@@ -174,10 +174,10 @@ body.dark .lstage-b.active{background:linear-gradient(135deg,#E89BAE,#F5C77A);co
 .rr{display:flex;align-items:center;gap:7px;margin-bottom:7px}
 .rr:last-child{margin-bottom:0}
 .rl{font-size:11px;color:#5A9A5A;font-weight:600;min-width:44px}
-.ri{flex:1;padding:6px 9px;border:1px solid #C5E8C5;border-radius:8px;font-size:13px;font-weight:600;background:#fff;color:var(--txt);max-width:130px;text-align:right}
+.ri{flex:1;padding:9px 11px;border:1px solid #C5E8C5;border-radius:8px;font-size:16px;font-weight:600;background:#fff;color:var(--txt);max-width:130px;text-align:right;-webkit-appearance:none;appearance:none}
 .ri:focus,.rd:focus{outline:none;border-color:var(--ok)}
 .ru{font-size:11px;color:#5A9A5A;font-weight:600}
-.rd{padding:6px 9px;border:1px solid #C5E8C5;border-radius:8px;font-size:12px;background:#fff;color:var(--txt)}
+.rd{padding:9px 11px;border:1px solid #C5E8C5;border-radius:8px;font-size:15px;background:#fff;color:var(--txt);-webkit-appearance:none;appearance:none}
 .rsvc{font-size:12px;color:#5A9A5A;font-weight:600;padding:4px 0}
 .rsw{display:flex;justify-content:flex-end;margin-top:4px}
 .rsb{padding:7px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:var(--ok);color:#fff;transition:all .2s}
@@ -287,7 +287,7 @@ body.dark .tool.exp{border-color:#3A3250}
 /* Calculator */
 .calc-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .calc-label{flex:1;font-size:12px;font-weight:600;color:var(--txt)}
-.calc-input{width:90px;padding:6px 9px;border:1px solid #D0C5E0;border-radius:6px;font-size:12px;text-align:right}
+.calc-input{width:100px;padding:9px 11px;border:1px solid #D0C5E0;border-radius:8px;font-size:16px;text-align:right;-webkit-appearance:none;appearance:none}
 .calc-unit{font-size:11px;color:var(--txt-l)}
 .calc-result{background:#F3E5F5;border-radius:8px;padding:10px;margin-top:8px;font-size:12px;line-height:1.6}
 .calc-result b{color:#7B5EA7;font-size:14px}
@@ -305,7 +305,7 @@ body.dark .tool.exp{border-color:#3A3250}
 
 /* Daycare */
 .dc-add{display:flex;gap:6px;margin-bottom:8px}
-.dc-inp{flex:1;padding:7px 9px;border:1px solid #DDD;border-radius:7px;font-size:12px}
+.dc-inp{flex:1;padding:10px 11px;border:1px solid #DDD;border-radius:8px;font-size:16px;-webkit-appearance:none;appearance:none}
 .dc-num{width:65px}
 .dc-btn{padding:7px 12px;background:#6B5CE7;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
 .dc-list{background:#FAFAFE;border-radius:8px;padding:8px}
@@ -332,7 +332,7 @@ body.dark .tool.exp{border-color:#3A3250}
 .onb-f{display:flex;flex-direction:column;gap:4px}
 .onb-f.full{grid-column:1/-1}
 .onb-l{font-size:11px;font-weight:700;color:var(--txt-l)}
-.onb-i{padding:11px 13px;border:2px solid #F0E8EC;border-radius:12px;font-size:14px;font-weight:600;background:#FAFAFA}
+.onb-i{padding:12px 13px;border:2px solid #F0E8EC;border-radius:12px;font-size:16px;font-weight:600;background:#FAFAFA;-webkit-appearance:none;appearance:none}
 .onb-i:focus{outline:none;border-color:var(--pri);background:#fff}
 .onb-btns{display:flex;gap:8px;margin-top:20px}
 .onb-btn{flex:1;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
@@ -418,23 +418,23 @@ body.dark .tline-dot{background:#1E1930}
     </div>
     <div class="ob-group">
       <span class="ob-label">본인 나이 (만)</span>
-      <input type="number" class="ob-input" id="inAge1" placeholder="예: 32" onchange="saveProfile()">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="ob-input" id="inAge1" placeholder="예: 32" onchange="saveProfile()">
     </div>
     <div class="ob-group">
       <span class="ob-label">배우자 나이 (만)</span>
-      <input type="number" class="ob-input" id="inAge2" placeholder="예: 34" onchange="saveProfile()">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" class="ob-input" id="inAge2" placeholder="예: 34" onchange="saveProfile()">
     </div>
     <div class="ob-group">
       <span class="ob-label">본인 연봉 (세전)</span>
       <div class="ob-row">
-        <input type="number" class="ob-input" id="inInc1" placeholder="예: 5000" onchange="saveProfile()">
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="ob-input" id="inInc1" placeholder="예: 5000" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
       </div>
     </div>
     <div class="ob-group">
       <span class="ob-label">배우자 연봉 (세전)</span>
       <div class="ob-row">
-        <input type="number" class="ob-input" id="inInc2" placeholder="예: 5000" onchange="saveProfile()">
+        <input type="number" inputmode="numeric" pattern="[0-9]*" class="ob-input" id="inInc2" placeholder="예: 5000" onchange="saveProfile()">
         <span class="ob-unit">만원</span>
       </div>
     </div>
@@ -471,13 +471,13 @@ body.dark .tline-dot{background:#1E1930}
   <div style="background:#FFE4EC;padding:9px;border-radius:9px;margin-bottom:6px">
     <label style="font-size:12px;font-weight:700;color:#C0385A;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="leaveUse1" onchange="saveLeaveSettings()"> 👩 본인 휴직 사용</label>
     <div id="leaveBox1" style="display:none;margin-top:7px">
-      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" id="leaveM1" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:50px;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:12px"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart1" onchange="saveLeaveSettings()" style="flex:1;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:11px"></div>
+      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" inputmode="numeric" pattern="[0-9]*" id="leaveM1" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:60px;padding:8px;border:1px solid #DDD;border-radius:8px;font-size:16px;-webkit-appearance:none;appearance:none"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart1" onchange="saveLeaveSettings()" style="flex:1;padding:8px;border:1px solid #DDD;border-radius:8px;font-size:14px"></div>
     </div>
   </div>
   <div style="background:#E0F0FF;padding:9px;border-radius:9px;margin-bottom:6px">
     <label style="font-size:12px;font-weight:700;color:#2A6DC0;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="leaveUse2" onchange="saveLeaveSettings()"> 👨 배우자 휴직 사용</label>
     <div id="leaveBox2" style="display:none;margin-top:7px">
-      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:50px;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:12px"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart2" onchange="saveLeaveSettings()" style="flex:1;padding:5px;border:1px solid #DDD;border-radius:6px;font-size:11px"></div>
+      <div style="display:flex;gap:6px;align-items:center"><span style="font-size:11px;color:#666;min-width:38px">개월</span><input type="number" inputmode="numeric" pattern="[0-9]*" id="leaveM2" value="12" min="1" max="18" oninput="saveLeaveSettings()" style="width:60px;padding:8px;border:1px solid #DDD;border-radius:8px;font-size:16px;-webkit-appearance:none;appearance:none"><span style="font-size:11px;color:#666;min-width:38px;margin-left:8px">시작</span><input type="date" id="leaveStart2" onchange="saveLeaveSettings()" style="flex:1;padding:8px;border:1px solid #DDD;border-radius:8px;font-size:14px"></div>
     </div>
   </div>
   <label style="display:block;font-size:11px;padding:7px 9px;background:#FFF3CD;border-radius:7px;cursor:pointer"><input type="checkbox" id="leave66" onchange="saveLeaveSettings()"> ⭐ <b>6+6 부모육아휴직제</b> <span style="color:#666">— 추가 기간X, <b>급여 상향</b> 제도. 부부 모두 생후 18개월 이내 휴직 시 첫 6개월 상한 증가</span></label>
@@ -639,7 +639,7 @@ body.dark .tline-dot{background:#1E1930}
       <div class="tool" id="toolVac" onclick="togTool('toolVac')"><span class="tool-ic">💉</span><div class="tool-h">예방접종 캘린더</div><div class="tool-desc">국가 필수 30종</div><span class="tool-arrow">▼</span><div class="tool-body" id="vacBody"></div></div>
       <div class="tool" id="toolChk" onclick="togTool('toolChk')"><span class="tool-ic">🏥</span><div class="tool-h">영유아 건강검진</div><div class="tool-desc">무료 7회+ 일정</div><span class="tool-arrow">▼</span><div class="tool-body" id="chkBody"></div></div>
       <div class="tool" id="toolGrow" onclick="togTool('toolGrow')"><span class="tool-ic">📏</span><div class="tool-h">아기 성장 기록</div><div class="tool-desc">키·체중 추이</div><span class="tool-arrow">▼</span><div class="tool-body" id="growBody" onclick="event.stopPropagation()"></div></div>
-      <div class="tool" id="toolDC" onclick="togTool('toolDC')"><span class="tool-ic">🏫</span><div class="tool-h">어린이집 대기</div><div class="tool-desc">입소 대기번호</div><span class="tool-arrow">▼</span><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
+      <div class="tool" id="toolDC" onclick="togTool('toolDC')"><span class="tool-ic">🏫</span><div class="tool-h">어린이집 대기</div><div class="tool-desc">입소 대기번호</div><span class="tool-arrow">▼</span><div class="tool-body" onclick="event.stopPropagation()"><div class="dc-add"><input class="dc-inp" id="dcName" placeholder="어린이집 이름"><input class="dc-inp dc-num" id="dcRank" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="대기번호"><button class="dc-btn" onclick="addDC()">추가</button></div><div class="dc-list" id="dcList"></div></div></div>
     </div>
   </div>
 
@@ -736,10 +736,10 @@ body.dark .tline-dot{background:#1E1930}
       <div class="onb-t">부부 정보</div>
       <div class="onb-sub">소득에 따라 받을 수 있는 혜택이 달라져요</div>
       <div class="onb-grid">
-        <div class="onb-f"><span class="onb-l">본인 나이 (만)</span><input type="number" class="onb-i" id="onbAge1" placeholder="32"></div>
-        <div class="onb-f"><span class="onb-l">배우자 나이 (만)</span><input type="number" class="onb-i" id="onbAge2" placeholder="34"></div>
-        <div class="onb-f"><span class="onb-l">본인 연봉(만원)</span><input type="number" class="onb-i" id="onbInc1" placeholder="5000"></div>
-        <div class="onb-f"><span class="onb-l">배우자 연봉</span><input type="number" class="onb-i" id="onbInc2" placeholder="5000"></div>
+        <div class="onb-f"><span class="onb-l">본인 나이 (만)</span><input type="number" inputmode="numeric" pattern="[0-9]*" class="onb-i" id="onbAge1" placeholder="32"></div>
+        <div class="onb-f"><span class="onb-l">배우자 나이 (만)</span><input type="number" inputmode="numeric" pattern="[0-9]*" class="onb-i" id="onbAge2" placeholder="34"></div>
+        <div class="onb-f"><span class="onb-l">본인 연봉(만원)</span><input type="number" inputmode="numeric" pattern="[0-9]*" class="onb-i" id="onbInc1" placeholder="5000"></div>
+        <div class="onb-f"><span class="onb-l">배우자 연봉</span><input type="number" inputmode="numeric" pattern="[0-9]*" class="onb-i" id="onbInc2" placeholder="5000"></div>
       </div>
       <div class="onb-btns">
         <button class="onb-btn sec" onclick="onbNext(1)">← 이전</button>
@@ -2176,7 +2176,7 @@ function renderGrow(){
   const el=document.getElementById('growBody');if(!el)return;
   if(!S._growth)S._growth=[];
   let h='<div style="font-size:11px;color:#666;margin-bottom:10px">📏 영유아 건강검진·예방접종 시 측정한 키/체중을 기록하세요</div>';
-  h+=`<div class="dc-add"><input class="dc-inp" id="gDate" type="date" value="${new Date().toISOString().slice(0,10)}"><input class="dc-inp dc-num" id="gH" type="number" placeholder="키(cm)" step="0.1"><input class="dc-inp dc-num" id="gW" type="number" placeholder="체중(kg)" step="0.01"><button class="dc-btn" onclick="addGrow()">추가</button></div>`;
+  h+=`<div class="dc-add"><input class="dc-inp" id="gDate" type="date" value="${new Date().toISOString().slice(0,10)}"><input class="dc-inp dc-num" id="gH" type="number" inputmode="decimal" placeholder="키(cm)" step="0.1"><input class="dc-inp dc-num" id="gW" type="number" inputmode="decimal" placeholder="체중(kg)" step="0.01"><button class="dc-btn" onclick="addGrow()">추가</button></div>`;
   if(!S._growth.length){el.innerHTML=h+'<div style="font-size:11px;color:#999;text-align:center;padding:10px">기록이 없습니다</div>';return;}
   const sorted=[...S._growth].sort((a,b)=>a.date.localeCompare(b.date));
   // Simple visualization
@@ -2257,9 +2257,9 @@ function renderVouch(){
   const left=v.total-usedTotal;
   const pct=Math.min(100,Math.round(usedTotal/v.total*100));
   let h=`<div style="font-size:11px;color:#666;margin-bottom:10px">💳 국민행복카드(임신출산 진료비 바우처) 사용내역을 기록하세요. 총액 변경 가능 (다태아 140만 / 분만취약지 +20만)</div>`;
-  h+=`<div class="calc-row"><div class="calc-label">바우처 총액</div><input type="number" class="calc-input" id="vouchTot" value="${v.total}" oninput="upVouchTot(this.value)"><span class="calc-unit">원</span></div>`;
+  h+=`<div class="calc-row"><div class="calc-label">바우처 총액</div><input type="number" inputmode="numeric" pattern="[0-9]*" class="calc-input" id="vouchTot" value="${v.total}" oninput="upVouchTot(this.value)"><span class="calc-unit">원</span></div>`;
   h+=`<div style="background:linear-gradient(90deg,#FFE4EC,#FFF3CD);border-radius:10px;padding:12px;margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>사용: <b style="color:#C0385A">${usedTotal.toLocaleString()}원</b></span><span>잔액: <b style="color:#27AE60">${left.toLocaleString()}원</b></span></div><div style="background:#fff;border-radius:6px;height:8px;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#FF8FAB,#FFD166);width:${pct}%"></div></div></div>`;
-  h+=`<div class="dc-add"><input class="dc-inp" id="vUse" placeholder="사용처 (예: OO산부인과)"><input class="dc-inp dc-num" id="vAmt" type="number" placeholder="금액"><button class="dc-btn" onclick="addVouch()">추가</button></div>`;
+  h+=`<div class="dc-add"><input class="dc-inp" id="vUse" placeholder="사용처 (예: OO산부인과)"><input class="dc-inp dc-num" id="vAmt" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="금액"><button class="dc-btn" onclick="addVouch()">추가</button></div>`;
   h+='<div class="dc-list">';
   (v.used||[]).forEach((x,i)=>{h+=`<div class="dc-row"><div class="dc-nm">${x.name||'-'}</div><div style="color:#C0385A;font-weight:700">${parseFloat(x.amt||0).toLocaleString()}원</div><div style="font-size:10px;color:#999">${x.date||''}</div><span class="dc-del" onclick="delVouch(${i})">🗑️</span></div>`;});
   if(!(v.used||[]).length)h+='<div style="font-size:11px;color:#999;text-align:center;padding:8px">기록 없음</div>';
