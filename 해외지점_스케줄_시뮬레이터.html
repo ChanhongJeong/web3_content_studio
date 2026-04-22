@@ -267,20 +267,27 @@
   </div>
   <button class="btn btn-success" id="autoGenBtn">자동 생성</button>
   <button class="btn btn-warning" id="clearBtn">초기화</button>
+  <button class="btn btn-success" id="saveAllBtn">💾 전체 저장</button>
 </div>
 
 <div class="info-row">
   <div class="panel">
     <div class="panel-title">
       <span>근무코드 (수기 입력/추가)</span>
-      <button class="btn btn-sm btn-primary" id="addCodeBtn">+ 코드 추가</button>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-sm btn-primary" id="addCodeBtn">+ 코드 추가</button>
+        <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
+      </div>
     </div>
     <div class="code-list" id="codeList"></div>
     <div class="hint">코드명은 직접 수정 가능. [×]로 삭제. OFF는 기본 제공.</div>
   </div>
 
   <div class="panel">
-    <div class="panel-title" id="conditionTitle">** 조건 (메모) **</div>
+    <div class="panel-title">
+      <span id="conditionTitle">** 조건 (메모) **</span>
+      <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
+    </div>
     <textarea class="condition-memo" id="conditionMemo" placeholder="국가별 운영 조건, 노무 규정, 특이사항 등을 자유롭게 메모하세요."></textarea>
   </div>
 </div>
@@ -288,7 +295,7 @@
 <div class="panel">
   <div class="panel-title">
     <span>요일별 근무코드 투입 인원</span>
-    <button class="btn btn-sm btn-success" id="saveBtn">💾 저장</button>
+    <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
   </div>
   <table class="target-table" id="targetTable"></table>
   <div class="hint">각 요일마다 몇 명씩 투입할지 입력 → [자동 생성] 시 이 값을 목표로 배정. [저장] 클릭 시 브라우저에 보관되어 새로고침해도 유지됩니다.</div>
@@ -298,8 +305,9 @@
   <div class="panel-title">
     <span>법정공휴일 (현재 월)</span>
     <div style="display:flex;gap:6px;">
-      <button class="btn btn-sm btn-success" id="fetchHolidayBtn">📅 공휴일 자동 불러오기</button>
+      <button class="btn btn-sm btn-primary" id="fetchHolidayBtn">📅 공휴일 자동 불러오기</button>
       <button class="btn btn-sm btn-primary" id="addHolidayBtn">+ 공휴일 추가</button>
+      <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
     </div>
   </div>
   <div id="holidayList" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
@@ -307,6 +315,10 @@
 </div>
 
 <div class="schedule-wrap panel" style="margin-bottom:0;">
+  <div class="panel-title">
+    <span>스케줄 시뮬레이션</span>
+    <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
+  </div>
   <table class="schedule" id="scheduleTable"></table>
 </div>
 
@@ -571,7 +583,11 @@ function init() {
   document.getElementById('addCodeBtn').onclick = addCode;
   document.getElementById('addHolidayBtn').onclick = addHoliday;
   document.getElementById('fetchHolidayBtn').onclick = fetchHolidaysFromDB;
-  document.getElementById('saveBtn').onclick = saveAll;
+  document.getElementById('saveAllBtn').onclick = saveAll;
+  // 모든 섹션 저장 버튼 일괄 바인딩
+  document.querySelectorAll('.save-section-btn').forEach(btn => {
+    btn.onclick = saveAll;
+  });
   document.getElementById('minOffInput').onchange = (e) => {
     const v = Math.max(0, parseInt(e.target.value) || 0);
     COUNTRIES[currentCountry].minOff = v;
