@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>해외지점 스케줄 시뮬레이터</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: #f5f7fa;
+    color: #1f2937;
+    padding: 16px;
+  }
+  h1 { font-size: 20px; margin-bottom: 12px; color: #1e3a8a; }
+
+  /* 국가 탭 */
+  .country-tabs {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #c7d2fe;
+    padding-bottom: 8px;
+  }
+  .country-tab {
+    padding: 8px 14px;
+    background: #e0e7ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-weight: 600; font-size: 13px;
+    color: #1e3a8a;
+    transition: all 0.15s;
+  }
+  .country-tab:hover { background: #c7d2fe; }
+  .country-tab.active {
+    background: #1e3a8a; color: white; border-color: #1e3a8a;
+  }
+
+  /* 컨트롤 바 */
+  .control-bar {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    background: white; padding: 12px; border-radius: 8px;
+    margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .control-group { display: flex; align-items: center; gap: 6px; }
+  .control-group label { font-size: 13px; font-weight: 600; color: #374151; }
+  select, input[type="number"], input[type="text"] {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 13px; background: white;
+  }
+  .btn {
+    padding: 7px 14px; border: none; border-radius: 5px;
+    cursor: pointer; font-size: 13px; font-weight: 600;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: #1e3a8a; color: white; }
+  .btn-primary:hover { background: #1e40af; }
+  .btn-success { background: #059669; color: white; }
+  .btn-success:hover { background: #047857; }
+  .btn-secondary { background: #6b7280; color: white; }
+  .btn-secondary:hover { background: #4b5563; }
+  .btn-warning { background: #d97706; color: white; }
+  .btn-warning:hover { background: #b45309; }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
+
+  /* 판넬 공통 */
+  .panel {
+    background: white; padding: 12px; border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+  }
+  .panel-title {
+    font-size: 13px; font-weight: 700; color: #1e3a8a;
+    margin-bottom: 8px; padding-bottom: 6px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* 근무코드 & 조건 */
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 900px) {
+    .info-row { grid-template-columns: 1fr; }
+  }
+
+  /* 근무코드 관리 */
+  .code-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    align-items: center;
+  }
+  .code-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 6px 4px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #f9fafb;
+  }
+  .code-chip input.code-name {
+    width: 48px; border: none; background: transparent;
+    font-weight: 700; text-align: center; font-size: 13px;
+    color: inherit;
+  }
+  .code-chip input.code-name:focus { outline: 1px solid #3b82f6; }
+  .code-chip .code-box {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 36px; height: 26px; padding: 0 6px;
+    border-radius: 4px;
+    font-weight: 700; font-size: 12px;
+  }
+  .code-chip .del-btn {
+    background: #ef4444; color: white;
+    border: none; border-radius: 3px;
+    width: 18px; height: 18px;
+    cursor: pointer; font-size: 12px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .code-chip .del-btn:hover { background: #dc2626; }
+  .off-chip {
+    padding: 4px 10px; background: #e5e7eb; color: #6b7280;
+    border-radius: 6px; font-weight: 600; font-size: 12px;
+  }
+
+  .condition-list { font-size: 12.5px; line-height: 1.7; color: #374151; }
+  .condition-list li { margin-left: 18px; }
+
+  .condition-memo {
+    width: 100%;
+    min-height: 130px;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: vertical;
+    background: #fffbeb;
+    color: #374151;
+    box-sizing: border-box;
+  }
+  .condition-memo:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 2px #dbeafe;
+  }
+
+  /* 요일 타겟 테이블 */
+  table.target-table { border-collapse: collapse; font-size: 12px; }
+  table.target-table th, table.target-table td {
+    border: 1px solid #d1d5db;
+    padding: 6px 8px; text-align: center;
+    min-width: 46px;
+  }
+  table.target-table th {
+    background: #e0e7ff; color: #1e3a8a; font-weight: 700;
+  }
+  table.target-table td.code-label {
+    font-weight: 700;
+  }
+  table.target-table input {
+    width: 44px; border: 1px solid #d1d5db;
+    border-radius: 3px; text-align: center;
+    font-size: 12px; padding: 3px 4px;
+  }
+  table.target-table input:focus { outline: 1px solid #3b82f6; border-color: #3b82f6; }
+
+  /* 스케줄 테이블 */
+  .schedule-wrap {
+    background: white; border-radius: 8px; padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow-x: auto;
+  }
+  table.schedule {
+    border-collapse: collapse;
+    font-size: 11px; width: 100%;
+    min-width: 1400px;
+  }
+  table.schedule th, table.schedule td {
+    border: 1px solid #d1d5db;
+    text-align: center;
+    padding: 4px 2px;
+    min-width: 38px;
+    height: 28px;
+  }
+  table.schedule th {
+    background: #f3f4f6; font-weight: 700;
+    font-size: 11px; position: sticky; top: 0; z-index: 1;
+  }
+  table.schedule th.day-header { background: #dbeafe; color: #1e3a8a; }
+  table.schedule th.holiday { background: #fecaca !important; color: #991b1b !important; }
+  table.schedule th.label-col {
+    background: #e0e7ff; color: #1e3a8a;
+    min-width: 90px; text-align: left;
+    padding-left: 8px;
+  }
+  table.schedule td.label-col {
+    background: #eef2ff; font-weight: 600;
+    text-align: left; padding-left: 8px; color: #1e3a8a;
+  }
+  table.schedule td.summary {
+    background: #eff6ff; font-weight: 600; color: #1e40af;
+  }
+  table.schedule td.summary-work { background: #dbeafe; font-weight: 700; }
+  table.schedule td.summary-total { background: #bfdbfe; font-weight: 700; }
+  table.schedule td.total-col {
+    background: #f0fdf4; font-weight: 700; color: #166534;
+    min-width: 42px;
+  }
+  table.schedule th.total-col {
+    background: #dcfce7; color: #166534;
+  }
+
+  .cell-OFF { background: #e5e7eb; color: #6b7280; font-weight: 600; font-size: 10px; }
+
+  .shift-select {
+    width: 100%; height: 100%;
+    border: none; background: transparent;
+    text-align: center;
+    font-weight: 700; font-size: 11px;
+    cursor: pointer; padding: 0;
+    color: inherit;
+    appearance: none; -webkit-appearance: none;
+  }
+  .shift-select:focus { outline: 2px solid #3b82f6; }
+
+  .employee-name-input {
+    width: 80px; border: none; background: transparent;
+    font-weight: 600; font-size: 12px; color: #1e3a8a;
+  }
+  .employee-name-input:focus { outline: 1px solid #3b82f6; background: white; }
+
+  .hint { font-size: 12px; color: #6b7280; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<h1>해외지점 근무 스케줄 시뮬레이터</h1>
+
+<div class="country-tabs" id="countryTabs"></div>
+
+<div class="control-bar">
+  <div class="control-group">
+    <label>년도</label>
+    <select id="yearSel"></select>
+  </div>
+  <div class="control-group">
+    <label>월</label>
+    <select id="monthSel"></select>
+  </div>
+  <div class="control-group">
+    <label>인원</label>
+    <input type="number" id="staffCount" min="1" max="20" value="5">
+  </div>
+  <div class="control-group">
+    <label title="월별 개인 최소 OFF 보장 일수">최소 OFF</label>
+    <input type="number" id="minOffInput" min="0" max="31" value="8" style="width:60px">
+  </div>
+  <div class="control-group">
+    <label title="연속 근무 최대 일수 - 초과 시 다음날 강제 OFF">최대 연속근무</label>
+    <input type="number" id="maxConsecutiveInput" min="1" max="31" value="6" style="width:60px">
+  </div>
+  <button class="btn btn-success" id="autoGenBtn">자동 생성</button>
+  <button class="btn btn-warning" id="clearBtn">초기화</button>
+</div>
+
+<div class="info-row">
+  <div class="panel">
+    <div class="panel-title">
+      <span>근무코드 (수기 입력/추가)</span>
+      <button class="btn btn-sm btn-primary" id="addCodeBtn">+ 코드 추가</button>
+    </div>
+    <div class="code-list" id="codeList"></div>
+    <div class="hint">코드명은 직접 수정 가능. [×]로 삭제. OFF는 기본 제공.</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title" id="conditionTitle">** 조건 (메모) **</div>
+    <textarea class="condition-memo" id="conditionMemo" placeholder="국가별 운영 조건, 노무 규정, 특이사항 등을 자유롭게 메모하세요."></textarea>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">
+    <span>요일별 근무코드 투입 인원</span>
+    <button class="btn btn-sm btn-success" id="saveBtn">💾 저장</button>
+  </div>
+  <table class="target-table" id="targetTable"></table>
+  <div class="hint">각 요일마다 몇 명씩 투입할지 입력 → [자동 생성] 시 이 값을 목표로 배정. [저장] 클릭 시 브라우저에 보관되어 새로고침해도 유지됩니다.</div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">
+    <span>법정공휴일 (현재 월)</span>
+    <div style="display:flex;gap:6px;">
+      <button class="btn btn-sm btn-success" id="fetchHolidayBtn">📅 공휴일 자동 불러오기</button>
+      <button class="btn btn-sm btn-primary" id="addHolidayBtn">+ 공휴일 추가</button>
+    </div>
+  </div>
+  <div id="holidayList" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+  <div class="hint">현재 국가/년도의 공식 공휴일 DB에서 해당 월 공휴일을 자동으로 불러옵니다. 수동 추가/삭제 가능.</div>
+</div>
+
+<div class="schedule-wrap panel" style="margin-bottom:0;">
+  <table class="schedule" id="scheduleTable"></table>
+</div>
+
+<script>
+// ========== 색상 팔레트 (코드 순서대로 사용) ==========
+const PALETTE = [
+  { bg: '#fef3c7', fg: '#78350f' },  // 1: 노랑
+  { bg: '#dbeafe', fg: '#1e3a8a' },  // 2: 파랑
+  { bg: '#fed7aa', fg: '#7c2d12' },  // 3: 오렌지
+  { bg: '#d1fae5', fg: '#065f46' },  // 4: 초록
+  { bg: '#fce7f3', fg: '#9f1239' },  // 5: 핑크
+  { bg: '#e9d5ff', fg: '#581c87' },  // 6: 보라
+  { bg: '#fef9c3', fg: '#854d0e' },  // 7: 라임
+  { bg: '#cffafe', fg: '#155e75' },  // 8: 시안
+];
+
+const DOW_LABELS = ['일', '월', '화', '수', '목', '금', '토'];
+// 근무일수 표시 순서 (월~일)
+const DOW_DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
+// ========== 국가별 설정 ==========
+// targets: {코드명: [일,월,화,수,목,금,토]}
+function genEmptyTarget(codes) {
+  const t = {};
+  codes.forEach(c => t[c] = [0, 0, 0, 0, 0, 0, 0]);
+  return t;
+}
+
+const defaultTargets = () => ({ A:[1,1,1,1,1,1,1], P:[1,1,1,1,1,1,1] });
+const defaultCountry = () => ({
+  conditions: '',
+  holidays: {},
+  shiftCodes: ['A','P'],
+  targets: defaultTargets(),
+  managerOnlyCodes: [],
+  priorityRules: [],
+  preventPrevNext: [],
+  forceOffAfter: [],
+  requirePrev: [],
+  minOff: 8,
+  maxConsecutive: 6
+});
+
+const COUNTRIES = {
+  '중국':     defaultCountry(),
+  '몽골': {
+    conditions: '',
+    holidays: {},
+    shiftCodes: ['A', 'P', 'AP'],
+    targets: { A:[2,1,1,1,2,1,1], P:[2,2,2,2,2,2,2], AP:[1,0,0,0,1,0,0] },
+    managerOnlyCodes: ['AP'],
+    priorityRules: [{ code: 'A', employeeIdx: 1 }],
+    // AP 전날은 OFF가 기본, A는 fallback. P/AP 전날 금지.
+    preventPrevNext: [
+      { prev: 'P', next: 'A', exempt: [0] },   // P→A 금지 (지점장만 예외)
+      { prev: 'P', next: 'AP', exempt: [] },   // P→AP 금지 (전원)
+      { prev: 'AP', next: 'AP', exempt: [] }   // AP→AP 금지
+    ],
+    // AP 근무 다음날은 강제 OFF
+    forceOffAfter: ['AP'],
+    minOff: 8,
+    maxConsecutive: 6
+  },
+  '대만':      defaultCountry(),
+  '홍콩':      defaultCountry(),
+  '마카오':    defaultCountry(),
+  '사이판':    defaultCountry(),
+  '일본':      defaultCountry(),
+  '필리핀':    defaultCountry(),
+  '베트남':    defaultCountry(),
+  '태국':      defaultCountry(),
+  '라오스':    defaultCountry(),
+  '말레이시아':defaultCountry(),
+  '싱가포르':  defaultCountry(),
+  '인도네시아':defaultCountry()
+};
+
+// ========== 공식 공휴일 DB (국가별 공식 공휴일 - 2025/2026 기준) ==========
+// 출처: 각국 정부/공식 달력 기준의 대표적 법정 공휴일
+const HOLIDAY_DB = {
+  '중국': {
+    2025: { 1:[1], 2:[28], 4:[4,5,6], 5:[1,2,3,4,5], 6:[2], 10:[1,2,3,4,5,6,7,8] },
+    2026: { 1:[1,2,3], 2:[16,17,18,19,20,21,22], 4:[4,5,6], 5:[1,2,3,4,5], 6:[19,20,21], 9:[24,25,26], 10:[1,2,3,4,5,6,7,8] }
+  },
+  '몽골': {
+    2025: { 1:[1], 3:[1,8], 6:[1], 7:[11,12,13,14,15], 11:[26], 12:[29] },
+    2026: { 1:[1], 2:[17,18,19], 3:[8], 6:[1], 7:[11,12,13,14,15], 11:[26], 12:[29] }
+  },
+  '대만': {
+    2025: { 1:[1], 2:[28], 4:[4], 5:[1], 10:[10] },
+    2026: { 1:[1,2], 2:[16,17,18,19,20,28], 4:[3,4,5,6], 5:[1], 6:[19], 9:[25], 10:[9,10] }
+  },
+  '홍콩': {
+    2025: { 1:[1], 2:[29,30,31], 4:[4,5,18,21], 5:[1,5], 6:[1], 7:[1], 10:[1,7,29], 12:[25,26] },
+    2026: { 1:[1], 2:[17,18,19], 4:[3,4,6], 5:[1,24], 6:[19], 7:[1], 9:[25], 10:[1,19], 12:[25,26] }
+  },
+  '마카오': {
+    2025: { 1:[1], 2:[29,30], 4:[4,5,18], 5:[1,5,15], 10:[1,2,17], 11:[2], 12:[8,20,22,24,25] },
+    2026: { 1:[1], 2:[17,18,19], 4:[3,4,5], 5:[1,24], 10:[1,2,19], 11:[2], 12:[8,20,22,25] }
+  },
+  '사이판': {
+    2025: { 1:[1,20], 2:[17], 3:[24], 4:[18], 5:[26], 7:[4], 9:[1], 10:[13], 11:[4,11,27], 12:[8,25] },
+    2026: { 1:[1,19], 2:[16], 3:[24], 4:[3], 5:[25], 7:[4], 9:[7], 10:[12], 11:[4,11,26], 12:[8,25] }
+  },
+  '일본': {
+    2025: { 1:[1,13], 2:[11,23,24], 3:[20], 4:[29], 5:[3,4,5,6], 7:[21], 8:[11], 9:[15,23], 10:[13], 11:[3,23,24] },
+    2026: { 1:[1,12], 2:[11,23], 3:[20], 4:[29], 5:[3,4,5,6], 7:[20], 8:[11], 9:[21,22,23], 10:[12], 11:[3,23] }
+  },
+  '필리핀': {
+    2025: { 1:[1], 4:[9,17,18], 5:[1], 6:[12], 8:[25], 11:[1,30], 12:[8,25,30] },
+    2026: { 1:[1,2], 4:[2,3,9], 5:[1], 6:[12], 8:[31], 11:[1,30], 12:[8,25,30] }
+  },
+  '베트남': {
+    2025: { 1:[1,27,28,29,30,31], 4:[7,30], 5:[1], 9:[2,3] },
+    2026: { 1:[1], 2:[16,17,18,19,20,21,22], 4:[25,30], 5:[1], 9:[2] }
+  },
+  '태국': {
+    2025: { 1:[1], 2:[12], 4:[6,14,15], 5:[1,5,12], 6:[3], 7:[10,28], 8:[12], 10:[13,23], 12:[5,10,31] },
+    2026: { 1:[1], 3:[3], 4:[6,13,14,15], 5:[1,4,31], 6:[3], 7:[30,31], 8:[12], 10:[13,23], 12:[5,10,31] }
+  },
+  '라오스': {
+    2025: { 1:[1], 3:[8], 4:[14,15,16], 5:[1], 6:[1], 12:[2] },
+    2026: { 1:[1], 3:[8], 4:[14,15,16], 5:[1], 6:[1], 10:[12], 12:[2] }
+  },
+  '말레이시아': {
+    2025: { 1:[1,29,30], 2:[1], 3:[18], 4:[1], 5:[1,12], 6:[2], 8:[31], 9:[16], 10:[22], 12:[25] },
+    2026: { 1:[1], 2:[1,17,18], 3:[21], 5:[1,20,27], 6:[1], 7:[27], 8:[31], 9:[16], 11:[8], 12:[25] }
+  },
+  '싱가포르': {
+    2025: { 1:[1,29,30], 3:[31], 4:[18], 5:[1,12], 6:[7], 8:[9], 10:[22], 12:[25] },
+    2026: { 1:[1], 2:[17,18], 4:[3], 5:[1,20,27], 6:[1], 7:[27], 8:[9], 11:[8], 12:[25] }
+  },
+  '인도네시아': {
+    2025: { 1:[1,27,29], 3:[29,31], 4:[1,18], 5:[1,12,29], 6:[1,6,7,27], 8:[17], 9:[5], 12:[25,26] },
+    2026: { 1:[1,16], 2:[17], 3:[19,20,21], 4:[3], 5:[1,14,27,31], 6:[1,16], 8:[17,26], 12:[25] }
+  }
+};
+
+let currentCountry = '몽골';
+let currentYear = new Date().getFullYear();
+let currentMonth = new Date().getMonth() + 1;
+let scheduleData = {}; // { country: { 'YYYY-M': { rows: [{name, shifts:[]}] } } }
+let staffNum = 5;
+
+// ========== 유틸 ==========
+function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+function getColor(code) {
+  const cfg = COUNTRIES[currentCountry];
+  const idx = cfg.shiftCodes.indexOf(code);
+  if (idx < 0) return null;
+  return PALETTE[idx % PALETTE.length];
+}
+function applyCodeStyle(el, code) {
+  if (code === 'OFF' || !code) {
+    el.style.background = '#e5e7eb';
+    el.style.color = '#6b7280';
+  } else {
+    const c = getColor(code);
+    if (c) {
+      el.style.background = c.bg;
+      el.style.color = c.fg;
+    } else {
+      el.style.background = 'white';
+      el.style.color = '#1f2937';
+    }
+  }
+}
+
+// ========== 저장/불러오기 ==========
+const STORAGE_KEY = 'scheduleSimulator_v1';
+
+function saveAll() {
+  try {
+    const payload = {
+      countries: {},
+      scheduleData: scheduleData,
+      state: { currentCountry, currentYear, currentMonth, staffNum }
+    };
+    // 국가별 설정(코드, 타겟, 공휴일, 조건, 규칙)만 저장
+    Object.keys(COUNTRIES).forEach(c => {
+      const cfg = COUNTRIES[c];
+      payload.countries[c] = {
+        conditions: cfg.conditions,
+        holidays: cfg.holidays,
+        shiftCodes: cfg.shiftCodes,
+        targets: cfg.targets,
+        managerOnlyCodes: cfg.managerOnlyCodes,
+        priorityRules: cfg.priorityRules,
+        preventPrevNext: cfg.preventPrevNext,
+        forceOffAfter: cfg.forceOffAfter,
+        minOff: cfg.minOff,
+        maxConsecutive: cfg.maxConsecutive
+      };
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    alert('저장되었습니다.');
+  } catch (e) {
+    alert('저장 실패: ' + e.message);
+  }
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed.countries) {
+      Object.keys(parsed.countries).forEach(c => {
+        if (COUNTRIES[c]) Object.assign(COUNTRIES[c], parsed.countries[c]);
+      });
+    }
+    if (parsed.scheduleData) scheduleData = parsed.scheduleData;
+    if (parsed.state) {
+      currentCountry = parsed.state.currentCountry || currentCountry;
+      currentYear = parsed.state.currentYear || currentYear;
+      currentMonth = parsed.state.currentMonth || currentMonth;
+      staffNum = parsed.state.staffNum || staffNum;
+    }
+  } catch (e) {
+    console.error('저장 데이터 로드 실패:', e);
+  }
+}
+
+// ========== 초기화 ==========
+function init() {
+  loadAll();
+  const yearSel = document.getElementById('yearSel');
+  for (let y = 2024; y <= 2030; y++) {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y + '년';
+    yearSel.appendChild(opt);
+  }
+  yearSel.value = currentYear;
+
+  const monthSel = document.getElementById('monthSel');
+  for (let m = 1; m <= 12; m++) {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m + '월';
+    monthSel.appendChild(opt);
+  }
+  monthSel.value = currentMonth;
+
+  const tabs = document.getElementById('countryTabs');
+  Object.keys(COUNTRIES).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'country-tab' + (c === currentCountry ? ' active' : '');
+    btn.textContent = c;
+    btn.onclick = () => switchCountry(c);
+    tabs.appendChild(btn);
+  });
+
+  yearSel.onchange = () => { currentYear = +yearSel.value; renderAll(); };
+  monthSel.onchange = () => { currentMonth = +monthSel.value; renderAll(); };
+  const staffInput = document.getElementById('staffCount');
+  staffInput.value = staffNum;
+  staffInput.oninput = (e) => {
+    const v = parseInt(e.target.value);
+    if (!isNaN(v) && v >= 1 && v <= 20) { staffNum = v; rebuild(); }
+  };
+  document.getElementById('autoGenBtn').onclick = autoGenerate;
+  document.getElementById('clearBtn').onclick = clearSchedule;
+  document.getElementById('addCodeBtn').onclick = addCode;
+  document.getElementById('addHolidayBtn').onclick = addHoliday;
+  document.getElementById('fetchHolidayBtn').onclick = fetchHolidaysFromDB;
+  document.getElementById('saveBtn').onclick = saveAll;
+  document.getElementById('minOffInput').onchange = (e) => {
+    const v = Math.max(0, parseInt(e.target.value) || 0);
+    COUNTRIES[currentCountry].minOff = v;
+    e.target.value = v;
+  };
+  document.getElementById('maxConsecutiveInput').onchange = (e) => {
+    const v = Math.max(1, parseInt(e.target.value) || 6);
+    COUNTRIES[currentCountry].maxConsecutive = v;
+    e.target.value = v;
+    renderTable();
+  };
+  document.getElementById('conditionMemo').oninput = (e) => {
+    COUNTRIES[currentCountry].conditions = e.target.value;
+  };
+
+  renderAll();
+}
+
+function switchCountry(c) {
+  currentCountry = c;
+  document.querySelectorAll('.country-tab').forEach(el => {
+    el.classList.toggle('active', el.textContent === c);
+  });
+  renderAll();
+}
+
+function renderAll() {
+  const cfg = COUNTRIES[currentCountry];
+  if (cfg.minOff == null) cfg.minOff = 8;
+  if (cfg.maxConsecutive == null) cfg.maxConsecutive = 6;
+  document.getElementById('minOffInput').value = cfg.minOff;
+  document.getElementById('maxConsecutiveInput').value = cfg.maxConsecutive;
+  renderCodeList();
+  renderConditions();
+  renderTargetTable();
+  renderHolidays();
+  rebuild();
+}
+
+// ========== 근무코드 관리 ==========
+function renderCodeList() {
+  const cfg = COUNTRIES[currentCountry];
+  const container = document.getElementById('codeList');
+  container.innerHTML = '';
+
+  cfg.shiftCodes.forEach((code, idx) => {
+    const color = PALETTE[idx % PALETTE.length];
+    const chip = document.createElement('div');
+    chip.className = 'code-chip';
+
+    const box = document.createElement('span');
+    box.className = 'code-box';
+    box.style.background = color.bg;
+    box.style.color = color.fg;
+
+    const input = document.createElement('input');
+    input.className = 'code-name';
+    input.type = 'text';
+    input.value = code;
+    input.style.color = color.fg;
+    input.onchange = (e) => renameCode(idx, e.target.value.trim());
+    box.appendChild(input);
+    chip.appendChild(box);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'del-btn';
+    delBtn.textContent = '×';
+    delBtn.title = '삭제';
+    delBtn.onclick = () => deleteCode(idx);
+    chip.appendChild(delBtn);
+
+    container.appendChild(chip);
+  });
+
+  const offChip = document.createElement('span');
+  offChip.className = 'off-chip';
+  offChip.textContent = 'OFF (기본)';
+  container.appendChild(offChip);
+}
+
+function addCode() {
+  const cfg = COUNTRIES[currentCountry];
+  // 자동 코드명: X1, X2, ...
+  let i = 1;
+  let name;
+  do { name = 'X' + i; i++; } while (cfg.shiftCodes.includes(name));
+  cfg.shiftCodes.push(name);
+  cfg.targets[name] = [0, 0, 0, 0, 0, 0, 0];
+  renderCodeList();
+  renderTargetTable();
+  renderTable();
+}
+
+function renameCode(idx, newName) {
+  const cfg = COUNTRIES[currentCountry];
+  if (!newName) { renderCodeList(); return; }
+  const oldName = cfg.shiftCodes[idx];
+  if (oldName === newName) return;
+  if (cfg.shiftCodes.includes(newName) || newName === 'OFF') {
+    alert(`"${newName}"은(는) 이미 존재하거나 예약어입니다.`);
+    renderCodeList();
+    return;
+  }
+  cfg.shiftCodes[idx] = newName;
+  cfg.targets[newName] = cfg.targets[oldName];
+  delete cfg.targets[oldName];
+  // managerOnlyCodes, priorityRules에서도 이름 변경
+  cfg.managerOnlyCodes = cfg.managerOnlyCodes.map(c => c === oldName ? newName : c);
+  cfg.priorityRules.forEach(r => { if (r.code === oldName) r.code = newName; });
+  // 현재 스케줄 데이터 업데이트
+  Object.values(scheduleData[currentCountry] || {}).forEach(d => {
+    d.rows.forEach(r => {
+      r.shifts = r.shifts.map(s => s === oldName ? newName : s);
+    });
+  });
+  renderCodeList();
+  renderTargetTable();
+  renderTable();
+}
+
+function deleteCode(idx) {
+  const cfg = COUNTRIES[currentCountry];
+  const code = cfg.shiftCodes[idx];
+  if (!confirm(`"${code}" 근무코드를 삭제합니다. 스케줄 내 "${code}" 셀은 모두 OFF로 변경됩니다.`)) return;
+  cfg.shiftCodes.splice(idx, 1);
+  delete cfg.targets[code];
+  cfg.managerOnlyCodes = cfg.managerOnlyCodes.filter(c => c !== code);
+  cfg.priorityRules = cfg.priorityRules.filter(r => r.code !== code);
+  Object.values(scheduleData[currentCountry] || {}).forEach(d => {
+    d.rows.forEach(r => {
+      r.shifts = r.shifts.map(s => s === code ? 'OFF' : s);
+    });
+  });
+  renderCodeList();
+  renderTargetTable();
+  renderTable();
+}
+
+// ========== 조건 ==========
+function renderConditions() {
+  const cfg = COUNTRIES[currentCountry];
+  document.getElementById('conditionTitle').textContent = `** ${currentCountry} 조건 (메모) **`;
+  const memo = document.getElementById('conditionMemo');
+  const val = Array.isArray(cfg.conditions) ? cfg.conditions.join('\n') : (cfg.conditions || '');
+  memo.value = val;
+}
+
+// ========== 요일별 타겟 ==========
+function renderTargetTable() {
+  const cfg = COUNTRIES[currentCountry];
+  const tbl = document.getElementById('targetTable');
+  tbl.innerHTML = '';
+
+  const thead = document.createElement('thead');
+  const tr = document.createElement('tr');
+  const th0 = document.createElement('th');
+  th0.textContent = '근무코드';
+  tr.appendChild(th0);
+  DOW_DISPLAY_ORDER.forEach(i => {
+    const th = document.createElement('th');
+    th.textContent = DOW_LABELS[i];
+    tr.appendChild(th);
+  });
+  thead.appendChild(tr);
+  tbl.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  cfg.shiftCodes.forEach((code, cIdx) => {
+    const tr = document.createElement('tr');
+    const td0 = document.createElement('td');
+    td0.className = 'code-label';
+    const color = PALETTE[cIdx % PALETTE.length];
+    td0.style.background = color.bg;
+    td0.style.color = color.fg;
+    td0.textContent = code;
+    tr.appendChild(td0);
+
+    if (!cfg.targets[code]) cfg.targets[code] = [0, 0, 0, 0, 0, 0, 0];
+    DOW_DISPLAY_ORDER.forEach(i => {
+      const td = document.createElement('td');
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.value = cfg.targets[code][i];
+      input.onchange = (e) => {
+        const v = Math.max(0, parseInt(e.target.value) || 0);
+        cfg.targets[code][i] = v;
+        e.target.value = v;
+      };
+      td.appendChild(input);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+}
+
+// ========== 공휴일 편집 ==========
+function getHolidays(cfg, year, month) {
+  if (!cfg.holidays[year]) return [];
+  return cfg.holidays[year][month] || [];
+}
+function setHolidays(cfg, year, month, days) {
+  if (!cfg.holidays[year]) cfg.holidays[year] = {};
+  cfg.holidays[year][month] = days.slice().sort((a, b) => a - b);
+}
+
+function renderHolidays() {
+  const cfg = COUNTRIES[currentCountry];
+  const container = document.getElementById('holidayList');
+  container.innerHTML = '';
+  const list = getHolidays(cfg, currentYear, currentMonth);
+  if (list.length === 0) {
+    const span = document.createElement('span');
+    span.className = 'hint';
+    span.textContent = '이번 달 공휴일 없음 → [공휴일 자동 불러오기] 버튼 클릭';
+    container.appendChild(span);
+    return;
+  }
+  list.forEach(day => {
+    const chip = document.createElement('div');
+    chip.style.cssText = 'padding:4px 8px;background:#fecaca;color:#7f1d1d;border-radius:6px;font-size:12px;font-weight:600;display:inline-flex;gap:6px;align-items:center;';
+    chip.innerHTML = `${currentMonth}월 ${day}일`;
+    const del = document.createElement('button');
+    del.style.cssText = 'background:#b91c1c;color:white;border:none;border-radius:3px;width:16px;height:16px;cursor:pointer;font-size:11px;line-height:1;';
+    del.textContent = '×';
+    del.onclick = () => {
+      setHolidays(cfg, currentYear, currentMonth, list.filter(d => d !== day));
+      renderHolidays();
+      renderTable();
+    };
+    chip.appendChild(del);
+    container.appendChild(chip);
+  });
+}
+
+function addHoliday() {
+  const cfg = COUNTRIES[currentCountry];
+  const days = daysInMonth(currentYear, currentMonth);
+  const input = prompt(`${currentYear}년 ${currentMonth}월 공휴일 날짜를 입력하세요 (1~${days}, 쉼표로 여러 개 가능):`);
+  if (!input) return;
+  const newDays = input.split(',').map(s => parseInt(s.trim())).filter(n => n >= 1 && n <= days);
+  if (newDays.length === 0) return;
+  const existing = getHolidays(cfg, currentYear, currentMonth);
+  const merged = Array.from(new Set([...existing, ...newDays]));
+  setHolidays(cfg, currentYear, currentMonth, merged);
+  renderHolidays();
+  renderTable();
+}
+
+// 공식 공휴일 DB에서 현재 국가/년도/월 공휴일 불러오기
+function fetchHolidaysFromDB() {
+  const cfg = COUNTRIES[currentCountry];
+  const db = HOLIDAY_DB[currentCountry];
+  if (!db || !db[currentYear]) {
+    alert(`${currentCountry} ${currentYear}년 공휴일 데이터 없음. 수동 입력이 필요합니다.`);
+    return;
+  }
+  // 현재 월 공휴일만 덮어쓰기
+  const monthDays = db[currentYear][currentMonth] || [];
+  setHolidays(cfg, currentYear, currentMonth, monthDays);
+  renderHolidays();
+  renderTable();
+  if (monthDays.length === 0) {
+    alert(`${currentCountry} ${currentYear}년 ${currentMonth}월에는 공휴일 없음.`);
+  }
+}
+
+// ========== 스케줄 데이터 ==========
+function getData() {
+  if (!scheduleData[currentCountry]) scheduleData[currentCountry] = {};
+  const key = `${currentYear}-${currentMonth}`;
+  if (!scheduleData[currentCountry][key]) {
+    scheduleData[currentCountry][key] = { rows: buildDefaultRows() };
+  }
+  return scheduleData[currentCountry][key];
+}
+
+function buildDefaultRows() {
+  const days = daysInMonth(currentYear, currentMonth);
+  const rows = [];
+  rows.push({ name: '지점장', shifts: new Array(days).fill('OFF') });
+  for (let i = 0; i < staffNum - 1; i++) {
+    rows.push({ name: `직원 ${String.fromCharCode(65 + i)}`, shifts: new Array(days).fill('OFF') });
+  }
+  return rows;
+}
+
+function rebuild() {
+  const data = getData();
+  const days = daysInMonth(currentYear, currentMonth);
+  data.rows.forEach(r => {
+    if (r.shifts.length < days) r.shifts = r.shifts.concat(new Array(days - r.shifts.length).fill('OFF'));
+    if (r.shifts.length > days) r.shifts = r.shifts.slice(0, days);
+  });
+  while (data.rows.length < staffNum) {
+    const idx = data.rows.length - 1;
+    data.rows.push({
+      name: `직원 ${String.fromCharCode(65 + idx)}`,
+      shifts: new Array(days).fill('OFF')
+    });
+  }
+  while (data.rows.length > staffNum) data.rows.pop();
+  document.getElementById('staffCount').value = staffNum;
+  renderTable();
+}
+
+// ========== 스케줄 테이블 렌더 ==========
+function renderTable() {
+  const data = getData();
+  const cfg = COUNTRIES[currentCountry];
+  const days = daysInMonth(currentYear, currentMonth);
+  const holidays = getHolidays(cfg, currentYear, currentMonth);
+  const codes = cfg.shiftCodes;
+  const prevNextRules = cfg.preventPrevNext || [];
+
+  const table = document.getElementById('scheduleTable');
+  table.innerHTML = '';
+
+  // Header: 구분 | 1..days | 근무일수 (code별)
+  const thead = document.createElement('thead');
+  const tr1 = document.createElement('tr');
+  const th0 = document.createElement('th');
+  th0.className = 'label-col';
+  th0.textContent = '구분';
+  th0.rowSpan = 2;
+  tr1.appendChild(th0);
+
+  const tr2 = document.createElement('tr');
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(currentYear, currentMonth - 1, d).getDay();
+    const isHoliday = holidays.includes(d);
+    const th = document.createElement('th');
+    th.className = 'day-header';
+    if (isHoliday) th.classList.add('holiday');
+    th.textContent = d;
+    tr1.appendChild(th);
+
+    const th2 = document.createElement('th');
+    th2.className = 'day-header';
+    if (isHoliday) th2.classList.add('holiday');
+    th2.textContent = DOW_LABELS[dow];
+    tr2.appendChild(th2);
+  }
+  // 근무일수 - 각 코드별
+  codes.forEach((code, cIdx) => {
+    const th = document.createElement('th');
+    th.className = 'total-col';
+    th.textContent = code;
+    th.rowSpan = 2;
+    const color = PALETTE[cIdx % PALETTE.length];
+    th.style.background = color.bg;
+    th.style.color = color.fg;
+    tr1.appendChild(th);
+  });
+  // 계 (근무코드 합계)
+  const thSum = document.createElement('th');
+  thSum.className = 'total-col';
+  thSum.textContent = '계';
+  thSum.rowSpan = 2;
+  thSum.style.background = '#a7f3d0';
+  thSum.style.color = '#064e3b';
+  tr1.appendChild(thSum);
+  // OFF 합계
+  const thOff = document.createElement('th');
+  thOff.className = 'total-col';
+  thOff.textContent = 'OFF';
+  thOff.rowSpan = 2;
+  thOff.style.background = '#e5e7eb';
+  thOff.style.color = '#374151';
+  tr1.appendChild(thOff);
+  // 총 합계 (계 + OFF = 일수)
+  const thGrand = document.createElement('th');
+  thGrand.className = 'total-col';
+  thGrand.textContent = '총합';
+  thGrand.rowSpan = 2;
+  thGrand.style.background = '#93c5fd';
+  thGrand.style.color = '#1e3a8a';
+  tr1.appendChild(thGrand);
+
+  thead.appendChild(tr1);
+  thead.appendChild(tr2);
+  table.appendChild(thead);
+
+  // Body: 직원별
+  const tbody = document.createElement('tbody');
+  data.rows.forEach((row, rIdx) => {
+    const tr = document.createElement('tr');
+    const tdName = document.createElement('td');
+    tdName.className = 'label-col';
+    const nameInput = document.createElement('input');
+    nameInput.className = 'employee-name-input';
+    nameInput.value = row.name;
+    nameInput.onchange = (e) => { row.name = e.target.value; };
+    tdName.appendChild(nameInput);
+    tr.appendChild(tdName);
+
+    row.shifts.forEach((s, dIdx) => {
+      const td = document.createElement('td');
+      applyCodeStyle(td, s);
+
+      // preventPrevNext 위반 체크
+      const prev = dIdx > 0 ? row.shifts[dIdx - 1] : 'OFF';
+      const pnViolation = prevNextRules.some(rule =>
+        rule.prev === prev && rule.next === s &&
+        !(rule.exempt || []).includes(rIdx)
+      );
+
+      // forceOffAfter 위반: 전날이 forceOffAfter 코드였는데 오늘이 OFF가 아님
+      const forceOffCodes = cfg.forceOffAfter || [];
+      const foViolation = forceOffCodes.includes(prev) && s !== 'OFF';
+
+      // 연속근무 위반 체크: 이 날 포함 streak > maxConsec
+      let streak = 0;
+      if (s !== 'OFF') {
+        for (let k = dIdx; k >= 0; k--) {
+          if (row.shifts[k] !== 'OFF') streak++;
+          else break;
+        }
+      }
+      const maxC = cfg.maxConsecutive != null ? cfg.maxConsecutive : 6;
+      const streakViolation = streak > maxC;
+
+      if (pnViolation || streakViolation || foViolation) {
+        td.style.boxShadow = 'inset 0 0 0 3px #ef4444';
+        const reasons = [];
+        if (pnViolation) reasons.push(`${prev} → ${s} 연속 금지`);
+        if (foViolation) reasons.push(`${prev} 다음날 OFF 필수`);
+        if (streakViolation) reasons.push(`연속근무 ${streak}일 (최대 ${maxC})`);
+        td.title = '⚠️ ' + reasons.join(' / ');
+      }
+
+      const sel = document.createElement('select');
+      sel.className = 'shift-select';
+      ['OFF', ...codes].forEach(v => {
+        const o = document.createElement('option');
+        o.value = v; o.textContent = v;
+        if (v === s) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.onchange = (e) => {
+        row.shifts[dIdx] = e.target.value;
+        renderTable();
+      };
+      td.appendChild(sel);
+      tr.appendChild(td);
+    });
+
+    codes.forEach(code => {
+      const td = document.createElement('td');
+      td.className = 'total-col';
+      td.dataset.totalRow = rIdx;
+      td.dataset.totalCode = code;
+      td.textContent = row.shifts.filter(x => x === code).length;
+      tr.appendChild(td);
+    });
+    // 계 (근무코드 합계)
+    const codeSum = row.shifts.filter(x => codes.includes(x)).length;
+    const tdSum = document.createElement('td');
+    tdSum.className = 'total-col';
+    tdSum.dataset.totalRow = rIdx;
+    tdSum.dataset.totalCode = '__SUM__';
+    tdSum.style.background = '#d1fae5';
+    tdSum.style.color = '#064e3b';
+    tdSum.textContent = codeSum;
+    tr.appendChild(tdSum);
+    // OFF
+    const offSum = row.shifts.filter(x => x === 'OFF' || !codes.includes(x)).length;
+    const tdOff = document.createElement('td');
+    tdOff.className = 'total-col';
+    tdOff.dataset.totalRow = rIdx;
+    tdOff.dataset.totalCode = '__OFF__';
+    tdOff.style.background = '#f3f4f6';
+    tdOff.style.color = '#374151';
+    tdOff.textContent = offSum;
+    tr.appendChild(tdOff);
+    // 총합
+    const tdGrand = document.createElement('td');
+    tdGrand.className = 'total-col';
+    tdGrand.dataset.totalRow = rIdx;
+    tdGrand.dataset.totalCode = '__GRAND__';
+    tdGrand.style.background = '#dbeafe';
+    tdGrand.style.color = '#1e3a8a';
+    tdGrand.textContent = codeSum + offSum;
+    tr.appendChild(tdGrand);
+    tbody.appendChild(tr);
+  });
+
+  // Summary rows: 근무인원 / 각 코드별 / 휴무인원 / 총 인원
+  const sumRows = [
+    { label: '근무인원', type: 'working', cls: 'summary-work' },
+    ...codes.map(c => ({ label: c, type: 'code:' + c, cls: 'summary', codeIdx: codes.indexOf(c) })),
+    { label: '휴무인원', type: 'off', cls: 'summary' },
+    { label: '총 인원', type: 'total', cls: 'summary-total' }
+  ];
+
+  sumRows.forEach(sr => {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.className = 'label-col';
+    td.textContent = sr.label;
+    if (sr.codeIdx !== undefined) {
+      const color = PALETTE[sr.codeIdx % PALETTE.length];
+      td.style.background = color.bg;
+      td.style.color = color.fg;
+    }
+    tr.appendChild(td);
+
+    for (let d = 0; d < days; d++) {
+      const tdd = document.createElement('td');
+      tdd.className = sr.cls;
+      tdd.dataset.sumType = sr.type;
+      tdd.dataset.dayIdx = d;
+      tr.appendChild(tdd);
+    }
+    // 우측 코드 수 + 계 + OFF + 총합 만큼 빈 칸
+    for (let k = 0; k < codes.length + 3; k++) {
+      const td = document.createElement('td');
+      td.className = 'total-col';
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
+  updateSummaries();
+}
+
+function updateSummaries() {
+  const data = getData();
+  const cfg = COUNTRIES[currentCountry];
+  const days = daysInMonth(currentYear, currentMonth);
+  const codes = cfg.shiftCodes;
+
+  for (let d = 0; d < days; d++) {
+    let working = 0, off = 0;
+    const byCode = {};
+    codes.forEach(c => byCode[c] = 0);
+    data.rows.forEach(r => {
+      const s = r.shifts[d];
+      if (s === 'OFF' || !codes.includes(s)) off++;
+      else { byCode[s]++; working++; }
+    });
+    setSum('working', d, working);
+    codes.forEach(c => setSum('code:' + c, d, byCode[c]));
+    setSum('off', d, off);
+    setSum('total', d, data.rows.length);
+  }
+
+  data.rows.forEach((r, rIdx) => {
+    codes.forEach(code => {
+      const cell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="${code}"]`);
+      if (cell) cell.textContent = r.shifts.filter(x => x === code).length;
+    });
+    const codeSum = r.shifts.filter(x => codes.includes(x)).length;
+    const offSum = r.shifts.filter(x => !codes.includes(x)).length;
+    const sumCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__SUM__"]`);
+    const offCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__OFF__"]`);
+    const grandCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__GRAND__"]`);
+    if (sumCell) sumCell.textContent = codeSum;
+    if (offCell) offCell.textContent = offSum;
+    if (grandCell) grandCell.textContent = codeSum + offSum;
+  });
+}
+
+function setSum(type, d, v) {
+  const cell = document.querySelector(`[data-sum-type="${CSS.escape(type)}"][data-day-idx="${d}"]`);
+  if (cell) cell.textContent = v;
+}
+
+function clearSchedule() {
+  if (!confirm('현재 국가/월 스케줄을 모두 OFF로 초기화할까요?')) return;
+  const data = getData();
+  const days = daysInMonth(currentYear, currentMonth);
+  data.rows.forEach(r => { r.shifts = new Array(days).fill('OFF'); });
+  renderTable();
+}
+
+// ========== 자동 생성 ==========
+function autoGenerate() {
+  const data = getData();
+  const cfg = COUNTRIES[currentCountry];
+  const days = daysInMonth(currentYear, currentMonth);
+  const rows = data.rows;
+  if (rows.length === 0) return;
+
+  const isMgr = (i) => i === 0;
+  const codes = cfg.shiftCodes;
+  const minOff = cfg.minOff != null ? cfg.minOff : 8;
+  const maxWork = Math.max(0, days - minOff);
+  const maxConsec = cfg.maxConsecutive != null ? cfg.maxConsecutive : 6;
+
+  rows.forEach(r => r.shifts = new Array(days).fill('OFF'));
+
+  const cnt = rows.map(() => {
+    const o = { work: 0 };
+    codes.forEach(c => o[c] = 0);
+    return o;
+  });
+  const prevShift = (i, d) => d > 0 ? rows[i].shifts[d - 1] : 'OFF';
+  // d 직전까지 연속 근무일수 (오늘 제외)
+  const streakBefore = (i, d) => {
+    let c = 0;
+    for (let k = d - 1; k >= 0; k--) {
+      if (rows[i].shifts[k] !== 'OFF') c++;
+      else break;
+    }
+    return c;
+  };
+
+  const orderedCodes = [
+    ...codes.filter(c => cfg.managerOnlyCodes.includes(c)),
+    ...codes.filter(c => !cfg.managerOnlyCodes.includes(c))
+  ];
+
+  // ===== Phase 1: managerOnly 코드 사전 배정 (지점장이 AP 등을 먼저 점유) =====
+  // 지점장(idx 0)은 관리자 전용 코드를 고정적으로 받아 둠 → 앞/뒤 날 충돌 방지
+  cfg.managerOnlyCodes.forEach(code => {
+    if (!codes.includes(code)) return;
+    for (let d = 0; d < days; d++) {
+      const dow = new Date(currentYear, currentMonth - 1, d + 1).getDay();
+      const need = cfg.targets[code] ? (cfg.targets[code][dow] || 0) : 0;
+      if (need > 0 && rows[0] && rows[0].shifts[d] === 'OFF') {
+        // 전날 관계 사전 체크: preventPrevNext 위반이면 건너뜀 (d>0일 때만)
+        const prevOk = d === 0 || !(cfg.preventPrevNext || []).some(r =>
+          r.next === code && r.prev === rows[0].shifts[d - 1] &&
+          !(r.exempt || []).includes(0)
+        );
+        if (!prevOk) continue;
+        rows[0].shifts[d] = code;
+        cnt[0][code]++;
+        cnt[0].work++;
+      }
+    }
+  });
+
+  // 일반 코드 후보 look-ahead 필터: 오늘 code 배정 시 내일 이미 있는 코드와 preventPrevNext 충돌하면 제외
+  const lookAheadOk = (i, d, code) => {
+    if (d + 1 >= days) return true;
+    const tomorrow = rows[i].shifts[d + 1];
+    if (tomorrow === 'OFF') return true;
+    return !(cfg.preventPrevNext || []).some(r =>
+      r.prev === code && r.next === tomorrow &&
+      !(r.exempt || []).includes(i)
+    );
+  };
+
+  const sortCandidates = (list, code) => {
+    list.sort((x, y) => {
+      const prio = cfg.priorityRules.find(r => r.code === code);
+      if (prio) {
+        const xp = (x === prio.employeeIdx) ? -1 : 0;
+        const yp = (y === prio.employeeIdx) ? -1 : 0;
+        if (xp !== yp) return xp - yp;
+      }
+      if (cnt[x][code] !== cnt[y][code]) return cnt[x][code] - cnt[y][code];
+      return cnt[x].work - cnt[y].work;
+    });
+  };
+
+  for (let d = 0; d < days; d++) {
+    const date = new Date(currentYear, currentMonth - 1, d + 1);
+    const dow = date.getDay();
+
+    orderedCodes.forEach(code => {
+      const baseTarget = cfg.targets[code] ? (cfg.targets[code][dow] || 0) : 0;
+      // 이미 해당 날짜 해당 코드가 배정된 수만큼 차감 (Phase 1 pre-seed 포함)
+      const already = rows.filter(r => r.shifts[d] === code).length;
+      const need = Math.max(0, baseTarget - already);
+      if (need <= 0) return;
+
+      // 구조적 필터(완화 불가): 오늘 아직 미배정 + managerOnlyCodes + forceOffAfter + look-ahead
+      let structural = rows.map((_, i) => i).filter(i => rows[i].shifts[d] === 'OFF');
+      if (cfg.managerOnlyCodes.includes(code)) {
+        structural = structural.filter(i => isMgr(i));
+      }
+      if (d > 0 && (cfg.forceOffAfter || []).length > 0) {
+        structural = structural.filter(i => !cfg.forceOffAfter.includes(rows[i].shifts[d - 1]));
+      }
+      // look-ahead: 오늘 code 배정 시 내일(이미 확정된 AP 등)과 preventPrevNext 충돌하면 제외
+      structural = structural.filter(i => lookAheadOk(i, d, code));
+
+      const pnRule = (cfg.preventPrevNext || []).find(r => r.next === code);
+      const pnOk = (i) => !pnRule
+        || (pnRule.exempt || []).includes(i)
+        || prevShift(i, d) !== pnRule.prev;
+      const streakOk = (i) => streakBefore(i, d) < maxConsec;
+      const minOffOk = (i) => cnt[i].work < maxWork;
+
+      // 계층: 1=모두 준수, 2=P→A 위반만, 3=연속근무 초과, 4=최소OFF 초과
+      // 타겟 인원을 필수로 채우되, 위 순서대로 최소한 위반만 허용
+      const tier1 = structural.filter(i => pnOk(i) && streakOk(i) && minOffOk(i));
+      const tier2 = structural.filter(i => !pnOk(i) && streakOk(i) && minOffOk(i));
+      const tier3 = structural.filter(i => !streakOk(i) && minOffOk(i));
+      const tier4 = structural.filter(i => !minOffOk(i));
+
+      [tier1, tier2, tier3, tier4].forEach(t => sortCandidates(t, code));
+
+      const picked = [];
+      for (const tier of [tier1, tier2, tier3, tier4]) {
+        for (const i of tier) {
+          if (picked.length >= need) break;
+          picked.push(i);
+        }
+        if (picked.length >= need) break;
+      }
+
+      picked.forEach(i => {
+        rows[i].shifts[d] = code;
+        cnt[i][code]++;
+        cnt[i].work++;
+      });
+    });
+  }
+
+  renderTable();
+}
+
+init();
+</script>
+</body>
+</html>
