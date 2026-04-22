@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>XRP Alliance · D'CENT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000; --panel:#0C0E17; --panel-2:#12151F;
+    --ink:#FAFBFF; --ink-1:#C6CCDC; --ink-2:#7C8297; --ink-3:#434959;
+    --xrp:#23A3E0; --xrp-hi:#5DDCFF; --xrp-lo:#006097;
+    --gold:#E0B768; --gold-hi:#F4CE7B;
+    --green:#7FEAB2; --red:#FF7A7A;
+    --rule:rgba(255,255,255,.08);
+    --rule-hi:rgba(93,220,255,.25);
+    --rule-gold:rgba(224,183,104,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    background:#000;
+    color:var(--ink);
+    font-family:'Pretendard','Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.5;letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  /* Mobile shell */
+  .shell{
+    max-width:480px;margin:0 auto;background:#000;min-height:100vh;position:relative;overflow:hidden;
+  }
+
+  /* ==================== HERO ==================== */
+  .hero{
+    position:relative;padding:76px 22px 44px;
+    background:
+      radial-gradient(ellipse 100% 70% at 50% 45%, rgba(35,163,224,.38), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 85% 20%, rgba(93,220,255,.22), transparent 62%),
+      radial-gradient(ellipse 50% 30% at 15% 80%, rgba(35,163,224,.14), transparent 62%),
+      linear-gradient(180deg, #01040C 0%, #050812 100%);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.9;
+    background-image:
+      radial-gradient(1.4px 1.4px at 16% 18%, #fff 50%, transparent 100%),
+      radial-gradient(1px 1px at 72% 12%, rgba(255,255,255,.9), transparent 100%),
+      radial-gradient(1.8px 1.8px at 90% 42%, rgba(93,220,255,1), transparent 100%),
+      radial-gradient(1px 1px at 32% 56%, #fff, transparent 100%),
+      radial-gradient(2.2px 2.2px at 82% 76%, rgba(93,220,255,.8), transparent 100%),
+      radial-gradient(1px 1px at 12% 68%, rgba(255,255,255,.85), transparent 100%),
+      radial-gradient(1.2px 1.2px at 55% 28%, rgba(93,220,255,.9), transparent 100%),
+      radial-gradient(1px 1px at 45% 82%, rgba(255,255,255,.6), transparent 100%),
+      radial-gradient(1.3px 1.3px at 62% 60%, rgba(93,220,255,.7), transparent 100%);
+    animation:twinkle 6s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:.9}
+    50%{opacity:.55}
+  }
+  .hero-glow{
+    position:absolute;top:24%;right:-60px;width:300px;height:300px;
+    background:radial-gradient(circle at 40% 40%, rgba(93,220,255,.55), rgba(35,163,224,.18) 42%, transparent 72%);
+    filter:blur(28px);pointer-events:none;z-index:1;
+    animation:pulse-glow 5s ease-in-out infinite;
+  }
+  @keyframes pulse-glow{
+    0%,100%{opacity:.55;transform:scale(1)}
+    50%{opacity:.9;transform:scale(1.1)}
+  }
+  .hero-x{
+    position:absolute;top:50%;right:-50px;transform:translateY(-50%);
+    width:340px;height:290px;
+    color:var(--xrp-hi);opacity:.07;
+    pointer-events:none;z-index:1;
+    animation:drift 14s ease-in-out infinite;
+  }
+  @keyframes drift{
+    0%,100%{transform:translateY(-50%) translateX(0)}
+    50%{transform:translateY(-48%) translateX(-14px)}
+  }
+  .hero-inner{position:relative;z-index:2}
+  .season-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 13px;border-radius:99px;
+    background:rgba(127,234,178,.08);border:1px solid rgba(127,234,178,.32);
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--green);text-transform:uppercase;font-weight:600;
+    margin-bottom:22px;
+    box-shadow:0 0 20px rgba(127,234,178,.12);
+  }
+  .season-badge .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);box-shadow:0 0 8px var(--green);
+    animation:blink 1.8s ease-in-out infinite;
+  }
+  .hero h1{
+    font-size:46px;font-weight:300;letter-spacing:-.048em;line-height:1;
+    color:var(--ink);margin-bottom:18px;
+  }
+  .hero h1 em{
+    font-style:normal;font-weight:400;
+    background:linear-gradient(120deg,#5DDCFF 0%,#23A3E0 60%,#5DDCFF 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-tag{
+    font-size:14.5px;color:var(--ink-1);line-height:1.7;margin-bottom:22px;
+    max-width:560px;
+  }
+  .hero-tag b{color:var(--ink);font-weight:600}
+  .hero-kicker{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.2em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+    margin-top:20px;display:flex;align-items:center;gap:8px;
+  }
+  .hero-kicker::before{
+    content:'';width:18px;height:1px;background:currentColor;opacity:.6;
+  }
+
+  /* Hub category tags */
+  .hub-tags{
+    display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;
+  }
+  .hub-tags span{
+    padding:5px 10px;border-radius:7px;
+    background:rgba(93,220,255,.05);border:1px solid rgba(93,220,255,.18);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+    color:var(--ink-1);text-transform:uppercase;font-weight:500;
+  }
+  .hub-tags span.dim{
+    color:var(--ink-3);border-color:var(--rule);background:transparent;
+  }
+  .hub-tags span.accent{
+    color:#F4CE7B;border-color:rgba(244,206,123,.4);
+    background:rgba(244,206,123,.08);font-weight:600;
+  }
+  .hero-actions{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .btn-learn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 20px;background:#fff;color:#000;
+    border-radius:99px;font-size:14px;font-weight:600;
+    text-decoration:none;transition:all .2s;
+  }
+  .btn-learn:hover{background:var(--xrp-hi);transform:translateY(-1px)}
+  .hero-cd{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;margin-top:14px;margin-left:10px;
+    border-radius:99px;background:rgba(0,0,0,.4);
+    border:1px solid var(--rule);
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.18em;
+    color:var(--ink-1);text-transform:uppercase;
+  }
+  .hero-cd b{color:var(--xrp-hi);font-weight:600}
+  .hero-cd .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--xrp-hi);box-shadow:0 0 8px var(--xrp-hi);
+    animation:blink 1.8s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* ==================== HARDWARE CARD ==================== */
+  .card-hw{
+    position:relative;margin:20px 18px 16px;
+    border-radius:20px;overflow:hidden;
+    background:
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(93,220,255,.18), transparent 60%),
+      linear-gradient(140deg, #0A1624 0%, #070A14 65%);
+    border:1px solid rgba(93,220,255,.28);
+    padding:24px 22px;
+  }
+  .card-hw::after{
+    content:'';position:absolute;top:-40px;right:-36px;width:180px;height:150px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 424' fill='%235DDCFF'><path d='M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z'/><path d='M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z'/></svg>");
+    background-size:contain;background-repeat:no-repeat;opacity:.07;pointer-events:none;
+  }
+  .card-hw>*{position:relative;z-index:1}
+  .card-hw h3{
+    font-size:22px;font-weight:500;letter-spacing:-.03em;line-height:1.25;
+    color:var(--ink);margin-bottom:10px;
+  }
+  .card-hw h3 em{
+    font-style:normal;
+    background:linear-gradient(120deg, #5DDCFF, #23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-weight:600;
+  }
+  .card-hw p{
+    font-size:13.5px;color:var(--ink-1);line-height:1.6;margin-bottom:18px;
+    max-width:320px;
+  }
+  .hw-bonuses{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+  .hw-bonus{
+    padding:6px 10px;border-radius:7px;
+    background:rgba(93,220,255,.08);border:1px solid rgba(93,220,255,.26);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+  }
+  .hw-grid{
+    display:flex;flex-direction:column;gap:8px;margin-bottom:20px;
+    border-top:1px solid rgba(93,220,255,.15);padding-top:16px;
+  }
+  .hw-row{
+    display:grid;grid-template-columns:90px 1fr;gap:14px;align-items:center;
+    padding:10px 0;
+  }
+  .hw-row+.hw-row{border-top:1px dashed rgba(255,255,255,.06)}
+  .hw-row-v{
+    font-family:'Geist Mono',monospace;font-size:18px;font-weight:600;
+    letter-spacing:-.01em;line-height:1;
+    background:linear-gradient(120deg,#5DDCFF,#23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    text-align:center;
+  }
+  .hw-row-v.sm{font-size:13px}
+  .hw-row-body b{
+    display:block;font-size:14px;font-weight:600;color:var(--ink);
+    letter-spacing:-.01em;line-height:1.3;margin-bottom:2px;
+  }
+  .hw-row-body small{
+    display:block;font-size:12px;color:var(--ink-2);font-weight:400;
+    letter-spacing:-.005em;line-height:1.4;
+  }
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 18px;border-radius:9px;
+    background:#fff;color:#000;
+    font-size:13.5px;font-weight:700;text-decoration:none;
+    transition:all .2s;
+  }
+  .btn-primary:hover{background:var(--xrp-hi);transform:translateY(-1px);box-shadow:0 10px 24px rgba(93,220,255,.3)}
+  .btn-primary .arr{transition:transform .2s}
+  .btn-primary:hover .arr{transform:translateX(3px)}
+
+  /* ==================== REFERRAL CARD ==================== */
+  .card-ref{
+    margin:0 18px 24px;border-radius:18px;
+    background:linear-gradient(135deg, rgba(35,163,224,.1), rgba(10,12,22,.9));
+    border:1px solid rgba(93,220,255,.24);
+    padding:22px;position:relative;overflow:hidden;
+  }
+  .chip-blue{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 11px;border-radius:99px;
+    background:rgba(93,220,255,.08);border:1px solid rgba(93,220,255,.3);
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+    margin-bottom:14px;
+  }
+  .card-ref h3{
+    font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.3;
+    color:var(--ink);margin-bottom:8px;
+  }
+  .card-ref h3 em{font-style:normal;color:var(--xrp-hi);font-weight:600}
+  .card-ref p{
+    font-size:13px;color:var(--ink-1);line-height:1.6;margin-bottom:16px;
+  }
+  .ref-rewards{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;
+    padding:14px 12px;background:rgba(0,0,0,.35);border-radius:12px;
+    margin-bottom:16px;border:1px solid var(--rule);
+  }
+  .ref-col{text-align:center}
+  .ref-col b{
+    display:block;font-family:'Geist Mono',monospace;font-size:15px;
+    color:var(--xrp-hi);font-weight:600;letter-spacing:-.01em;
+  }
+  .ref-col span{
+    display:block;font-family:'Geist Mono',monospace;font-size:9.5px;
+    letter-spacing:.15em;color:var(--ink-2);text-transform:uppercase;
+    margin-top:3px;
+  }
+  .ref-arr{color:var(--xrp);font-size:22px;font-weight:200;line-height:1}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:11px 16px;border-radius:9px;
+    background:rgba(255,255,255,.04);color:var(--ink);
+    border:1px solid rgba(93,220,255,.28);
+    font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;
+  }
+  .btn-ghost:hover{border-color:var(--xrp-hi);color:var(--xrp-hi)}
+
+  /* ==================== HEXA STACK ==================== */
+  .hexa{margin:28px 18px}
+  .hexa-head{text-align:center;margin-bottom:20px}
+  .hexa-head .kicker{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+    display:block;margin-bottom:10px;
+  }
+  .hexa-head h2{
+    font-size:22px;font-weight:400;letter-spacing:-.03em;line-height:1.2;
+    color:var(--ink);
+  }
+  .hexa-head h2 em{
+    font-style:normal;
+    background:linear-gradient(120deg,#5DDCFF,#23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-weight:500;
+  }
+  .hexa-head p{
+    font-size:13px;color:var(--ink-2);margin-top:8px;line-height:1.55;
+  }
+  .stack-list{display:flex;flex-direction:column;gap:6px}
+  .st{
+    display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+    padding:14px 16px;border-radius:11px;
+    background:var(--panel);border:1px solid var(--rule);
+    transition:all .2s;
+  }
+  .st:hover{border-color:var(--rule-hi);transform:translateX(2px)}
+  .st-n{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.18em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+  }
+  .st-body b{
+    display:block;font-size:14px;font-weight:600;color:var(--ink);
+    letter-spacing:-.01em;line-height:1.3;
+  }
+  .st-body small{
+    display:block;font-size:11.5px;color:var(--ink-2);font-weight:400;
+    margin-top:3px;letter-spacing:-.005em;
+  }
+  .st-v{
+    font-family:'Geist Mono',monospace;font-size:11.5px;letter-spacing:.06em;
+    color:var(--ink);font-weight:600;white-space:nowrap;text-transform:uppercase;
+  }
+  .st-total{
+    position:relative;margin-top:10px;padding:20px 20px;
+    border-radius:13px;overflow:hidden;
+    background:
+      radial-gradient(ellipse at top right, rgba(93,220,255,.2), transparent 60%),
+      linear-gradient(135deg, rgba(35,163,224,.14), rgba(10,12,20,.92));
+    border:1px solid rgba(93,220,255,.3);
+    display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;
+    box-shadow:0 0 30px rgba(93,220,255,.1);
+  }
+  .st-total::before{
+    content:'';position:absolute;top:-20px;right:-20px;width:160px;height:140px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 424' fill='%235DDCFF'><path d='M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z'/><path d='M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z'/></svg>");
+    background-size:contain;background-repeat:no-repeat;opacity:.08;pointer-events:none;
+  }
+  .st-total>*{position:relative;z-index:1}
+  .st-total-k{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+  }
+  .st-total-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .st-total-v{
+    font-weight:300;font-size:26px;letter-spacing:-.04em;line-height:1;
+    background:linear-gradient(120deg,#F8FAFF 0%,#5DDCFF 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .st-total-sub{
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;
+    color:var(--ink-1);text-transform:uppercase;font-weight:500;
+  }
+
+  /* ==================== PARTNERS ==================== */
+  .partners{padding:24px 18px 20px}
+  .partners-head{text-align:center;margin-bottom:22px}
+  .partners-head .kicker{
+    font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+    display:block;margin-bottom:10px;
+  }
+  .partners-head h2{
+    font-size:22px;font-weight:500;letter-spacing:-.025em;line-height:1.25;
+    margin-bottom:8px;
+  }
+  .partners-head .tagline{
+    font-family:'Geist Mono',monospace;font-size:14px;letter-spacing:.08em;
+    background:linear-gradient(120deg,#5DDCFF,#23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    text-transform:uppercase;font-weight:600;
+    margin-top:4px;
+  }
+  .partner-filter{
+    display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;
+    -ms-overflow-style:none;scrollbar-width:none;padding-bottom:4px;
+  }
+  .partner-filter::-webkit-scrollbar{display:none}
+  .pf{
+    padding:7px 12px;border-radius:99px;flex-shrink:0;
+    background:rgba(255,255,255,.03);border:1px solid var(--rule);
+    font-size:12px;font-weight:500;color:var(--ink-1);
+    cursor:pointer;transition:all .2s;white-space:nowrap;
+  }
+  .pf.active{background:rgba(93,220,255,.1);border-color:rgba(93,220,255,.35);color:var(--xrp-hi)}
+  .pf b{font-family:'Geist Mono',monospace;font-size:10.5px;margin-left:4px;opacity:.7}
+
+  .partner-list{display:flex;flex-direction:column;gap:10px}
+  .p-card{
+    position:relative;background:var(--panel);border:1px solid var(--rule);
+    border-radius:14px;padding:16px;transition:all .2s;
+  }
+  .p-card.live{
+    background:linear-gradient(180deg,rgba(93,220,255,.05),rgba(10,12,20,.95));
+    border-color:rgba(93,220,255,.24);
+  }
+  .p-card.ended{opacity:.6}
+  .p-card.soon,.p-card.locked{border-style:dashed;border-color:rgba(255,255,255,.1)}
+  .p-head{
+    display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;
+  }
+  .p-logo{
+    width:44px;height:44px;border-radius:11px;
+    background:#fff;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;flex-shrink:0;
+  }
+  .p-logo img{max-width:74%;max-height:74%;object-fit:contain;display:block}
+  .p-card.soon .p-logo,.p-card.locked .p-logo{
+    background:rgba(255,255,255,.03);border:1px solid var(--rule);
+    color:var(--ink-3);
+  }
+  .p-card.soon .p-logo svg,.p-card.locked .p-logo svg{width:18px;height:18px}
+  .p-info{min-width:0}
+  .p-name{
+    font-size:15px;font-weight:600;color:var(--ink);
+    letter-spacing:-.01em;line-height:1.25;
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  }
+  .p-cat{
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.16em;
+    color:var(--ink-2);text-transform:uppercase;font-weight:500;
+    margin-top:4px;
+  }
+  .p-badge{
+    padding:4px 9px;border-radius:5px;
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;
+    text-transform:uppercase;font-weight:600;white-space:nowrap;flex-shrink:0;
+  }
+  .p-badge.live{background:rgba(127,234,178,.08);border:1px solid rgba(127,234,178,.3);color:var(--green)}
+  .p-badge.ended{background:rgba(255,255,255,.04);border:1px solid var(--rule);color:var(--ink-2)}
+  .p-badge.soon{background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.26);color:var(--xrp-hi)}
+  .p-badge.locked{background:rgba(255,255,255,.02);border:1px solid var(--rule);color:var(--ink-3)}
+
+  .p-body{margin-top:14px}
+  .p-benefit{
+    font-size:13px;color:var(--ink);font-weight:500;letter-spacing:-.005em;
+    line-height:1.5;margin-bottom:10px;
+  }
+  .p-card.soon .p-benefit,.p-card.locked .p-benefit,.p-card.ended .p-benefit{color:var(--ink-2)}
+  .p-progress{
+    display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+    margin-bottom:12px;
+  }
+  .p-bar{
+    height:6px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden;
+  }
+  .p-bar-fill{
+    height:100%;border-radius:99px;
+    background:linear-gradient(90deg,#23A3E0,#5DDCFF);
+    width:0;transition:width .8s cubic-bezier(.22,1,.36,1);
+  }
+  .p-card.ended .p-bar-fill{background:rgba(255,255,255,.15)}
+  .p-bar-txt{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    color:var(--ink-1);font-weight:500;white-space:nowrap;
+  }
+  .p-bar-txt b{color:var(--ink)}
+  .p-footer{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    padding-top:10px;border-top:1px solid var(--rule);
+  }
+  .p-rewards{display:flex;gap:6px;flex-wrap:wrap}
+  .p-rw{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:4px 9px;border-radius:6px;
+    background:rgba(255,255,255,.03);border:1px solid var(--rule);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;
+    color:var(--ink-1);text-transform:uppercase;font-weight:600;
+  }
+  .p-rw.xrp{background:rgba(93,220,255,.07);border-color:rgba(93,220,255,.26);color:var(--xrp-hi)}
+  .p-rw.gold{background:rgba(224,183,104,.06);border-color:rgba(224,183,104,.25);color:var(--gold-hi)}
+  .p-arr{color:var(--ink-3);font-size:18px;line-height:1}
+
+  /* Divider */
+  .section-div{
+    display:flex;align-items:center;gap:12px;
+    margin:24px 18px 14px;
+  }
+  .section-div::before,.section-div::after{
+    content:'';flex:1;height:1px;background:var(--rule);
+  }
+  .section-div span{
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
+    color:var(--ink-3);text-transform:uppercase;font-weight:600;
+  }
+
+  /* ==================== FOOTER NOTE ==================== */
+  .foot-note{
+    margin:24px 18px 40px;padding:14px 16px;
+    background:var(--panel);border:1px solid var(--rule);
+    border-radius:12px;
+    display:flex;gap:10px;align-items:center;
+    font-size:12px;color:var(--ink-2);cursor:pointer;
+    transition:border-color .2s;
+  }
+  .foot-note:hover{border-color:var(--rule-hi)}
+  .foot-note .q{
+    width:20px;height:20px;border-radius:50%;
+    background:rgba(93,220,255,.1);color:var(--xrp-hi);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;flex-shrink:0;
+    border:1px solid rgba(93,220,255,.24);
+  }
+  .foot-note .arr-r{margin-left:auto;color:var(--ink-3);font-size:16px}
+
+  /* Desktop wrap */
+  @media (min-width:720px){
+    body{
+      background:
+        radial-gradient(ellipse 50% 40% at 15% 25%, rgba(35,163,224,.08), transparent 60%),
+        radial-gradient(ellipse 35% 25% at 85% 75%, rgba(35,163,224,.05), transparent 60%),
+        #000;
+      padding:40px 20px;
+    }
+    .shell{
+      border-radius:28px;
+      box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+    }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="rippleX" viewBox="0 0 512 424">
+      <path d="M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z"/>
+      <path d="M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z"/>
+    </symbol>
+    <symbol id="lock" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="shell">
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <svg class="hero-x" aria-hidden="true"><use href="#rippleX"/></svg>
+    <div class="hero-inner">
+      <span class="season-badge">
+        <span class="dot"></span>
+        Season 1 · Live Now
+      </span>
+      <h1>XRP를 D'CENT에 두면<br><em>달라집니다.</em></h1>
+      <p class="hero-tag">거래소 지갑에 묶어두지 마세요. 출금 수수료 비싼 지갑에 방치하지도 마세요. D'CENT은 <b>XRP 생태계의 허브</b>입니다. 그저 홀딩하는 순간부터 <b>XRPfi</b>로 굴리는 수익 운용까지 — 온램프 · 스왑 · 브릿지 · dApp · 에어드롭의 <b>A to Z를 이 지갑 하나</b>에서. 흩어진 파트너가 모두 여기로 모이고, 공개될 때마다 혜택은 자동으로 쌓입니다.</p>
+
+      <div class="hub-tags">
+        <span>온램프</span>
+        <span>수익</span>
+        <span class="accent">XRPfi</span>
+        <span>스왑</span>
+        <span>브릿지</span>
+        <span>dApp</span>
+        <span>Payments</span>
+        <span>에어드롭</span>
+        <span class="dim">more</span>
+      </div>
+
+      <div class="hero-actions">
+        <a href="xrp_alliance_teaser.html" class="btn-learn">
+          Alliance 자세히 보기
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== HEXA STACK ==================== -->
+  <section class="hexa">
+    <div class="hexa-head">
+      <span class="kicker">Why D'CENT</span>
+      <h2>XRP 홀더가<br><em>D'CENT으로 오는 이유.</em></h2>
+      <p>인프라부터 에코시스템까지, 혜택이 한 지갑에서 연결됩니다.</p>
+    </div>
+
+    <div class="stack-list">
+      <div class="st">
+        <span class="st-n">01</span>
+        <div class="st-body">
+          <b>XRPL Trustline 네이티브</b>
+          <small>16진수 없이 한 탭으로 토큰 추가 · 해제</small>
+        </div>
+        <span class="st-v">One-tap</span>
+      </div>
+      <div class="st">
+        <span class="st-n">02</span>
+        <div class="st-body">
+          <b>홀딩 수수료</b>
+          <small>금액 무관 · 영구 무료</small>
+        </div>
+        <span class="st-v">$0</span>
+      </div>
+      <div class="st">
+        <span class="st-n">03</span>
+        <div class="st-body">
+          <b>Best-rate Swap · Bridge</b>
+          <small>XRPL + 크로스체인 수수료 최저가 라우팅</small>
+        </div>
+        <span class="st-v">최저가</span>
+      </div>
+      <div class="st">
+        <span class="st-n">04</span>
+        <div class="st-body">
+          <b>XRPfi Opportunity</b>
+          <small>규제형 Vault · 스테이킹 · 수익 구조 연동</small>
+        </div>
+        <span class="st-v">Yield · Stake</span>
+      </div>
+      <div class="st">
+        <span class="st-n">05</span>
+        <div class="st-body">
+          <b>에어드롭 자격 자동 포함</b>
+          <small>XRPL 생태계 + Alliance 에어드롭</small>
+        </div>
+        <span class="st-v">Automatic</span>
+      </div>
+      <div class="st">
+        <span class="st-n">06</span>
+        <div class="st-body">
+          <b>하드웨어 부스트</b>
+          <small>하드웨어 홀더 추가 리워드</small>
+        </div>
+        <span class="st-v">추가 리워드</span>
+      </div>
+
+      <div class="st-total">
+        <span class="st-total-k">= Total</span>
+        <div class="st-total-r">
+          <span class="st-total-v">HEXA Rewards</span>
+          <span class="st-total-sub">Infra → Ecosystem</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HARDWARE CTA ==================== -->
+  <section class="card-hw">
+    <span class="chip-blue" style="margin-bottom:14px">✦ Hardware Holder</span>
+    <h3>하드웨어 홀더에게<br><em>더해지는 것들.</em></h3>
+    <p>D'CENT 하드웨어를 쓰고 계신다면, Alliance에서 아래가 자연스럽게 더해집니다.</p>
+
+    <div class="hw-grid">
+      <div class="hw-row">
+        <span class="hw-row-v sm">추가 · 선착순</span>
+        <div class="hw-row-body">
+          <b>Alliance 추가 리워드</b>
+          <small>파트너 드롭에 하드웨어 홀더 몫이 더 배정됩니다</small>
+        </div>
+      </div>
+      <div class="hw-row">
+        <span class="hw-row-v sm">HW-Only</span>
+        <div class="hw-row-body">
+          <b>하드웨어 전용 이벤트</b>
+          <small>하드웨어 홀더만 참여하는 별도 캠페인</small>
+        </div>
+      </div>
+      <div class="hw-row">
+        <span class="hw-row-v sm">EAL5+</span>
+        <div class="hw-row-body">
+          <b>은행급 시큐어 엘리먼트</b>
+          <small>키가 디바이스를 떠나지 않습니다</small>
+        </div>
+      </div>
+      <div class="hw-row">
+        <span class="hw-row-v sm">One-tap</span>
+        <div class="hw-row-body">
+          <b>모바일 같은 사용성</b>
+          <small>Trustline · Swap · dApp 서명을 콜드 스토리지로 한 탭</small>
+        </div>
+      </div>
+    </div>
+
+    <a href="#" class="btn-ghost">
+      D'CENT 하드웨어 알아보기
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <!-- ==================== REFERRAL ==================== -->
+  <section class="card-ref">
+    <span class="chip-blue">친구 초대 · 양방향 보상</span>
+    <h3>친구가 구매하면 <em>둘 다 XRP</em>.</h3>
+    <p>내 초대 링크로 친구가 D'CENT 하드웨어를 구매하면, 나도 XRP · 친구도 XRP. 시즌 한정 물량.</p>
+    <div class="ref-rewards">
+      <div class="ref-col">
+        <b>+ 10 XRP</b>
+        <span>나</span>
+      </div>
+      <div class="ref-arr">+</div>
+      <div class="ref-col">
+        <b>+ 10 XRP</b>
+        <span>친구</span>
+      </div>
+    </div>
+    <a href="#" class="btn-ghost">
+      내 초대 링크 받기
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <!-- ==================== PARTNERS ==================== -->
+  <section class="partners" id="partners">
+    <div class="partners-head">
+      <span class="kicker">Alliance · Season 1</span>
+      <h2>파트너는 계속 공개됩니다</h2>
+      <span class="tagline">Hold. Stack. Repeat.</span>
+    </div>
+
+    <div class="partner-filter">
+      <button class="pf active" data-f="all">전체 <b id="c-all">0</b></button>
+      <button class="pf" data-f="live">Live <b id="c-live">0</b></button>
+      <button class="pf" data-f="ended">Ended <b id="c-ended">0</b></button>
+      <button class="pf" data-f="soon">Soon <b id="c-soon">0</b></button>
+    </div>
+
+    <div class="partner-list" id="partner-list">
+
+      <!-- LIVE: Banxa -->
+      <article class="p-card live" data-s="live">
+        <div class="p-head">
+          <div class="p-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/66950519da06b7e5b6e31c20_banxa.svg" alt="Banxa"/></div>
+          <div class="p-info">
+            <div class="p-name">Banxa</div>
+            <div class="p-cat">Infrastructure · Fiat On-ramp</div>
+          </div>
+          <span class="p-badge live">Live</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">첫 30일간 XRP 매수 수수료 0%. D'CENT 홀더 전용.</div>
+          <div class="p-progress">
+            <div class="p-bar"><div class="p-bar-fill" data-fill="62"></div></div>
+            <div class="p-bar-txt">D-<b>18</b></div>
+          </div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw xrp">+ 10 XRP</span>
+              <span class="p-rw">0% Fee</span>
+            </div>
+            <span class="p-bar-txt">참여자 <b>12,431</b>명</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- LIVE: MoonPay -->
+      <article class="p-card live" data-s="live">
+        <div class="p-head">
+          <div class="p-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051abdba0ef08fa2baaa_moonpay.svg" alt="MoonPay"/></div>
+          <div class="p-info">
+            <div class="p-name">MoonPay</div>
+            <div class="p-cat">Infrastructure · Fiat On-ramp</div>
+          </div>
+          <span class="p-badge live">Live</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">첫 XRP 매수 금액의 1% XRP 리베이트.</div>
+          <div class="p-progress">
+            <div class="p-bar"><div class="p-bar-fill" data-fill="45"></div></div>
+            <div class="p-bar-txt">D-<b>23</b></div>
+          </div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw xrp">1% Rebate</span>
+            </div>
+            <span class="p-bar-txt">참여자 <b>8,902</b>명</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- LIVE: OSL -->
+      <article class="p-card live" data-s="live">
+        <div class="p-head">
+          <div class="p-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051920a67d8ee3be1a07_osl.svg" alt="OSL"/></div>
+          <div class="p-info">
+            <div class="p-name">OSL</div>
+            <div class="p-cat">Ecosystem · Regulated Yield</div>
+          </div>
+          <span class="p-badge live">Live</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">규제 프레임 안에서 운용되는 XRP 수익형 Vault. 홀더 APY 부스트 적용.</div>
+          <div class="p-progress">
+            <div class="p-bar"><div class="p-bar-fill" data-fill="78"></div></div>
+            <div class="p-bar-txt">상시 운영</div>
+          </div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw xrp">Up to 7.5% APY</span>
+              <span class="p-rw">Holder Boost</span>
+            </div>
+            <span class="p-bar-txt">참여자 <b>5,617</b>명</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ENDED: Early Adopter -->
+      <article class="p-card ended" data-s="ended">
+        <div class="p-head">
+          <div class="p-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#23A3E0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M12 2L14.09 8.26L22 9.27L16 14.14L17.45 22L12 18.27L6.55 22L8 14.14L2 9.27L9.91 8.26L12 2z"/></svg>
+          </div>
+          <div class="p-info">
+            <div class="p-name">Early Adopter Drop</div>
+            <div class="p-cat">Kickoff · Pre-Alliance</div>
+          </div>
+          <span class="p-badge ended">Ended</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">Alliance 오픈 전 D'CENT 지갑 생성자 대상 사전 드롭. 종료됨.</div>
+          <div class="p-progress">
+            <div class="p-bar"><div class="p-bar-fill" data-fill="100"></div></div>
+            <div class="p-bar-txt">3/3</div>
+          </div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw xrp">+ 5 XRP</span>
+            </div>
+            <span class="p-bar-txt">참여자 <b>42,108</b>명</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- SOON: Bridge -->
+      <article class="p-card soon" data-s="soon">
+        <div class="p-head">
+          <div class="p-logo"><svg aria-hidden="true" style="color:var(--ink-3)"><use href="#lock"/></svg></div>
+          <div class="p-info">
+            <div class="p-name">Cross-chain Bridge</div>
+            <div class="p-cat">Infrastructure · ? ? ?</div>
+          </div>
+          <span class="p-badge soon">Soon</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">XRP를 다른 체인으로 이동할 때의 마찰을 제거할 파트너. 곧 공개.</div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw">? ? ?</span>
+            </div>
+            <span class="p-bar-txt">예정</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- SOON: XRPL Staking -->
+      <article class="p-card soon" data-s="soon">
+        <div class="p-head">
+          <div class="p-logo"><svg aria-hidden="true" style="color:var(--ink-3)"><use href="#lock"/></svg></div>
+          <div class="p-info">
+            <div class="p-name">XRPL Native Staking</div>
+            <div class="p-cat">Ecosystem · ? ? ?</div>
+          </div>
+          <span class="p-badge soon">Soon</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit">XRPL 네이티브 스테이킹 솔루션. 홀더 전용 APY 부스트.</div>
+          <div class="p-footer">
+            <div class="p-rewards">
+              <span class="p-rw">? ? ?</span>
+            </div>
+            <span class="p-bar-txt">예정</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- LOCKED: Aggregated Swap -->
+      <article class="p-card locked" data-s="soon">
+        <div class="p-head">
+          <div class="p-logo"><svg aria-hidden="true" style="color:var(--ink-3)"><use href="#lock"/></svg></div>
+          <div class="p-info">
+            <div class="p-name">Aggregated Swap</div>
+            <div class="p-cat">Infrastructure · ? ? ?</div>
+          </div>
+          <span class="p-badge locked">?</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit" style="color:var(--ink-3)">? ? ?</div>
+        </div>
+      </article>
+
+      <!-- LOCKED: Payments RLUSD -->
+      <article class="p-card locked" data-s="soon">
+        <div class="p-head">
+          <div class="p-logo"><svg aria-hidden="true" style="color:var(--ink-3)"><use href="#lock"/></svg></div>
+          <div class="p-info">
+            <div class="p-name">Payments · RLUSD</div>
+            <div class="p-cat">Ecosystem · ? ? ?</div>
+          </div>
+          <span class="p-badge locked">?</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit" style="color:var(--ink-3)">? ? ?</div>
+        </div>
+      </article>
+
+      <!-- LOCKED: dApp Connect -->
+      <article class="p-card locked" data-s="soon">
+        <div class="p-head">
+          <div class="p-logo"><svg aria-hidden="true" style="color:var(--ink-3)"><use href="#lock"/></svg></div>
+          <div class="p-info">
+            <div class="p-name">XRPL dApp Connect</div>
+            <div class="p-cat">Ecosystem · ? ? ?</div>
+          </div>
+          <span class="p-badge locked">?</span>
+        </div>
+        <div class="p-body">
+          <div class="p-benefit" style="color:var(--ink-3)">? ? ?</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER NOTE ==================== -->
+  <a href="#" class="foot-note">
+    <span class="q">?</span>
+    <span>이벤트 유의사항 및 리워드 지급 조건 확인</span>
+    <span class="arr-r">›</span>
+  </a>
+
+</div>
+
+<script>
+  // Animate bars on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.p-bar-fill[data-fill]').forEach(el => {
+        el.style.width = el.dataset.fill + '%';
+      });
+    }, 150);
+  });
+
+  // Counts + filter
+  const cards = document.querySelectorAll('#partner-list .p-card');
+  const counts = { all: cards.length, live: 0, ended: 0, soon: 0 };
+  cards.forEach(c => { counts[c.dataset.s] = (counts[c.dataset.s] || 0) + 1; });
+  ['all','live','ended','soon'].forEach(k => {
+    const el = document.getElementById('c-' + k);
+    if(el) el.textContent = counts[k] || 0;
+  });
+
+  document.querySelectorAll('.pf').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pf').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.f;
+      cards.forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.s === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
