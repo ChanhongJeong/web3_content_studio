@@ -1067,7 +1067,6 @@
         { name: 'Decrypt', url: 'https://decrypt.co/feed' },
         { name: 'The Block', url: 'https://www.theblock.co/rss.xml' },
         { name: 'Bitcoin Magazine', url: 'https://bitcoinmagazine.com/feed' },
-        { name: 'Blockworks', url: 'https://blockworks.co/feed' },
         { name: 'DL News', url: 'https://www.dlnews.com/arc/outboundfeeds/rss/' },
         { name: 'Unchained', url: 'https://unchainedcrypto.com/feed/' },
         { name: 'CryptoSlate', url: 'https://cryptoslate.com/feed/' },
@@ -1527,9 +1526,12 @@
 
         const newsResults = await Promise.allSettled(RSS_FEEDS.map(f => fetchRSS(f)));
 
+        const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
+        const cutoff = Date.now() - MAX_AGE_MS;
         allNews = newsResults
             .filter(r => r.status === 'fulfilled')
             .flatMap(r => r.value)
+            .filter(n => n.pubDate && n.pubDate.getTime() >= cutoff)
             .sort((a, b) => b.pubDate - a.pubDate);
 
         if (allNews.length === 0) {
@@ -1582,9 +1584,14 @@
             return;
         }
 
-        // TOP 5 중요 뉴스 선정 (중복 제거)
+        // TOP 5 중요 뉴스 선정 (최근 24h 우선, 부족하면 48h까지 확장)
         const scored = news.map((n, i) => ({ ...n, score: getImportanceScore(n), originalIndex: i }));
-        const sortedByScore = [...scored].sort((a, b) => b.score - a.score);
+        const now = Date.now();
+        const within = (hrs) => scored.filter(n => n.pubDate && (now - n.pubDate.getTime()) <= hrs * 3600 * 1000);
+        let topPool = within(24);
+        if (topPool.length < 5) topPool = within(48);
+        if (topPool.length < 5) topPool = scored;
+        const sortedByScore = [...topPool].sort((a, b) => b.score - a.score);
         const top5 = deduplicateTop(sortedByScore, 5);
 
         let html = '';
