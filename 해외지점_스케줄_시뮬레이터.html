@@ -95,12 +95,22 @@
     align-items: center;
   }
   .code-chip {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 6px 4px 8px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 8px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     background: #f9fafb;
   }
+  .code-times {
+    display: inline-flex; gap: 3px; align-items: center;
+    font-size: 11px; color: #6b7280;
+  }
+  .code-times input[type="time"] {
+    width: 78px; padding: 2px 4px;
+    border: 1px solid #d1d5db; border-radius: 3px;
+    font-size: 11px; background: white;
+  }
+  .code-times input[type="time"]:focus { outline: 1px solid #3b82f6; border-color: #3b82f6; }
   .code-chip input.code-name {
     width: 48px; border: none; background: transparent;
     font-weight: 700; text-align: center; font-size: 13px;
@@ -288,7 +298,7 @@
       <span id="conditionTitle">** 조건 (메모) **</span>
       <button class="btn btn-sm btn-success save-section-btn">💾 저장</button>
     </div>
-    <textarea class="condition-memo" id="conditionMemo" placeholder="국가별 운영 조건, 노무 규정, 특이사항 등을 자유롭게 메모하세요."></textarea>
+    <textarea class="condition-memo" id="conditionMemo" spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="국가별 운영 조건, 노무 규정, 특이사항 등을 자유롭게 메모하세요."></textarea>
   </div>
 </div>
 
@@ -352,6 +362,7 @@ const defaultCountry = () => ({
   conditions: '',
   holidays: {},
   shiftCodes: ['A','P'],
+  shiftTimes: { A: { start:'09:00', end:'18:00' }, P: { start:'14:00', end:'23:00' } },
   targets: defaultTargets(),
   managerOnlyCodes: [],
   priorityRules: [],
@@ -368,6 +379,11 @@ const COUNTRIES = {
     conditions: '',
     holidays: {},
     shiftCodes: ['A', 'P', 'AP'],
+    shiftTimes: {
+      A: { start: '09:00', end: '18:00' },
+      P: { start: '14:00', end: '23:00' },
+      AP: { start: '09:00', end: '23:00' }
+    },
     targets: { A:[2,1,1,1,2,1,1], P:[2,2,2,2,2,2,2], AP:[1,0,0,0,1,0,0] },
     managerOnlyCodes: ['AP'],
     priorityRules: [{ code: 'A', employeeIdx: 1 }],
@@ -504,6 +520,7 @@ function saveAll() {
         conditions: cfg.conditions,
         holidays: cfg.holidays,
         shiftCodes: cfg.shiftCodes,
+        shiftTimes: cfg.shiftTimes,
         targets: cfg.targets,
         managerOnlyCodes: cfg.managerOnlyCodes,
         priorityRules: cfg.priorityRules,
@@ -633,6 +650,8 @@ function renderCodeList() {
   const container = document.getElementById('codeList');
   container.innerHTML = '';
 
+  if (!cfg.shiftTimes) cfg.shiftTimes = {};
+
   cfg.shiftCodes.forEach((code, idx) => {
     const color = PALETTE[idx % PALETTE.length];
     const chip = document.createElement('div');
@@ -652,6 +671,29 @@ function renderCodeList() {
     box.appendChild(input);
     chip.appendChild(box);
 
+    // 출퇴근 시간 입력
+    if (!cfg.shiftTimes[code]) cfg.shiftTimes[code] = { start: '', end: '' };
+    const times = cfg.shiftTimes[code];
+    const tWrap = document.createElement('span');
+    tWrap.className = 'code-times';
+    const tStart = document.createElement('input');
+    tStart.type = 'time';
+    tStart.value = times.start || '';
+    tStart.title = '출근 시간';
+    tStart.onchange = (e) => { cfg.shiftTimes[code].start = e.target.value; };
+    const sep = document.createElement('span');
+    sep.textContent = '~';
+    sep.style.margin = '0 2px';
+    const tEnd = document.createElement('input');
+    tEnd.type = 'time';
+    tEnd.value = times.end || '';
+    tEnd.title = '퇴근 시간';
+    tEnd.onchange = (e) => { cfg.shiftTimes[code].end = e.target.value; };
+    tWrap.appendChild(tStart);
+    tWrap.appendChild(sep);
+    tWrap.appendChild(tEnd);
+    chip.appendChild(tWrap);
+
     const delBtn = document.createElement('button');
     delBtn.className = 'del-btn';
     delBtn.textContent = '×';
@@ -670,12 +712,13 @@ function renderCodeList() {
 
 function addCode() {
   const cfg = COUNTRIES[currentCountry];
-  // 자동 코드명: X1, X2, ...
   let i = 1;
   let name;
   do { name = 'X' + i; i++; } while (cfg.shiftCodes.includes(name));
   cfg.shiftCodes.push(name);
   cfg.targets[name] = [0, 0, 0, 0, 0, 0, 0];
+  if (!cfg.shiftTimes) cfg.shiftTimes = {};
+  cfg.shiftTimes[name] = { start: '', end: '' };
   renderCodeList();
   renderTargetTable();
   renderTable();
@@ -694,6 +737,10 @@ function renameCode(idx, newName) {
   cfg.shiftCodes[idx] = newName;
   cfg.targets[newName] = cfg.targets[oldName];
   delete cfg.targets[oldName];
+  if (cfg.shiftTimes && cfg.shiftTimes[oldName]) {
+    cfg.shiftTimes[newName] = cfg.shiftTimes[oldName];
+    delete cfg.shiftTimes[oldName];
+  }
   // managerOnlyCodes, priorityRules에서도 이름 변경
   cfg.managerOnlyCodes = cfg.managerOnlyCodes.map(c => c === oldName ? newName : c);
   cfg.priorityRules.forEach(r => { if (r.code === oldName) r.code = newName; });
@@ -714,6 +761,7 @@ function deleteCode(idx) {
   if (!confirm(`"${code}" 근무코드를 삭제합니다. 스케줄 내 "${code}" 셀은 모두 OFF로 변경됩니다.`)) return;
   cfg.shiftCodes.splice(idx, 1);
   delete cfg.targets[code];
+  if (cfg.shiftTimes) delete cfg.shiftTimes[code];
   cfg.managerOnlyCodes = cfg.managerOnlyCodes.filter(c => c !== code);
   cfg.priorityRules = cfg.priorityRules.filter(r => r.code !== code);
   Object.values(scheduleData[currentCountry] || {}).forEach(d => {
@@ -985,22 +1033,27 @@ function renderTable() {
     tdName.appendChild(nameInput);
     tr.appendChild(tdName);
 
-    row.shifts.forEach((s, dIdx) => {
+    for (let dIdx = 0; dIdx < row.shifts.length; dIdx++) {
+      const s = row.shifts[dIdx];
       const td = document.createElement('td');
       applyCodeStyle(td, s);
 
-      // preventPrevNext 위반 체크
+      // AP 셀 병합 조건: 지점장(rIdx===0) + 오늘 AP + 내일 OFF
+      const isApMerge = rIdx === 0 && s === 'AP' &&
+        dIdx + 1 < row.shifts.length && row.shifts[dIdx + 1] === 'OFF';
+      if (isApMerge) {
+        td.colSpan = 2;
+        td.style.fontSize = '12px';
+      }
+
       const prev = dIdx > 0 ? row.shifts[dIdx - 1] : 'OFF';
       const pnViolation = prevNextRules.some(rule =>
         rule.prev === prev && rule.next === s &&
         !(rule.exempt || []).includes(rIdx)
       );
-
-      // forceOffAfter 위반: 전날이 forceOffAfter 코드였는데 오늘이 OFF가 아님
       const forceOffCodes = cfg.forceOffAfter || [];
       const foViolation = forceOffCodes.includes(prev) && s !== 'OFF';
 
-      // 연속근무 위반 체크: 이 날 포함 streak > maxConsec
       let streak = 0;
       if (s !== 'OFF') {
         for (let k = dIdx; k >= 0; k--) {
@@ -1028,50 +1081,53 @@ function renderTable() {
         if (v === s) o.selected = true;
         sel.appendChild(o);
       });
+      const curIdx = dIdx;
       sel.onchange = (e) => {
-        row.shifts[dIdx] = e.target.value;
+        row.shifts[curIdx] = e.target.value;
         renderTable();
       };
       td.appendChild(sel);
       tr.appendChild(td);
-    });
+
+      if (isApMerge) dIdx++; // 다음 날은 병합되어 건너뜀
+    }
 
     codes.forEach(code => {
       const td = document.createElement('td');
       td.className = 'total-col';
       td.dataset.totalRow = rIdx;
       td.dataset.totalCode = code;
-      td.textContent = row.shifts.filter(x => x === code).length;
+      let count = row.shifts.filter(x => x === code).length;
+      // 지점장의 AP는 2일 스팬이므로 ×2
+      if (rIdx === 0 && code === 'AP') count = count * 2;
+      td.textContent = count;
       tr.appendChild(td);
     });
-    // 계 (근무코드 합계)
-    const codeSum = row.shifts.filter(x => codes.includes(x)).length;
+    // 계, OFF, 총합 계산
+    const totals = computePersonTotals(row, rIdx, codes);
     const tdSum = document.createElement('td');
     tdSum.className = 'total-col';
     tdSum.dataset.totalRow = rIdx;
     tdSum.dataset.totalCode = '__SUM__';
     tdSum.style.background = '#d1fae5';
     tdSum.style.color = '#064e3b';
-    tdSum.textContent = codeSum;
+    tdSum.textContent = totals.workSum;
     tr.appendChild(tdSum);
-    // OFF
-    const offSum = row.shifts.filter(x => x === 'OFF' || !codes.includes(x)).length;
     const tdOff = document.createElement('td');
     tdOff.className = 'total-col';
     tdOff.dataset.totalRow = rIdx;
     tdOff.dataset.totalCode = '__OFF__';
     tdOff.style.background = '#f3f4f6';
     tdOff.style.color = '#374151';
-    tdOff.textContent = offSum;
+    tdOff.textContent = totals.offSum;
     tr.appendChild(tdOff);
-    // 총합
     const tdGrand = document.createElement('td');
     tdGrand.className = 'total-col';
     tdGrand.dataset.totalRow = rIdx;
     tdGrand.dataset.totalCode = '__GRAND__';
     tdGrand.style.background = '#dbeafe';
     tdGrand.style.color = '#1e3a8a';
-    tdGrand.textContent = codeSum + offSum;
+    tdGrand.textContent = totals.grandTotal;
     tr.appendChild(tdGrand);
     tbody.appendChild(tr);
   });
@@ -1116,6 +1172,27 @@ function renderTable() {
   updateSummaries();
 }
 
+// 개인 집계 계산 (지점장 AP 더블카운팅 + AP 연속 OFF 차감)
+function computePersonTotals(row, rIdx, codes) {
+  let workSum = 0;
+  for (let d = 0; d < row.shifts.length; d++) {
+    const s = row.shifts[d];
+    if (codes.includes(s)) {
+      workSum += (rIdx === 0 && s === 'AP') ? 2 : 1;
+    }
+  }
+  // 실제 OFF 수
+  let rawOff = row.shifts.filter(x => !codes.includes(x)).length;
+  // 지점장 AP 다음날 OFF는 AP의 일부로 간주하여 OFF에서 차감
+  if (rIdx === 0) {
+    for (let d = 0; d < row.shifts.length - 1; d++) {
+      if (row.shifts[d] === 'AP' && row.shifts[d + 1] === 'OFF') rawOff--;
+    }
+  }
+  const offSum = Math.max(0, rawOff);
+  return { workSum, offSum, grandTotal: workSum + offSum };
+}
+
 function updateSummaries() {
   const data = getData();
   const cfg = COUNTRIES[currentCountry];
@@ -1126,10 +1203,20 @@ function updateSummaries() {
     let working = 0, off = 0;
     const byCode = {};
     codes.forEach(c => byCode[c] = 0);
-    data.rows.forEach(r => {
+    data.rows.forEach((r, rIdx) => {
       const s = r.shifts[d];
-      if (s === 'OFF' || !codes.includes(s)) off++;
-      else { byCode[s]++; working++; }
+      // 지점장 AP 연속일: 전날 AP + 오늘 OFF → 오늘도 AP 상태로 집계
+      const isApContinuation = rIdx === 0 && d > 0 &&
+        r.shifts[d - 1] === 'AP' && s === 'OFF';
+      if (isApContinuation) {
+        if (byCode['AP'] !== undefined) byCode['AP']++;
+        working++;
+      } else if (codes.includes(s)) {
+        byCode[s]++;
+        working++;
+      } else {
+        off++;
+      }
     });
     setSum('working', d, working);
     codes.forEach(c => setSum('code:' + c, d, byCode[c]));
@@ -1140,16 +1227,19 @@ function updateSummaries() {
   data.rows.forEach((r, rIdx) => {
     codes.forEach(code => {
       const cell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="${code}"]`);
-      if (cell) cell.textContent = r.shifts.filter(x => x === code).length;
+      if (cell) {
+        let count = r.shifts.filter(x => x === code).length;
+        if (rIdx === 0 && code === 'AP') count = count * 2;
+        cell.textContent = count;
+      }
     });
-    const codeSum = r.shifts.filter(x => codes.includes(x)).length;
-    const offSum = r.shifts.filter(x => !codes.includes(x)).length;
+    const totals = computePersonTotals(r, rIdx, codes);
     const sumCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__SUM__"]`);
     const offCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__OFF__"]`);
     const grandCell = document.querySelector(`[data-total-row="${rIdx}"][data-total-code="__GRAND__"]`);
-    if (sumCell) sumCell.textContent = codeSum;
-    if (offCell) offCell.textContent = offSum;
-    if (grandCell) grandCell.textContent = codeSum + offSum;
+    if (sumCell) sumCell.textContent = totals.workSum;
+    if (offCell) offCell.textContent = totals.offSum;
+    if (grandCell) grandCell.textContent = totals.grandTotal;
   });
 }
 
@@ -1248,6 +1338,25 @@ function autoGenerate() {
     });
   };
 
+  // Tier 2 전용 정렬: P→A 위반 후보를 여러 명에게 분산, priority 직원은 last
+  const sortViolators = (list, code) => {
+    list.sort((x, y) => {
+      // priority 직원(예: 직원 A)은 P→A 위반을 최소화 → LAST
+      const prio = cfg.priorityRules.find(r => r.code === code);
+      if (prio) {
+        const xp = (x === prio.employeeIdx) ? 1 : 0;
+        const yp = (y === prio.employeeIdx) ? 1 : 0;
+        if (xp !== yp) return xp - yp;
+      }
+      // 기존 P→A 위반 누적이 적은 사람 우선 (분산)
+      const xv = cnt[x].paViol || 0;
+      const yv = cnt[y].paViol || 0;
+      if (xv !== yv) return xv - yv;
+      if (cnt[x][code] !== cnt[y][code]) return cnt[x][code] - cnt[y][code];
+      return cnt[x].work - cnt[y].work;
+    });
+  };
+
   for (let d = 0; d < days; d++) {
     const date = new Date(currentYear, currentMonth - 1, d + 1);
     const dow = date.getDay();
@@ -1284,13 +1393,18 @@ function autoGenerate() {
       const tier3 = structural.filter(i => !streakOk(i) && minOffOk(i));
       const tier4 = structural.filter(i => !minOffOk(i));
 
-      [tier1, tier2, tier3, tier4].forEach(t => sortCandidates(t, code));
+      sortCandidates(tier1, code);
+      sortViolators(tier2, code); // P→A 위반은 분산, priority는 last
+      sortCandidates(tier3, code);
+      sortCandidates(tier4, code);
 
       const picked = [];
-      for (const tier of [tier1, tier2, tier3, tier4]) {
+      const pickedFromTier2 = new Set();
+      for (const [tIdx, tier] of [tier1, tier2, tier3, tier4].entries()) {
         for (const i of tier) {
           if (picked.length >= need) break;
           picked.push(i);
+          if (tIdx === 1) pickedFromTier2.add(i);
         }
         if (picked.length >= need) break;
       }
@@ -1299,6 +1413,7 @@ function autoGenerate() {
         rows[i].shifts[d] = code;
         cnt[i][code]++;
         cnt[i].work++;
+        if (pickedFromTier2.has(i)) cnt[i].paViol = (cnt[i].paViol || 0) + 1;
       });
     });
   }
