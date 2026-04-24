@@ -531,31 +531,49 @@ function applyCodeStyle(el, code) {
 // ========== 저장/불러오기 ==========
 const STORAGE_KEY = 'scheduleSimulator_v1';
 
+function buildSavePayload() {
+  const payload = {
+    countries: {},
+    scheduleData: scheduleData,
+    state: { currentCountry, currentYear, currentMonth, staffNum }
+  };
+  Object.keys(COUNTRIES).forEach(c => {
+    const cfg = COUNTRIES[c];
+    payload.countries[c] = {
+      conditions: cfg.conditions,
+      holidays: cfg.holidays,
+      shiftCodes: cfg.shiftCodes,
+      shiftTimes: cfg.shiftTimes,
+      targets: cfg.targets,
+      managerOnlyCodes: cfg.managerOnlyCodes,
+      priorityRules: cfg.priorityRules,
+      preventPrevNext: cfg.preventPrevNext,
+      forceOffAfter: cfg.forceOffAfter,
+      minOff: cfg.minOff,
+      maxConsecutive: cfg.maxConsecutive
+    };
+  });
+  return payload;
+}
+
+function autoSave() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(buildSavePayload()));
+  } catch (e) {
+    console.error('자동 저장 실패:', e);
+  }
+}
+
+// 디바운스 자동 저장 (연속 입력 시 400ms 대기 후 1회 저장)
+let _autoSaveTimer = null;
+function scheduleAutoSave() {
+  if (_autoSaveTimer) clearTimeout(_autoSaveTimer);
+  _autoSaveTimer = setTimeout(autoSave, 400);
+}
+
 function saveAll() {
   try {
-    const payload = {
-      countries: {},
-      scheduleData: scheduleData,
-      state: { currentCountry, currentYear, currentMonth, staffNum }
-    };
-    // 국가별 설정(코드, 타겟, 공휴일, 조건, 규칙)만 저장
-    Object.keys(COUNTRIES).forEach(c => {
-      const cfg = COUNTRIES[c];
-      payload.countries[c] = {
-        conditions: cfg.conditions,
-        holidays: cfg.holidays,
-        shiftCodes: cfg.shiftCodes,
-        shiftTimes: cfg.shiftTimes,
-        targets: cfg.targets,
-        managerOnlyCodes: cfg.managerOnlyCodes,
-        priorityRules: cfg.priorityRules,
-        preventPrevNext: cfg.preventPrevNext,
-        forceOffAfter: cfg.forceOffAfter,
-        minOff: cfg.minOff,
-        maxConsecutive: cfg.maxConsecutive
-      };
-    });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    autoSave();
     alert('저장되었습니다.');
   } catch (e) {
     alert('저장 실패: ' + e.message);
@@ -644,6 +662,15 @@ function init() {
   document.getElementById('conditionMemo').oninput = (e) => {
     COUNTRIES[currentCountry].conditions = e.target.value;
   };
+
+  // 전역 자동 저장: 모든 input/change 이벤트를 감지해 디바운스 저장
+  document.body.addEventListener('input', scheduleAutoSave);
+  document.body.addEventListener('change', scheduleAutoSave);
+  // 페이지 닫기/새로고침 직전 즉시 저장 (디바운스 보류분)
+  window.addEventListener('beforeunload', () => {
+    if (_autoSaveTimer) { clearTimeout(_autoSaveTimer); _autoSaveTimer = null; }
+    autoSave();
+  });
 
   renderAll();
 }
@@ -759,6 +786,7 @@ function addCode() {
   renderCodeList();
   renderTargetTable();
   renderTable();
+  scheduleAutoSave();
 }
 
 function renameCode(idx, newName) {
@@ -790,6 +818,7 @@ function renameCode(idx, newName) {
   renderCodeList();
   renderTargetTable();
   renderTable();
+  scheduleAutoSave();
 }
 
 function deleteCode(idx) {
@@ -809,6 +838,7 @@ function deleteCode(idx) {
   renderCodeList();
   renderTargetTable();
   renderTable();
+  scheduleAutoSave();
 }
 
 // ========== 조건 ==========
@@ -903,6 +933,7 @@ function renderHolidays() {
       setHolidays(cfg, currentYear, currentMonth, list.filter(d => d !== day));
       renderHolidays();
       renderTable();
+      scheduleAutoSave();
     };
     chip.appendChild(del);
     container.appendChild(chip);
@@ -921,6 +952,7 @@ function addHoliday() {
   setHolidays(cfg, currentYear, currentMonth, merged);
   renderHolidays();
   renderTable();
+  scheduleAutoSave();
 }
 
 // 공식 공휴일 DB에서 현재 국가/년도/월 공휴일 불러오기
@@ -936,6 +968,7 @@ function fetchHolidaysFromDB() {
   setHolidays(cfg, currentYear, currentMonth, monthDays);
   renderHolidays();
   renderTable();
+  scheduleAutoSave();
   if (monthDays.length === 0) {
     alert(`${currentCountry} ${currentYear}년 ${currentMonth}월에는 공휴일 없음.`);
   }
@@ -1291,6 +1324,7 @@ function clearSchedule() {
   const days = daysInMonth(currentYear, currentMonth);
   data.rows.forEach(r => { r.shifts = new Array(days).fill('OFF'); });
   renderTable();
+  scheduleAutoSave();
 }
 
 // ========== 자동 생성 ==========
@@ -1456,6 +1490,7 @@ function autoGenerate() {
   }
 
   renderTable();
+  scheduleAutoSave();
 }
 
 init();
