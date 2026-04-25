@@ -3,37 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XRP Alliance · D'CENT — Home for XRP holders</title>
+<title>XRP Alliance · D'CENT — Home for XRP Holders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#000; --panel:#08090F; --panel-2:#0C0E17;
+    --bg:#050508; --panel:#0A0C14; --panel-2:#0E1018;
     --ink:#FAFBFF; --ink-1:#C6CCDC; --ink-2:#7C8297; --ink-3:#434959; --ink-4:#1B1E29;
     --xrp:#23A3E0; --xrp-hi:#5DDCFF; --xrp-lo:#006097;
     --glow:rgba(93,220,255,.4);
+    --silver:#C8D4E0; --silver-hi:#E2EAF2; --silver-lo:#8A9BB0;
+    --silver-glow:rgba(200,212,224,.12);
     --gold:#E0B768; --gold-hi:#F4CE7B;
     --green:#7FEAB2;
-    --rule:rgba(255,255,255,.07);
+    --rule:rgba(200,212,224,.08);
     --rule-hi:rgba(93,220,255,.22);
+    --rule-silver:rgba(200,212,224,.18);
     --rule-gold:rgba(224,183,104,.26);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--ink);font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 55% 40% at 50% 25%,rgba(35,163,224,.1),transparent 70%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(35,163,224,.04),transparent 70%)}
+  body{background:var(--bg);color:var(--ink);font-family:'Roboto',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 50% 35% at 50% 20%,rgba(93,220,255,.08),transparent 65%),radial-gradient(ellipse 45% 30% at 80% 75%,rgba(200,212,224,.05),transparent 60%),radial-gradient(ellipse 35% 25% at 15% 60%,rgba(93,220,255,.03),transparent 55%)}
   main,nav,section,footer{position:relative;z-index:1}
 
   /* TYPO */
-  h1,h2,h3{font-weight:300;letter-spacing:-.045em;line-height:1;color:var(--ink)}
-  h1{font-size:clamp(44px,7.2vw,96px);letter-spacing:-.055em;line-height:.94;font-weight:200}
-  h2{font-size:clamp(32px,5.4vw,66px);letter-spacing:-.045em;line-height:1}
-  h3{font-size:clamp(22px,2.6vw,32px);font-weight:400;letter-spacing:-.03em;line-height:1.1}
-  .display em{font-style:normal;font-weight:300;background:linear-gradient(120deg,#5DDCFF 0%,#23A3E0 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  h1,h2,h3{font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--ink)}
+  h1{font-size:clamp(44px,7.2vw,96px);letter-spacing:-.055em;line-height:.94;font-weight:700}
+  h2{font-size:clamp(32px,5.4vw,66px);letter-spacing:-.045em;line-height:1;font-weight:700}
+  h3{font-size:clamp(22px,2.6vw,32px);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+  .display em{font-style:normal;font-weight:700;background:linear-gradient(135deg,#5DDCFF 0%,#C8D4E0 50%,#5DDCFF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .lede{font-size:clamp(15px,1.3vw,17px);line-height:1.6;color:var(--ink-1);font-weight:400;max-width:560px}
   .lede b{color:var(--ink);font-weight:500}
-  .kicker{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:500;display:inline-flex;align-items:center;gap:10px}
+  .kicker{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:500;display:inline-flex;align-items:center;gap:10px}
   .kicker::before{content:'';width:18px;height:1px;background:currentColor;opacity:.55}
 
   /* LOCKUP */
@@ -43,7 +46,7 @@
   .lockup-dcent img{height:11px;display:block;opacity:.95}
 
   /* STATUS */
-  .status{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 11px;border-radius:99px;background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.22);font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--xrp-hi);text-transform:uppercase;font-weight:500}
+  .status{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 11px;border-radius:99px;background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.22);font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--xrp-hi);text-transform:uppercase;font-weight:500}
   .status .dot{width:6px;height:6px;border-radius:50%;background:var(--xrp-hi);box-shadow:0 0 8px var(--xrp-hi);animation:blink 1.8s ease-in-out infinite}
   .status.live{background:rgba(127,234,178,.06);border-color:rgba(127,234,178,.28);color:var(--green)}
   .status.live .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
@@ -53,30 +56,30 @@
   .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:9px;font-weight:600;font-size:14px;letter-spacing:-.005em;text-decoration:none;border:none;cursor:pointer;transition:all .2s cubic-bezier(.22,1,.36,1);white-space:nowrap}
   .btn-primary{background:var(--ink);color:var(--bg)}
   .btn-primary:hover{background:var(--xrp-hi);box-shadow:0 12px 32px var(--glow);transform:translateY(-1px)}
-  .btn-ghost{background:rgba(255,255,255,.03);color:var(--ink);border:1px solid var(--rule);backdrop-filter:blur(10px)}
-  .btn-ghost:hover{border-color:var(--xrp-hi);color:var(--xrp-hi)}
+  .btn-ghost{background:rgba(200,212,224,.04);color:var(--ink);border:1px solid var(--rule-silver);backdrop-filter:blur(10px)}
+  .btn-ghost:hover{border-color:var(--silver-hi);color:var(--silver-hi);box-shadow:0 4px 16px rgba(200,212,224,.1)}
   .btn-gold{background:var(--gold);color:#1a1208}
   .btn-gold:hover{background:var(--gold-hi);box-shadow:0 12px 28px rgba(224,183,104,.35);transform:translateY(-1px)}
   .btn .arr{transition:transform .2s}
   .btn:hover .arr{transform:translateX(3px)}
 
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.72);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--rule)}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,5,8,.8);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--rule-silver)}
   .nav-inner{max-width:1320px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
   .nav-l{display:flex;align-items:center;gap:10px}
   .nav-xrp{font-weight:700;font-size:13px;letter-spacing:.16em;color:var(--ink)}
   .nav-x{width:11px;height:10px;color:var(--xrp-hi);fill:currentColor}
   .nav-logo{height:18px;display:block}
   .nav-r{display:flex;align-items:center;gap:18px}
-  .nav-time{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--ink-2);text-transform:uppercase}
+  .nav-time{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--ink-2);text-transform:uppercase}
   .nav-time b{color:var(--xrp-hi);font-weight:600}
   .nav-cta{padding:8px 14px;background:var(--ink);color:var(--bg);border-radius:7px;font-size:12.5px;font-weight:600;text-decoration:none;transition:all .2s}
   .nav-cta:hover{background:var(--xrp-hi)}
 
   /* =========================================== */
-  /*        HERO — constellation around D'CENT    */
+  /*        HERO                                  */
   /* =========================================== */
-  .hero{position:relative;padding:120px 32px 56px;min-height:100vh;overflow:hidden}
+  .hero{position:relative;padding:140px 32px 80px;min-height:100vh;overflow:hidden}
   .hero-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;min-height:calc(100vh - 180px)}
   .hero-copy{position:relative;z-index:3}
   .hero-copy .status{margin-bottom:26px}
@@ -85,47 +88,194 @@
   .hero-copy h1 .l2{display:block;background:linear-gradient(120deg,#5DDCFF 0%,#23A3E0 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:300}
   .hero-copy .lede{margin-bottom:30px}
   .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px}
-  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;padding-top:22px;border-top:1px solid var(--rule);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase}
-  .hero-meta-col{display:flex;flex-direction:column;gap:4px}
-  .hero-meta-col b{color:var(--ink);font-weight:600;letter-spacing:.18em;font-size:11px}
+  .hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-top:24px;border-top:1px solid var(--rule-silver);font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:var(--ink-2);text-transform:uppercase}
+  .hero-meta-col{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .hero-meta-col b{color:var(--ink);font-weight:600;letter-spacing:.14em;font-size:10.5px;white-space:nowrap}
   .hero-meta-col .accent{color:var(--xrp-hi)}
 
   /* Constellation */
+  /* Solar System Hero */
   .hero-viz{position:relative;aspect-ratio:1/1;max-width:560px;margin-left:auto;width:100%}
   .hv-inner{position:absolute;inset:0}
+
+  /* Planet glow — D'CENT at center */
+  .hv-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40%;height:40%;border-radius:50%;background:radial-gradient(circle,rgba(93,220,255,.5),rgba(35,163,224,.15) 40%,transparent 70%);filter:blur(50px);pointer-events:none;animation:planetPulse 4s ease-in-out infinite}
+  .hv-glow-outer{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:80%;border-radius:50%;background:radial-gradient(circle,rgba(35,163,224,.08),transparent 60%);filter:blur(30px);pointer-events:none}
+  @keyframes planetPulse{0%,100%{opacity:.8;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+
+  /* Orbit rings — solid glowing paths */
   .hv-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-  .hv-ring{position:absolute;border-radius:50%;border:1px dashed rgba(93,220,255,.14)}
-  .hv-ring.r1{width:56%;height:56%;animation:spin 60s linear infinite}
-  .hv-ring.r2{width:82%;height:82%;border-color:rgba(93,220,255,.1);animation:spin 90s linear infinite reverse}
-  .hv-ring.r3{width:100%;height:100%;border-color:rgba(93,220,255,.06);animation:spin 140s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .hv-glow{position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,rgba(35,163,224,.34),rgba(35,163,224,.08) 40%,transparent 72%);filter:blur(40px);pointer-events:none;animation:pulse 5s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
-  .hv-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-  .hv-lines line{stroke:rgba(93,220,255,.28);stroke-width:.8;stroke-dasharray:3 5;animation:dashShift 10s linear infinite}
-  @keyframes dashShift{to{stroke-dashoffset:-80}}
-  .hv-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;border-radius:24px;background:radial-gradient(circle at 50% 30%,rgba(93,220,255,.22),transparent 70%),linear-gradient(180deg,rgba(12,18,32,.96),rgba(6,8,16,.96));border:1px solid rgba(93,220,255,.38);box-shadow:0 0 60px rgba(93,220,255,.28),inset 0 0 0 1px rgba(93,220,255,.1);z-index:4}
-  .hv-center-x{width:28px;height:24px;color:var(--xrp-hi);fill:currentColor;filter:drop-shadow(0 0 12px rgba(93,220,255,.7));margin-bottom:2px}
-  .hv-center-logo img{height:clamp(14px,2vw,20px);display:block}
-  .hv-center-label{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;line-height:1.3;text-align:center;margin-top:2px}
-  .hv-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:3;transform:translate(-50%,-50%)}
-  .hv-node-dot{width:12px;height:12px;border-radius:50%;background:var(--bg);border:1px solid rgba(93,220,255,.4);position:relative}
-  .hv-node-dot::after{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--xrp-hi);opacity:.8;box-shadow:0 0 10px var(--xrp-hi)}
-  .hv-node.dim .hv-node-dot::after{background:var(--ink-3);box-shadow:none;opacity:.6}
-  .hv-node-label{font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);font-weight:500;padding:4px 9px;border-radius:99px;background:rgba(0,0,0,.7);border:1px solid var(--rule);backdrop-filter:blur(8px);white-space:nowrap}
-  .hv-node.dim .hv-node-label{color:var(--ink-2)}
-  .hv-node.n1{top:12%;left:50%}
-  .hv-node.n2{top:28%;left:88%}
-  .hv-node.n3{top:72%;left:90%}
-  .hv-node.n4{top:91%;left:50%}
-  .hv-node.n5{top:72%;left:10%}
-  .hv-node.n6{top:28%;left:12%}
-  .hv-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.8);border:1px solid rgba(93,220,255,.32);white-space:nowrap;z-index:5}
+  .hv-orbit{position:absolute;border-radius:50%;border:1px solid rgba(93,220,255,.12);box-shadow:0 0 12px rgba(93,220,255,.04)}
+  .hv-orbit.o1{width:52%;height:52%;border-color:rgba(93,220,255,.2);box-shadow:0 0 20px rgba(93,220,255,.08)}
+  .hv-orbit.o2{width:76%;height:76%;border-color:rgba(93,220,255,.12);box-shadow:0 0 16px rgba(93,220,255,.05)}
+  .hv-orbit.o3{width:100%;height:100%;border-color:rgba(93,220,255,.06);box-shadow:0 0 12px rgba(93,220,255,.03)}
+
+  /* Center planet — XRP × D'CENT lockup */
+  .hv-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(93,220,255,.32),rgba(12,18,32,.98) 70%);border:2px solid rgba(93,220,255,.55);box-shadow:0 0 90px rgba(93,220,255,.4),0 0 180px rgba(93,220,255,.14),inset 0 0 50px rgba(93,220,255,.12);z-index:4}
+  .hv-pair{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .hv-pair-row{display:flex;align-items:center;justify-content:center;gap:14px}
+  .hv-pair-x{width:clamp(40px,5vw,56px);height:auto;color:var(--xrp-hi);fill:currentColor;filter:drop-shadow(0 0 18px rgba(93,220,255,.9))}
+  .hv-pair-cross{font-size:clamp(14px,1.6vw,20px);font-weight:300;color:var(--ink-2);letter-spacing:0;line-height:1}
+  .hv-pair-logo img{height:clamp(20px,2.6vw,28px);display:block;filter:drop-shadow(0 0 10px rgba(93,220,255,.55))}
+  .hv-pair-label{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.26em;color:var(--xrp-hi);text-transform:uppercase;font-weight:700;text-align:center}
+
+  /* Star nodes — orbiting satellites */
+  .hv-star{position:absolute;z-index:5;display:flex;flex-direction:column;align-items:center;gap:6px;transform:translate(-50%,-50%)}
+  .hv-star-body{width:16px;height:16px;border-radius:50%;position:relative}
+  .hv-star-body::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(93,220,255,.15);filter:blur(4px)}
+  .hv-star-body::after{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--xrp-hi);box-shadow:0 0 16px var(--xrp-hi),0 0 32px rgba(93,220,255,.4)}
+  .hv-star.bright .hv-star-body::after{background:#fff;box-shadow:0 0 16px #fff,0 0 40px var(--xrp-hi),0 0 60px rgba(93,220,255,.3)}
+  .hv-star.dim .hv-star-body::before{background:rgba(93,220,255,.06)}
+  .hv-star.dim .hv-star-body::after{background:var(--ink-3);box-shadow:0 0 6px rgba(93,220,255,.15)}
+  .hv-star-label{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);font-weight:600;padding:4px 10px;border-radius:99px;background:rgba(0,0,0,.8);border:1px solid rgba(93,220,255,.25);backdrop-filter:blur(8px);white-space:nowrap}
+  .hv-star.bright .hv-star-label{border-color:rgba(93,220,255,.45);color:#fff;box-shadow:0 0 12px rgba(93,220,255,.15)}
+  .hv-star.dim .hv-star-label{color:var(--ink-2);border-color:var(--rule)}
+
+  /* Star positions — inner orbit (live) */
+  .hv-star.s1{top:6%;left:50%}
+  .hv-star.s2{top:24%;left:90%}
+  .hv-star.s5{top:24%;left:10%}
+  /* Outer orbit (coming soon) */
+  .hv-star.s3{top:76%;left:92%}
+  .hv-star.s4{top:94%;left:50%}
+  .hv-star.s6{top:76%;left:8%}
+
+  /* Category outer rings — Infrastructure (left) / Ecosystem (right). Equal status, both Ripple blue. */
+  .hv-half{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:104%;height:104%;border-radius:50%;pointer-events:none;z-index:2;border:1.5px solid rgba(93,220,255,.45);box-shadow:0 0 32px rgba(93,220,255,.18),inset 0 0 20px rgba(93,220,255,.06)}
+  .hv-half.infra{clip-path:inset(-4px 50% -4px -4px)}
+  .hv-half.eco{clip-path:inset(-4px -4px -4px 50%)}
+  .hv-cat-label{position:absolute;top:50%;font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;padding:5px 11px;border-radius:99px;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);white-space:nowrap;z-index:6;color:var(--xrp-hi);border:1px solid rgba(93,220,255,.5);box-shadow:0 0 14px rgba(93,220,255,.12)}
+  .hv-cat-label.infra{left:0;transform:translateY(-50%)}
+  .hv-cat-label.eco{right:0;transform:translateY(-50%)}
+
+  /* Light trail particles on orbits */
+  .hv-trail{position:absolute;border-radius:50%;pointer-events:none}
+  .hv-trail.t1{width:52%;height:52%;top:50%;left:50%;transform:translate(-50%,-50%);animation:orbitTrail1 20s linear infinite}
+  .hv-trail.t2{width:76%;height:76%;top:50%;left:50%;transform:translate(-50%,-50%);animation:orbitTrail2 35s linear infinite reverse}
+  .hv-trail.t3{width:100%;height:100%;top:50%;left:50%;transform:translate(-50%,-50%);animation:orbitTrail3 50s linear infinite}
+  .hv-trail::after{content:'';position:absolute;top:-3px;left:50%;width:6px;height:6px;border-radius:50%;background:var(--xrp-hi);box-shadow:0 0 12px var(--xrp-hi),0 0 24px rgba(93,220,255,.3);opacity:.7}
+  .hv-trail.t2::after{width:4px;height:4px;opacity:.4;background:rgba(93,220,255,.6)}
+  .hv-trail.t3::after{width:3px;height:3px;opacity:.25;background:rgba(93,220,255,.4)}
+  @keyframes orbitTrail1{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes orbitTrail2{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes orbitTrail3{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+  .hv-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.8);border:1px solid rgba(93,220,255,.32);white-space:nowrap;z-index:6}
 
   /* =========================================== */
-  /*  WHAT — what is XRP Alliance, concretely     */
+  /*  SOCIAL PROOF — Influencers + Institutions   */
   /* =========================================== */
-  .what{padding:140px 24px 100px;max-width:1200px;margin:0 auto}
+  .proof{padding:100px 24px 120px;max-width:1200px;margin:0 auto}
+  .proof-head{text-align:center;max-width:760px;margin:0 auto 56px}
+  .proof-head .kicker{justify-content:center;margin-bottom:22px}
+  .proof-head h2{margin-bottom:14px}
+  .proof-head .lede{margin:0 auto}
+
+  /* Influencer Carousel */
+  .carousel-wrap{position:relative;overflow:hidden;margin-bottom:56px;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
+  .carousel{display:flex;gap:20px;width:max-content;animation:carouselScroll 40s linear infinite}
+  .carousel:hover{animation-play-state:paused}
+  @keyframes carouselScroll{to{transform:translateX(-50%)}}
+
+  .tcard{width:360px;flex-shrink:0;padding:32px;border-radius:20px;background:linear-gradient(180deg,rgba(16,20,36,.85),rgba(8,10,20,.92));border:1px solid var(--rule-silver);display:flex;flex-direction:column;gap:16px;transition:all .3s;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,.3),0 0 0 1px rgba(200,212,224,.04) inset}
+  .tcard:hover{border-color:var(--rule-hi);box-shadow:0 8px 40px rgba(93,220,255,.1),0 0 0 1px rgba(93,220,255,.08) inset}
+  .tcard-quote{font-size:14.5px;line-height:1.65;color:var(--ink-1);font-weight:400;letter-spacing:-.005em;flex:1}
+  .tcard-quote::before{content:'\201C';font-size:28px;line-height:0;vertical-align:-.35em;color:var(--xrp-hi);margin-right:4px;font-weight:300}
+  .tcard-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--rule)}
+  .tcard-avatar{width:44px;height:44px;border-radius:50%;background:var(--panel-2);border:1px solid var(--rule);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .tcard-avatar img{width:100%;height:100%;object-fit:cover}
+  .tcard-avatar .placeholder{font-size:18px;color:var(--ink-3)}
+  .tcard-info{display:flex;flex-direction:column;gap:2px}
+  .tcard-name{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .tcard-role{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-2);text-transform:uppercase}
+
+  /* Institution Logos */
+  .inst-bar{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;padding:40px 24px;border-top:1px solid var(--rule-silver);border-bottom:1px solid var(--rule-silver);background:linear-gradient(180deg,rgba(200,212,224,.02),transparent)}
+  .inst-bar-label{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.24em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+  .inst-logo{height:32px;opacity:.5;transition:opacity .3s;filter:grayscale(100%) brightness(2)}
+  .inst-logo:hover{opacity:.9;filter:none}
+  .inst-logo.primary{height:48px;opacity:.7}
+  .inst-soon{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;padding:6px 14px;border:1px dashed var(--rule);border-radius:99px}
+  .inst-pill{font-family:'Roboto',sans-serif;font-size:13px;letter-spacing:-.005em;font-weight:600;color:var(--ink-1);padding:7px 14px;border:1px solid var(--rule-silver);border-radius:99px;background:rgba(200,212,224,.04);transition:all .25s;white-space:nowrap}
+  .inst-pill:hover{color:var(--ink);border-color:rgba(93,220,255,.4);background:rgba(93,220,255,.06)}
+
+  /* =========================================== */
+  /*  BIG NUMBERS — trust stats                   */
+  /* =========================================== */
+  .bignums{padding:40px 24px 120px;max-width:1100px;margin:0 auto}
+  .bignums-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--rule-silver);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(200,212,224,.04),rgba(10,14,24,.6));box-shadow:0 4px 32px rgba(0,0,0,.3),0 0 0 1px rgba(200,212,224,.03) inset}
+  .bn{padding:48px 28px;border-right:1px solid var(--rule-silver);display:flex;flex-direction:column;gap:10px;text-align:center}
+  .bn:last-child{border-right:none}
+  .bn-v{font-size:clamp(40px,5.5vw,60px);font-weight:700;letter-spacing:-.04em;line-height:1;background:linear-gradient(135deg,#E2EAF2 0%,#5DDCFF 50%,#C8D4E0 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .bn-label{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:var(--ink-2);text-transform:uppercase;font-weight:500;line-height:1.5}
+  .bn-sub{font-size:13px;color:var(--ink-2);font-weight:400;line-height:1.4;margin-top:2px}
+
+  /* =========================================== */
+  /*  BENEFITS — Stacking bar chart               */
+  /* =========================================== */
+  .benefits{padding:90px 24px 100px;max-width:1200px;margin:0 auto}
+  .benefits-head{text-align:center;max-width:760px;margin:0 auto 56px}
+  .benefits-head .kicker{justify-content:center;margin-bottom:22px}
+  .benefits-head h2{margin-bottom:14px}
+  .benefits-head .lede{margin:0 auto}
+
+  /* Stack chart container */
+  .stack-chart{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,1.5vw,16px);max-width:820px;margin:0 auto;height:420px;padding:0 20px}
+
+  /* Individual bar */
+  .stack-bar{flex:1;max-width:130px;display:flex;flex-direction:column;align-items:center;gap:14px;position:relative}
+  .stack-col{width:100%;border-radius:14px 14px 6px 6px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px 10px;transition:all .4s cubic-bezier(.22,1,.36,1);cursor:default}
+  .stack-col:hover{transform:translateY(-4px)}
+
+  /* Bar heights — ascending */
+  .stack-bar:nth-child(1) .stack-col{height:140px}
+  .stack-bar:nth-child(2) .stack-col{height:180px}
+  .stack-bar:nth-child(3) .stack-col{height:220px}
+  .stack-bar:nth-child(4) .stack-col{height:260px}
+  .stack-bar:nth-child(5) .stack-col{height:300px}
+  .stack-bar:nth-child(6) .stack-col{height:380px}
+
+  /* Blue bars (1-5) */
+  .stack-col.blue{background:linear-gradient(180deg,rgba(93,220,255,.2),rgba(93,220,255,.06));border:1px solid rgba(93,220,255,.25);box-shadow:0 0 30px rgba(93,220,255,.06),0 4px 20px rgba(0,0,0,.3)}
+  .stack-col.blue:hover{border-color:rgba(93,220,255,.5);box-shadow:0 0 40px rgba(93,220,255,.12),0 8px 32px rgba(0,0,0,.3)}
+  .stack-col.blue::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(93,220,255,.12),transparent);pointer-events:none}
+
+  /* Gold bar (6 — hardware) */
+  .stack-col.gold{background:linear-gradient(180deg,rgba(224,183,104,.25),rgba(224,183,104,.06));border:1px solid rgba(224,183,104,.35);box-shadow:0 0 40px rgba(224,183,104,.1),0 4px 24px rgba(0,0,0,.3)}
+  .stack-col.gold:hover{border-color:rgba(224,183,104,.6);box-shadow:0 0 60px rgba(224,183,104,.18),0 8px 36px rgba(0,0,0,.3)}
+  .stack-col.gold::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(224,183,104,.15),transparent);pointer-events:none}
+
+  /* Icon inside bar */
+  .stack-icon{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:8px;backdrop-filter:blur(6px)}
+  .stack-icon svg{width:20px;height:20px;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+  .stack-col.blue .stack-icon svg{color:var(--xrp-hi);stroke:currentColor}
+  .stack-col.gold .stack-icon svg{color:var(--gold);stroke:currentColor}
+  .stack-col.gold .stack-icon{border-color:rgba(224,183,104,.3)}
+
+  /* Number badge */
+  .stack-num{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;margin-bottom:4px}
+  .stack-col.blue .stack-num{color:var(--xrp-hi)}
+  .stack-col.gold .stack-num{color:var(--gold)}
+
+  /* Labels below bar */
+  .stack-name{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.01em;text-align:center;line-height:1.2}
+  .stack-desc{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--ink-2);text-transform:uppercase;text-align:center;line-height:1.4;margin-top:2px}
+
+  /* 2x badge on gold bar */
+  .stack-2x{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700;padding:4px 12px;border-radius:99px;background:rgba(0,0,0,.8);border:1px solid rgba(224,183,104,.4);white-space:nowrap;z-index:2}
+
+  /* XRP coin on top of gold bar */
+  .stack-xrp{position:absolute;top:12px;width:32px;height:32px;fill:var(--gold);filter:drop-shadow(0 0 12px rgba(224,183,104,.5))}
+
+  .ben-bottom{text-align:center;margin-top:56px;max-width:640px;margin-left:auto;margin-right:auto}
+  .ben-bottom-t{font-size:clamp(20px,2.4vw,28px);font-weight:700;letter-spacing:-.03em;line-height:1.25;color:var(--ink);margin-bottom:10px}
+  .ben-bottom-t em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .ben-bottom-sub{font-size:14px;color:var(--ink-2);line-height:1.6}
+
+  /* =========================================== */
+  /*  WHAT — what is XRP Alliance                 */
+  /* =========================================== */
+  .what{padding:100px 24px;max-width:1200px;margin:0 auto}
   .what-head{text-align:center;max-width:760px;margin:0 auto 64px}
   .what-head .kicker{justify-content:center;margin-bottom:22px}
   .what-head h2{margin-bottom:22px}
@@ -134,180 +284,220 @@
   .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:18px;align-items:stretch;max-width:1100px;margin:0 auto}
   .flow-col{padding:28px 24px;border-radius:16px;background:linear-gradient(180deg,rgba(14,18,32,.9),rgba(8,10,20,.9));border:1px solid var(--rule);display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
   .flow-col.core{background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(93,220,255,.16),transparent 65%),linear-gradient(180deg,rgba(12,22,44,.95),rgba(4,8,18,.98));border-color:rgba(93,220,255,.34);box-shadow:0 0 50px rgba(93,220,255,.14),inset 0 0 0 1px rgba(93,220,255,.06)}
-  .flow-k{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:8px}
-  .flow-col.core .flow-k{color:var(--xrp-hi)}
+  .flow-k{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:8px}
   .flow-t{font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-.02em;line-height:1.25}
-  .flow-d{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ink-2);text-transform:uppercase;line-height:1.7}
+  .flow-d{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--ink-2);text-transform:uppercase;line-height:1.7}
   .flow-col.core .flow-logo img{height:20px;display:block;margin:4px 0 6px}
   .flow-col.core .flow-x{width:18px;height:15px;color:var(--xrp-hi);fill:currentColor;filter:drop-shadow(0 0 8px rgba(93,220,255,.5));margin-bottom:4px}
   .flow-arr{display:flex;align-items:center;justify-content:center;color:var(--ink-3)}
   .flow-arr svg{width:22px;height:22px}
 
   .what-benefit{margin-top:64px;padding:36px 32px;border-radius:18px;background:linear-gradient(135deg,rgba(35,163,224,.08),rgba(10,12,20,.8));border:1px solid rgba(93,220,255,.2);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
-  .wb-t{font-size:clamp(22px,2.5vw,30px);font-weight:300;letter-spacing:-.03em;line-height:1.25;color:var(--ink)}
-  .wb-t em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:400}
+  .wb-t{font-size:clamp(22px,2.5vw,30px);font-weight:700;letter-spacing:-.03em;line-height:1.25;color:var(--ink)}
+  .wb-t em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
   .wb-sub{color:var(--ink-2);font-size:14px;margin-top:8px}
 
   /* =========================================== */
-  /*    PARTNERS — Infra / Ecosystem columns      */
+  /*    PARTNERS — Venn diagram                    */
   /* =========================================== */
-  .partners{padding:120px 24px;max-width:1300px;margin:0 auto}
-  .partners-head{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;margin-bottom:56px;padding-bottom:28px;border-bottom:1px solid var(--rule)}
-  .partners-head h2{margin-top:16px}
-  .partners-head .lede{margin:14px 0 0}
-  .partners-cadence{text-align:right;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;line-height:1.8;white-space:nowrap}
+  .partners{padding:90px 24px 100px;max-width:1300px;margin:0 auto}
+  .partners-head{text-align:center;max-width:760px;margin:0 auto 48px}
+  .partners-head .kicker{justify-content:center;margin-bottom:22px}
+  .partners-head h2{margin-bottom:16px}
+  .partners-head .lede{margin:0 auto}
+  .partners-cadence{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase}
   .partners-cadence b{color:var(--xrp-hi);font-weight:600}
 
-  .pgrid{display:grid;grid-template-columns:1fr minmax(160px,200px) 1fr;gap:30px;align-items:stretch}
-  .pcol{display:flex;flex-direction:column;gap:10px}
-  .pcol-head{display:flex;align-items:center;justify-content:space-between;padding:0 6px 16px;border-bottom:1px dashed rgba(93,220,255,.22);margin-bottom:6px}
-  .pcol-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600}
-  .pcol-sub{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+  /* Venn container */
+  .venn{position:relative;width:100%;max-width:800px;aspect-ratio:4/3;margin:0 auto}
 
-  .pslot{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;padding:16px 18px;border-radius:12px;background:rgba(255,255,255,.015);border:1px solid var(--rule);transition:all .3s}
-  .pslot.revealed{background:linear-gradient(180deg,rgba(93,220,255,.08),rgba(93,220,255,.015));border-color:rgba(93,220,255,.3)}
-  .pslot.revealed:hover{border-color:rgba(93,220,255,.5);transform:translateX(2px)}
-  .pslot-logo{width:40px;height:40px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-  .pslot-logo img{max-width:74%;max-height:74%;display:block;object-fit:contain}
-  .pslot.revealed .pslot-logo{background:#fff;border-color:rgba(93,220,255,.3)}
-  .pslot-body{min-width:0;display:flex;flex-direction:column;gap:4px}
-  .pslot-name{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
-  .pslot-name small{display:block;font-weight:400;font-size:11px;color:var(--ink-2);margin-top:3px;letter-spacing:.04em}
-  .pslot-benefit{font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600}
-  .pslot.locked .pslot-name{color:var(--ink-1);font-weight:400}
-  .pslot.locked .pslot-logo{color:var(--ink-3)}
-  .pslot-badge{font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:4px 9px;border-radius:4px;flex-shrink:0;white-space:nowrap}
-  .pslot-badge.live{color:var(--green);background:rgba(127,234,178,.08);border:1px solid rgba(127,234,178,.28)}
-  .pslot-badge.soon{color:var(--xrp-hi);background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.24)}
-  .pslot-badge.locked{color:var(--ink-3);border:1px solid var(--rule)}
+  /* Three circles */
+  .venn-circle{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px}
+  .venn-circle.infra{width:52%;height:68%;top:16%;left:0;background:radial-gradient(circle at 40% 40%,rgba(93,220,255,.1),rgba(93,220,255,.02) 60%,transparent 80%);border:1px solid rgba(93,220,255,.15)}
+  .venn-circle.wallet{width:48%;height:55%;top:0;left:50%;transform:translateX(-50%);background:radial-gradient(circle at 50% 50%,rgba(200,212,224,.1),rgba(200,212,224,.02) 60%,transparent 80%);border:1px solid rgba(200,212,224,.18)}
+  .venn-circle.eco{width:52%;height:68%;top:16%;right:0;background:radial-gradient(circle at 60% 40%,rgba(93,220,255,.08),rgba(93,220,255,.015) 60%,transparent 80%);border:1px solid rgba(93,220,255,.12)}
 
-  .pcenter{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;border-radius:16px;background:radial-gradient(circle at 50% 30%,rgba(93,220,255,.2),transparent 70%),linear-gradient(180deg,rgba(14,22,42,.95),rgba(6,10,22,.95));border:1px solid rgba(93,220,255,.36);text-align:center;gap:6px;position:relative;overflow:hidden}
-  .pcenter::before{content:'';position:absolute;inset:-10px;border-radius:20px;border:1px dashed rgba(93,220,255,.22);animation:spin 40s linear infinite}
-  .pcenter-x{width:30px;height:25px;color:var(--xrp-hi);fill:currentColor;filter:drop-shadow(0 0 12px rgba(93,220,255,.7));margin-bottom:4px}
-  .pcenter-logo img{height:22px;display:block;margin:0 auto 6px}
-  .pcenter-t{font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-  .pcenter-s{font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:var(--xrp-hi);text-transform:uppercase;font-weight:500;margin-top:2px}
+  .venn-label{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;position:absolute;padding:6px 14px;border-radius:99px;background:rgba(0,0,0,.7);border:1px solid rgba(93,220,255,.25);backdrop-filter:blur(8px);white-space:nowrap;z-index:5}
+  .venn-circle.infra .venn-label{top:12%;left:18%}
+  .venn-circle.wallet .venn-label{top:10%;left:50%;transform:translateX(-50%);color:var(--silver-hi);border-color:var(--rule-silver)}
+  .venn-circle.eco .venn-label{top:12%;right:18%}
+
+  /* Partner items inside circles */
+  .venn-item{display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:10px;background:rgba(0,0,0,.5);border:1px solid var(--rule);backdrop-filter:blur(6px);position:absolute;z-index:4;white-space:nowrap;transition:all .3s}
+  .venn-item:hover{border-color:rgba(93,220,255,.4);box-shadow:0 4px 16px rgba(93,220,255,.1)}
+  .venn-item-logo{width:28px;height:28px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+  .venn-item-logo img{max-width:70%;max-height:70%;object-fit:contain}
+  .venn-item-logo.locked{background:rgba(255,255,255,.04);border:1px solid var(--rule)}
+  .venn-item-logo.locked svg{width:12px;height:12px;color:var(--ink-3)}
+  .venn-item-name{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .venn-item-name.locked{color:var(--ink-2);font-weight:400}
+  .venn-item-badge{font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:2px 6px;border-radius:3px;flex-shrink:0}
+  .venn-item-badge.live{color:var(--green);background:rgba(127,234,178,.08);border:1px solid rgba(127,234,178,.28)}
+  .venn-item-badge.soon{color:var(--xrp-hi);background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.24)}
+
+  /* XRP token center */
+  .venn-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(200,212,224,.2),rgba(93,220,255,.1) 40%,transparent 70%);border:2px solid rgba(200,212,224,.3);box-shadow:0 0 60px rgba(200,212,224,.15),0 0 120px rgba(93,220,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:10}
+  .venn-center-x{width:36px;height:30px;fill:var(--silver-hi);filter:drop-shadow(0 0 12px rgba(200,212,224,.6))}
+  .venn-center-t{font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--silver);text-transform:uppercase;font-weight:600}
+
+  /* Venn overlap glow areas */
+  .venn-glow{position:absolute;border-radius:50%;pointer-events:none;z-index:2}
+  .venn-glow.g1{width:20%;height:26%;top:32%;left:22%;background:radial-gradient(circle,rgba(93,220,255,.08),transparent 70%)}
+  .venn-glow.g2{width:20%;height:26%;top:32%;right:22%;background:radial-gradient(circle,rgba(93,220,255,.06),transparent 70%)}
+  .venn-glow.gc{width:18%;height:24%;top:42%;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(200,212,224,.12),transparent 65%)}
 
   /* =========================================== */
-  /*   HOME FOR XRP — past events, brand moment   */
+  /*    CAMPAIGN CARDS (Alliance partner campaigns) */
   /* =========================================== */
-  .home{position:relative;padding:140px 0 120px;overflow:hidden}
+  .qst-aggr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:780px;margin:0 auto 48px}
+  .qstc{padding:18px 22px;border:1px solid var(--rule-silver);border-radius:14px;background:linear-gradient(180deg,rgba(200,212,224,.03),rgba(8,10,18,.6));display:flex;flex-direction:column;gap:4px;text-align:left}
+  .qstc-k{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;font-weight:600}
+  .qstc-v{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
+  .qstc.live .qstc-v{color:var(--green)}
+  .qstc.soon .qstc-v{color:var(--xrp-hi)}
+
+  .qst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1200px;margin:0 auto}
+  .qst{position:relative;border-radius:16px;border:1px solid var(--rule);background:linear-gradient(180deg,rgba(14,18,32,.95),rgba(8,10,20,.95));padding:24px;display:flex;flex-direction:column;gap:14px;transition:all .3s;overflow:hidden;min-height:300px}
+  .qst:hover{transform:translateY(-2px)}
+  .qst.ended{opacity:.62}
+  .qst.ended:hover{opacity:.85}
+  .qst.live{border-color:rgba(127,234,178,.4);box-shadow:0 0 32px rgba(127,234,178,.14),inset 0 0 0 1px rgba(127,234,178,.06);background:linear-gradient(180deg,rgba(20,40,28,.42),rgba(10,16,12,.95))}
+  .qst.live::before{content:'';position:absolute;top:0;left:-30%;right:-30%;height:2px;background:linear-gradient(90deg,transparent,#7FEAB2 50%,transparent);animation:liveStrip 3s ease-in-out infinite}
+  @keyframes liveStrip{0%,100%{opacity:.35;transform:translateX(-25%)}50%{opacity:1;transform:translateX(25%)}}
+  .qst.soon{border:1px dashed var(--rule);background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(93,220,255,.05),rgba(8,10,20,.95))}
+
+  .qst-status{display:inline-flex;align-items:center;gap:8px;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;padding:5px 11px;border-radius:6px;width:max-content}
+  .qst.ended .qst-status{color:var(--ink-2);background:rgba(255,255,255,.04);border:1px solid var(--rule)}
+  .qst.live .qst-status{color:var(--green);background:rgba(127,234,178,.1);border:1px solid rgba(127,234,178,.32)}
+  .qst.live .qst-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.6s ease-in-out infinite}
+  .qst.soon .qst-status{color:var(--xrp-hi);background:rgba(93,220,255,.06);border:1px solid rgba(93,220,255,.28)}
+
+  .qst-partner{display:flex;align-items:center;gap:12px}
+  .qst-partner-logo{width:42px;height:42px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+  .qst-partner-logo img{max-width:78%;max-height:78%;object-fit:contain}
+  .qst-partner-logo.locked{background:rgba(255,255,255,.03);border:1px solid var(--rule);color:var(--ink-3);font-size:20px;font-weight:300;font-family:'Roboto Mono',monospace}
+  .qst-partner-name{font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .qst.soon .qst-partner-name{color:var(--ink-1)}
+
+  .qst-quest{font-size:13.5px;color:var(--ink-1);font-weight:400;line-height:1.5;letter-spacing:-.005em;flex:1;margin:2px 0 4px}
+  .qst.soon .qst-quest{color:var(--ink-2);font-style:italic}
+
+  .qst-reward{display:flex;flex-direction:column;gap:3px;padding:14px 16px;border-radius:10px;background:rgba(255,255,255,.025);border:1px solid var(--rule)}
+  .qst-reward-k{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:var(--ink-2);text-transform:uppercase;font-weight:600}
+  .qst-reward-v{font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15}
+  .qst.live .qst-reward-v{color:var(--green)}
+  .qst.soon .qst-reward{border-style:dashed}
+  .qst.soon .qst-reward-v{color:var(--ink-2);font-weight:500;letter-spacing:.1em}
+  .qst-reward-sub{font-size:12px;color:var(--ink-2);line-height:1.4;margin-top:2px}
+
+  .qst-meta{display:flex;justify-content:space-between;align-items:center;font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;font-weight:600;padding-top:2px}
+  .qst-meta b.live-cta{color:var(--green);font-weight:700}
+
+  .qst-footer{text-align:center;font-size:14.5px;color:var(--ink-1);font-weight:500;letter-spacing:-.005em;margin:48px auto 0;padding:16px 26px;border-radius:99px;background:rgba(93,220,255,.04);border:1px solid rgba(93,220,255,.2);max-width:max-content}
+  .qst-footer b{color:var(--xrp-hi)}
+
+  @media (max-width:900px){
+    .qst-grid{grid-template-columns:1fr 1fr}
+    .qst-aggr{grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .qstc{padding:14px 16px}
+    .qstc-v{font-size:16px}
+  }
+  @media (max-width:640px){
+    .qst-grid{grid-template-columns:1fr}
+    .qst-aggr{grid-template-columns:1fr}
+  }
+
+  /* =========================================== */
+  /*    COMPARE                                    */
+  /* =========================================== */
+  .compare{padding:160px 24px 120px;max-width:1200px;margin:0 auto}
+  .compare-head{margin-bottom:48px;max-width:820px}
+  .compare-head h2{margin-top:16px}
+  .compare-head .lede{margin-top:18px}
+
+  .ctable{border:1px solid var(--rule-silver);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(200,212,224,.03),rgba(8,10,18,.6));box-shadow:0 4px 32px rgba(0,0,0,.3)}
+  .crow{display:grid;grid-template-columns:minmax(220px,1.3fr) 1fr 1fr 1fr;align-items:stretch;border-bottom:1px solid var(--rule)}
+  .crow:last-child{border-bottom:none}
+  .crow.head{background:rgba(93,220,255,.03)}
+  .ch{padding:22px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:10px;border-right:1px solid var(--rule)}
+  .ch:last-child{border-right:none}
+  .ch.dcent{color:var(--xrp-hi)}
+  .ch.dcent svg{width:14px;height:12px;fill:currentColor}
+  .cc{padding:24px 28px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:14px;font-size:15px;color:var(--ink);letter-spacing:-.005em}
+  .cc:last-child{border-right:none}
+  .cc.label{color:var(--ink);font-weight:500}
+  .cc.dcent{background:rgba(93,220,255,.04);color:var(--ink);font-weight:500}
+  .cc.other{color:var(--ink-2)}
+  .cc .mk{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .cc .mk.yes{background:rgba(93,220,255,.14);color:var(--xrp-hi);border:1px solid rgba(93,220,255,.38)}
+  .cc .mk.mid{background:rgba(255,255,255,.04);color:var(--ink-2);border:1px solid var(--rule)}
+  .cc .mk.no{background:rgba(255,255,255,.015);color:var(--ink-3);border:1px solid var(--rule)}
+  .cc .mk svg{width:12px;height:12px}
+  .cc-txt{min-width:0}
+  .cc-txt b{display:block;font-weight:600;color:var(--ink);font-size:15px;letter-spacing:-.005em;line-height:1.3}
+  .cc-txt small{display:block;color:var(--ink-2);font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:4px;font-weight:400}
+  .cc.other .cc-txt b{color:var(--ink-1);font-weight:400}
+
+  /* =========================================== */
+  /*      HARDWARE — the exclusives               */
+  /* =========================================== */
+  .hw{padding:140px 24px;max-width:1200px;margin:0 auto}
+  .hw-card{position:relative;border-radius:24px;overflow:hidden;background:radial-gradient(ellipse 60% 40% at 90% 20%,rgba(224,183,104,.12),transparent 65%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(200,212,224,.06),transparent 55%),linear-gradient(135deg,#12100A 0%,#0A0C14 60%);border:1px solid var(--rule-gold);display:grid;grid-template-columns:1.05fr 1fr;min-height:520px;box-shadow:0 8px 48px rgba(0,0,0,.4)}
+  .hw-l{padding:52px 48px;display:flex;flex-direction:column;justify-content:center}
+  .hw-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(224,183,104,.08);border:1px solid rgba(224,183,104,.35);font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-weight:600;width:max-content;margin-bottom:22px}
+  .hw-title{font-size:clamp(30px,4.6vw,52px);font-weight:700;letter-spacing:-.045em;line-height:1.02;color:var(--ink);margin-bottom:18px}
+  .hw-title em{font-style:normal;background:linear-gradient(120deg,#F4CE7B,#E0B768);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .hw-sub{color:var(--ink-1);font-size:15px;line-height:1.6;margin-bottom:28px;max-width:460px;font-weight:300}
+  .hw-bens{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
+  .hwb{display:flex;align-items:baseline;gap:14px;font-size:14px;color:var(--ink);letter-spacing:-.01em}
+  .hwb-k{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--gold);text-transform:uppercase;min-width:62px}
+  .hwb-v{font-weight:500;color:var(--ink)}
+  .hwb-v small{color:var(--ink-2);font-weight:400;font-size:13px;margin-left:6px}
+  .hw-r{position:relative;overflow:hidden;background:#050710}
+  .hw-r img{width:100%;height:100%;object-fit:cover;display:block}
+  .hw-r::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 45%,rgba(5,7,16,.45) 100%)}
+
+  /* =========================================== */
+  /*   HOME FOR XRP — history marquee              */
+  /* =========================================== */
+  .home{position:relative;padding:100px 0 80px;overflow:hidden}
   .home-inner{max-width:1320px;margin:0 auto;padding:0 24px}
   .home-head{text-align:center;max-width:820px;margin:0 auto 48px}
   .home-head .kicker{justify-content:center;margin-bottom:22px}
   .home-head h2{margin-bottom:22px}
   .home-head .lede{margin:0 auto}
 
-  .home-stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:920px;margin:0 auto 56px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
-  .hs{padding:24px 22px;border-right:1px solid var(--rule);display:flex;flex-direction:column;gap:5px}
-  .hs:last-child{border-right:none}
-  .hs-k{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ink-2);text-transform:uppercase;font-weight:500}
-  .hs-v{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:-.015em;line-height:1.3}
-  .hs-v em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-
-  /* Marquee history */
   .marquee-wrap{position:relative;width:100%;overflow:hidden;padding:6px 0;mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%)}
   .marquee{display:flex;gap:14px;width:max-content;animation:scroll 48s linear infinite}
   .marquee:hover{animation-play-state:paused}
   @keyframes scroll{to{transform:translateX(-50%)}}
   .ev{display:flex;align-items:center;gap:14px;padding:12px 20px 12px 12px;border-radius:99px;background:rgba(255,255,255,.02);border:1px solid var(--rule);flex-shrink:0}
   .ev-dot{width:8px;height:8px;border-radius:50%;background:var(--xrp-hi);box-shadow:0 0 10px var(--xrp-hi);flex-shrink:0}
-  .ev-yr{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;font-weight:500}
+  .ev-yr{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;font-weight:500}
   .ev-t{font-size:14px;font-weight:500;color:var(--ink);letter-spacing:-.01em;white-space:nowrap}
   .ev-t small{color:var(--ink-2);font-weight:400;margin-left:6px}
 
   /* =========================================== */
-  /*    COMPARE — Just hold, see the difference   */
-  /* =========================================== */
-  .compare{padding:140px 24px 100px;max-width:1200px;margin:0 auto}
-  .compare-head{margin-bottom:48px;max-width:820px}
-  .compare-head h2{margin-top:16px}
-  .compare-head .lede{margin-top:18px}
-
-  .ctable{border:1px solid var(--rule);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,rgba(12,16,28,.6),rgba(6,8,16,.6))}
-  .crow{display:grid;grid-template-columns:minmax(220px,1.3fr) 1fr 1fr 1fr;align-items:stretch;border-bottom:1px solid var(--rule)}
-  .crow:last-child{border-bottom:none}
-  .crow.head{background:rgba(93,220,255,.03)}
-  .ch{padding:18px 22px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--ink-2);text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:10px;border-right:1px solid var(--rule)}
-  .ch:last-child{border-right:none}
-  .ch.dcent{color:var(--xrp-hi)}
-  .ch.dcent svg{width:12px;height:10px;fill:currentColor}
-  .cc{padding:18px 22px;border-right:1px solid var(--rule);display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink);letter-spacing:-.005em}
-  .cc:last-child{border-right:none}
-  .cc.label{color:var(--ink);font-weight:500}
-  .cc.dcent{background:rgba(93,220,255,.04);color:var(--ink);font-weight:500}
-  .cc.other{color:var(--ink-2)}
-  .cc .mk{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .cc .mk.yes{background:rgba(93,220,255,.14);color:var(--xrp-hi);border:1px solid rgba(93,220,255,.38)}
-  .cc .mk.mid{background:rgba(255,255,255,.04);color:var(--ink-2);border:1px solid var(--rule)}
-  .cc .mk.no{background:rgba(255,255,255,.015);color:var(--ink-3);border:1px solid var(--rule)}
-  .cc .mk svg{width:10px;height:10px}
-  .cc-txt{min-width:0}
-  .cc-txt b{display:block;font-weight:500;color:var(--ink);font-size:13.5px;letter-spacing:-.005em;line-height:1.25}
-  .cc-txt small{display:block;color:var(--ink-2);font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-top:3px;font-weight:400}
-  .cc.other .cc-txt b{color:var(--ink-1);font-weight:400}
-
-  /* =========================================== */
-  /*         HEXA — just holding benefits list    */
-  /* =========================================== */
-  .rewards{padding:40px 24px 100px;max-width:860px;margin:0 auto}
-  .rewards-head{text-align:center;margin-bottom:40px}
-  .rewards-head h2{margin-top:16px}
-  .rewards-head .lede{margin:18px auto 0;max-width:460px}
-  .reward-stack{display:flex;flex-direction:column;gap:6px}
-  .rw{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:18px 22px;border-radius:12px;background:var(--panel);border:1px solid var(--rule);transition:all .3s}
-  .rw:hover{border-color:var(--rule-hi);transform:translateX(3px)}
-  .rw-n{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600}
-  .rw-t{font-size:15.5px;font-weight:500;color:var(--ink);letter-spacing:-.015em}
-  .rw-t small{color:var(--ink-2);font-weight:400;font-size:13px;display:block;margin-top:2px;letter-spacing:-.01em}
-  .rw-v{font-family:'Geist Mono',monospace;font-size:12.5px;letter-spacing:.08em;color:var(--ink);font-weight:600;white-space:nowrap}
-  .rw-total{position:relative;margin-top:12px;padding:26px;border-radius:14px;background:radial-gradient(ellipse at top right,rgba(93,220,255,.16),transparent 60%),linear-gradient(135deg,rgba(35,163,224,.12),rgba(10,12,20,.9));border:1px solid rgba(93,220,255,.3);display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;box-shadow:0 0 40px rgba(93,220,255,.1);overflow:hidden}
-  .rw-total::before{content:'';position:absolute;top:-20px;right:-20px;width:200px;height:170px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 424' fill='%235DDCFF'><path d='M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z'/><path d='M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z'/></svg>");background-size:contain;background-repeat:no-repeat;opacity:.08;pointer-events:none}
-  .rw-total-k{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600;position:relative;z-index:1}
-  .rw-total-v{font-weight:300;font-size:clamp(26px,4vw,42px);letter-spacing:-.04em;line-height:1;background:linear-gradient(120deg,#F8FAFF 0%,#5DDCFF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1}
-  .rw-total-sub{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--ink-1);text-transform:uppercase;font-weight:500;text-align:right;position:relative;z-index:1}
-
-  /* =========================================== */
-  /*      HARDWARE — the exclusives never stop    */
-  /* =========================================== */
-  .hw{padding:100px 24px;max-width:1200px;margin:0 auto}
-  .hw-card{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse 60% 40% at 90% 20%,rgba(224,183,104,.14),transparent 65%),linear-gradient(135deg,#14110A 0%,#0A0C14 60%);border:1px solid var(--rule-gold);display:grid;grid-template-columns:1.05fr 1fr;min-height:500px}
-  .hw-l{padding:52px 48px;display:flex;flex-direction:column;justify-content:center}
-  .hw-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(224,183,104,.08);border:1px solid rgba(224,183,104,.35);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;font-weight:600;width:max-content;margin-bottom:22px}
-  .hw-title{font-size:clamp(30px,4.6vw,52px);font-weight:300;letter-spacing:-.045em;line-height:1.02;color:var(--ink);margin-bottom:18px}
-  .hw-title em{font-style:normal;background:linear-gradient(120deg,#F4CE7B,#E0B768);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:300}
-  .hw-sub{color:var(--ink-1);font-size:15px;line-height:1.6;margin-bottom:28px;max-width:460px;font-weight:300}
-  .hw-bens{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
-  .hwb{display:flex;align-items:baseline;gap:14px;font-size:14px;color:var(--ink);letter-spacing:-.01em}
-  .hwb-k{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--gold);text-transform:uppercase;min-width:62px}
-  .hwb-v{font-weight:500;color:var(--ink)}
-  .hwb-v small{color:var(--ink-2);font-weight:400;font-size:13px;margin-left:6px}
-  .hw-r{position:relative;overflow:hidden;background:#050710}
-  .hw-r img{width:100%;height:100%;object-fit:cover;display:block}
-  .hw-r::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 45%,rgba(5,7,16,.45) 100%)}
-  .hw-x-mark{position:absolute;top:22px;right:22px;width:38px;height:32px;z-index:2;color:var(--xrp-hi);fill:currentColor;opacity:.9;filter:drop-shadow(0 0 12px rgba(93,220,255,.6))}
-
-  /* =========================================== */
   /*                  FINAL CTA                    */
   /* =========================================== */
-  .final{position:relative;padding:140px 24px 130px;text-align:center;max-width:880px;margin:0 auto;overflow:hidden}
+  .final{position:relative;padding:180px 24px 160px;text-align:center;max-width:880px;margin:0 auto;overflow:hidden}
   .final::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 424' fill='%235DDCFF'><path d='M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z'/><path d='M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z'/></svg>");background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.05;pointer-events:none}
   .final>*{position:relative;z-index:1}
   .final h2{font-size:clamp(38px,7vw,84px);max-width:760px;margin:22px auto}
   .final .lede{max-width:480px;margin:0 auto 32px}
-  .final-cd{display:inline-flex;margin:18px auto 32px;border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:rgba(0,0,0,.4);backdrop-filter:blur(8px)}
-  .fcu{padding:16px 22px;border-right:1px solid var(--rule);min-width:84px;font-family:'Geist Mono',monospace}
+  .final-cd{display:inline-flex;margin:18px auto 40px;border:1px solid var(--rule-silver);border-radius:16px;overflow:hidden;background:rgba(200,212,224,.03);backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+  .fcu{padding:16px 22px;border-right:1px solid var(--rule);min-width:84px;font-family:'Roboto Mono',monospace}
   .fcu:last-child{border-right:none}
   .fcu-v{font-size:36px;font-weight:200;letter-spacing:-.04em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
   .fcu-l{font-size:9.5px;letter-spacing:.3em;color:var(--ink-2);margin-top:6px;text-transform:uppercase}
   .final-ctas{display:inline-flex;gap:8px;flex-wrap:wrap;justify-content:center}
 
   /* FOOTER */
-  footer{padding:40px 24px 32px;border-top:1px solid var(--rule)}
+  footer{padding:48px 24px 36px;border-top:1px solid var(--rule-silver)}
   .foot-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
   .foot-l{display:flex;align-items:center;gap:12px}
   .foot-logo{height:16px;opacity:.7}
-  .foot-meta{font-family:'Geist Mono',monospace;font-size:10px;color:var(--ink-2);letter-spacing:.18em;text-transform:uppercase}
+  .foot-meta{font-family:'Roboto Mono',monospace;font-size:10px;color:var(--ink-2);letter-spacing:.18em;text-transform:uppercase}
   .foot-s{display:flex;gap:6px}
   .foot-s a{width:32px;height:32px;border-radius:50%;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;color:var(--ink-2);text-decoration:none;transition:all .2s}
   .foot-s a:hover{color:var(--xrp-hi);border-color:var(--rule-hi)}
@@ -321,9 +511,11 @@
   @media (max-width:1000px){
     .hero-inner{grid-template-columns:1fr;gap:60px}
     .hero-viz{max-width:440px;margin:0 auto;order:-1}
-    .pgrid{grid-template-columns:1fr;gap:24px}
-    .pcenter{order:-1;padding:22px;flex-direction:row;gap:14px;text-align:left}
-    .pcenter-x{margin:0}
+    .hv-star-label{font-size:8.5px;padding:3px 8px}
+    .venn{max-width:600px;aspect-ratio:1/1}
+    .venn-item-name{font-size:11px}
+    .venn-center{width:80px;height:80px}
+    .venn-center-x{width:28px;height:24px}
     .flow{grid-template-columns:1fr;gap:12px}
     .flow-arr{transform:rotate(90deg);padding:6px 0}
     .what-benefit{grid-template-columns:1fr;text-align:left}
@@ -333,10 +525,16 @@
     .hw-r{min-height:340px}
     .partners-head{grid-template-columns:1fr;gap:16px}
     .partners-cadence{text-align:left}
-    .home-stats{grid-template-columns:1fr 1fr}
-    .hs{border-bottom:1px solid var(--rule)}
-    .hs:nth-child(-n+2){border-bottom:1px solid var(--rule)}
-    .hs:nth-child(even){border-right:none}
+    .bignums-grid{grid-template-columns:1fr 1fr}
+    .bn{border-bottom:1px solid var(--rule)}
+    .bn:nth-child(even){border-right:none}
+    .stack-chart{height:340px;gap:10px}
+    .stack-bar:nth-child(1) .stack-col{height:110px}
+    .stack-bar:nth-child(2) .stack-col{height:140px}
+    .stack-bar:nth-child(3) .stack-col{height:170px}
+    .stack-bar:nth-child(4) .stack-col{height:200px}
+    .stack-bar:nth-child(5) .stack-col{height:240px}
+    .stack-bar:nth-child(6) .stack-col{height:310px}
   }
   @media (max-width:640px){
     .nav-inner{padding:12px 18px}
@@ -344,34 +542,58 @@
     .hero{padding:92px 18px 48px;min-height:auto}
     .hero-inner{gap:44px}
     .hero-viz{max-width:340px}
-    .hv-node-label{font-size:8.5px;padding:3px 7px;letter-spacing:.18em}
-    .hv-center{padding:12px}
-    .what,.partners,.home,.compare,.rewards,.hw,.final{padding-left:18px;padding-right:18px}
-    .what{padding-top:100px;padding-bottom:80px}
+    .hv-star-label{font-size:8px;padding:3px 6px;letter-spacing:.16em}
+    .hv-center{padding:12px;width:30%}
+    .hv-star-body{width:12px;height:12px}
+    .proof,.what,.partners,.compare,.benefits,.hw,.final{padding-left:18px;padding-right:18px}
+    .bignums{padding-left:18px;padding-right:18px}
+    .bignums-grid{grid-template-columns:1fr;gap:0}
+    .bn{border-right:none;border-bottom:1px solid var(--rule)}
+    .bn:last-child{border-bottom:none}
+    .what{padding-top:80px;padding-bottom:80px}
     .partners{padding:80px 18px}
-    .home{padding:100px 0 80px}
+    .venn{max-width:100%;aspect-ratio:3/4}
+    .venn-circle.infra,.venn-circle.eco{width:60%;height:50%}
+    .venn-circle.wallet{width:55%;height:42%}
+    .venn-item{padding:6px 10px}
+    .venn-item-logo{width:22px;height:22px}
+    .venn-item-name{font-size:10px}
+    .venn-item-badge{font-size:7px}
+    .venn-center{width:64px;height:64px}
+    .venn-center-x{width:22px;height:18px}
+    .venn-center-t{font-size:7px}
+    .venn-label{font-size:9px;padding:4px 10px}
+    .home{padding:80px 0 60px}
     .home-inner{padding:0 18px}
     .compare{padding:100px 18px 80px}
-    .rewards{padding:20px 18px 80px}
     .hw{padding:80px 18px}
     .final{padding:100px 18px 90px}
-    .home-stats{grid-template-columns:1fr}
-    .hs{border-right:none;border-bottom:1px solid var(--rule)}
-    .hs:last-child{border-bottom:none}
     .crow{grid-template-columns:1fr 1fr;border-bottom:1px solid var(--rule)}
     .crow.head .ch:nth-child(n+4){display:none}
     .crow .cc:nth-child(n+4){display:none}
     .hw-l{padding:34px 26px}
     .hwb{flex-direction:column;gap:2px}
     .hwb-k{min-width:0}
-    .rw{grid-template-columns:auto 1fr;gap:12px;padding:14px 16px}
-    .rw-v{grid-column:span 2;text-align:right;border-top:1px solid var(--rule);padding-top:8px;margin-top:4px}
-    .rw-total{grid-template-columns:auto 1fr;padding:22px}
-    .rw-total-sub{grid-column:span 2;text-align:right;padding-top:10px;border-top:1px solid rgba(93,220,255,.15)}
     .fcu{padding:12px 16px;min-width:64px}
     .fcu-v{font-size:28px}
     .pslot{grid-template-columns:36px 1fr;gap:12px}
     .pslot-badge{grid-column:span 2;justify-self:start;margin-top:4px}
+    .tcard{width:300px;padding:22px}
+    .stack-chart{height:280px;gap:6px;padding:0 10px}
+    .stack-bar:nth-child(1) .stack-col{height:80px}
+    .stack-bar:nth-child(2) .stack-col{height:105px}
+    .stack-bar:nth-child(3) .stack-col{height:130px}
+    .stack-bar:nth-child(4) .stack-col{height:155px}
+    .stack-bar:nth-child(5) .stack-col{height:185px}
+    .stack-bar:nth-child(6) .stack-col{height:250px}
+    .stack-icon{width:32px;height:32px}
+    .stack-icon svg{width:16px;height:16px}
+    .stack-num{font-size:9px}
+    .stack-name{font-size:11px}
+    .stack-desc{font-size:8px}
+    .stack-2x{font-size:8px;padding:3px 8px;top:-14px}
+    .stack-xrp{width:24px;height:24px;top:8px}
+    .stack-col{padding:12px 6px;border-radius:10px 10px 4px 4px}
   }
 </style>
 </head>
@@ -396,283 +618,394 @@
       <img class="nav-logo" src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/>
     </div>
     <div class="nav-r">
-      <span class="nav-time" id="nav-time">Alliance opens · <b>D-<span id="nav-d">—</span></b></span>
-      <a href="#cta" class="nav-cta">Get D'CENT</a>
+      <span class="nav-time" id="nav-time">Trusted since <b>2017</b></span>
+      <a href="#hw" class="nav-cta">Meet D'CENT</a>
     </div>
   </div>
 </nav>
 
 <main>
 
-<!-- ============ HERO ============ -->
+<!-- ============ 1. HERO + Stats Bar ============ -->
 <section class="hero">
+  <!-- XRP symbol watermark -->
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:80%;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 424' fill='%235DDCFF'><path d='M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z'/><path d='M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z'/></svg>&quot;);background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.03;pointer-events:none;z-index:0"></div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <span class="status" id="status-chip">
+      <span class="status live" id="status-chip">
         <span class="dot"></span>
-        <span id="status-text">XRP Alliance · Opens May 8, 2026</span>
+        <span id="status-text">XRP Alliance &middot; Live</span>
       </span>
       <h1>
-        <span class="l1">XRP has a home.</span>
-        <span class="l2">D'CENT is building it.</span>
+        <span class="l1">The first Alliance</span>
+        <span class="l2">for XRP.</span>
       </h1>
-      <p class="lede">From fiat on-ramp to yield, swaps to dApps — the entire XRP ecosystem is plugging into one wallet. <b>Just hold XRP in D'CENT, and every benefit is yours.</b></p>
+      <p class="lede">Opened by D'CENT &mdash; the wallet XRP holders have trusted since 2017. <b>For the first time, the entire XRP ecosystem comes together in one place.</b></p>
       <div class="hero-cta">
-        <a href="#what" class="btn btn-primary">What is XRP Alliance
+        <a href="#hw" class="btn btn-primary">Meet D'CENT
           <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="#cta" class="btn btn-ghost">Get D'CENT</a>
+        <a href="#partners" class="btn btn-ghost">See the Alliance</a>
       </div>
+      <!-- Stats bar -->
       <div class="hero-meta">
         <div class="hero-meta-col">
-          <b id="hm-d">D-—</b>
-          <span>Opens <span class="accent">May 8, 2026</span></span>
-        </div>
-        <div class="hero-meta-col">
-          <b>6+ Partners</b>
-          <span>Revealed one by one</span>
-        </div>
-        <div class="hero-meta-col">
           <b>Since 2017</b>
-          <span>Built for XRP</span>
+          <span>By <span class="accent">XRP</span> holders</span>
+        </div>
+        <div class="hero-meta-col">
+          <b>0 Hacks</b>
+          <span>Ever</span>
+        </div>
+        <div class="hero-meta-col">
+          <b>World's First</b>
+          <span>Biometric wallet</span>
+        </div>
+        <div class="hero-meta-col">
+          <b>First XRP Yield</b>
+          <span>On hardware</span>
         </div>
       </div>
     </div>
 
-    <!-- Constellation: D'CENT at center, ecosystem nodes around it -->
+    <!-- Solar system visualization -->
     <div class="hero-viz">
       <div class="hv-inner">
+        <div class="hv-glow-outer"></div>
         <div class="hv-glow"></div>
+        <div class="hv-half infra"></div>
+        <div class="hv-half eco"></div>
+        <span class="hv-cat-label infra">Infrastructure</span>
+        <span class="hv-cat-label eco">Ecosystem</span>
         <div class="hv-rings">
-          <div class="hv-ring r1"></div>
-          <div class="hv-ring r2"></div>
-          <div class="hv-ring r3"></div>
+          <div class="hv-orbit o1"></div>
+          <div class="hv-orbit o2"></div>
+          <div class="hv-orbit o3"></div>
         </div>
-        <svg class="hv-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <line x1="50" y1="50" x2="50" y2="12"/>
-          <line x1="50" y1="50" x2="88" y2="28"/>
-          <line x1="50" y1="50" x2="90" y2="72"/>
-          <line x1="50" y1="50" x2="50" y2="91"/>
-          <line x1="50" y1="50" x2="10" y2="72"/>
-          <line x1="50" y1="50" x2="12" y2="28"/>
-        </svg>
-
+        <div class="hv-trail t1"></div>
+        <div class="hv-trail t2"></div>
+        <div class="hv-trail t3"></div>
         <div class="hv-center">
-          <span class="hv-badge">D'CENT Core</span>
-          <svg class="hv-center-x"><use href="#rippleX"/></svg>
-          <div class="hv-center-logo">
-            <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/>
+          <span class="hv-badge">XRP Alliance</span>
+          <div class="hv-pair">
+            <div class="hv-pair-row">
+              <svg class="hv-pair-x" viewBox="0 0 512 424"><use href="#rippleX"/></svg>
+              <span class="hv-pair-cross">&times;</span>
+              <div class="hv-pair-logo">
+                <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/>
+              </div>
+            </div>
+            <span class="hv-pair-label">XRP &middot; D'CENT</span>
           </div>
-          <span class="hv-center-label">Home for<br>XRP Holders</span>
         </div>
-
-        <div class="hv-node n1"><span class="hv-node-dot"></span><span class="hv-node-label">Yield</span></div>
-        <div class="hv-node n2"><span class="hv-node-dot"></span><span class="hv-node-label">Swap</span></div>
-        <div class="hv-node n3 dim"><span class="hv-node-dot"></span><span class="hv-node-label">Payments</span></div>
-        <div class="hv-node n4 dim"><span class="hv-node-dot"></span><span class="hv-node-label">dApps</span></div>
-        <div class="hv-node n5"><span class="hv-node-dot"></span><span class="hv-node-label">Fiat</span></div>
-        <div class="hv-node n6 dim"><span class="hv-node-dot"></span><span class="hv-node-label">Airdrops</span></div>
+        <!-- Left half — Infrastructure -->
+        <div class="hv-star bright s5"><span class="hv-star-body"></span><span class="hv-star-label">Fiat</span></div>
+        <div class="hv-star bright s6"><span class="hv-star-body"></span><span class="hv-star-label">Swap</span></div>
+        <!-- Right half — Ecosystem -->
+        <div class="hv-star bright s1"><span class="hv-star-body"></span><span class="hv-star-label">Yield</span></div>
+        <div class="hv-star bright s2"><span class="hv-star-body"></span><span class="hv-star-label">Airdrops</span></div>
+        <div class="hv-star bright s3"><span class="hv-star-body"></span><span class="hv-star-label">Payments</span></div>
+        <div class="hv-star bright s4"><span class="hv-star-body"></span><span class="hv-star-label">dApps</span></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ============ WHAT IS XRP ALLIANCE ============ -->
-<section class="what" id="what">
-  <div class="what-head fade">
-    <span class="kicker">Introducing</span>
-    <h2 class="display">XRP Alliance.</h2>
-    <p class="lede">Stop just holding XRP. D'CENT is building the entire XRP stack — from infrastructure to ecosystem — and bringing every meaningful project under one wallet. Hold XRP in D'CENT and the whole thing flows to you, automatically.</p>
-  </div>
-
-  <!-- Infra → Core → Ecosystem flow -->
-  <div class="flow fade d1">
-    <div class="flow-col">
-      <span class="flow-k">01 · Infrastructure</span>
-      <span class="flow-t">Get XRP in. Move it anywhere.</span>
-      <span class="flow-d">Fiat on-ramp<br>Cross-chain swap<br>Bridge · Off-ramp</span>
-    </div>
-    <div class="flow-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-    <div class="flow-col core">
-      <span class="flow-k">D'CENT</span>
-      <svg class="flow-x"><use href="#rippleX"/></svg>
-      <span class="flow-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/></span>
-      <span class="flow-t">The home.</span>
-      <span class="flow-d">Since 2017<br>EAL5+ · Self-custody<br>100+ networks</span>
-    </div>
-    <div class="flow-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-    <div class="flow-col">
-      <span class="flow-k">02 · Ecosystem</span>
-      <span class="flow-t">Make XRP work for you.</span>
-      <span class="flow-d">Yield · Staking<br>Payments · Airdrops<br>XRPL dApps · Trustline</span>
-    </div>
-  </div>
-
-  <div class="what-benefit fade d2">
-    <div>
-      <div class="wb-t">You don't chase anything. <em>You just hold.</em></div>
-      <div class="wb-sub">Every partner that joins the Alliance plugs their benefits directly into D'CENT. If your XRP is here, you're in.</div>
-    </div>
-    <a href="#cta" class="btn btn-primary">Move your XRP
-      <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    </a>
+  <!-- Alliance partners bar -->
+  <div class="inst-bar fade d2" style="max-width:920px;margin:60px auto 0;border-radius:16px;gap:36px">
+    <span class="inst-bar-label">Alliance Partners</span>
+    <img class="inst-logo" src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669505197fd5bb5873a41a17_ripple.svg" alt="Ripple"/>
+    <img class="inst-logo" src="https://cryptologos.cc/logos/flare-flr-logo.svg" alt="Flare"/>
+    <img class="inst-logo" src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051920a67d8ee3be1a07_osl.svg" alt="OSL"/>
+    <span class="inst-pill">Squid Router</span>
+    <span class="inst-pill">Doppler Finance</span>
+    <span class="inst-pill">XRP Korea</span>
+    <span class="inst-soon">+ more coming</span>
   </div>
 </section>
 
-<!-- ============ PARTNERS ============ -->
+<!-- ============ 2. PARTNERS — Campaign cards (moved up) ============ -->
 <section class="partners" id="partners">
   <div class="partners-head fade">
-    <div>
-      <span class="kicker">The Alliance</span>
-      <h2 class="display">Every layer. <em>One wallet.</em></h2>
-      <p class="lede">Partners reveal one by one, each bringing a dedicated campaign for D'CENT holders. Infrastructure first. Ecosystem next.</p>
+    <span class="kicker">The Alliance</span>
+    <h2 class="display">The XRP ecosystem,<br><em>finally moving as one.</em></h2>
+    <p class="lede"><b>This is what XRP holders have been waiting for.</b> The full ecosystem &mdash; every leading project, every reward path, every campaign &mdash; finally moving as one. In one wallet. <b>D'CENT.</b></p>
+    <p class="lede" style="margin:18px auto 0"><b>The first campaign already paid out. The second is paying right now. The third is loading. More are coming.</b> Every Alliance partner shows up with something only D'CENT XRP holders can claim. <b>Move XRP to D'CENT &mdash; you're in for every drop. Forever.</b></p>
+  </div>
+
+  <!-- Aggregate counters -->
+  <div class="qst-aggr fade d1">
+    <div class="qstc">
+      <span class="qstc-k">Distributed so far</span>
+      <span class="qstc-v">$22,500+ in XRP</span>
     </div>
-    <div class="partners-cadence">
-      Cadence<br>
-      <b>One reveal · No schedule</b><br>
-      <span id="next-cd" style="color:var(--ink-2)">Next drop · tbd</span>
+    <div class="qstc live">
+      <span class="qstc-k">Live now</span>
+      <span class="qstc-v">1 campaign</span>
+    </div>
+    <div class="qstc soon">
+      <span class="qstc-k">Coming soon</span>
+      <span class="qstc-v">3 partners + more</span>
     </div>
   </div>
 
-  <div class="pgrid fade d1">
-    <!-- INFRASTRUCTURE -->
-    <div class="pcol">
-      <div class="pcol-head">
-        <span class="pcol-label">Infrastructure</span>
-        <span class="pcol-sub">Capital in · out</span>
+  <!-- Campaign cards grid — 6 partners across 3 states -->
+  <div class="qst-grid fade d2">
+
+    <!-- 1. ENDED · Ripple -->
+    <article class="qst ended">
+      <span class="qst-status">Ended</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669505197fd5bb5873a41a17_ripple.svg" alt="Ripple"/></div>
+        <span class="qst-partner-name">Ripple</span>
       </div>
-      <div class="pslot revealed">
-        <div class="pslot-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/66950519da06b7e5b6e31c20_banxa.svg" alt="Banxa"/></div>
-        <div class="pslot-body">
-          <span class="pslot-name">Banxa <small>Fiat on-ramp</small></span>
-          <span class="pslot-benefit">Zero fee for holders · First 30 days</span>
-        </div>
-        <span class="pslot-badge live">Live</span>
+      <p class="qst-quest">Welcome campaign &mdash; the first XRP holders to move their stack to D'CENT.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Delivered</span>
+        <span class="qst-reward-v">$15,000 in XRP</span>
+        <span class="qst-reward-sub">+ Alliance Pass NFT to participants</span>
       </div>
-      <div class="pslot revealed">
-        <div class="pslot-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051abdba0ef08fa2baaa_moonpay.svg" alt="MoonPay"/></div>
-        <div class="pslot-body">
-          <span class="pslot-name">MoonPay <small>Fiat on-ramp</small></span>
-          <span class="pslot-benefit">Rebate for D'CENT holders</span>
-        </div>
-        <span class="pslot-badge live">Live</span>
+      <div class="qst-meta"><span>Q1 2026</span><span>Closed</span></div>
+    </article>
+
+    <!-- 2. ENDED · OSL -->
+    <article class="qst ended">
+      <span class="qst-status">Ended</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051920a67d8ee3be1a07_osl.svg" alt="OSL"/></div>
+        <span class="qst-partner-name">OSL</span>
       </div>
-      <div class="pslot locked">
-        <div class="pslot-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="pslot-body">
-          <span class="pslot-name">Cross-chain Bridge</span>
-          <span class="pslot-benefit" style="color:var(--ink-3)">? ? ?</span>
-        </div>
-        <span class="pslot-badge soon">Soon</span>
+      <p class="qst-quest">XRP withdrawal bonus &mdash; reward for moving XRP from OSL into D'CENT self-custody.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Delivered</span>
+        <span class="qst-reward-v">$7,500 in XRP</span>
+        <span class="qst-reward-sub">Distributed to verified holders</span>
       </div>
-      <div class="pslot locked">
-        <div class="pslot-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="pslot-body">
-          <span class="pslot-name">Aggregated Swap</span>
-          <span class="pslot-benefit" style="color:var(--ink-3)">? ? ?</span>
-        </div>
-        <span class="pslot-badge locked">?</span>
+      <div class="qst-meta"><span>Q1 2026</span><span>Closed</span></div>
+    </article>
+
+    <!-- 3. LIVE · Flare -->
+    <article class="qst live">
+      <span class="qst-status">Live Now</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo"><img src="https://cryptologos.cc/logos/flare-flr-logo.svg" alt="Flare"/></div>
+        <span class="qst-partner-name">Flare</span>
       </div>
+      <p class="qst-quest">FXRP Yield Campaign &mdash; bridge XRP to Flare and earn boosted FXRP yield, exclusive to D'CENT holders.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward pool</span>
+        <span class="qst-reward-v">Up to $25,000</span>
+        <span class="qst-reward-sub">In XRP + FLR rewards</span>
+      </div>
+      <div class="qst-meta"><span>12 days left</span><b class="live-cta">Join now &rarr;</b></div>
+    </article>
+
+    <!-- 4. COMING SOON · Doppler Finance -->
+    <article class="qst soon">
+      <span class="qst-status">Coming Soon</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo" style="background:#1B1043;color:#fff;font-family:'Roboto',sans-serif;font-size:11px;font-weight:800">DF</div>
+        <span class="qst-partner-name">Doppler Finance</span>
+      </div>
+      <p class="qst-quest">XRP-native DeFi yield campaign &mdash; details locking soon.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward</span>
+        <span class="qst-reward-v">TBA</span>
+        <span class="qst-reward-sub">Sized for serious XRP holders</span>
+      </div>
+      <div class="qst-meta"><span>Q2 2026</span><span>Whitelist soon</span></div>
+    </article>
+
+    <!-- 5. COMING SOON · Squid Router -->
+    <article class="qst soon">
+      <span class="qst-status">Coming Soon</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo" style="background:#0E1320;color:#fff;font-family:'Roboto',sans-serif;font-size:11px;font-weight:800">SR</div>
+        <span class="qst-partner-name">Squid Router</span>
+      </div>
+      <p class="qst-quest">Cross-chain campaign &mdash; rewards for routing into XRP via D'CENT.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward</span>
+        <span class="qst-reward-v">TBA</span>
+        <span class="qst-reward-sub">Pool size to be revealed</span>
+      </div>
+      <div class="qst-meta"><span>Q2 2026</span><span>Reveal pending</span></div>
+    </article>
+
+    <!-- 6. COMING SOON · Mystery -->
+    <article class="qst soon">
+      <span class="qst-status">Coming Soon</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo locked">?</div>
+        <span class="qst-partner-name">Reveal pending</span>
+      </div>
+      <p class="qst-quest">A name XRP holders will recognize. The campaign will be worth the wait.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward</span>
+        <span class="qst-reward-v">???</span>
+        <span class="qst-reward-sub">Stay close to the Alliance</span>
+      </div>
+      <div class="qst-meta"><span>Q3 2026</span><span>Unannounced</span></div>
+    </article>
+
+  </div>
+
+  <p class="qst-footer fade d3">Hold XRP in D'CENT. <b>Every campaign. Every drop. Automatic.</b></p>
+</section>
+
+<!-- ============ 3. BENEFITS (includes HW tier) ============ -->
+<section class="benefits" id="benefits">
+  <div class="benefits-head fade">
+    <span class="kicker">Your stack</span>
+    <h2 class="display">One wallet.<br><em>Six ways to stack.</em></h2>
+    <p class="lede">Five benefits activate the moment you hold XRP in D'CENT. The hardware wallet unlocks the sixth &mdash; exclusive access, 2x rewards, and the kind of security that lets you sleep at night.</p>
+  </div>
+
+  <div class="stack-chart fade d1">
+    <!-- Bar 1: Cross-Chain Swap -->
+    <div class="stack-bar">
+      <div class="stack-col blue">
+        <div class="stack-icon"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <span class="stack-num">01</span>
+      </div>
+      <span class="stack-name">Swap</span>
+      <span class="stack-desc">Cross-chain<br>into XRP</span>
     </div>
 
-    <!-- D'CENT CORE -->
-    <div class="pcenter">
-      <svg class="pcenter-x"><use href="#rippleX"/></svg>
-      <div class="pcenter-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/></div>
-      <div class="pcenter-t">D'CENT Core</div>
-      <div class="pcenter-s">EAL5+ · Since 2017<br>Self-custody</div>
+    <!-- Bar 2: Zero-Fee On-Ramp -->
+    <div class="stack-bar">
+      <div class="stack-col blue">
+        <div class="stack-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
+        <span class="stack-num">02</span>
+      </div>
+      <span class="stack-name">On-Ramp</span>
+      <span class="stack-desc">Buy XRP<br>zero fees</span>
     </div>
 
-    <!-- ECOSYSTEM -->
-    <div class="pcol">
-      <div class="pcol-head">
-        <span class="pcol-label">Ecosystem</span>
-        <span class="pcol-sub">On-chain growth</span>
+    <!-- Bar 3: dApp Access -->
+    <div class="stack-bar">
+      <div class="stack-col blue">
+        <div class="stack-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+        <span class="stack-num">03</span>
       </div>
-      <div class="pslot revealed">
-        <div class="pslot-logo"><img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/6695051920a67d8ee3be1a07_osl.svg" alt="OSL"/></div>
-        <div class="pslot-body">
-          <span class="pslot-name">OSL <small>Regulated yield</small></span>
-          <span class="pslot-benefit">Boosted APY · Holder reward</span>
-        </div>
-        <span class="pslot-badge live">Live</span>
+      <span class="stack-name">dApps</span>
+      <span class="stack-desc">XRP DeFi<br>in-wallet</span>
+    </div>
+
+    <!-- Bar 4: Airdrops -->
+    <div class="stack-bar">
+      <div class="stack-col blue">
+        <div class="stack-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <span class="stack-num">04</span>
       </div>
-      <div class="pslot locked">
-        <div class="pslot-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="pslot-body">
-          <span class="pslot-name">XRPL Native Staking</span>
-          <span class="pslot-benefit" style="color:var(--ink-3)">? ? ?</span>
-        </div>
-        <span class="pslot-badge soon">Soon</span>
+      <span class="stack-name">Airdrops</span>
+      <span class="stack-desc">Partner<br>exclusive</span>
+    </div>
+
+    <!-- Bar 5: Staking -->
+    <div class="stack-bar">
+      <div class="stack-col blue">
+        <div class="stack-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <span class="stack-num">05</span>
       </div>
-      <div class="pslot locked">
-        <div class="pslot-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="pslot-body">
-          <span class="pslot-name">Payments · RLUSD</span>
-          <span class="pslot-benefit" style="color:var(--ink-3)">? ? ?</span>
-        </div>
-        <span class="pslot-badge locked">?</span>
+      <span class="stack-name">Staking</span>
+      <span class="stack-desc">Grow XRP<br>passively</span>
+    </div>
+
+    <!-- Bar 6: Hardware Wallet (GOLD — tallest) -->
+    <div class="stack-bar">
+      <div class="stack-col gold">
+        <span class="stack-2x">2&times; Rewards</span>
+        <svg class="stack-xrp" viewBox="0 0 512 424"><use href="#rippleX"/></svg>
+        <div class="stack-icon" style="margin-top:auto"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+        <span class="stack-num">06</span>
       </div>
-      <div class="pslot locked">
-        <div class="pslot-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);width:16px;height:16px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="pslot-body">
-          <span class="pslot-name">XRPL dApp Connect</span>
-          <span class="pslot-benefit" style="color:var(--ink-3)">? ? ?</span>
-        </div>
-        <span class="pslot-badge locked">?</span>
+      <span class="stack-name">Hardware</span>
+      <span class="stack-desc">Exclusive<br>2&times; everything</span>
+    </div>
+  </div>
+
+  <div class="ben-bottom fade d2">
+    <div class="ben-bottom-t">Five benefits come standard. <em>The sixth is reserved for hardware holders.</em></div>
+    <div class="ben-bottom-sub">Every Alliance campaign gives hardware wallet holders the edge &mdash; first access, bigger rewards. The roster keeps growing. So does your stack.</div>
+  </div>
+</section>
+
+<!-- ============ 4. HARDWARE ============ -->
+<section class="hw" id="hw">
+  <div class="hw-card fade">
+    <div class="hw-l">
+      <span class="hw-chip">&#10022; Hardware Holders</span>
+      <h2 class="hw-title">The Alliance keeps giving. <em>To hardware first.</em></h2>
+      <p class="hw-sub">App holders are in. Hardware holders stay first &mdash; on every reveal, every drop, every campaign the Alliance runs. Ongoing. Exclusive. No expiry.</p>
+      <div class="hw-bens">
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">&times; 2 on every reward<small>&middot; No exceptions</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">First in line for every partner drop<small>&middot; Before app holders</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">Hardware-only campaigns<small>&middot; Drops you can't get elsewhere</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">EAL5+ signing<small>&middot; Your keys never leave the device</small></span></div>
       </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#" class="btn btn-gold">Get D'CENT Hardware
+          <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn btn-ghost">Move XRP to D'CENT</a>
+      </div>
+    </div>
+    <div class="hw-r">
+      <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669e1fa168365e119da14a01_biometric%401-570x640.webp" alt="D'CENT Biometric Device" loading="lazy"/>
     </div>
   </div>
 </section>
 
-<!-- ============ HOME FOR XRP HOLDERS ============ -->
-<section class="home" id="home">
-  <div class="home-inner">
-    <div class="home-head fade">
-      <span class="kicker">Why D'CENT</span>
-      <h2 class="display">Home for <em>XRP holders.</em></h2>
-      <p class="lede">D'CENT has been the hardware wallet XRP holders trust most — since 2017, before XRP was obvious. We've stood with the community on the ground, year after year.</p>
-    </div>
-
-    <div class="home-stats fade d1">
-      <div class="hs"><span class="hs-k">Since</span><span class="hs-v"><em>2017</em> · Built for XRP from day one</span></div>
-      <div class="hs"><span class="hs-k">Security</span><span class="hs-v"><em>EAL5+</em> · Bank-grade secure element</span></div>
-      <div class="hs"><span class="hs-k">Networks</span><span class="hs-v"><em>100+</em> · XRP, XRPL, EVM, and more</span></div>
-      <div class="hs"><span class="hs-k">Community</span><span class="hs-v"><em>#1</em> HW wallet for XRP holders</span></div>
-    </div>
+<!-- ============ 5. INFLUENCER CAROUSEL (moved up) ============ -->
+<section class="proof" style="padding:120px 24px 100px;max-width:1200px;margin:0 auto">
+  <div class="proof-head fade">
+    <span class="kicker">Trusted</span>
+    <h2 class="display">Trusted by users worldwide.<br><em>Backed by institutions.</em></h2>
   </div>
 
-  <div class="marquee-wrap fade d2">
-    <div class="marquee">
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">XRP Seoul <small>· Host sponsor</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">XRP Tokyo <small>· Ecosystem partner</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">Jake Clever × D'CENT <small>· XRPL creator collab</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2023</span><span class="ev-t">Ripple Partnership <small>· Official hardware</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2023</span><span class="ev-t">APEX Amsterdam <small>· XRPL summit</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2022</span><span class="ev-t">XRPL Grants Recipient</span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2021</span><span class="ev-t">Trustline Native Support <small>· First HW wallet</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2020</span><span class="ev-t">XUMM Integration</span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2017</span><span class="ev-t">XRP native support <small>· From launch</small></span></div>
-      <!-- duplicate for seamless loop -->
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">XRP Seoul <small>· Host sponsor</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">XRP Tokyo <small>· Ecosystem partner</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2024</span><span class="ev-t">Jake Clever × D'CENT <small>· XRPL creator collab</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2023</span><span class="ev-t">Ripple Partnership <small>· Official hardware</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2023</span><span class="ev-t">APEX Amsterdam <small>· XRPL summit</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2022</span><span class="ev-t">XRPL Grants Recipient</span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2021</span><span class="ev-t">Trustline Native Support <small>· First HW wallet</small></span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2020</span><span class="ev-t">XUMM Integration</span></div>
-      <div class="ev"><span class="ev-dot"></span><span class="ev-yr">2017</span><span class="ev-t">XRP native support <small>· From launch</small></span></div>
+  <div class="carousel-wrap fade d1">
+    <div class="carousel">
+      <div class="tcard">
+        <div class="tcard-quote">The biometric functionality makes it effortless &mdash; hold it in one hand, unlock, and authorize transactions. That simple.</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar"><span class="placeholder">&#9679;</span></div>
+          <div class="tcard-info">
+            <span class="tcard-name">CryptoDad</span>
+            <span class="tcard-role">YouTuber &middot; 200K+ subs</span>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">Secure, affordable, and trusted by crypto holders worldwide. When clients need a hardware wallet, D'CENT provides the best solution at a great price.</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar"><span class="placeholder">&#9679;</span></div>
+          <div class="tcard-info">
+            <span class="tcard-name">Jake Claver</span>
+            <span class="tcard-role">XRPL Creator</span>
+          </div>
+        </div>
+      </div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="tcard"><div class="tcard-quote">The biometric functionality makes it effortless &mdash; hold it in one hand, unlock, and authorize transactions. That simple.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">CryptoDad</span><span class="tcard-role">YouTuber &middot; 200K+ subs</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Secure, affordable, and trusted by crypto holders worldwide. When clients need a hardware wallet, D'CENT provides the best solution at a great price.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Jake Claver</span><span class="tcard-role">XRPL Creator</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+      <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ COMPARE ============ -->
+<!-- ============ 6. COMPARE ============ -->
 <section class="compare">
   <div class="compare-head fade">
-    <span class="kicker">Just Hold. Get Everything.</span>
-    <h2 class="display">Holding XRP in D'CENT <em>hits different.</em></h2>
-    <p class="lede">What you actually get for just holding — versus holding the same XRP anywhere else.</p>
+    <span class="kicker">The difference</span>
+    <h2 class="display">Same XRP.<br><em>Entirely different experience.</em></h2>
+    <p class="lede">Where you hold your XRP changes everything. Here's how D'CENT stacks up.</p>
   </div>
 
   <div class="ctable fade d1">
@@ -684,174 +1017,116 @@
     </div>
 
     <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Native XRP yield</b><small>Just by holding</small></div></div>
+      <div class="cc label"><div class="cc-txt"><b>XRP yield</b><small>Passive earnings</small></div></div>
       <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Up to 7.5% APY</b><small>Boosted via Alliance</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Not supported</b><small>Hold only</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Not available</b><small>Hold only</small></div></div>
       <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Custody risk</b><small>Your keys = their keys</small></div></div>
     </div>
 
     <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Airdrop eligibility</b><small>Ecosystem + Alliance</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Automatic</b><small>No claim needed</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Manual claim</b><small>Good luck finding them</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Usually blocked</b><small>CEX eats them</small></div></div>
+      <div class="cc label"><div class="cc-txt"><b>Transaction fees</b><small>XRPL operations</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Lowest on XRPL</b><small>Cheaper than Wallet X</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Higher fees</b><small>Platform markup</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Withdrawal fees</b><small>Per transaction</small></div></div>
     </div>
 
     <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Cheapest XRPL swap · bridge</b><small>No middleman spread</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Best-rate aggregator</b><small>Routed on-chain</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Varies</b><small>Few support XRPL natively</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Big spread</b><small>You pay the market maker</small></div></div>
+      <div class="cc label"><div class="cc-txt"><b>Self-custody</b><small>Key ownership</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Your keys, always</b><small>EAL5+ hardware option</small></div></div>
+      <div class="cc other"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Self-custody</b><small>Software only</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Not your keys</b><small>Custodial</small></div></div>
     </div>
 
     <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>XRPL Trustline setup</b><small>One-tap, pre-wired</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Built-in</b><small>One-tap enable</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Manual · painful</b><small>Hex codes, raw tx</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Not available</b></div></div>
+      <div class="cc label"><div class="cc-txt"><b>Hardware + rewards</b><small>Biometric wallet</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Biometric + EAL5+</b><small>2&times; Alliance rewards</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware option</b><small>Software wallet</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware option</b><small>Custodial</small></div></div>
     </div>
+  </div>
 
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>XRPL dApp connect</b><small>Sign from cold storage</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Seamless</b><small>XUMM · XRPL Commons</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Limited</b><small>Few support XRPL</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Not possible</b></div></div>
-    </div>
-
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Holding fee</b><small>Any amount, forever</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>$0</b><small>Forever</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Varies</b><small>Some charge gas</small></div></div>
-      <div class="cc other"><div class="mk no">—</div><div class="cc-txt"><b>Custody &amp; withdrawal fees</b></div></div>
-    </div>
+  <!-- Why D'CENT feature strip -->
+  <div class="fade d2" style="display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,40px);flex-wrap:wrap;margin-top:48px;padding:28px 20px;border-radius:16px;background:rgba(200,212,224,.03);border:1px solid var(--rule-silver)">
+    <span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600">Why D'CENT</span>
+    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Biometric</span>
+    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>100+ Networks</span>
+    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Lowest Fees</span>
+    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>XRPL Native</span>
+    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>EAL5+</span>
   </div>
 </section>
 
-<!-- ============ HEXA ============ -->
-<section class="rewards">
-  <div class="rewards-head fade">
-    <span class="kicker">Stacked, Automatic</span>
-    <h2 class="display">Every reward. <em>Stacked.</em></h2>
-    <p class="lede">Hold XRP in D'CENT. Every line stacks — no action needed.</p>
-  </div>
-
-  <div class="reward-stack">
-    <div class="rw fade"><span class="rw-n">01</span><span class="rw-t">Base yield<small>Boosted vaults · partner-powered</small></span><span class="rw-v">Up to 7.5% APY</span></div>
-    <div class="rw fade d1"><span class="rw-n">02</span><span class="rw-t">Alliance drops<small>Every partner reveal · a reward</small></span><span class="rw-v">On every launch</span></div>
-    <div class="rw fade d2"><span class="rw-n">03</span><span class="rw-t">Airdrop eligibility<small>XRPL ecosystem + Alliance</small></span><span class="rw-v">Automatic</span></div>
-    <div class="rw fade d3"><span class="rw-n">04</span><span class="rw-t">Zero holding fee<small>Any amount, forever</small></span><span class="rw-v">$0</span></div>
-    <div class="rw fade d4"><span class="rw-n">05</span><span class="rw-t">Best-rate swap · bridge<small>XRPL-native aggregator</small></span><span class="rw-v">Cheapest route</span></div>
-    <div class="rw fade d5"><span class="rw-n">06</span><span class="rw-t">Hardware bonus<small>Hardware holders only</small></span><span class="rw-v">× 2 multiplier</span></div>
-    <div class="rw-total fade d5">
-      <span class="rw-total-k">= TOTAL</span>
-      <span class="rw-total-v">HEXA Rewards</span>
-      <span class="rw-total-sub">Stacked · Forever</span>
-    </div>
+<!-- ============ 7. EMAIL CAPTURE ============ -->
+<section style="padding:100px 24px;max-width:560px;margin:0 auto;text-align:center">
+  <div class="fade">
+    <h3 style="font-size:clamp(20px,2.4vw,28px);font-weight:700;letter-spacing:-.03em;color:var(--ink);margin-bottom:8px">Stay ahead. Be the first to know.</h3>
+    <p style="font-size:14px;color:var(--ink-2);margin-bottom:24px;line-height:1.6">We'll keep you updated as new partners join the Alliance. And who knows &mdash; surprise benefits tend to find early supporters first.</p>
+    <form style="display:flex;gap:8px;max-width:440px;margin:0 auto" onsubmit="event.preventDefault();this.querySelector('button').textContent='You\'re in!';this.querySelector('button').style.background='var(--green)';this.querySelector('button').style.color='#000'">
+      <input type="email" placeholder="Enter your email" required style="flex:1;padding:13px 18px;border-radius:9px;border:1px solid var(--rule-silver);background:rgba(200,212,224,.04);color:var(--ink);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(93,220,255,.4)'" onblur="this.style.borderColor='var(--rule-silver)'"/>
+      <button type="submit" style="padding:13px 22px;border-radius:9px;background:var(--ink);color:var(--bg);font-size:14px;font-weight:600;border:none;cursor:pointer;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='var(--xrp-hi)';this.style.boxShadow='0 8px 24px rgba(93,220,255,.3)'" onmouseout="this.style.background='var(--ink)';this.style.boxShadow='none'">Sign Up</button>
+    </form>
+    <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin-top:14px">Alliance updates &middot; Partner reveals &middot; Early supporter perks</p>
   </div>
 </section>
 
-<!-- ============ HARDWARE ============ -->
-<section class="hw">
-  <div class="hw-card fade">
-    <div class="hw-l">
-      <span class="hw-chip">✦ Hardware Holders</span>
-      <h2 class="hw-title">The Alliance keeps giving. <em>To hardware first.</em></h2>
-      <p class="hw-sub">App holders are in. Hardware holders stay first — on every reveal, every drop, every campaign the Alliance runs. Ongoing. Exclusive. No expiry.</p>
-      <div class="hw-bens">
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">× 2 on every reward<small>· No exceptions</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">First in line for every partner drop<small>· Before app holders</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">Hardware-only campaigns<small>· Drops you can't get elsewhere</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">EAL5+ signing<small>· Your keys never leave the device</small></span></div>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a href="#" class="btn btn-gold">Get D'CENT Hardware
-          <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#" class="btn btn-ghost">Move XRP to D'CENT</a>
-      </div>
-    </div>
-    <div class="hw-r">
-      <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669e1fa168365e119da14a01_biometric%401-570x640.webp" alt="D'CENT Biometric Device" loading="lazy"/>
-      <svg class="hw-x-mark"><use href="#rippleX"/></svg>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
+<!-- ============ 8. FINAL CTA ============ -->
 <section class="final" id="cta">
-  <span class="status fade" id="status-chip-2">
-    <span class="dot"></span>
-    <span id="status-text-2">D-<span id="cd-days-2">—</span> · Opens May 8, 2026</span>
-  </span>
-  <h2 class="display fade d1">Be in D'CENT <em>before May 8.</em></h2>
-  <p class="lede fade d2">Every XRP address already in D'CENT when the Alliance opens is in — for every future drop, forever.</p>
-
-  <div class="final-cd fade d3">
-    <div class="fcu"><div class="fcu-v" id="fcu-d">—</div><div class="fcu-l">Days</div></div>
-    <div class="fcu"><div class="fcu-v" id="fcu-h">—</div><div class="fcu-l">Hours</div></div>
-    <div class="fcu"><div class="fcu-v" id="fcu-m">—</div><div class="fcu-l">Min</div></div>
-    <div class="fcu"><div class="fcu-v" id="fcu-s">—</div><div class="fcu-l">Sec</div></div>
+  <span class="kicker fade" style="justify-content:center">Join the Alliance</span>
+  <h2 class="display fade d1">Ready to see what<br>your XRP <em>can really do?</em></h2>
+  <p class="lede fade d2" style="margin:0 auto 24px">The Alliance is just getting started. Whether you're new to crypto or a seasoned holder &mdash; the smartest move starts with the right wallet.</p>
+  <div class="final-cd fade d3" id="countdown">
+    <div class="fcu"><div class="fcu-v" id="cd-d">--</div><div class="fcu-l">Days</div></div>
+    <div class="fcu"><div class="fcu-v" id="cd-h">--</div><div class="fcu-l">Hours</div></div>
+    <div class="fcu"><div class="fcu-v" id="cd-m">--</div><div class="fcu-l">Min</div></div>
+    <div class="fcu"><div class="fcu-v" id="cd-s">--</div><div class="fcu-l">Sec</div></div>
   </div>
-
-  <div class="final-ctas fade d3">
-    <a href="#" class="btn btn-primary">Get D'CENT App
+  <div class="final-ctas fade d4">
+    <a href="#" class="btn btn-primary">Get D'CENT Wallet
       <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
-    <a href="#" class="btn btn-gold">Buy Hardware Wallet</a>
+    <a href="#" class="btn btn-ghost">Download App</a>
   </div>
 </section>
 
 </main>
 
+<!-- FOOTER -->
 <footer>
   <div class="foot-inner">
     <div class="foot-l">
       <img class="foot-logo" src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/668b3a82199c56fe12067681_logo_white.svg" alt="D'CENT"/>
-      <span class="foot-meta">© 2026 IoTrust · D'CENT Wallet</span>
+      <span class="foot-meta">&copy; 2026 D'CENT &middot; IoTrust</span>
     </div>
     <div class="foot-s">
-      <a href="#" aria-label="X"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="#" aria-label="Telegram"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M9.417 15.181l-.397 5.584c.568 0 .814-.244 1.109-.537l2.663-2.545 5.518 4.041c1.012.564 1.725.267 1.998-.931l3.622-16.972c.321-1.496-.541-2.081-1.527-1.714l-21.29 8.151c-1.453.564-1.431 1.374-.247 1.741l5.443 1.693 12.643-7.911c.595-.394 1.136-.176.691.218z"/></svg></a>
+      <a href="#" aria-label="X / Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12z"/></svg></a>
+      <a href="#" aria-label="Telegram"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
     </div>
   </div>
 </footer>
 
 <script>
-  const LAUNCH = new Date('2026-05-08T20:00:00+09:00').getTime();
-  const pad = n => String(n).padStart(2,'0');
+// Countdown
+const TARGET = new Date('2026-05-08T00:00:00Z').getTime();
+function tick(){
+  const now = Date.now(), d = TARGET - now;
+  if(d <= 0){ document.getElementById('status-text').textContent = 'XRP Alliance · Live Now'; document.getElementById('status-chip').classList.add('live'); return; }
+  const days = Math.floor(d/864e5), hrs = Math.floor(d%864e5/36e5), mins = Math.floor(d%36e5/6e4), secs = Math.floor(d%6e4/1e3);
+  const dd = document.getElementById('cd-d'), dh = document.getElementById('cd-h'), dm = document.getElementById('cd-m'), ds = document.getElementById('cd-s');
+  if(dd) dd.textContent = String(days).padStart(2,'0');
+  if(dh) dh.textContent = String(hrs).padStart(2,'0');
+  if(dm) dm.textContent = String(mins).padStart(2,'0');
+  if(ds) ds.textContent = String(secs).padStart(2,'0');
+  const nd = document.getElementById('nav-d'); if(nd) nd.textContent = days;
+  const hmd = document.getElementById('hm-d'); if(hmd) hmd.textContent = 'D-' + days;
+}
+tick(); setInterval(tick, 1000);
 
-  function update(){
-    const now = Date.now();
-    const diff = LAUNCH - now;
-    if(diff > 0){
-      const d = Math.floor(diff/86400000);
-      const h = Math.floor(diff%86400000/3600000);
-      const m = Math.floor(diff%3600000/60000);
-      const s = Math.floor(diff%60000/1000);
-      const navD = document.getElementById('nav-d'); if(navD) navD.textContent = d;
-      const hmD = document.getElementById('hm-d'); if(hmD) hmD.textContent = 'D-' + d;
-      const cd2 = document.getElementById('cd-days-2'); if(cd2) cd2.textContent = d;
-      ['fcu-d','fcu-h','fcu-m','fcu-s'].forEach((id,i)=>{
-        const el = document.getElementById(id);
-        if(el) el.textContent = i===0?d:pad([h,m,s][i-1]);
-      });
-    } else {
-      ['status-chip','status-chip-2'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('live')});
-      const st1 = document.getElementById('status-text'); if(st1) st1.textContent = 'XRP Alliance · Now Live';
-      const st2 = document.getElementById('status-text-2'); if(st2) st2.textContent = 'Live Now';
-      const hmD = document.getElementById('hm-d'); if(hmD) hmD.textContent = 'Live';
-      const nt = document.getElementById('nav-time'); if(nt) nt.innerHTML = '<b style="color:#7FEAB2">● Alliance Live</b>';
-      ['fcu-d','fcu-h','fcu-m','fcu-s'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—'});
-    }
-  }
-  update();
-  setInterval(update, 1000);
-
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});
-  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+// Fade-in observer
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+}, {threshold: 0.12});
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
 </script>
-
 </body>
 </html>
