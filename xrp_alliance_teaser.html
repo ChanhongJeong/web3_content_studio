@@ -270,6 +270,13 @@
   .ben-bottom-t{font-size:clamp(18px,2vw,22px);font-weight:600;letter-spacing:-.02em;line-height:1.4;color:var(--ink-1);margin-bottom:6px}
   .ben-bottom-t em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
   .ben-bottom-t b{color:var(--ink);font-weight:700}
+
+  /* Comparison block — inside benefits section */
+  .bcompare-head{text-align:center;max-width:760px;margin:96px auto 36px}
+  .bcompare-head .kicker{justify-content:center;margin-bottom:18px}
+  .bcompare-h3{font-size:clamp(24px,3.2vw,38px);font-weight:700;letter-spacing:-.025em;line-height:1.2;color:var(--ink)}
+  .bcompare-h3 em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#C8D4E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .bcompare-sub{font-size:14.5px;color:var(--ink-2);margin-top:10px;line-height:1.6}
   .ben-bottom-sub{font-size:14px;color:var(--ink-2);line-height:1.6}
 
   /* =========================================== */
@@ -918,6 +925,70 @@
   <div class="ben-bottom fade d2">
     <div class="ben-bottom-t">Six advantages. <b>One wallet.</b> <em>That's D'CENT.</em></div>
   </div>
+
+  <!-- Comparison: D'CENT vs other wallets vs exchanges (matches the 6 benefits above) -->
+  <div class="bcompare-head fade d3">
+    <span class="kicker">D'CENT vs everyone else</span>
+    <h3 class="bcompare-h3">Other wallets stop earlier.<br><em>Same XRP. Different outcome.</em></h3>
+    <p class="bcompare-sub">Where you hold your XRP changes everything. Here's how the six advantages above stack up against the rest.</p>
+  </div>
+
+  <div class="ctable fade d4">
+    <div class="crow head">
+      <div class="ch">Benefit</div>
+      <div class="ch dcent"><svg><use href="#rippleX"/></svg> D'CENT</div>
+      <div class="ch">Other wallets</div>
+      <div class="ch">Exchanges</div>
+    </div>
+
+    <!-- 1. Hold &amp; send -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>Hold &amp; send</b><small>Wallet fees</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Always free</b><small>No commission, any size</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Network only</b><small>Wallet adds nothing</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Withdrawal fees</b><small>Per transaction</small></div></div>
+    </div>
+
+    <!-- 2. XRPL Swap -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>XRPL swap</b><small>On-ledger trades</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Cheapest on XRPL</b><small>Best route every time</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Higher fees</b><small>Platform markup</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Hidden spread</b><small>Plus withdrawal</small></div></div>
+    </div>
+
+    <!-- 3. Native XRPL dApps -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>XRPL dApps</b><small>Native access</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>All connected</b><small>Inside the wallet</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Browser only</b><small>Limited support</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Not available</b><small>Custodial</small></div></div>
+    </div>
+
+    <!-- 4. Earn more XRP -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>Earn more XRP</b><small>Yield, deposits</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Yield + deposits</b><small>Stack grows in-wallet</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Hold only</b><small>Idle XRP</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Custodial yield</b><small>Their keys, their rules</small></div></div>
+    </div>
+
+    <!-- 5. Airdrop chances -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>Airdrop chances</b><small>XRP ecosystem</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Ongoing</b><small>XRPL + Alliance</small></div></div>
+      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Manual</b><small>On you to find</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Often blocked</b><small>Exchange decides</small></div></div>
+    </div>
+
+    <!-- 6. Hardware + Alliance rewards -->
+    <div class="crow">
+      <div class="cc label"><div class="cc-txt"><b>Hardware + rewards</b><small>Biometric wallet</small></div></div>
+      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Biometric + 2&times;</b><small>Alliance hardware-only</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware</b><small>Software only</small></div></div>
+      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware</b><small>Custodial</small></div></div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ 4. INFLUENCER CAROUSEL (Meet D'CENT lands here) ============ -->
@@ -1109,63 +1180,7 @@
   </div>
 </section>
 
-<!-- ============ 6. COMPARE ============ -->
-<section class="compare">
-  <div class="compare-head fade">
-    <span class="kicker">The difference</span>
-    <h2 class="display">Same XRP.<br><em>Entirely different experience.</em></h2>
-    <p class="lede">Where you hold your XRP changes everything. Here's how D'CENT stacks up.</p>
-  </div>
-
-  <div class="ctable fade d1">
-    <div class="crow head">
-      <div class="ch">Benefit</div>
-      <div class="ch dcent"><svg><use href="#rippleX"/></svg> D'CENT</div>
-      <div class="ch">Other wallets</div>
-      <div class="ch">Exchanges</div>
-    </div>
-
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>XRP yield</b><small>Passive earnings</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Up to 7.5% APY</b><small>Boosted via Alliance</small></div></div>
-      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Not available</b><small>Hold only</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Custody risk</b><small>Your keys = their keys</small></div></div>
-    </div>
-
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Transaction fees</b><small>XRPL operations</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Lowest on XRPL</b><small>Cheaper than Wallet X</small></div></div>
-      <div class="cc other"><div class="mk mid">~</div><div class="cc-txt"><b>Higher fees</b><small>Platform markup</small></div></div>
-      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Withdrawal fees</b><small>Per transaction</small></div></div>
-    </div>
-
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Self-custody</b><small>Key ownership</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Your keys, always</b><small>EAL5+ hardware option</small></div></div>
-      <div class="cc other"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Self-custody</b><small>Software only</small></div></div>
-      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>Not your keys</b><small>Custodial</small></div></div>
-    </div>
-
-    <div class="crow">
-      <div class="cc label"><div class="cc-txt"><b>Hardware + rewards</b><small>Biometric wallet</small></div></div>
-      <div class="cc dcent"><div class="mk yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="cc-txt"><b>Biometric + EAL5+</b><small>2&times; Alliance rewards</small></div></div>
-      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware option</b><small>Software wallet</small></div></div>
-      <div class="cc other"><div class="mk no">&mdash;</div><div class="cc-txt"><b>No hardware option</b><small>Custodial</small></div></div>
-    </div>
-  </div>
-
-  <!-- Why D'CENT feature strip -->
-  <div class="fade d2" style="display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,40px);flex-wrap:wrap;margin-top:48px;padding:28px 20px;border-radius:16px;background:rgba(200,212,224,.03);border:1px solid var(--rule-silver)">
-    <span style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.24em;color:var(--xrp-hi);text-transform:uppercase;font-weight:600">Why D'CENT</span>
-    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>Biometric</span>
-    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>100+ Networks</span>
-    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Lowest Fees</span>
-    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>XRPL Native</span>
-    <span style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--xrp-hi)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>EAL5+</span>
-  </div>
-</section>
-
-<!-- ============ 7. EMAIL CAPTURE ============ -->
+<!-- ============ 6. EMAIL CAPTURE ============ -->
 <section style="padding:100px 24px;max-width:560px;margin:0 auto;text-align:center">
   <div class="fade">
     <h3 style="font-size:clamp(20px,2.4vw,28px);font-weight:700;letter-spacing:-.03em;color:var(--ink);margin-bottom:8px">Stay ahead. Be the first to know.</h3>
@@ -1178,7 +1193,7 @@
   </div>
 </section>
 
-<!-- ============ 8. FINAL CTA ============ -->
+<!-- ============ 7. FINAL CTA ============ -->
 <section class="final" id="cta">
   <span class="kicker fade" style="justify-content:center">Join the Alliance</span>
   <h2 class="display fade d1">Ready to see what<br>your XRP <em>can really do?</em></h2>
