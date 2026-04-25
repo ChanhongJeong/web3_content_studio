@@ -306,64 +306,99 @@ This is what comes with it.   ← 그라데이션
 
 ---
 
-### 섹션 5 — HARDWARE (골드)
+### 섹션 5 — HARDWARE (골드, product card 2장 — PR #12, #13)
 
-- `id="hw"` (Hero 사용 안 함, 현재는 #proof 사용)
-- H2: "The Alliance keeps giving. *To hardware first.*"
-- 4가지 ALWAYS 약속:
-  - × 2 on every reward
-  - First in line for every partner drop
-  - Hardware-only campaigns
-  - EAL5+ signing
-- CTA: "Get D'CENT Hardware" (gold) + "Move XRP to D'CENT" (ghost)
-- 우측: D'CENT Biometric 디바이스 이미지
+> 이전: 단일 sales card (좌: 카피 / 우: 디바이스). 현재: **상품 판매 페이지 톤 product card 2장 + 어드밴티지 패널**.
+
+#### Kicker / H2 / Sub
+```
+— NOW LIVE · HARDWARE FIRST
+Step into the Alliance.
+Bring your XRP, leave with more.   ← em (gold gradient)
+
+The Alliance is live. Every D'CENT holder is in.
+Buy a D'CENT hardware wallet now — receive bonus XRP at purchase,
+and a front-of-line seat whenever Alliance rewards roll out.
+```
+
+> 룰 (이번 세션 사용자 직접 정정):
+> 1. **Alliance is "opening" → "is live"** (이미 라이브 상태)
+> 2. **"every campaign 보장" 표현 금지** → "whenever the Alliance offers it" / "Some drops, only here"
+> 3. **앱 홀더도 참여 가능** + HW는 "더 혜택" (절대 독점 표현 X)
+
+#### Product Cards (2장 grid, max-width 680px)
+| | LEFT (featured) | RIGHT |
+|---|---|---|
+| 이름 | D'CENT Master Package | Biometric Wallet |
+| 이미지 | **듀오** (디바이스 2개 컴포지트 — `.duo-front` + `.duo-back` rotated 7°) | 단일 디바이스 |
+| Discount | Limited time · 100% Off (green) | Limited time · 45% Off (green) |
+| Price | $0 (was $299) | $69 (was $129) |
+| Bonus chip | + Bonus XRP (골드 chip, XRPL X 아이콘, 우하단 overlay) | 동일 |
+| CTA | Add to Cart (gold filled) | Add to Cart (outlined) |
+
+> 룰: **카드지갑 번들 → XRP 코인 보너스로 변경** (사용자 명시 거부 — "지금사면 xrp를 추가로 받을수도 있고")
+> 사이즈: 이전 너무 컸음 → max-width 680px (각 ~330px), name 22→17, price 38→28, body padding 30/32/36→22/22/24
+
+#### Hardware Advantage 패널
+```
+✦ THE HARDWARE ADVANTAGE
+App holders are in. Hardware gets the front seat.   ← em on "the front seat" (gold)
+```
+| Key | Bold | Small (소프트 promise 표현) |
+|---|---|---|
+| + XRP | Bonus XRP at purchase | Yours the moment you buy |
+| Priority | First in line on Alliance drops | Whenever the Alliance offers it |
+| Reserved | Hardware-only campaigns | Some drops, only here |
+| EAL5+ | Bank-grade signing | Your keys never leave the device |
+
+> 룰: 4행 모두 절대 보장 표현 금지 (`every drop` / `always exclusive` 등). "whenever / some / when" 으로 소프트닝.
 
 ---
 
-### 섹션 6 — COMPARE
+### 섹션 6 — FINAL (Stay updated + CTAs — PR #13)
 
-- H2: "Same XRP. *Entirely different experience.*"
-- 4행 비교 테이블: D'CENT vs Other wallets vs Exchanges
-  - XRP yield
-  - Transaction fees
-  - Self-custody
-  - Hardware + rewards
-- 하단 "Why D'CENT" 피쳐 스트립 (Biometric / 100+ Networks / Lowest Fees / XRPL Native / EAL5+)
+> 이전: 별도 EMAIL CAPTURE (섹션 7) + FINAL CTA (섹션 8) 분리. 현재: **하나로 통합** + 카운트다운 위젯/JS 제거.
+
+#### 구성
+```
+[Kicker] STAY CLOSE TO THE ALLIANCE
+[H2]    Don't miss a single
+        Alliance drop.   ← em (gold gradient... 실제는 silver/blue gradient — 확인 필요)
+[Sub]   New partners. New campaigns. New rewards.
+        Drop your email — we'll keep you in the loop on every move the XRP Alliance makes.
+[Form]  email input + Sign Up 버튼
+[Note]  Alliance updates · Partner reveals · Campaign drops
+[Divider] ─── or ───
+[CTAs]  Get D'CENT Hardware (primary) + Download App (ghost)
+```
+
+> 룰 (사용자 직접 표명):
+> 1. **카운트다운 빼기** — "이미 열렸잖아" (Alliance live 상태)
+> 2. **이메일 입력 = 지속 Alliance 소식 수신** 톤 (이전 "Stay ahead, be the first to know" → "Don't miss a single Alliance drop")
+> 3. 섹션 6 (email) + 7 (final) 통합
+
+#### CSS 추가 (`.final-form`, `.final-form-note`, `.final-divider`)
+- `.final-form{display:flex;gap:8px;max-width:460px}` — input + button 가로 배치
+- `.final-divider` — 가운데 "or" + 좌우 1px 라인 (60px each)
+- 카운트다운 관련 `.final-cd` / `.fcu` CSS는 unused 상태로 잔존 (DOM/JS만 제거)
 
 ---
 
-### 섹션 7 — EMAIL CAPTURE
-
-- Standalone short section, max-width 560px center
-- "Stay ahead. Be the first to know."
-- 이메일 input + Sign Up 버튼
-- 라벨: `Alliance updates · Partner reveals · Early supporter perks`
-
----
-
-### 섹션 8 — FINAL CTA
-
-- "Join the Alliance" kicker
-- "Ready to see what your XRP can really do?" H2
-- 카운트다운 위젯 (D-day to 2026-05-08)
-- "Get D'CENT Wallet" + "Download App" 버튼
-
----
-
-## 4. 섹션 순서
+## 4. 섹션 순서 (현재)
 
 ```
 1. HERO + Stats Bar
 2. PARTNERS — Campaign cards (Alliance 정의 + 6 캠페인)
 3. BENEFITS — 6 card grid (D'CENT 6가지 혜택)
 4. PROOF — Meet D'CENT + 활동 갤러리 + 인플루언서 카루셀
-5. HARDWARE — 골드 sales card
-6. COMPARE — 비교 테이블
-7. EMAIL CAPTURE
-8. FINAL CTA + Footer
+5. HARDWARE — product card 2장 + advantage 패널
+6. FINAL — Stay updated 이메일 폼 + 보조 CTAs + Footer
 ```
 
-> 룰: 섹션 간 padding 100~120px (이전 160px 너무 넓다는 피드백). 섹션 head margin-bottom 48px.
+> 룰: 섹션 간 padding **120px 이내** (이전 240~280px 너무 넓다는 피드백 — PR #12 에서 축소).
+>   - benefits padding-bottom: 100 → 60
+>   - proof padding: 120/100 → 60/60
+>   - hw padding-top: 140 → 60
 
 ---
 
@@ -424,8 +459,9 @@ D'CENT Biometric Device:
 
 - 단일 HTML 파일: `xrp_alliance_teaser.html`
 - 모든 CSS 인라인 (`<style>` 블록)
-- 모든 JS 인라인 (`<script>` 블록 — 카운트다운, fade observer)
+- 모든 JS 인라인 (`<script>` 블록 — fade observer만 남음, 카운트다운은 PR #13 에서 삭제)
 - 외부 의존성: Google Fonts (Roboto), 위 6개 외부 이미지 URL
+- Footer 소셜: **X(Twitter) only** (PR #14 — YouTube/Telegram 제거)
 
 ---
 
@@ -436,18 +472,22 @@ D'CENT Biometric Device:
 - [x] 섹션 2 PARTNERS — Campaign cards 신설
 - [x] 섹션 3 BENEFITS — 6 card grid 갈아엎기
 - [x] 섹션 4 PROOF — Meet D'CENT + 활동 갤러리 + 인플루언서 카루셀
+- [x] 섹션 5 HARDWARE — product card 2장 + Bonus XRP + advantage 패널 (PR #12, #13)
+- [x] 섹션 6 FINAL — email signup + CTAs 통합, 카운트다운 제거 (PR #13)
+- [x] Footer — X 아이콘만 남기기 (PR #14)
+- [x] 섹션 간 간격 축소 (3↔4, 4↔5)
 
 다음 가능한 작업:
-- [ ] 섹션 5 HARDWARE — 카피 톤 점검
-- [ ] 섹션 6 COMPARE — 7.5% APY 같은 거짓 약속 점검 (APY 언급 금지 규칙 위반 가능성)
-- [ ] 섹션 7 EMAIL CAPTURE — 카피 다듬기
-- [ ] 섹션 8 FINAL CTA — 카운트다운 vs 라이브 톤 일관성
 - [ ] 활동 갤러리 placeholder → 실제 썸네일 swap (디자이너 작업)
-- [ ] 모바일 반응형 QA
+- [ ] 캠페인 카드 보상 금액 ($15K/$7.5K/$25K) → 실제 값으로 swap
+- [ ] HW product card 가격 ($0/$299, $69/$129) → 실제 마케팅 가격으로 swap
+- [ ] 인플루언서 카루셀 placeholder quote → 실제 testimonial swap
+- [ ] 모바일 반응형 QA (특히 HW duo 이미지)
+- [ ] 카운트다운 제거 후 잔존 unused CSS 정리 (`.final-cd`, `.fcu`, `.fcu-v`, `.fcu-l`)
 
 ---
 
-## 9. 작업 commit 히스토리 요약 (PR #8 + #10 머지 기준)
+## 9. 작업 commit 히스토리 요약
 
 ### PR #8 (1차 — 2026-04-25)
 - HERO 카피 재설계 (The first Alliance for XRP)
@@ -462,3 +502,44 @@ D'CENT Biometric Device:
 - BENEFITS 갈아엎기 (stack chart → 6 card grid + 누적 시각화)
 - PROOF 섹션 신설 (Meet D'CENT + 활동 갤러리 + 인플루언서 카루셀)
 - 다수 카피 정정 (automatic / every drop / claim / quest 등 금지어 제거)
+
+### PR #12 (3차 — 2026-04-26) — HW 1차 갈아엎기
+- HARDWARE 섹션 통째 재구성: 단일 sales card → product card 2장 (Master Package + Biometric)
+- 카드지갑 번들 → **+ Bonus XRP** 골드 chip overlay
+- 메시지 재포지셔닝: "Alliance 참여 준비 → 지금 구매시 XRP 보너스 + HW 전용 혜택"
+- 4행 advantage 패널 (Bonus XRP / First / Only / EAL5+)
+- 섹션 간격 축소: benefits-bottom 100→60, proof 120/100→60/60, hw-top 140→60
+
+### PR #13 (4차 — 2026-04-26) — HW 2차 정정 + 섹션 6+7 통합
+- HW 카피 정정 (사용자 직접 피드백):
+  - "Alliance is opening" → "is live" (이미 라이브)
+  - "every campaign 보장" → "whenever the Alliance offers it" (절대 표현 X)
+  - "App holders are in. Hardware gets the front seat." (앱 홀더도 참여 가능, HW는 더 혜택)
+- 카드 사이즈 축소 (상품 판매 페이지 톤): max-width 680px, 폰트/패딩 전반 축소
+- Master Package **듀오 이미지** (디바이스 2개 컴포지트, 뒤 디바이스 7° 회전)
+- 섹션 6 (Email Capture) + 7 (Final CTA) 통합
+- 카운트다운 위젯 + JS 제거
+- 새 카피: "Don't miss a single Alliance drop" (지속 소식 받기 톤)
+
+### PR #14 (5차 — 2026-04-26)
+- Footer 소셜 아이콘 X(Twitter) 하나만 남김 (YouTube, Telegram 제거)
+
+---
+
+## 10. 이번 세션 핵심 인사이트 (PR #12~#14)
+
+### 사용자가 직접 정정한 카피 룰 (강력)
+1. **상태 정확성**: "Alliance is opening" 같은 미래 시제 금지 — 이미 라이브.
+2. **절대 보장 표현 금지**: "every campaign", "always exclusive", "all drops" → **"whenever / some / when the Alliance offers it"** 으로 소프트닝.
+3. **포함 vs 차별화**: 앱 홀더도 참여 가능, HW는 "더 혜택" (front seat / priority / reserved). 독점이 아니라 우선순위.
+4. **번들 시각화**: 카드지갑 같은 액세서리 번들 → XRP 코인 보너스로 변경 (XRPL X 아이콘 + 골드 chip).
+
+### 디자인 톤 정정
+- 상품 카드는 **상품 판매 페이지 톤** (작고 컴팩트). 영웅 카드 X.
+- "패키지" 의미는 디바이스 N개 컴포지트로 시각화 (`.duo-front` + `.duo-back` rotated).
+- 섹션 padding 240~280px 너무 김 → **120px 이내**로 축소.
+
+### 구조 단순화
+- 별도 EMAIL CAPTURE 섹션 → FINAL 안으로 통합.
+- 카운트다운 위젯 → 라이브 상태에서 무의미, 제거.
+- Footer 소셜 → X 하나만.
