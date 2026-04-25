@@ -230,8 +230,17 @@
   .bcard-icon{width:44px;height:44px;border-radius:11px;background:rgba(93,220,255,.08);border:1px solid rgba(93,220,255,.22);display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);flex-shrink:0}
   .bcard.gold .bcard-icon{background:rgba(224,183,104,.1);border-color:rgba(224,183,104,.32);color:var(--gold)}
   .bcard-icon svg{width:22px;height:22px;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor}
-  .bcard-num{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:700;margin-left:auto}
+  .bcard-num{font-family:'Roboto Mono',monospace;font-size:11.5px;letter-spacing:.18em;color:var(--xrp-hi);text-transform:uppercase;font-weight:700;margin-left:auto;display:inline-flex;align-items:baseline;gap:1px}
+  .bcard-num .plus{font-size:13px;font-weight:800;opacity:.75}
   .bcard.gold .bcard-num{color:var(--gold)}
+
+  /* Cumulative glow — progressively stronger across the grid */
+  .bgrid .bcard:nth-child(1){box-shadow:inset 0 0 0 1px rgba(93,220,255,.04)}
+  .bgrid .bcard:nth-child(2){box-shadow:inset 0 0 0 1px rgba(93,220,255,.07)}
+  .bgrid .bcard:nth-child(3){box-shadow:inset 0 0 0 1px rgba(93,220,255,.1)}
+  .bgrid .bcard:nth-child(4){box-shadow:inset 0 0 0 1px rgba(93,220,255,.13)}
+  .bgrid .bcard:nth-child(5){box-shadow:inset 0 0 0 1px rgba(93,220,255,.16),0 0 24px rgba(93,220,255,.05)}
+  .bgrid .bcard.gold{box-shadow:0 0 40px rgba(224,183,104,.14),inset 0 0 0 1px rgba(224,183,104,.12)}
   .bcard-pill{display:inline-flex;align-items:center;font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:5px;color:var(--gold);background:rgba(224,183,104,.08);border:1px solid rgba(224,183,104,.32);width:max-content}
 
   .bcard-t{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.25}
@@ -823,71 +832,71 @@
 
   <div class="bgrid fade d1">
 
-    <!-- 01 · Zero fees -->
+    <!-- +01 · Zero fees -->
     <article class="bcard">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 5l14 14"/></svg></div>
-        <span class="bcard-num">01</span>
+        <span class="bcard-num"><span class="plus">+</span>01</span>
       </div>
-      <h3 class="bcard-t">Zero fees on XRP</h3>
-      <p class="bcard-d">Hold or send any amount of XRP. No commission. No spread. No matter the size of your stack.</p>
+      <h3 class="bcard-t">Hold or send. Always free.</h3>
+      <p class="bcard-d">No matter the size of your XRP &mdash; D'CENT charges nothing to hold it, nothing to send it.</p>
     </article>
 
-    <!-- 02 · Cheapest swap -->
+    <!-- +02 · Cheapest swap -->
     <article class="bcard">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-        <span class="bcard-num">02</span>
+        <span class="bcard-num"><span class="plus">+</span>02</span>
       </div>
-      <h3 class="bcard-t">The cheapest XRPL swap</h3>
-      <p class="bcard-d">Lower swap fees than any other XRP wallet. Routed for the best rate, every time.</p>
+      <h3 class="bcard-t">The cheapest swap on XRPL.</h3>
+      <p class="bcard-d">When XRP needs to move, D'CENT routes it cheaper than any other wallet on the ledger.</p>
     </article>
 
-    <!-- 03 · Native dApps -->
+    <!-- +03 · Native dApps -->
     <article class="bcard">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg></div>
-        <span class="bcard-num">03</span>
+        <span class="bcard-num"><span class="plus">+</span>03</span>
       </div>
-      <h3 class="bcard-t">Every XRPL dApp, native</h3>
-      <p class="bcard-d">The leading dApps of the XRP ecosystem &mdash; connected directly. No bridges, no detours.</p>
+      <h3 class="bcard-t">The XRPL ecosystem, native.</h3>
+      <p class="bcard-d">Every leading XRPL dApp, connected directly inside D'CENT. No bridges. No detours.</p>
     </article>
 
-    <!-- 04 · Beyond holding -->
+    <!-- +04 · XRP earns more XRP -->
     <article class="bcard">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <span class="bcard-num">04</span>
+        <span class="bcard-num"><span class="plus">+</span>04</span>
       </div>
-      <h3 class="bcard-t">Beyond just holding</h3>
-      <p class="bcard-d">Yield. Deposits. Real ways to put your XRP to work &mdash; while it stays in your wallet.</p>
+      <h3 class="bcard-t">XRP that earns more XRP.</h3>
+      <p class="bcard-d">Yield. Deposits. Ways for your stack to grow &mdash; while it stays in your wallet.</p>
     </article>
 
-    <!-- 05 · Airdrop eligibility -->
+    <!-- +05 · Airdrops find you -->
     <article class="bcard">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
-        <span class="bcard-num">05</span>
+        <span class="bcard-num"><span class="plus">+</span>05</span>
       </div>
-      <h3 class="bcard-t">Airdrop eligibility, on</h3>
-      <p class="bcard-d">Hold XRP in D'CENT and the qualifications take care of themselves. Ongoing chances, no claim rituals.</p>
+      <h3 class="bcard-t">Airdrops find you.</h3>
+      <p class="bcard-d">Hold XRP in D'CENT and the eligibility takes care of itself. Ongoing chances. Nothing to claim.</p>
     </article>
 
-    <!-- 06 · Hardware unlocks more (GOLD) -->
+    <!-- +06 · Hardware unlocks more (GOLD) -->
     <article class="bcard gold">
       <div class="bcard-head">
         <div class="bcard-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1.5"/></svg></div>
-        <span class="bcard-num">06</span>
+        <span class="bcard-num"><span class="plus">+</span>06</span>
       </div>
       <span class="bcard-pill">Hardware only</span>
-      <h3 class="bcard-t">D'CENT Hardware unlocks more</h3>
-      <p class="bcard-d">On top of the five above &mdash; hardware holders get exclusive Alliance rewards that keep coming.</p>
+      <h3 class="bcard-t">Hardware unlocks more.</h3>
+      <p class="bcard-d">Everything above &mdash; plus exclusive Alliance rewards that keep arriving for D'CENT hardware holders.</p>
     </article>
 
   </div>
 
   <div class="ben-bottom fade d2">
-    <div class="ben-bottom-t">Five come standard. <b>The sixth keeps unlocking more &mdash; <em>hardware only.</em></b></div>
+    <div class="ben-bottom-t">Six advantages. <b>One wallet.</b> <em>That's D'CENT.</em></div>
   </div>
 </section>
 
