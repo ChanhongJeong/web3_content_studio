@@ -166,10 +166,30 @@
   /*  SOCIAL PROOF — Influencers + Institutions   */
   /* =========================================== */
   .proof{padding:100px 24px 120px;max-width:1200px;margin:0 auto}
-  .proof-head{text-align:center;max-width:760px;margin:0 auto 56px}
+  .proof-head{text-align:center;max-width:820px;margin:0 auto 40px}
   .proof-head .kicker{justify-content:center;margin-bottom:22px}
-  .proof-head h2{margin-bottom:14px}
-  .proof-head .lede{margin:0 auto}
+  .proof-head h2{margin-bottom:18px}
+  .proof-head .lede{margin:0 auto;line-height:1.75}
+  .proof-sub{text-align:center;margin:48px 0 36px}
+  .proof-sub .kicker{justify-content:center}
+
+  /* Activities — horizontal infinite carousel */
+  .act-wrap{position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
+  .act-track{display:flex;gap:18px;width:max-content;animation:actScroll 55s linear infinite}
+  .act-track:hover{animation-play-state:paused}
+  @keyframes actScroll{to{transform:translateX(-50%)}}
+  .act-card{width:380px;flex-shrink:0;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--rule);background:var(--panel);transition:all .35s cubic-bezier(.22,1,.36,1)}
+  .act-card:hover{border-color:rgba(93,220,255,.35);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 24px rgba(93,220,255,.06)}
+  .act-img{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--panel-2)}
+  .act-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+  .act-card:hover .act-img img{transform:scale(1.05)}
+  .act-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(5,5,8,.55) 100%);pointer-events:none}
+  .act-info{padding:14px 18px 16px;display:flex;flex-direction:column;gap:5px}
+  .act-cat{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;color:var(--xrp-hi);text-transform:uppercase;font-weight:700}
+  .act-title{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.4}
+  .act-date{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin-top:2px}
+
+  @media (max-width:640px){.act-card{width:300px}}
 
   /* Influencer Carousel */
   .carousel-wrap{position:relative;overflow:hidden;margin-bottom:56px;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
@@ -211,65 +231,45 @@
   .bn-sub{font-size:13px;color:var(--ink-2);font-weight:400;line-height:1.4;margin-top:2px}
 
   /* =========================================== */
-  /*  BENEFITS — Stacking bar chart               */
+  /*  BENEFITS — 6 card grid                       */
   /* =========================================== */
-  .benefits{padding:90px 24px 100px;max-width:1200px;margin:0 auto}
-  .benefits-head{text-align:center;max-width:760px;margin:0 auto 56px}
+  .benefits{padding:50px 24px 100px;max-width:1200px;margin:0 auto}
+  .benefits-head{text-align:center;max-width:820px;margin:0 auto 56px}
   .benefits-head .kicker{justify-content:center;margin-bottom:22px}
-  .benefits-head h2{margin-bottom:14px}
-  .benefits-head .lede{margin:0 auto}
+  .benefits-head h2{margin-bottom:18px}
+  .benefits-head .lede{margin:0 auto;line-height:1.7}
 
-  /* Stack chart container */
-  .stack-chart{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,1.5vw,16px);max-width:820px;margin:0 auto;height:420px;padding:0 20px}
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:0 auto}
+  .bcard{position:relative;padding:28px 26px;border-radius:16px;background:linear-gradient(180deg,rgba(14,18,32,.95),rgba(8,10,20,.95));border:1px solid var(--rule);display:flex;flex-direction:column;gap:14px;transition:all .35s cubic-bezier(.22,1,.36,1);overflow:hidden;min-height:220px}
+  .bcard:hover{transform:translateY(-3px);border-color:rgba(93,220,255,.35);box-shadow:0 8px 32px rgba(93,220,255,.08)}
+  .bcard.gold{background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(224,183,104,.16),transparent 65%),linear-gradient(180deg,rgba(20,16,8,.95),rgba(10,8,4,.95));border-color:rgba(224,183,104,.4);box-shadow:0 0 40px rgba(224,183,104,.1),inset 0 0 0 1px rgba(224,183,104,.08)}
+  .bcard.gold:hover{transform:translateY(-3px);border-color:rgba(224,183,104,.6);box-shadow:0 8px 48px rgba(224,183,104,.18),inset 0 0 0 1px rgba(224,183,104,.12)}
+  .bcard.gold::before{content:'';position:absolute;top:0;left:-30%;right:-30%;height:1.5px;background:linear-gradient(90deg,transparent,#F4CE7B 50%,transparent);opacity:.7}
 
-  /* Individual bar */
-  .stack-bar{flex:1;max-width:130px;display:flex;flex-direction:column;align-items:center;gap:14px;position:relative}
-  .stack-col{width:100%;border-radius:14px 14px 6px 6px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px 10px;transition:all .4s cubic-bezier(.22,1,.36,1);cursor:default}
-  .stack-col:hover{transform:translateY(-4px)}
+  .bcard-head{display:flex;align-items:center;gap:12px}
+  .bcard-icon{width:44px;height:44px;border-radius:11px;background:rgba(93,220,255,.08);border:1px solid rgba(93,220,255,.22);display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);flex-shrink:0}
+  .bcard.gold .bcard-icon{background:rgba(224,183,104,.1);border-color:rgba(224,183,104,.32);color:var(--gold)}
+  .bcard-icon svg{width:22px;height:22px;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;fill:none;stroke:currentColor}
+  .bcard-num{font-family:'Roboto Mono',monospace;font-size:11.5px;letter-spacing:.18em;color:var(--xrp-hi);text-transform:uppercase;font-weight:700;margin-left:auto;display:inline-flex;align-items:baseline;gap:1px}
+  .bcard-num .plus{font-size:13px;font-weight:800;opacity:.75}
+  .bcard.gold .bcard-num{color:var(--gold)}
 
-  /* Bar heights — ascending */
-  .stack-bar:nth-child(1) .stack-col{height:140px}
-  .stack-bar:nth-child(2) .stack-col{height:180px}
-  .stack-bar:nth-child(3) .stack-col{height:220px}
-  .stack-bar:nth-child(4) .stack-col{height:260px}
-  .stack-bar:nth-child(5) .stack-col{height:300px}
-  .stack-bar:nth-child(6) .stack-col{height:380px}
+  /* Cumulative glow — progressively stronger across the grid */
+  .bgrid .bcard:nth-child(1){box-shadow:inset 0 0 0 1px rgba(93,220,255,.04)}
+  .bgrid .bcard:nth-child(2){box-shadow:inset 0 0 0 1px rgba(93,220,255,.07)}
+  .bgrid .bcard:nth-child(3){box-shadow:inset 0 0 0 1px rgba(93,220,255,.1)}
+  .bgrid .bcard:nth-child(4){box-shadow:inset 0 0 0 1px rgba(93,220,255,.13)}
+  .bgrid .bcard:nth-child(5){box-shadow:inset 0 0 0 1px rgba(93,220,255,.16),0 0 24px rgba(93,220,255,.05)}
+  .bgrid .bcard.gold{box-shadow:0 0 40px rgba(224,183,104,.14),inset 0 0 0 1px rgba(224,183,104,.12)}
+  .bcard-pill{display:inline-flex;align-items:center;font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:5px;color:var(--gold);background:rgba(224,183,104,.08);border:1px solid rgba(224,183,104,.32);width:max-content}
 
-  /* Blue bars (1-5) */
-  .stack-col.blue{background:linear-gradient(180deg,rgba(93,220,255,.2),rgba(93,220,255,.06));border:1px solid rgba(93,220,255,.25);box-shadow:0 0 30px rgba(93,220,255,.06),0 4px 20px rgba(0,0,0,.3)}
-  .stack-col.blue:hover{border-color:rgba(93,220,255,.5);box-shadow:0 0 40px rgba(93,220,255,.12),0 8px 32px rgba(0,0,0,.3)}
-  .stack-col.blue::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(93,220,255,.12),transparent);pointer-events:none}
+  .bcard-t{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.25}
+  .bcard-d{font-size:13.5px;color:var(--ink-1);line-height:1.6;letter-spacing:-.005em;flex:1}
 
-  /* Gold bar (6 — hardware) */
-  .stack-col.gold{background:linear-gradient(180deg,rgba(224,183,104,.25),rgba(224,183,104,.06));border:1px solid rgba(224,183,104,.35);box-shadow:0 0 40px rgba(224,183,104,.1),0 4px 24px rgba(0,0,0,.3)}
-  .stack-col.gold:hover{border-color:rgba(224,183,104,.6);box-shadow:0 0 60px rgba(224,183,104,.18),0 8px 36px rgba(0,0,0,.3)}
-  .stack-col.gold::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(224,183,104,.15),transparent);pointer-events:none}
-
-  /* Icon inside bar */
-  .stack-icon{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:8px;backdrop-filter:blur(6px)}
-  .stack-icon svg{width:20px;height:20px;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;fill:none}
-  .stack-col.blue .stack-icon svg{color:var(--xrp-hi);stroke:currentColor}
-  .stack-col.gold .stack-icon svg{color:var(--gold);stroke:currentColor}
-  .stack-col.gold .stack-icon{border-color:rgba(224,183,104,.3)}
-
-  /* Number badge */
-  .stack-num{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.18em;font-weight:600;text-transform:uppercase;margin-bottom:4px}
-  .stack-col.blue .stack-num{color:var(--xrp-hi)}
-  .stack-col.gold .stack-num{color:var(--gold)}
-
-  /* Labels below bar */
-  .stack-name{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.01em;text-align:center;line-height:1.2}
-  .stack-desc{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--ink-2);text-transform:uppercase;text-align:center;line-height:1.4;margin-top:2px}
-
-  /* 2x badge on gold bar */
-  .stack-2x{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700;padding:4px 12px;border-radius:99px;background:rgba(0,0,0,.8);border:1px solid rgba(224,183,104,.4);white-space:nowrap;z-index:2}
-
-  /* XRP coin on top of gold bar */
-  .stack-xrp{position:absolute;top:12px;width:32px;height:32px;fill:var(--gold);filter:drop-shadow(0 0 12px rgba(224,183,104,.5))}
-
-  .ben-bottom{text-align:center;margin-top:56px;max-width:640px;margin-left:auto;margin-right:auto}
-  .ben-bottom-t{font-size:clamp(20px,2.4vw,28px);font-weight:700;letter-spacing:-.03em;line-height:1.25;color:var(--ink);margin-bottom:10px}
+  .ben-bottom{text-align:center;margin-top:48px;max-width:640px;margin-left:auto;margin-right:auto}
+  .ben-bottom-t{font-size:clamp(18px,2vw,22px);font-weight:600;letter-spacing:-.02em;line-height:1.4;color:var(--ink-1);margin-bottom:6px}
   .ben-bottom-t em{font-style:normal;background:linear-gradient(120deg,#5DDCFF,#23A3E0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .ben-bottom-t b{color:var(--ink);font-weight:700}
   .ben-bottom-sub{font-size:14px;color:var(--ink-2);line-height:1.6}
 
   /* =========================================== */
@@ -300,8 +300,9 @@
   /* =========================================== */
   /*    PARTNERS — Venn diagram                    */
   /* =========================================== */
-  .partners{padding:90px 24px 100px;max-width:1300px;margin:0 auto}
-  .partners-head{text-align:center;max-width:760px;margin:0 auto 48px}
+  .partners{padding:90px 24px 50px;max-width:1300px;margin:0 auto}
+  .partners-head{text-align:center;max-width:820px;margin:0 auto 48px}
+  .partners-head .lede{line-height:1.85;max-width:none}
   .partners-head .kicker{justify-content:center;margin-bottom:22px}
   .partners-head h2{margin-bottom:16px}
   .partners-head .lede{margin:0 auto}
@@ -528,13 +529,7 @@
     .bignums-grid{grid-template-columns:1fr 1fr}
     .bn{border-bottom:1px solid var(--rule)}
     .bn:nth-child(even){border-right:none}
-    .stack-chart{height:340px;gap:10px}
-    .stack-bar:nth-child(1) .stack-col{height:110px}
-    .stack-bar:nth-child(2) .stack-col{height:140px}
-    .stack-bar:nth-child(3) .stack-col{height:170px}
-    .stack-bar:nth-child(4) .stack-col{height:200px}
-    .stack-bar:nth-child(5) .stack-col{height:240px}
-    .stack-bar:nth-child(6) .stack-col{height:310px}
+    .bgrid{grid-template-columns:1fr 1fr}
   }
   @media (max-width:640px){
     .nav-inner{padding:12px 18px}
@@ -579,21 +574,8 @@
     .pslot{grid-template-columns:36px 1fr;gap:12px}
     .pslot-badge{grid-column:span 2;justify-self:start;margin-top:4px}
     .tcard{width:300px;padding:22px}
-    .stack-chart{height:280px;gap:6px;padding:0 10px}
-    .stack-bar:nth-child(1) .stack-col{height:80px}
-    .stack-bar:nth-child(2) .stack-col{height:105px}
-    .stack-bar:nth-child(3) .stack-col{height:130px}
-    .stack-bar:nth-child(4) .stack-col{height:155px}
-    .stack-bar:nth-child(5) .stack-col{height:185px}
-    .stack-bar:nth-child(6) .stack-col{height:250px}
-    .stack-icon{width:32px;height:32px}
-    .stack-icon svg{width:16px;height:16px}
-    .stack-num{font-size:9px}
-    .stack-name{font-size:11px}
-    .stack-desc{font-size:8px}
-    .stack-2x{font-size:8px;padding:3px 8px;top:-14px}
-    .stack-xrp{width:24px;height:24px;top:8px}
-    .stack-col{padding:12px 6px;border-radius:10px 10px 4px 4px}
+    .bgrid{grid-template-columns:1fr;gap:14px}
+    .bcard{padding:22px 20px;min-height:auto}
   }
 </style>
 </head>
@@ -619,7 +601,7 @@
     </div>
     <div class="nav-r">
       <span class="nav-time" id="nav-time">Trusted since <b>2017</b></span>
-      <a href="#hw" class="nav-cta">Meet D'CENT</a>
+      <a href="#proof" class="nav-cta">Meet D'CENT</a>
     </div>
   </div>
 </nav>
@@ -642,7 +624,7 @@
       </h1>
       <p class="lede">Opened by D'CENT &mdash; the wallet XRP holders have trusted since 2017. <b>For the first time, the entire XRP ecosystem comes together in one place.</b></p>
       <div class="hero-cta">
-        <a href="#hw" class="btn btn-primary">Meet D'CENT
+        <a href="#proof" class="btn btn-primary">Meet D'CENT
           <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
         <a href="#partners" class="btn btn-ghost">See the Alliance</a>
@@ -728,14 +710,22 @@
   <div class="partners-head fade">
     <span class="kicker">The Alliance</span>
     <h2 class="display">The XRP ecosystem,<br><em>finally moving as one.</em></h2>
-    <p class="lede"><b>This is what XRP holders have been waiting for.</b> The full ecosystem &mdash; every leading project, every reward path, every campaign &mdash; finally moving as one. In one wallet. <b>D'CENT.</b></p>
-    <p class="lede" style="margin:18px auto 0"><b>The first campaign already paid out. The second is paying right now. The third is loading. More are coming.</b> Every Alliance partner shows up with something only D'CENT XRP holders can claim. <b>Move XRP to D'CENT &mdash; you're in for every drop. Forever.</b></p>
+    <p class="lede">
+      <b>For years, holding XRP has meant working across too many places.</b><br>
+      An exchange to buy. A wallet to hold. A separate service to earn.<br>
+      <b>D'CENT brings it all home &mdash; the entire XRP ecosystem, under a single wallet.</b>
+    </p>
+    <p class="lede" style="margin:24px auto 0">
+      <b>And that's only the start.</b><br>
+      Every Alliance partner reserves something exclusive for D'CENT XRP holders.<br>
+      <b>Move your XRP &mdash; and the opportunities never stop arriving.</b>
+    </p>
   </div>
 
   <!-- Aggregate counters -->
   <div class="qst-aggr fade d1">
     <div class="qstc">
-      <span class="qstc-k">Distributed so far</span>
+      <span class="qstc-k">Paid to XRP holders</span>
       <span class="qstc-v">$22,500+ in XRP</span>
     </div>
     <div class="qstc live">
@@ -743,8 +733,8 @@
       <span class="qstc-v">1 campaign</span>
     </div>
     <div class="qstc soon">
-      <span class="qstc-k">Coming soon</span>
-      <span class="qstc-v">3 partners + more</span>
+      <span class="qstc-k">Up next</span>
+      <span class="qstc-v">More on the way</span>
     </div>
   </div>
 
@@ -799,39 +789,7 @@
       <div class="qst-meta"><span>12 days left</span><b class="live-cta">Join now &rarr;</b></div>
     </article>
 
-    <!-- 4. COMING SOON · Doppler Finance -->
-    <article class="qst soon">
-      <span class="qst-status">Coming Soon</span>
-      <div class="qst-partner">
-        <div class="qst-partner-logo" style="background:#1B1043;color:#fff;font-family:'Roboto',sans-serif;font-size:11px;font-weight:800">DF</div>
-        <span class="qst-partner-name">Doppler Finance</span>
-      </div>
-      <p class="qst-quest">XRP-native DeFi yield campaign &mdash; details locking soon.</p>
-      <div class="qst-reward">
-        <span class="qst-reward-k">Reward</span>
-        <span class="qst-reward-v">TBA</span>
-        <span class="qst-reward-sub">Sized for serious XRP holders</span>
-      </div>
-      <div class="qst-meta"><span>Q2 2026</span><span>Whitelist soon</span></div>
-    </article>
-
-    <!-- 5. COMING SOON · Squid Router -->
-    <article class="qst soon">
-      <span class="qst-status">Coming Soon</span>
-      <div class="qst-partner">
-        <div class="qst-partner-logo" style="background:#0E1320;color:#fff;font-family:'Roboto',sans-serif;font-size:11px;font-weight:800">SR</div>
-        <span class="qst-partner-name">Squid Router</span>
-      </div>
-      <p class="qst-quest">Cross-chain campaign &mdash; rewards for routing into XRP via D'CENT.</p>
-      <div class="qst-reward">
-        <span class="qst-reward-k">Reward</span>
-        <span class="qst-reward-v">TBA</span>
-        <span class="qst-reward-sub">Pool size to be revealed</span>
-      </div>
-      <div class="qst-meta"><span>Q2 2026</span><span>Reveal pending</span></div>
-    </article>
-
-    <!-- 6. COMING SOON · Mystery -->
+    <!-- 4. COMING SOON · Mystery -->
     <article class="qst soon">
       <span class="qst-status">Coming Soon</span>
       <div class="qst-partner">
@@ -844,126 +802,250 @@
         <span class="qst-reward-v">???</span>
         <span class="qst-reward-sub">Stay close to the Alliance</span>
       </div>
+      <div class="qst-meta"><span>Q2 2026</span><span>Unannounced</span></div>
+    </article>
+
+    <!-- 5. COMING SOON · Mystery -->
+    <article class="qst soon">
+      <span class="qst-status">Coming Soon</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo locked">?</div>
+        <span class="qst-partner-name">Reveal pending</span>
+      </div>
+      <p class="qst-quest">Another name from the XRP ecosystem. Another reward only D'CENT holders will see.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward</span>
+        <span class="qst-reward-v">???</span>
+        <span class="qst-reward-sub">Stay close to the Alliance</span>
+      </div>
+      <div class="qst-meta"><span>Q2 2026</span><span>Unannounced</span></div>
+    </article>
+
+    <!-- 6. COMING SOON · Mystery -->
+    <article class="qst soon">
+      <span class="qst-status">Coming Soon</span>
+      <div class="qst-partner">
+        <div class="qst-partner-logo locked">?</div>
+        <span class="qst-partner-name">Reveal pending</span>
+      </div>
+      <p class="qst-quest">The third reveal. Bigger pools. Bigger names. Worth the wait.</p>
+      <div class="qst-reward">
+        <span class="qst-reward-k">Reward</span>
+        <span class="qst-reward-v">???</span>
+        <span class="qst-reward-sub">Stay close to the Alliance</span>
+      </div>
       <div class="qst-meta"><span>Q3 2026</span><span>Unannounced</span></div>
     </article>
 
   </div>
 
-  <p class="qst-footer fade d3">Hold XRP in D'CENT. <b>Every campaign. Every drop. Automatic.</b></p>
+  <p class="qst-footer fade d3">Hold XRP in D'CENT &mdash; <b>and the opportunities keep coming.</b></p>
 </section>
 
 <!-- ============ 3. BENEFITS (includes HW tier) ============ -->
 <section class="benefits" id="benefits">
   <div class="benefits-head fade">
-    <span class="kicker">Your stack</span>
-    <h2 class="display">One wallet.<br><em>Six ways to stack.</em></h2>
-    <p class="lede">Five benefits activate the moment you hold XRP in D'CENT. The hardware wallet unlocks the sixth &mdash; exclusive access, 2x rewards, and the kind of security that lets you sleep at night.</p>
+    <span class="kicker">What's included</span>
+    <h2 class="display">Hold XRP in D'CENT.<br><em>This is what comes with it.</em></h2>
+    <p class="lede"><b>Six built-in advantages.</b><br>No other XRP wallet ships them all together.</p>
   </div>
 
-  <div class="stack-chart fade d1">
-    <!-- Bar 1: Cross-Chain Swap -->
-    <div class="stack-bar">
-      <div class="stack-col blue">
-        <div class="stack-icon"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-        <span class="stack-num">01</span>
-      </div>
-      <span class="stack-name">Swap</span>
-      <span class="stack-desc">Cross-chain<br>into XRP</span>
-    </div>
+  <div class="bgrid fade d1">
 
-    <!-- Bar 2: Zero-Fee On-Ramp -->
-    <div class="stack-bar">
-      <div class="stack-col blue">
-        <div class="stack-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
-        <span class="stack-num">02</span>
+    <!-- +01 · Zero fees -->
+    <article class="bcard">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5 5l14 14"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>01</span>
       </div>
-      <span class="stack-name">On-Ramp</span>
-      <span class="stack-desc">Buy XRP<br>zero fees</span>
-    </div>
+      <h3 class="bcard-t">Hold or send. Always free.</h3>
+      <p class="bcard-d">No matter the size of your XRP &mdash; D'CENT charges nothing to hold it, nothing to send it.</p>
+    </article>
 
-    <!-- Bar 3: dApp Access -->
-    <div class="stack-bar">
-      <div class="stack-col blue">
-        <div class="stack-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
-        <span class="stack-num">03</span>
+    <!-- +02 · Cheapest swap -->
+    <article class="bcard">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>02</span>
       </div>
-      <span class="stack-name">dApps</span>
-      <span class="stack-desc">XRP DeFi<br>in-wallet</span>
-    </div>
+      <h3 class="bcard-t">The cheapest swap on XRPL.</h3>
+      <p class="bcard-d">When XRP needs to move, D'CENT routes it cheaper than any other wallet on the ledger.</p>
+    </article>
 
-    <!-- Bar 4: Airdrops -->
-    <div class="stack-bar">
-      <div class="stack-col blue">
-        <div class="stack-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-        <span class="stack-num">04</span>
+    <!-- +03 · Native dApps -->
+    <article class="bcard">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6v6H9z"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>03</span>
       </div>
-      <span class="stack-name">Airdrops</span>
-      <span class="stack-desc">Partner<br>exclusive</span>
-    </div>
+      <h3 class="bcard-t">The XRPL ecosystem, native.</h3>
+      <p class="bcard-d">Every leading XRPL dApp, connected directly inside D'CENT.</p>
+    </article>
 
-    <!-- Bar 5: Staking -->
-    <div class="stack-bar">
-      <div class="stack-col blue">
-        <div class="stack-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <span class="stack-num">05</span>
+    <!-- +04 · XRP earns more XRP -->
+    <article class="bcard">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>04</span>
       </div>
-      <span class="stack-name">Staking</span>
-      <span class="stack-desc">Grow XRP<br>passively</span>
-    </div>
+      <h3 class="bcard-t">XRP that earns more XRP.</h3>
+      <p class="bcard-d">Yield. Deposits. Ways for your stack to grow &mdash; while it stays in your wallet.</p>
+    </article>
 
-    <!-- Bar 6: Hardware Wallet (GOLD — tallest) -->
-    <div class="stack-bar">
-      <div class="stack-col gold">
-        <span class="stack-2x">2&times; Rewards</span>
-        <svg class="stack-xrp" viewBox="0 0 512 424"><use href="#rippleX"/></svg>
-        <div class="stack-icon" style="margin-top:auto"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
-        <span class="stack-num">06</span>
+    <!-- +05 · Ongoing airdrop opportunities -->
+    <article class="bcard">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>05</span>
       </div>
-      <span class="stack-name">Hardware</span>
-      <span class="stack-desc">Exclusive<br>2&times; everything</span>
-    </div>
+      <h3 class="bcard-t">Airdrop chances, on repeat.</h3>
+      <p class="bcard-d">Hold XRP in D'CENT &mdash; and opportunities keep arriving across the XRPL ecosystem and the Alliance.</p>
+    </article>
+
+    <!-- +06 · Hardware unlocks more (GOLD) -->
+    <article class="bcard gold">
+      <div class="bcard-head">
+        <div class="bcard-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1.5"/></svg></div>
+        <span class="bcard-num"><span class="plus">+</span>06</span>
+      </div>
+      <span class="bcard-pill">Hardware only</span>
+      <h3 class="bcard-t">Hardware unlocks more.</h3>
+      <p class="bcard-d">Everything above &mdash; plus exclusive Alliance rewards that keep arriving for D'CENT hardware holders.</p>
+    </article>
+
   </div>
 
   <div class="ben-bottom fade d2">
-    <div class="ben-bottom-t">Five benefits come standard. <em>The sixth is reserved for hardware holders.</em></div>
-    <div class="ben-bottom-sub">Every Alliance campaign gives hardware wallet holders the edge &mdash; first access, bigger rewards. The roster keeps growing. So does your stack.</div>
+    <div class="ben-bottom-t">Six advantages. <b>One wallet.</b> <em>That's D'CENT.</em></div>
   </div>
 </section>
 
-<!-- ============ 4. HARDWARE ============ -->
-<section class="hw" id="hw">
-  <div class="hw-card fade">
-    <div class="hw-l">
-      <span class="hw-chip">&#10022; Hardware Holders</span>
-      <h2 class="hw-title">The Alliance keeps giving. <em>To hardware first.</em></h2>
-      <p class="hw-sub">App holders are in. Hardware holders stay first &mdash; on every reveal, every drop, every campaign the Alliance runs. Ongoing. Exclusive. No expiry.</p>
-      <div class="hw-bens">
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">&times; 2 on every reward<small>&middot; No exceptions</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">First in line for every partner drop<small>&middot; Before app holders</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">Hardware-only campaigns<small>&middot; Drops you can't get elsewhere</small></span></div>
-        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">EAL5+ signing<small>&middot; Your keys never leave the device</small></span></div>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a href="#" class="btn btn-gold">Get D'CENT Hardware
-          <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#" class="btn btn-ghost">Move XRP to D'CENT</a>
-      </div>
-    </div>
-    <div class="hw-r">
-      <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669e1fa168365e119da14a01_biometric%401-570x640.webp" alt="D'CENT Biometric Device" loading="lazy"/>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 5. INFLUENCER CAROUSEL (moved up) ============ -->
-<section class="proof" style="padding:120px 24px 100px;max-width:1200px;margin:0 auto">
+<!-- ============ 4. INFLUENCER CAROUSEL (Meet D'CENT lands here) ============ -->
+<section class="proof" id="proof" style="padding:120px 24px 100px;max-width:1200px;margin:0 auto">
   <div class="proof-head fade">
-    <span class="kicker">Trusted</span>
-    <h2 class="display">Trusted by users worldwide.<br><em>Backed by institutions.</em></h2>
+    <span class="kicker">Meet D'CENT</span>
+    <h2 class="display">Meet D'CENT.<br><em>The #1 wallet for XRP holders.</em></h2>
+    <p class="lede">
+      World's first biometric hardware wallet. EAL5+ certified.<br>
+      Native to the XRP Ledger since 2017.<br>
+      <b>Built by IoTrust &mdash; and now home to the XRP Alliance.</b>
+    </p>
   </div>
 
-  <div class="carousel-wrap fade d1">
+  <!-- Sub-section heading for activities -->
+  <div class="proof-sub fade d1">
+    <span class="kicker">XRP &amp; D'CENT in the wild</span>
+  </div>
+
+  <!-- Activities — horizontal infinite carousel (placeholder thumbnails, designer to swap) -->
+  <div class="act-wrap fade d2">
+    <div class="act-track">
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=XRPL+Apex+2024&font=roboto" alt="XRPL Apex 2024" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Conference</span>
+          <span class="act-title">XRPL Apex &mdash; Speaker session on hardware self-custody</span>
+          <span class="act-date">Jun 2024 &middot; Amsterdam</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/5DDCFF/png?text=Korea+Blockchain+Week&font=roboto" alt="Korea Blockchain Week" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Event</span>
+          <span class="act-title">Korea Blockchain Week &mdash; XRP holder booth + meetup</span>
+          <span class="act-date">Sep 2024 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Ripple+x+D%27CENT&font=roboto" alt="Ripple x D'CENT" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Partnership</span>
+          <span class="act-title">Ripple ecosystem partnership &mdash; native XRPL integration</span>
+          <span class="act-date">2024 &middot; Ongoing</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/C8D4E0/png?text=XRP+Seoul+Meetup&font=roboto" alt="XRP Seoul Meetup" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Community</span>
+          <span class="act-title">XRP Seoul meetup &mdash; D'CENT &times; XRP holders</span>
+          <span class="act-date">Mar 2025 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=AMA+Live&font=roboto" alt="AMA Live" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">AMA</span>
+          <span class="act-title">Live AMA &mdash; XRP holder questions, D'CENT answers</span>
+          <span class="act-date">Q4 2025</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Alliance+Launch&font=roboto" alt="Alliance Launch" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Campaign</span>
+          <span class="act-title">XRP Alliance launch &mdash; first welcome campaign</span>
+          <span class="act-date">Q1 2026</span>
+        </div>
+      </article>
+
+      <!-- Duplicate set for seamless loop -->
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=XRPL+Apex+2024&font=roboto" alt="XRPL Apex 2024" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Conference</span>
+          <span class="act-title">XRPL Apex &mdash; Speaker session on hardware self-custody</span>
+          <span class="act-date">Jun 2024 &middot; Amsterdam</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/5DDCFF/png?text=Korea+Blockchain+Week&font=roboto" alt="Korea Blockchain Week" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Event</span>
+          <span class="act-title">Korea Blockchain Week &mdash; XRP holder booth + meetup</span>
+          <span class="act-date">Sep 2024 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Ripple+x+D%27CENT&font=roboto" alt="Ripple x D'CENT" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Partnership</span>
+          <span class="act-title">Ripple ecosystem partnership &mdash; native XRPL integration</span>
+          <span class="act-date">2024 &middot; Ongoing</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/C8D4E0/png?text=XRP+Seoul+Meetup&font=roboto" alt="XRP Seoul Meetup" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Community</span>
+          <span class="act-title">XRP Seoul meetup &mdash; D'CENT &times; XRP holders</span>
+          <span class="act-date">Mar 2025 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=AMA+Live&font=roboto" alt="AMA Live" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">AMA</span>
+          <span class="act-title">Live AMA &mdash; XRP holder questions, D'CENT answers</span>
+          <span class="act-date">Q4 2025</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Alliance+Launch&font=roboto" alt="Alliance Launch" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Campaign</span>
+          <span class="act-title">XRP Alliance launch &mdash; first welcome campaign</span>
+          <span class="act-date">Q1 2026</span>
+        </div>
+      </article>
+    </div>
+  </div>
+  <!-- Sub-section heading for testimonials -->
+  <div class="proof-sub fade d3" style="margin-top:80px">
+    <span class="kicker">What XRP holders say</span>
+  </div>
+
+  <div class="carousel-wrap fade d4">
     <div class="carousel">
       <div class="tcard">
         <div class="tcard-quote">The biometric functionality makes it effortless &mdash; hold it in one hand, unlock, and authorize transactions. That simple.</div>
@@ -996,6 +1078,33 @@
       <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
       <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
       <div class="tcard"><div class="tcard-quote">Placeholder quote from influencer. Replace with real testimonial.</div><div class="tcard-author"><div class="tcard-avatar"><span class="placeholder">&#9679;</span></div><div class="tcard-info"><span class="tcard-name">Influencer Name</span><span class="tcard-role">Platform &middot; Followers</span></div></div></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ 5. HARDWARE ============ -->
+<section class="hw" id="hw">
+  <div class="hw-card fade">
+    <div class="hw-l">
+      <span class="hw-chip">&#10022; Hardware Holders</span>
+      <h2 class="hw-title">The Alliance keeps giving. <em>To hardware first.</em></h2>
+      <p class="hw-sub">App holders are in. Hardware holders stay first &mdash; on every reveal, every drop, every campaign the Alliance runs. Ongoing. Exclusive. No expiry.</p>
+      <div class="hw-bens">
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">&times; 2 on every reward<small>&middot; No exceptions</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">First in line for every partner drop<small>&middot; Before app holders</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">Hardware-only campaigns<small>&middot; Drops you can't get elsewhere</small></span></div>
+        <div class="hwb"><span class="hwb-k">Always</span><span class="hwb-v">EAL5+ signing<small>&middot; Your keys never leave the device</small></span></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#" class="btn btn-gold">Get D'CENT Hardware
+          <svg class="arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn btn-ghost">Move XRP to D'CENT</a>
+      </div>
+    </div>
+    <div class="hw-r">
+      <img src="https://cdn.prod.website-files.com/668b3a82199c56fe12067652/669e1fa168365e119da14a01_biometric%401-570x640.webp" alt="D'CENT Biometric Device" loading="lazy"/>
     </div>
   </div>
 </section>
