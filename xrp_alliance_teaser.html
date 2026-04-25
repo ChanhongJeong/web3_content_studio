@@ -173,9 +173,12 @@
   .proof-sub{text-align:center;margin:48px 0 36px}
   .proof-sub .kicker{justify-content:center}
 
-  /* Activities gallery */
-  .act-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}
-  .act-card{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--rule);background:var(--panel);transition:all .35s cubic-bezier(.22,1,.36,1)}
+  /* Activities — horizontal infinite carousel */
+  .act-wrap{position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
+  .act-track{display:flex;gap:18px;width:max-content;animation:actScroll 55s linear infinite}
+  .act-track:hover{animation-play-state:paused}
+  @keyframes actScroll{to{transform:translateX(-50%)}}
+  .act-card{width:380px;flex-shrink:0;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--rule);background:var(--panel);transition:all .35s cubic-bezier(.22,1,.36,1)}
   .act-card:hover{border-color:rgba(93,220,255,.35);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 24px rgba(93,220,255,.06)}
   .act-img{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--panel-2)}
   .act-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.22,1,.36,1)}
@@ -186,8 +189,7 @@
   .act-title{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.4}
   .act-date{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin-top:2px}
 
-  @media (max-width:900px){.act-grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:640px){.act-grid{grid-template-columns:1fr}}
+  @media (max-width:640px){.act-card{width:300px}}
 
   /* Influencer Carousel */
   .carousel-wrap{position:relative;overflow:hidden;margin-bottom:56px;mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
@@ -976,61 +978,108 @@
     <span class="kicker">XRP &amp; D'CENT in the wild</span>
   </div>
 
-  <!-- Activities gallery — placeholder thumbnails, designer to swap -->
-  <div class="act-grid fade d4">
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=XRPL+Apex+2024&font=roboto" alt="XRPL Apex 2024" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">Conference</span>
-        <span class="act-title">XRPL Apex &mdash; Speaker session on hardware self-custody</span>
-        <span class="act-date">Jun 2024 &middot; Amsterdam</span>
-      </div>
-    </article>
+  <!-- Activities — horizontal infinite carousel (placeholder thumbnails, designer to swap) -->
+  <div class="act-wrap fade d4">
+    <div class="act-track">
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=XRPL+Apex+2024&font=roboto" alt="XRPL Apex 2024" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Conference</span>
+          <span class="act-title">XRPL Apex &mdash; Speaker session on hardware self-custody</span>
+          <span class="act-date">Jun 2024 &middot; Amsterdam</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/5DDCFF/png?text=Korea+Blockchain+Week&font=roboto" alt="Korea Blockchain Week" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Event</span>
+          <span class="act-title">Korea Blockchain Week &mdash; XRP holder booth + meetup</span>
+          <span class="act-date">Sep 2024 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Ripple+x+D%27CENT&font=roboto" alt="Ripple x D'CENT" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Partnership</span>
+          <span class="act-title">Ripple ecosystem partnership &mdash; native XRPL integration</span>
+          <span class="act-date">2024 &middot; Ongoing</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/C8D4E0/png?text=XRP+Seoul+Meetup&font=roboto" alt="XRP Seoul Meetup" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Community</span>
+          <span class="act-title">XRP Seoul meetup &mdash; D'CENT &times; XRP holders</span>
+          <span class="act-date">Mar 2025 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=AMA+Live&font=roboto" alt="AMA Live" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">AMA</span>
+          <span class="act-title">Live AMA &mdash; XRP holder questions, D'CENT answers</span>
+          <span class="act-date">Q4 2025</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Alliance+Launch&font=roboto" alt="Alliance Launch" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Campaign</span>
+          <span class="act-title">XRP Alliance launch &mdash; first welcome campaign</span>
+          <span class="act-date">Q1 2026</span>
+        </div>
+      </article>
 
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/5DDCFF/png?text=Korea+Blockchain+Week&font=roboto" alt="Korea Blockchain Week" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">Event</span>
-        <span class="act-title">Korea Blockchain Week &mdash; XRP holder booth + meetup</span>
-        <span class="act-date">Sep 2024 &middot; Seoul</span>
-      </div>
-    </article>
-
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Ripple+x+D%27CENT&font=roboto" alt="Ripple x D'CENT" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">Partnership</span>
-        <span class="act-title">Ripple ecosystem partnership &mdash; native XRPL integration</span>
-        <span class="act-date">2024 &middot; Ongoing</span>
-      </div>
-    </article>
-
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/C8D4E0/png?text=XRP+Seoul+Meetup&font=roboto" alt="XRP Seoul Meetup" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">Community</span>
-        <span class="act-title">XRP Seoul meetup &mdash; D'CENT × XRP holders</span>
-        <span class="act-date">Mar 2025 &middot; Seoul</span>
-      </div>
-    </article>
-
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=AMA+Live&font=roboto" alt="AMA Live" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">AMA</span>
-        <span class="act-title">Live AMA &mdash; XRP holder questions, D'CENT answers</span>
-        <span class="act-date">Q4 2025</span>
-      </div>
-    </article>
-
-    <article class="act-card">
-      <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Alliance+Launch&font=roboto" alt="Alliance Launch" loading="lazy"/></div>
-      <div class="act-info">
-        <span class="act-cat">Campaign</span>
-        <span class="act-title">XRP Alliance launch &mdash; first welcome campaign</span>
-        <span class="act-date">Q1 2026</span>
-      </div>
-    </article>
+      <!-- Duplicate set for seamless loop -->
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=XRPL+Apex+2024&font=roboto" alt="XRPL Apex 2024" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Conference</span>
+          <span class="act-title">XRPL Apex &mdash; Speaker session on hardware self-custody</span>
+          <span class="act-date">Jun 2024 &middot; Amsterdam</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/5DDCFF/png?text=Korea+Blockchain+Week&font=roboto" alt="Korea Blockchain Week" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Event</span>
+          <span class="act-title">Korea Blockchain Week &mdash; XRP holder booth + meetup</span>
+          <span class="act-date">Sep 2024 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Ripple+x+D%27CENT&font=roboto" alt="Ripple x D'CENT" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Partnership</span>
+          <span class="act-title">Ripple ecosystem partnership &mdash; native XRPL integration</span>
+          <span class="act-date">2024 &middot; Ongoing</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0A0C14/C8D4E0/png?text=XRP+Seoul+Meetup&font=roboto" alt="XRP Seoul Meetup" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Community</span>
+          <span class="act-title">XRP Seoul meetup &mdash; D'CENT &times; XRP holders</span>
+          <span class="act-date">Mar 2025 &middot; Seoul</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/0E1320/5DDCFF/png?text=AMA+Live&font=roboto" alt="AMA Live" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">AMA</span>
+          <span class="act-title">Live AMA &mdash; XRP holder questions, D'CENT answers</span>
+          <span class="act-date">Q4 2025</span>
+        </div>
+      </article>
+      <article class="act-card">
+        <div class="act-img"><img src="https://placehold.co/600x375/12100A/E0B768/png?text=Alliance+Launch&font=roboto" alt="Alliance Launch" loading="lazy"/></div>
+        <div class="act-info">
+          <span class="act-cat">Campaign</span>
+          <span class="act-title">XRP Alliance launch &mdash; first welcome campaign</span>
+          <span class="act-date">Q1 2026</span>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
