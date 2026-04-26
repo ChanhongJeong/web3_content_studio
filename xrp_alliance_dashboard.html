@@ -108,10 +108,38 @@
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
   .hero-tag{
-    font-size:14.5px;color:var(--ink-1);line-height:1.7;margin-bottom:22px;
+    font-size:14.5px;color:var(--ink-1);line-height:1.7;margin-bottom:0;
     max-width:560px;
   }
   .hero-tag b{color:var(--ink);font-weight:600}
+  .hero-tag .lead{
+    display:block;font-size:15.5px;color:var(--ink);font-weight:600;
+    letter-spacing:-.005em;line-height:1.45;margin-bottom:10px;
+  }
+  /* Hero rule — divider with label between lede and tags */
+  .hero-rule{
+    display:flex;align-items:center;gap:12px;
+    margin:26px 0 14px;
+  }
+  .hero-rule::before,.hero-rule::after{
+    content:'';flex:1;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(93,220,255,.18), transparent);
+  }
+  .hero-rule span{
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.26em;
+    color:var(--ink-2);text-transform:uppercase;font-weight:600;
+    white-space:nowrap;
+  }
+  /* Hero close — punctuation block before CTA */
+  .hero-close{
+    margin:22px 0 26px;padding:2px 0 2px 14px;
+    border-left:2px solid rgba(93,220,255,.4);
+    font-size:13.5px;color:var(--ink-2);line-height:1.55;
+  }
+  .hero-close b{
+    display:block;color:var(--ink);font-weight:600;
+    font-size:14.5px;letter-spacing:-.01em;margin-top:3px;
+  }
   .hero-kicker{
     font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.2em;
     color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
@@ -123,7 +151,7 @@
 
   /* Hub category tags */
   .hub-tags{
-    display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;
+    display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0;
   }
   .hub-tags span{
     padding:5px 10px;border-radius:7px;
@@ -555,7 +583,13 @@
         Season 1 · Live Now
       </span>
       <h1>Hold XRP in D'CENT.<br><em>This is the hub.</em></h1>
-      <p class="hero-tag">Don't leave your XRP idle on an exchange. D'CENT is the <b>hub of the XRP ecosystem</b> &mdash; from simply holding to <b>XRPfi</b> yield. On-ramps, swaps, bridges, dApps, airdrops &mdash; <b>A to Z in one wallet</b>. Every Alliance partner lands here. <b>New benefits keep arriving.</b></p>
+
+      <p class="hero-tag">
+        <span class="lead">Don't leave XRP idle on an exchange.</span>
+        D'CENT is the <b>hub of the XRP ecosystem</b> &mdash; from holding to <b>XRPfi</b> yield. <b>A to Z in one wallet.</b>
+      </p>
+
+      <div class="hero-rule"><span>What lives here</span></div>
 
       <div class="hub-tags">
         <span>On-ramp</span>
@@ -566,8 +600,13 @@
         <span>dApp</span>
         <span>Payments</span>
         <span>Airdrop</span>
-        <span class="dim">more</span>
+        <span class="dim">+ more</span>
       </div>
+
+      <p class="hero-close">
+        Every Alliance partner lands here.
+        <b>New benefits keep arriving.</b>
+      </p>
 
       <div class="hero-actions">
         <a href="xrp_alliance_teaser.html" class="btn-learn">
@@ -640,8 +679,8 @@
       <div class="st-total">
         <span class="st-total-k">= Total</span>
         <div class="st-total-r">
-          <span class="st-total-v">HEXA Rewards</span>
-          <span class="st-total-sub">Infra → Ecosystem</span>
+          <span class="st-total-v">Six advantages.</span>
+          <span class="st-total-sub">One wallet. That's D'CENT.</span>
         </div>
       </div>
     </div>
