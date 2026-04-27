@@ -256,7 +256,7 @@ This is what comes with it.   ← 그라데이션
 |---|---|---|
 | **+01** | Hold or send. Always free. | No matter the size of your XRP — D'CENT charges nothing to hold it, nothing to send it. |
 | **+02** | The cheapest swap on XRPL. | When XRP needs to move, D'CENT routes it cheaper than any other wallet on the ledger. |
-| **+03** | The XRPL ecosystem, native. | Every leading XRPL dApp, connected directly inside D'CENT. |
+| **+03** | The XRPL ecosystem, native. | Every leading XRPL dApp, connected directly inside D'CENT.<br>Trustline-ready for RLUSD, stablecoins, and every XRPL-issued asset. |
 | **+04** | XRP that earns more XRP. | Yield. Deposits. Ways for your stack to grow — while it stays in your wallet. |
 | **+05** | Airdrop chances, on repeat. | Hold XRP in D'CENT — and opportunities keep arriving across the XRPL ecosystem and the Alliance. |
 | **+06** *(GOLD)* | Hardware unlocks more. | Everything above — plus exclusive Alliance rewards that keep arriving for D'CENT hardware holders. |
