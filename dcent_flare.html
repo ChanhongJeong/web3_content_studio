@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>D'CENT × Flare · Make Your XRP Work — XRP Alliance · First Drop</title>
+<meta name="description" content="The XRP Alliance · First Drop with Flare. Buy a D'CENT wallet, get $25 in XRP back. Mint FXRP and put your XRP to work across Flare DeFi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000; --panel:#0C0E17; --panel-2:#12151F; --panel-3:#1A1E2C;
+    --ink:#FAFBFF; --ink-1:#C6CCDC; --ink-2:#7C8297; --ink-3:#434959;
+
+    --xrp:#23A3E0; --xrp-hi:#5DDCFF; --xrp-lo:#006097;
+    --flare:#E5184D; --flare-hi:#FF3852; --flare-lo:#9E0F36;
+
+    --green:#7FEAB2; --gold:#E0B768; --gold-hi:#F4CE7B;
+
+    --rule:rgba(255,255,255,.08);
+    --rule-blue:rgba(93,220,255,.25);
+    --rule-flare:rgba(255,56,82,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    background:#000;
+    color:var(--ink);
+    font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.55;letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  /* Mobile shell */
+  .shell{
+    max-width:480px;margin:0 auto;background:#000;min-height:100vh;
+    position:relative;overflow:hidden;
+  }
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;
+    background:rgba(2,4,10,.78);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.04);
+  }
+  .brand-lockup{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Geist Mono',monospace;font-size:11.5px;letter-spacing:.18em;
+    color:var(--ink);text-transform:uppercase;font-weight:600;
+  }
+  .brand-lockup .x{color:var(--ink-3);font-weight:400}
+  .brand-lockup .flare-mark{color:var(--flare-hi)}
+  .btn-buy-top{
+    padding:8px 14px;border-radius:99px;
+    background:#fff;color:#000;font-size:12px;font-weight:700;
+    letter-spacing:-.01em;transition:transform .15s, box-shadow .15s;
+  }
+  .btn-buy-top:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(255,255,255,.18)}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;padding:54px 22px 46px;
+    background:
+      radial-gradient(ellipse 110% 80% at 50% 30%, rgba(35,163,224,.42), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 92% 14%, rgba(229,24,77,.35), transparent 64%),
+      radial-gradient(ellipse 50% 35% at 8% 80%, rgba(35,163,224,.16), transparent 62%),
+      linear-gradient(180deg, #01040C 0%, #050812 100%);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.85;
+    background-image:
+      radial-gradient(1.4px 1.4px at 16% 18%, #fff 50%, transparent 100%),
+      radial-gradient(1px 1px at 72% 12%, rgba(255,255,255,.9), transparent 100%),
+      radial-gradient(1.8px 1.8px at 90% 42%, rgba(93,220,255,1), transparent 100%),
+      radial-gradient(1.6px 1.6px at 22% 82%, rgba(255,56,82,.85), transparent 100%),
+      radial-gradient(1px 1px at 32% 56%, #fff, transparent 100%),
+      radial-gradient(2.2px 2.2px at 82% 76%, rgba(93,220,255,.8), transparent 100%),
+      radial-gradient(1px 1px at 12% 68%, rgba(255,255,255,.85), transparent 100%),
+      radial-gradient(1.2px 1.2px at 55% 28%, rgba(255,56,82,.7), transparent 100%),
+      radial-gradient(1px 1px at 45% 82%, rgba(255,255,255,.6), transparent 100%);
+    animation:twinkle 6s ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.5}}
+  .hero-orb{
+    position:absolute;top:32%;left:50%;transform:translate(-50%,-50%);
+    width:280px;height:280px;border-radius:50%;
+    background:
+      radial-gradient(circle at 35% 38%, rgba(93,220,255,.55), transparent 55%),
+      radial-gradient(circle at 75% 65%, rgba(255,56,82,.45), transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(35,163,224,.3), rgba(10,12,22,0) 70%);
+    filter:blur(8px);pointer-events:none;z-index:1;
+    animation:pulseOrb 6s ease-in-out infinite;
+  }
+  @keyframes pulseOrb{
+    0%,100%{opacity:.85;transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}
+  }
+  .hero-inner{position:relative;z-index:2;text-align:center}
+
+  .alliance-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 14px;border-radius:99px;
+    background:linear-gradient(135deg, rgba(93,220,255,.08), rgba(255,56,82,.08));
+    border:1px solid rgba(93,220,255,.32);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.24em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:600;
+    margin-bottom:24px;
+    box-shadow:0 0 24px rgba(93,220,255,.12);
+  }
+  .alliance-badge .star{color:var(--flare-hi)}
+  .alliance-badge .div{color:var(--ink-3);font-weight:400}
+
+  .hero h1{
+    font-size:44px;font-weight:300;letter-spacing:-.05em;line-height:1.04;
+    color:var(--ink);margin-bottom:14px;
+  }
+  .hero h1 em{
+    font-style:normal;font-weight:500;
+    background:linear-gradient(120deg,#5DDCFF 0%,#23A3E0 60%,#FF3852 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+
+  .hero-tag{
+    font-size:14.5px;color:var(--ink-1);line-height:1.6;
+    max-width:420px;margin:0 auto;
+  }
+  .hero-tag b{color:var(--ink);font-weight:600}
+  .hero-tag .accent-flare{color:var(--flare-hi);font-weight:600}
+  .hero-sub{
+    margin-top:14px;font-size:13px;color:var(--ink-2);line-height:1.55;
+    max-width:400px;margin-left:auto;margin-right:auto;
+    padding-top:14px;border-top:1px dashed rgba(255,255,255,.07);
+  }
+  .hero-sub b{color:var(--flare-hi);font-weight:600}
+
+  .hero-window{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:22px;padding:8px 14px;border-radius:99px;
+    background:rgba(127,234,178,.06);border:1px solid rgba(127,234,178,.28);
+    font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.1em;
+    color:var(--green);font-weight:500;
+  }
+  .hero-window .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);box-shadow:0 0 8px var(--green);
+    animation:blink 1.8s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* Floating tokens row in hero */
+  .hero-tokens{
+    position:relative;height:200px;margin:36px auto 0;width:100%;max-width:380px;
+    z-index:2;
+  }
+  .tk{
+    position:absolute;display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(145deg, rgba(20,26,42,.95), rgba(10,12,22,.85));
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 12px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+    animation:tkFloat 5.5s ease-in-out infinite;
+  }
+  .tk svg{width:54%;height:54%}
+  .tk.xrp{
+    width:64px;height:64px;left:calc(50% - 32px);top:36px;
+    border-color:rgba(93,220,255,.45);
+    box-shadow:0 14px 32px rgba(35,163,224,.35), 0 0 22px rgba(93,220,255,.25), inset 0 1px 0 rgba(255,255,255,.08);
+    color:var(--xrp-hi);
+    animation-delay:0s;
+  }
+  .tk.flare{
+    width:58px;height:58px;left:18%;top:8px;
+    border-color:rgba(255,56,82,.45);
+    box-shadow:0 14px 32px rgba(229,24,77,.3), 0 0 22px rgba(255,56,82,.22);
+    color:var(--flare-hi);
+    animation-delay:1.1s;
+  }
+  .tk.fxrp{
+    width:74px;height:74px;right:14%;top:90px;
+    background:linear-gradient(145deg, rgba(35,163,224,.18), rgba(229,24,77,.18));
+    border-color:rgba(255,255,255,.18);
+    box-shadow:0 18px 40px rgba(35,163,224,.3), 0 0 30px rgba(255,56,82,.18);
+    color:#fff;
+    animation-delay:.4s;
+  }
+  .tk.fxrp .label{
+    font-family:'Geist Mono',monospace;font-size:13px;font-weight:700;
+    letter-spacing:.04em;color:#fff;
+    background:linear-gradient(120deg,#5DDCFF,#FF3852);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .tk.coin-a{
+    width:42px;height:42px;left:6%;top:120px;
+    border-color:rgba(93,220,255,.3);color:var(--xrp-hi);opacity:.75;
+    animation-delay:1.8s;
+  }
+  .tk.coin-b{
+    width:46px;height:46px;right:6%;top:18px;
+    border-color:rgba(255,56,82,.3);color:var(--flare-hi);opacity:.75;
+    animation-delay:.7s;
+  }
+  @keyframes tkFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+  }
+  .hero-link-rays{
+    position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.6;
+  }
+
+  /* ============ SECTION SHELL ============ */
+  section{position:relative}
+  .sec-head{text-align:center;margin-bottom:22px}
+  .sec-kicker{
+    display:inline-block;font-family:'Geist Mono',monospace;
+    font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--xrp-hi);font-weight:600;margin-bottom:10px;
+  }
+  .sec-kicker.flare{color:var(--flare-hi)}
+  .sec-head h2{
+    font-size:26px;font-weight:400;letter-spacing:-.035em;line-height:1.2;
+    color:var(--ink);
+  }
+  .sec-head h2 em{
+    font-style:normal;font-weight:500;
+    background:linear-gradient(120deg,#5DDCFF,#23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .sec-head h2 em.flare{
+    background:linear-gradient(120deg,#FF3852,#E5184D);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .sec-head .deck{
+    font-size:14px;color:var(--ink-1);line-height:1.6;
+    max-width:380px;margin:10px auto 0;
+  }
+  .sec-head .deck b{color:var(--ink);font-weight:600}
+
+  /* ============ HARDWARE CASHBACK ============ */
+  .cashback{padding:46px 22px 36px}
+  .first-200{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 12px;border-radius:99px;
+    background:rgba(127,234,178,.08);border:1px solid rgba(127,234,178,.32);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
+    color:var(--green);text-transform:uppercase;font-weight:600;
+    margin-bottom:14px;
+  }
+  .cashback h2{
+    font-size:34px;font-weight:300;letter-spacing:-.045em;line-height:1.05;
+    margin-bottom:18px;
+  }
+  .cashback h2 em{
+    font-style:normal;font-weight:500;
+    background:linear-gradient(120deg,#5DDCFF,#23A3E0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .bonus-line{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 14px;border-radius:99px;
+    background:linear-gradient(135deg, rgba(255,56,82,.08), rgba(229,24,77,.04));
+    border:1px solid rgba(255,56,82,.32);
+    font-size:13px;color:var(--flare-hi);font-weight:600;
+    letter-spacing:-.005em;margin-bottom:18px;
+  }
+  .bonus-line .star{font-size:11px}
+  .bullet-list{
+    display:flex;flex-direction:column;gap:8px;align-items:center;
+    margin-bottom:26px;
+  }
+  .bullet-list li{
+    display:flex;align-items:center;gap:8px;
+    font-size:13.5px;color:var(--ink-1);list-style:none;
+  }
+  .bullet-list li svg{flex-shrink:0;color:var(--xrp-hi)}
+
+  .wallet-card{
+    margin:0 -4px;padding:24px 22px 22px;border-radius:18px;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(93,220,255,.16), transparent 65%),
+      linear-gradient(180deg, #0B0E1A 0%, #060810 100%);
+    border:1px solid rgba(93,220,255,.22);
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .wallet-card::after{
+    content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;
+    background:radial-gradient(circle,rgba(93,220,255,.25),transparent 70%);
+    filter:blur(20px);pointer-events:none;
+  }
+  .wallet-vis{
+    width:200px;height:230px;margin:0 auto 18px;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:1;
+  }
+  .wallet-vis svg.device{filter:drop-shadow(0 18px 30px rgba(93,220,255,.18))}
+  .wallet-card h3{
+    font-size:17px;font-weight:600;letter-spacing:-.015em;
+    color:var(--ink);margin-bottom:10px;position:relative;z-index:1;
+  }
+  .price-row{
+    display:flex;align-items:baseline;justify-content:center;gap:10px;
+    margin-bottom:14px;position:relative;z-index:1;
+  }
+  .price-row .strike{
+    font-family:'Geist Mono',monospace;font-size:14px;
+    color:var(--ink-3);text-decoration:line-through;
+  }
+  .price-row .price{
+    font-family:'Geist Mono',monospace;font-size:20px;font-weight:700;
+    color:var(--ink);letter-spacing:-.01em;
+  }
+  .cashback-tag{
+    display:inline-block;padding:7px 14px;border-radius:99px;
+    background:rgba(93,220,255,.08);border:1px solid rgba(93,220,255,.32);
+    font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;
+    color:var(--xrp-hi);font-weight:600;text-transform:uppercase;
+    margin-bottom:18px;position:relative;z-index:1;
+  }
+  .btn-buy-now{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px 20px;border-radius:99px;
+    background:linear-gradient(120deg,#5DDCFF 0%,#23A3E0 100%);
+    color:#01101F;font-size:15px;font-weight:700;letter-spacing:-.01em;
+    transition:transform .15s, box-shadow .15s;
+    border:0;cursor:pointer;position:relative;z-index:1;
+  }
+  .btn-buy-now:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(93,220,255,.32)}
+  .card-foot-note{
+    margin-top:14px;font-size:10.5px;color:var(--ink-3);line-height:1.55;
+    letter-spacing:-.005em;position:relative;z-index:1;
+    padding-top:12px;border-top:1px dashed rgba(255,255,255,.06);
+  }
+
+  /* ============ FLARE QUEST ============ */
+  .quest{padding:50px 22px 40px}
+  .quest .sec-head h2{font-size:28px}
+  .quest .deck b.h{color:var(--xrp-hi);font-weight:600}
+
+  .phone-mock{
+    width:230px;margin:8px auto 24px;border-radius:34px;
+    background:linear-gradient(145deg,#1B1F2C,#0A0C16);
+    border:1px solid rgba(255,255,255,.08);
+    padding:8px;box-shadow:0 30px 60px rgba(0,0,0,.55), 0 0 40px rgba(93,220,255,.08);
+    position:relative;
+  }
+  .phone-mock::before{
+    content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    width:64px;height:5px;background:#000;border-radius:99px;z-index:2;
+  }
+  .phone-screen{
+    border-radius:28px;overflow:hidden;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,56,82,.25), transparent 65%),
+      linear-gradient(180deg,#0E1320 0%, #06080F 100%);
+    padding:28px 18px 22px;
+    aspect-ratio:9/19;
+    display:flex;flex-direction:column;
+  }
+  .ps-top{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:18px;
+  }
+  .ps-top .logo{
+    font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
+    color:var(--ink-2);font-weight:600;text-transform:uppercase;
+  }
+  .ps-top .logo b{color:var(--flare-hi)}
+  .ps-pool{
+    text-align:center;margin-bottom:18px;
+  }
+  .ps-pool .num{
+    font-family:'Geist Mono',monospace;font-size:34px;font-weight:700;
+    letter-spacing:-.025em;line-height:1;
+    background:linear-gradient(120deg,#FF3852,#5DDCFF);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .ps-pool .label{
+    font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.2em;
+    color:var(--ink-2);text-transform:uppercase;font-weight:600;
+    margin-top:4px;
+  }
+  .ps-tabs{
+    display:flex;gap:6px;justify-content:center;margin-bottom:14px;
+  }
+  .ps-tab{
+    padding:4px 9px;border-radius:99px;
+    font-family:'Geist Mono',monospace;font-size:8.5px;letter-spacing:.14em;
+    text-transform:uppercase;font-weight:600;
+    border:1px solid rgba(255,255,255,.08);color:var(--ink-2);
+  }
+  .ps-tab.active{background:rgba(255,56,82,.12);border-color:rgba(255,56,82,.32);color:var(--flare-hi)}
+  .ps-card{
+    margin-top:auto;padding:12px;border-radius:12px;
+    background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.06);
+  }
+  .ps-card .row1{
+    display:flex;align-items:center;gap:8px;margin-bottom:8px;
+  }
+  .ps-card .row1 .ic{
+    width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(120deg,#FF3852,#E5184D);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:11px;font-weight:700;
+  }
+  .ps-card .row1 .nm{
+    font-size:11px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
+  }
+  .ps-card .row2{
+    font-size:9.5px;color:var(--ink-2);line-height:1.5;
+  }
+  .ps-card .row3{
+    margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.08);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ps-card .row3 .v{
+    font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;
+    color:var(--flare-hi);letter-spacing:-.01em;
+  }
+  .ps-card .row3 .l{
+    font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.16em;
+    color:var(--ink-3);text-transform:uppercase;
+  }
+  .btn-quest{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px 20px;border-radius:99px;
+    background:linear-gradient(120deg,#FF3852 0%,#E5184D 100%);
+    color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;
+    transition:transform .15s, box-shadow .15s;border:0;cursor:pointer;
+  }
+  .btn-quest:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(229,24,77,.4)}
+
+  .quest-note{
+    margin-top:14px;font-size:11.5px;color:var(--ink-2);line-height:1.55;
+    max-width:380px;margin-left:auto;margin-right:auto;
+    padding:12px 14px;border-radius:10px;
+    background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.08);
+    letter-spacing:-.005em;
+  }
+  .quest-note b{color:var(--ink);font-weight:600}
+
+  .quest-grid{
+    display:flex;flex-direction:column;gap:10px;margin:24px 0 22px;
+  }
+  .qc{
+    position:relative;padding:18px 18px 16px;border-radius:14px;
+    background:var(--panel);border:1px solid var(--rule);
+    transition:border-color .2s, transform .15s;
+  }
+  .qc:hover{border-color:rgba(255,56,82,.28);transform:translateX(2px)}
+  .qc.locked{opacity:.6;background:rgba(255,255,255,.015);border-style:dashed}
+  .qc-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:10px;
+  }
+  .qc-num{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--flare-hi);text-transform:uppercase;font-weight:700;
+    padding:4px 9px;border-radius:6px;
+    background:rgba(255,56,82,.08);border:1px solid rgba(255,56,82,.28);
+  }
+  .qc.locked .qc-num{color:var(--ink-3);background:rgba(255,255,255,.03);border-color:var(--rule)}
+  .qc-pool{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+    color:var(--ink-1);font-weight:600;
+  }
+  .qc h3{
+    font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.3;
+    color:var(--ink);margin-bottom:4px;
+  }
+  .qc p{
+    font-size:12.5px;color:var(--ink-2);line-height:1.55;letter-spacing:-.005em;
+    margin-bottom:10px;
+  }
+  .qc-rows{
+    display:flex;flex-direction:column;gap:6px;
+    padding-top:10px;border-top:1px dashed rgba(255,255,255,.06);
+  }
+  .qc-row{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-size:12px;
+  }
+  .qc-row .lbl{
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
+    color:var(--ink-3);text-transform:uppercase;font-weight:600;
+  }
+  .qc-row b{
+    font-family:'Geist Mono',monospace;font-size:12px;font-weight:700;
+    color:var(--ink);letter-spacing:-.005em;text-align:right;
+  }
+  .qc-row b .em{color:var(--flare-hi)}
+  .qc-row b .em-blue{color:var(--xrp-hi)}
+
+  .how-works{
+    margin:22px 0 18px;padding:18px 18px;border-radius:14px;
+    background:linear-gradient(135deg, rgba(35,163,224,.04), rgba(229,24,77,.04));
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .how-works h4{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--ink);text-transform:uppercase;font-weight:700;
+    margin-bottom:12px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .how-works h4::before{
+    content:'';width:14px;height:1px;background:var(--xrp-hi);
+  }
+  .how-works ol{
+    list-style:none;display:flex;flex-direction:column;gap:8px;
+    counter-reset:hw;
+  }
+  .how-works ol li{
+    counter-increment:hw;position:relative;padding-left:26px;
+    font-size:12.5px;color:var(--ink-1);line-height:1.55;letter-spacing:-.005em;
+  }
+  .how-works ol li::before{
+    content:counter(hw, decimal-leading-zero);
+    position:absolute;left:0;top:1px;
+    font-family:'Geist Mono',monospace;font-size:10px;font-weight:700;
+    color:var(--xrp-hi);letter-spacing:.06em;
+  }
+  .how-works ol li b{color:var(--ink);font-weight:600}
+
+  /* ============ FXRP INTRO ============ */
+  .fxrp{padding:46px 22px 36px;text-align:center}
+  .fxrp-mark{
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:8px;
+  }
+  .fxrp-mark .badge{
+    width:32px;height:32px;border-radius:8px;
+    background:linear-gradient(135deg,#23A3E0 0%,#E5184D 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;
+    color:#fff;letter-spacing:-.01em;
+    box-shadow:0 8px 22px rgba(35,163,224,.3);
+  }
+  .fxrp-mark h2{
+    font-size:28px;font-weight:500;letter-spacing:-.03em;line-height:1;
+    color:var(--ink);
+  }
+  .fxrp .deck{
+    font-size:14px;color:var(--ink-1);line-height:1.65;
+    max-width:380px;margin:14px auto 22px;
+  }
+  .fxrp .deck b{color:var(--ink);font-weight:600}
+  .fxrp .deck .accent{color:var(--xrp-hi);font-weight:600}
+  .fxrp .deck .accent-flare{color:var(--flare-hi);font-weight:600}
+
+  .fxrp-flow{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;
+    margin:18px auto 24px;max-width:340px;
+  }
+  .ff-cell{
+    padding:14px 8px;border-radius:12px;
+    background:rgba(255,255,255,.02);border:1px solid var(--rule);
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+  }
+  .ff-cell.in{border-color:rgba(93,220,255,.3);background:rgba(93,220,255,.04)}
+  .ff-cell.out{border-color:rgba(255,56,82,.3);background:rgba(255,56,82,.04)}
+  .ff-cell .ic{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.4);
+  }
+  .ff-cell.in .ic{color:var(--xrp-hi)}
+  .ff-cell.out .ic{color:var(--flare-hi)}
+  .ff-cell b{
+    font-family:'Geist Mono',monospace;font-size:13px;font-weight:700;
+    letter-spacing:-.01em;color:var(--ink);
+  }
+  .ff-cell small{
+    font-size:10.5px;color:var(--ink-2);font-weight:500;letter-spacing:.04em;
+  }
+  .ff-arr{color:var(--ink-3);font-size:18px;font-weight:300}
+
+  .btn-learn-flare{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:99px;
+    background:rgba(255,255,255,.04);color:var(--ink);
+    border:1px solid rgba(255,56,82,.32);
+    font-size:13.5px;font-weight:600;letter-spacing:-.005em;
+    transition:all .15s;
+  }
+  .btn-learn-flare:hover{
+    border-color:var(--flare-hi);color:var(--flare-hi);
+    background:rgba(255,56,82,.06);
+  }
+  .fxrp-pills{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
+    margin:20px auto 18px;max-width:340px;
+  }
+  .fp{
+    padding:5px 11px;border-radius:99px;
+    background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+    color:var(--ink-1);text-transform:uppercase;font-weight:600;
+  }
+
+  .fxrp-disclaimer{
+    margin:24px auto 0;padding:12px 14px;border-radius:10px;
+    border:1px dashed rgba(255,255,255,.08);
+    font-size:11px;color:var(--ink-3);line-height:1.5;
+    max-width:360px;letter-spacing:-.005em;
+  }
+
+  /* ============ COMPARISON ============ */
+  .compare{padding:50px 22px 40px}
+  .compare h2 em{
+    background:linear-gradient(120deg,#FF3852,#5DDCFF);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .cmp-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;
+  }
+  .cmp-cell{
+    padding:18px 16px 16px;border-radius:14px;position:relative;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .cmp-cell.win{
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(93,220,255,.14), transparent 70%),
+      linear-gradient(180deg,#0A1322 0%, #060810 100%);
+    border:1px solid rgba(93,220,255,.3);
+    box-shadow:0 12px 32px rgba(35,163,224,.12);
+  }
+  .cmp-cell.base{
+    background:rgba(255,255,255,.02);border:1px solid var(--rule);
+  }
+  .cmp-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 10px;border-radius:6px;
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:700;
+  }
+  .cmp-tag.win{
+    background:rgba(93,220,255,.1);border:1px solid rgba(93,220,255,.32);
+    color:var(--xrp-hi);
+  }
+  .cmp-tag.win::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--xrp-hi);box-shadow:0 0 8px var(--xrp-hi)}
+  .cmp-tag.base{
+    background:rgba(255,255,255,.04);border:1px solid var(--rule);color:var(--ink-2);
+  }
+  .cmp-row{display:flex;flex-direction:column;gap:2px}
+  .cmp-row b{
+    font-family:'Geist Mono',monospace;font-size:14px;font-weight:700;
+    letter-spacing:-.01em;color:var(--ink);
+  }
+  .cmp-cell.base .cmp-row b{color:var(--ink-1)}
+  .cmp-row .lbl{
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.16em;
+    color:var(--ink-3);text-transform:uppercase;font-weight:600;
+  }
+  .compare-note{
+    margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.6;
+    text-align:center;letter-spacing:-.005em;max-width:380px;
+    margin-left:auto;margin-right:auto;
+  }
+
+  /* ============ WHY D'CENT ============ */
+  .why{padding:50px 22px 36px}
+  .why h2{font-size:24px}
+  .why-grid{display:flex;flex-direction:column;gap:10px}
+  .why-card{
+    display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:center;
+    padding:18px 18px;border-radius:14px;
+    background:var(--panel);border:1px solid var(--rule);
+    transition:border-color .2s, transform .15s;
+  }
+  .why-card:hover{border-color:rgba(93,220,255,.28);transform:translateX(2px)}
+  .why-ic{
+    width:60px;height:60px;border-radius:14px;
+    background:linear-gradient(145deg, rgba(93,220,255,.06), rgba(255,56,82,.04));
+    border:1px solid rgba(93,220,255,.18);
+    display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);
+  }
+  .why-card p{
+    font-size:13.5px;color:var(--ink-1);line-height:1.55;letter-spacing:-.005em;
+  }
+  .why-card p b{color:var(--ink);font-weight:600}
+
+  /* ============ ALLIANCE FOOTER LINK ============ */
+  .alliance-link{
+    margin:34px 18px 0;padding:18px 18px;border-radius:14px;
+    background:linear-gradient(135deg, rgba(35,163,224,.08), rgba(255,56,82,.05));
+    border:1px solid rgba(93,220,255,.22);
+    display:flex;align-items:center;gap:14px;
+    transition:border-color .2s;
+  }
+  .alliance-link:hover{border-color:rgba(93,220,255,.4)}
+  .alliance-link .al-ic{
+    width:42px;height:42px;border-radius:10px;flex-shrink:0;
+    background:rgba(93,220,255,.1);border:1px solid rgba(93,220,255,.3);
+    display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);
+  }
+  .alliance-link .al-body{flex:1;min-width:0}
+  .alliance-link .al-body b{
+    display:block;font-size:13.5px;font-weight:600;color:var(--ink);
+    letter-spacing:-.005em;margin-bottom:2px;
+  }
+  .alliance-link .al-body small{
+    display:block;font-size:11.5px;color:var(--ink-2);font-weight:400;
+    letter-spacing:-.005em;
+  }
+  .alliance-link .al-arr{color:var(--ink-3);font-size:18px}
+
+  /* ============ IMPORTANT NOTICE ============ */
+  .notice{
+    margin:34px 18px 0;padding:18px 18px;border-radius:12px;
+    background:rgba(255,255,255,.015);border:1px solid var(--rule);
+  }
+  .notice h4{
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.22em;
+    color:var(--ink-1);text-transform:uppercase;font-weight:700;
+    margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  }
+  .notice h4::before{
+    content:'';width:14px;height:1px;background:var(--ink-2);
+  }
+  .notice ul{
+    list-style:none;display:flex;flex-direction:column;gap:9px;
+    margin-bottom:14px;
+  }
+  .notice ul li{
+    position:relative;padding-left:14px;
+    font-size:11.5px;color:var(--ink-2);line-height:1.6;letter-spacing:-.005em;
+  }
+  .notice ul li::before{
+    content:'·';position:absolute;left:4px;top:-1px;color:var(--ink-3);font-weight:700;
+  }
+  .notice ul li b{color:var(--ink-1);font-weight:600}
+  .notice-kr{
+    padding-top:12px;border-top:1px dashed rgba(255,255,255,.06);
+    font-size:11px;color:var(--ink-3);line-height:1.7;letter-spacing:-.005em;
+  }
+  .notice-kr b{color:var(--ink-2);font-weight:600}
+
+  /* ============ FOOTER ============ */
+  footer{
+    padding:32px 22px 36px;border-top:1px solid var(--rule);margin-top:24px;
+    text-align:center;
+  }
+  footer .legal{
+    font-size:10.5px;color:var(--ink-3);line-height:1.6;letter-spacing:-.005em;
+    max-width:360px;margin:0 auto 12px;
+  }
+  footer .copy{
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
+    color:var(--ink-3);text-transform:uppercase;font-weight:500;
+  }
+
+  /* ============ DESKTOP ============ */
+  @media (min-width:720px){
+    body{
+      background:
+        radial-gradient(ellipse 50% 40% at 15% 25%, rgba(35,163,224,.06), transparent 60%),
+        radial-gradient(ellipse 35% 25% at 85% 70%, rgba(229,24,77,.05), transparent 60%),
+        #000;
+    }
+    .shell{
+      max-width:520px;
+      box-shadow:0 0 80px rgba(35,163,224,.08), 0 0 40px rgba(255,56,82,.05);
+      border-left:1px solid var(--rule);border-right:1px solid var(--rule);
+    }
+    .hero{padding:64px 30px 56px}
+    .hero h1{font-size:50px}
+    .cashback h2{font-size:40px}
+  }
+
+  @media (min-width:1024px){
+    .shell{max-width:560px}
+  }
+
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="xrp-mark" viewBox="0 0 512 424">
+      <path d="M437,0h74L357,152.48c-55.77,55.19-146.19,55.19-202,0L.94,0H75L192,115.83a91.11,91.11,0,0,0,127.91,0Z" fill="currentColor"/>
+      <path d="M74.05,424H0L155,270.58c55.77-55.19,146.19-55.19,202,0L512,424H438L320,307.23a91.11,91.11,0,0,0-127.91,0Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="flare-mark" viewBox="0 0 64 64">
+      <path d="M14 12 L52 12 L52 22 L26 22 L26 30 L46 30 L46 40 L26 40 L26 54 L14 54 Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="check" viewBox="0 0 24 24">
+      <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="arr" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="shield" viewBox="0 0 24 24">
+      <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+      <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="coins" viewBox="0 0 24 24">
+      <ellipse cx="9" cy="8" rx="6" ry="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M3 8v6c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V8" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <ellipse cx="15" cy="16" rx="6" ry="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M9 16v2c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+    </symbol>
+    <symbol id="vault" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="14" cy="12" r="3" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M14 9v-1M14 16v-1M11 12h-1M18 12h-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="hub" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="4" cy="6" r="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="20" cy="6" r="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="4" cy="18" r="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <circle cx="20" cy="18" r="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <path d="M9.5 10.5L5 7M14.5 10.5L19 7M9.5 13.5L5 17M14.5 13.5L19 17" stroke="currentColor" stroke-width="1.4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="shell">
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand-lockup">
+      <span>D'CENT</span>
+      <span class="x">×</span>
+      <span class="flare-mark">FLARE</span>
+    </div>
+    <a href="#cashback" class="btn-buy-top">Buy D'CENT Wallet</a>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-orb"></div>
+    <div class="hero-inner">
+
+      <span class="alliance-badge">
+        <span class="star">✦</span>
+        XRP Alliance
+        <span class="div">/</span>
+        First Drop · Flare
+      </span>
+
+      <h1>Make Your <em>XRP Work.</em></h1>
+
+      <p class="hero-tag">
+        Onboard a D'CENT wallet to receive <b>up to $50 in XRP</b>.
+        Mint <span class="accent-flare">FXRP</span> straight from your wallet, put your XRP to work across <b>Flare DeFi</b>,
+        and join a <b>$55,000+</b> Flare ecosystem campaign.
+      </p>
+      <p class="hero-sub">
+        D'CENT joins the FAssets gateway — bringing native <b>FXRP minting</b> to hardware-wallet holders.
+      </p>
+
+      <div class="hero-window">
+        <span class="dot"></span>
+        May 12, 2026 13:00 — May 26, 2026 13:00 (UTC)
+      </div>
+
+      <div class="hero-tokens" aria-hidden="true">
+        <div class="tk flare"><svg><use href="#flare-mark"/></svg></div>
+        <div class="tk xrp"><svg><use href="#xrp-mark"/></svg></div>
+        <div class="tk fxrp"><span class="label">FXRP</span></div>
+        <div class="tk coin-a"><svg><use href="#xrp-mark"/></svg></div>
+        <div class="tk coin-b"><svg><use href="#flare-mark"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HARDWARE CASHBACK ============ -->
+  <section class="cashback" id="cashback">
+    <div class="sec-head">
+      <span class="first-200"><span>✦</span> Quest 1 · First 200 only</span>
+      <h2>Onboard a Wallet.<br><em>Get $50 in XRP Back!</em></h2>
+      <span class="bonus-line">
+        <span class="star">✦</span>
+        Marketing rebate, funded by the <b>Flare</b> ecosystem campaign
+        <span class="star">✦</span>
+      </span>
+      <ul class="bullet-list">
+        <li><svg width="14" height="14"><use href="#check"/></svg> Biometric security for stronger protection</li>
+        <li><svg width="14" height="14"><use href="#check"/></svg> Full control of your private keys</li>
+      </ul>
+    </div>
+
+    <div class="wallet-card">
+      <div class="wallet-vis">
+        <!-- Stylized wallet representation -->
+        <svg class="device" viewBox="0 0 200 230" width="200" height="230" aria-hidden="true">
+          <defs>
+            <linearGradient id="dvBody" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2A2F3D"/>
+              <stop offset="100%" stop-color="#0E1019"/>
+            </linearGradient>
+            <linearGradient id="dvScreen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0E1726"/>
+              <stop offset="100%" stop-color="#040712"/>
+            </linearGradient>
+            <linearGradient id="dvAccent" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#5DDCFF"/>
+              <stop offset="100%" stop-color="#FF3852"/>
+            </linearGradient>
+          </defs>
+          <!-- Body -->
+          <rect x="40" y="14" width="120" height="200" rx="18" fill="url(#dvBody)" stroke="#3B4358" stroke-width="1"/>
+          <!-- Screen -->
+          <rect x="54" y="34" width="92" height="68" rx="6" fill="url(#dvScreen)" stroke="#1F2638" stroke-width="1"/>
+          <!-- XRP mark on screen -->
+          <g transform="translate(80,52)" fill="#5DDCFF" opacity=".95">
+            <path d="M28,0h6L23,12.4a8,8,0,0,1-14,0L0,0H6l9,9.4a4,4,0,0,0,4.5,0Z"/>
+          </g>
+          <text x="100" y="92" text-anchor="middle" fill="#5DDCFF" font-family="Geist Mono, monospace" font-size="9" letter-spacing=".18em" font-weight="700">VERIFY</text>
+          <!-- D-pad area -->
+          <circle cx="100" cy="148" r="26" fill="#181C28" stroke="#262C3D" stroke-width="1"/>
+          <circle cx="100" cy="148" r="9" fill="url(#dvAccent)" opacity=".9"/>
+          <!-- Buttons -->
+          <circle cx="74" cy="148" r="4" fill="#262C3D"/>
+          <circle cx="126" cy="148" r="4" fill="#262C3D"/>
+          <path d="M100 124v-8" stroke="#3B4358" stroke-width="2" stroke-linecap="round"/>
+          <path d="M100 172v8" stroke="#3B4358" stroke-width="2" stroke-linecap="round"/>
+          <!-- Bottom label -->
+          <rect x="68" y="190" width="64" height="2" rx="1" fill="url(#dvAccent)" opacity=".4"/>
+          <text x="100" y="206" text-anchor="middle" fill="#7C8297" font-family="Geist Mono, monospace" font-size="7" letter-spacing=".22em" font-weight="600">D'CENT</text>
+        </svg>
+      </div>
+      <h3>D'CENT Biometric Wallet</h3>
+      <div class="price-row">
+        <span class="strike">$159.00</span>
+        <span class="price">$139.00</span>
+      </div>
+      <span class="cashback-tag">$50 in XRP · Marketing Rebate</span>
+      <a href="#" class="btn-buy-now">
+        Buy Now
+        <svg width="14" height="14"><use href="#arr"/></svg>
+      </a>
+      <p class="card-foot-note">
+        Rebate is funded by the Flare ecosystem campaign and distributed to first 200 verified onboardings during the campaign window. D'CENT does not custody or intermediate the rebate.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FLARE QUEST ============ -->
+  <section class="quest">
+    <div class="sec-head">
+      <span class="sec-kicker flare">Flare Quest Series</span>
+      <h2>Four Quests.<br><em class="flare">One XRP Journey.</em></h2>
+      <p class="deck">
+        A progressive quest series run by the <b>Flare ecosystem</b>. From wallet onboarding to FXRP, each step opens a share of the <b class="h">$55,000+</b> reward pool.
+      </p>
+      <p class="quest-note">
+        D'CENT is the <b>wallet integration partner</b>. Eligibility is verified via your D'CENT wallet's on-chain activity; rewards are distributed by the campaign operator. Self-custody throughout — D'CENT does not custody, intermediate, or trade user funds.
+      </p>
+    </div>
+
+    <!-- Pool visual -->
+    <div class="phone-mock" aria-hidden="true">
+      <div class="phone-screen">
+        <div class="ps-top">
+          <span class="logo">D'CENT × <b>FLARE</b></span>
+          <span class="logo">QUESTS</span>
+        </div>
+        <div class="ps-pool">
+          <div class="num">$55,000+</div>
+          <div class="label">Total Reward Pool</div>
+        </div>
+        <div class="ps-tabs">
+          <span class="ps-tab active">Active</span>
+          <span class="ps-tab">Soon</span>
+          <span class="ps-tab">Ended</span>
+        </div>
+        <div class="ps-card">
+          <div class="row1">
+            <span class="ic">F</span>
+            <span class="nm">Mint &amp; stake FXRP</span>
+          </div>
+          <div class="row2">Mint FXRP from your XRP and stake to the Flare vault for 30 days.</div>
+          <div class="row3">
+            <span class="l">Per $1,000</span>
+            <span class="v">+ $10 XRP · $10 FLR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quest grid -->
+    <div class="quest-grid">
+
+      <article class="qc">
+        <div class="qc-head">
+          <span class="qc-num">Quest 01 · Onboard</span>
+          <span class="qc-pool">$10,000 in XRP</span>
+        </div>
+        <h3>Hardware Onboarding</h3>
+        <p>Onboard a D'CENT hardware wallet during the campaign window. Marketing rebate funded by the Flare ecosystem.</p>
+        <div class="qc-rows">
+          <div class="qc-row"><span class="lbl">Per onboarding</span><b>up to <span class="em-blue">$50 in XRP</span></b></div>
+          <div class="qc-row"><span class="lbl">Cap</span><b>First 200 verified</b></div>
+        </div>
+      </article>
+
+      <article class="qc">
+        <div class="qc-head">
+          <span class="qc-num">Quest 02 · Activate</span>
+          <span class="qc-pool">$5,000 in FLR</span>
+        </div>
+        <h3>Wallet Activation</h3>
+        <p>Hold XRP in your D'CENT wallet — via swap or external deposit — to convert from idle hold to active participation.</p>
+        <div class="qc-rows">
+          <div class="qc-row"><span class="lbl">Per active wallet</span><b>up to <span class="em">$25 in FLR</span></b></div>
+          <div class="qc-row"><span class="lbl">Allocation</span><b>Subject to campaign rules</b></div>
+        </div>
+      </article>
+
+      <article class="qc">
+        <div class="qc-head">
+          <span class="qc-num">Quest 03 · FXRP</span>
+          <span class="qc-pool">$10,000 XRP + $30,000 FLR</span>
+        </div>
+        <h3>Mint FXRP &amp; Stake to Vault</h3>
+        <p>Mint FXRP from your XRP through D'CENT, then stake to the Flare DeFi vault and hold for <b>30 days</b>.</p>
+        <div class="qc-rows">
+          <div class="qc-row"><span class="lbl">Per $1,000 staked</span><b><span class="em-blue">$10 XRP</span> + <span class="em">$10 FLR</span></b></div>
+          <div class="qc-row"><span class="lbl">Holding period</span><b>30 days</b></div>
+        </div>
+      </article>
+
+      <article class="qc locked">
+        <div class="qc-head">
+          <span class="qc-num">Quest 04 · Reveal Soon</span>
+          <span class="qc-pool">— — —</span>
+        </div>
+        <h3>Long-term Retention</h3>
+        <p>Final quest reveals during the campaign. Long-term FXRP / vault holders are recognized.</p>
+        <div class="qc-rows">
+          <div class="qc-row"><span class="lbl">Reward</span><b>Reveal soon</b></div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- How participation works -->
+    <div class="how-works">
+      <h4>How participation works</h4>
+      <ol>
+        <li>The campaign is funded and operated by the <b>Flare ecosystem</b>. D'CENT is the wallet integration &amp; verification layer.</li>
+        <li>Eligibility is determined by your D'CENT wallet's on-chain activity (purchase, holding, FXRP minting, vault staking).</li>
+        <li>Rewards are distributed by the campaign operator, subject to <b>on-chain finality</b> and campaign terms. Reward amounts are caps, not guarantees.</li>
+        <li>All actions are <b>user-initiated</b>. D'CENT does not custody, broker, or solicit transactions in user funds.</li>
+      </ol>
+    </div>
+
+    <a href="#" class="btn-quest">
+      Open in D'CENT App
+      <svg width="14" height="14"><use href="#arr"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ FXRP INTRO ============ -->
+  <section class="fxrp">
+    <div class="fxrp-mark">
+      <span class="badge">Fx</span>
+      <h2>Meet FXRP</h2>
+    </div>
+    <p class="deck">
+      <b>FXRP</b> is your XRP, on Flare. Backed <b>1:1</b> by real XRP through Flare's
+      <span class="accent-flare">FAssets</span> protocol — over-collateralized, trust-minimized.
+      With this campaign, D'CENT joins the FAssets gateway: <b>mint FXRP straight from your wallet</b> — no external bridges, no custodian.
+    </p>
+
+    <div class="fxrp-flow">
+      <div class="ff-cell in">
+        <span class="ic"><svg width="18" height="18"><use href="#xrp-mark"/></svg></span>
+        <b>XRP</b>
+        <small>XRPL · self-custody</small>
+      </div>
+      <span class="ff-arr">→</span>
+      <div class="ff-cell out">
+        <span class="ic"><svg width="18" height="18"><use href="#flare-mark"/></svg></span>
+        <b>FXRP</b>
+        <small>Flare DeFi · 1:1 backed</small>
+      </div>
+    </div>
+
+    <div class="fxrp-pills" aria-hidden="true">
+      <span class="fp">Native minting</span>
+      <span class="fp">No external bridge</span>
+      <span class="fp">Self-custody</span>
+      <span class="fp">Redeem 1:1</span>
+    </div>
+
+    <a href="#" class="btn-learn-flare">
+      Learn how FXRP works
+      <svg width="14" height="14"><use href="#arr"/></svg>
+    </a>
+
+    <p class="fxrp-disclaimer">
+      Educational information only. FXRP is issued by Flare's FAssets protocol; D'CENT is a non-custodial wallet provider and does not issue, custody, or intermediate FXRP. Participation is at your sole discretion. This is not investment advice or a financial product endorsement.
+    </p>
+  </section>
+
+  <!-- ============ COMPARISON ============ -->
+  <section class="compare">
+    <div class="sec-head">
+      <h2>Two Ways to<br><em>Hold XRP.</em></h2>
+      <p class="deck">
+        XRP held passively stays idle by design. <b>FXRP on Flare</b> opens an EVM-compatible path to DeFi opportunities — lending, swaps, and on-chain strategies — while you keep self-custody.
+      </p>
+    </div>
+
+    <div class="cmp-grid">
+      <div class="cmp-cell win">
+        <span class="cmp-tag win">FXRP on Flare</span>
+        <div class="cmp-row">
+          <b>Productive on-chain</b>
+          <span class="lbl">Composable in DeFi</span>
+        </div>
+        <div class="cmp-row">
+          <b>1:1 backed by XRP</b>
+          <span class="lbl">FAssets · over-collateralized</span>
+        </div>
+        <div class="cmp-row">
+          <b>Lend · Swap · Stake</b>
+          <span class="lbl">Flare ecosystem</span>
+        </div>
+        <div class="cmp-row">
+          <b>Redeemable</b>
+          <span class="lbl">FXRP → XRP, 1:1</span>
+        </div>
+      </div>
+      <div class="cmp-cell base">
+        <span class="cmp-tag base">XRP held passively</span>
+        <div class="cmp-row">
+          <b>Idle by design</b>
+          <span class="lbl">Hold-only</span>
+        </div>
+        <div class="cmp-row">
+          <b>—</b>
+          <span class="lbl">No on-chain utility</span>
+        </div>
+        <div class="cmp-row">
+          <b>XRPL-native only</b>
+          <span class="lbl">No EVM DeFi</span>
+        </div>
+        <div class="cmp-row">
+          <b>—</b>
+          <span class="lbl">No composability</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="compare-note">
+      Note: DeFi opportunities involve smart-contract and market risk. Outcomes are not guaranteed. This comparison is informational only.
+    </p>
+  </section>
+
+  <!-- ============ WHY D'CENT ============ -->
+  <section class="why">
+    <div class="sec-head">
+      <span class="sec-kicker">Why D'CENT</span>
+      <h2>Trusted by the<br><em>XRP Army since 2018.</em></h2>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#shield"/></svg></div>
+        <p>Sign transactions safely with your <b>unique fingerprint</b>.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#coins"/></svg></div>
+        <p>Manage <b>over 4,600 cryptocurrencies</b> in one place.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#vault"/></svg></div>
+        <p>A digital vault you can <b>set up in under 5 mins</b>.</p>
+      </div>
+    </div>
+
+    <a href="xrp_alliance_dashboard.html" class="alliance-link">
+      <span class="al-ic"><svg width="22" height="22"><use href="#hub"/></svg></span>
+      <div class="al-body">
+        <b>The XRP Alliance · Hub</b>
+        <small>Hold XRP in D'CENT. New partners keep arriving.</small>
+      </div>
+      <span class="al-arr">→</span>
+    </a>
+  </section>
+
+  <!-- ============ IMPORTANT NOTICE ============ -->
+  <section class="notice">
+    <h4>Important Notice</h4>
+    <ul>
+      <li><b>Non-custodial wallet provider.</b> D'CENT (IoTrust) provides a self-custody hardware/software wallet. D'CENT does not custody user funds, broker transactions, or operate as a Virtual Asset Service Provider (VASP).</li>
+      <li><b>Campaign organizer.</b> The reward campaign is organized and funded by the <b>Flare ecosystem</b>. Reward token distribution, eligibility verification, and final allocation are conducted by the campaign operator.</li>
+      <li><b>Rewards are caps, not guarantees.</b> Stated reward amounts represent maximum allocations subject to campaign rules, on-chain finality, and applicable regional restrictions.</li>
+      <li><b>FXRP issuer.</b> FXRP is issued by Flare's FAssets protocol. D'CENT does not issue, redeem, or guarantee FXRP. All minting and redemption actions are user-initiated.</li>
+      <li><b>Educational only.</b> Information on this page is provided for educational purposes. It is not investment advice, a solicitation, or an endorsement of any financial product.</li>
+    </ul>
+    <p class="notice-kr">
+      <b>안내 (Korea):</b> 본 캠페인은 정보 제공 목적이며, 투자 권유 또는 가상자산 매매 중개에 해당하지 않습니다.
+      D'CENT(IoTrust)는 비수탁(non-custodial) 지갑 서비스 제공자로서 사용자 자산을 보관·중개하지 않습니다.
+      리워드의 운영·지급은 Flare 생태계 운영 주체가 담당합니다. 참여 여부는 사용자의 자기 책임 하에 결정됩니다.
+    </p>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <p class="legal">
+      D'CENT × Flare is the first XRP Alliance partner drop. Rewards distributed in XRP and FLR are subject to campaign terms and on-chain finality. FXRP is issued by Flare's FAssets protocol. Always do your own research before participating.
+    </p>
+    <p class="copy">© 2026 D'CENT · IoTrust · XRP Alliance</p>
+  </footer>
+
+</div>
+
+<script>
+  // Progress bar fills (placeholder for future use)
+  document.querySelectorAll('[data-fill]').forEach(el=>{
+    requestAnimationFrame(()=>{
+      el.style.width = el.dataset.fill + '%';
+    });
+  });
+</script>
+
+</body>
+</html>
