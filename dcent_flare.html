@@ -567,18 +567,36 @@
     margin-left:auto;margin-right:auto;
   }
 
-  /* ============ ABOUT FLARE ============ */
-  .about-flare{padding:50px 22px 40px;text-align:center}
-  .about-flare h2{font-size:26px}
-  .about-flare .deck{
-    font-size:14px;color:var(--ink-1);line-height:1.65;
-    max-width:400px;margin:12px auto 0;letter-spacing:-.005em;
+  /* ============ BUILT ON FLARE (inside Comparison) ============ */
+  .flare-bridge{
+    margin-top:36px;padding-top:30px;
+    border-top:1px solid rgba(255,255,255,.06);
+    text-align:center;
   }
-  .about-flare .deck b{color:var(--ink);font-weight:600}
+  .bridge-kicker{
+    display:inline-block;
+    font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.24em;
+    color:var(--flare-hi);text-transform:uppercase;font-weight:700;
+    margin-bottom:12px;
+  }
+  .flare-bridge h3{
+    font-size:22px;font-weight:400;letter-spacing:-.03em;line-height:1.2;
+    color:var(--ink);
+  }
+  .flare-bridge h3 em{
+    font-style:normal;font-weight:500;
+    background:linear-gradient(120deg,#FF3852,#E5184D);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .bridge-deck{
+    font-size:13.5px;color:var(--ink-1);line-height:1.65;
+    max-width:400px;margin:14px auto 22px;letter-spacing:-.005em;
+  }
+  .bridge-deck b{color:var(--ink);font-weight:600}
 
   .flare-stats{
     display:grid;grid-template-columns:1fr 1fr;gap:8px;
-    margin:26px auto 16px;max-width:380px;
+    margin:0 auto 14px;max-width:380px;
   }
   .fstat{
     padding:18px 12px;border-radius:12px;
@@ -954,6 +972,53 @@
         </div>
       </div>
     </div>
+
+    <!-- Built on Flare — bridge into platform context -->
+    <div class="flare-bridge">
+      <span class="bridge-kicker">Built on Flare</span>
+      <h3>The compute layer for<br><em>programmable capital.</em></h3>
+      <p class="bridge-deck">
+        <b>Flare</b> is the EVM Layer-1 making dormant capital productive. <b>FAssets</b> turns assets like XRP and BTC into <b>programmable financial collateral</b>, usable across DeFi while underlying tokens stay on their native chains.
+      </p>
+
+      <div class="flare-stats" aria-label="Flare ecosystem traction">
+        <div class="fstat">
+          <span class="num">150M+</span>
+          <span class="lbl">FXRP minted</span>
+        </div>
+        <div class="fstat">
+          <span class="num">85%</span>
+          <span class="lbl">Deployed in DeFi</span>
+        </div>
+        <div class="fstat">
+          <span class="num">$160M+</span>
+          <span class="lbl">TVL on Flare</span>
+        </div>
+        <div class="fstat">
+          <span class="num">150+</span>
+          <span class="lbl">Ecosystem partners</span>
+        </div>
+      </div>
+
+      <div class="flare-stack">
+        <div class="fst">
+          <span class="fst-k">Data</span>
+          <span class="fst-v">FTSO oracle &amp; FDC connector</span>
+        </div>
+        <div class="fst">
+          <span class="fst-k">Interop</span>
+          <span class="fst-v">FAssets · Smart Accounts · cross-chain</span>
+        </div>
+        <div class="fst">
+          <span class="fst-k">Compute</span>
+          <span class="fst-v">FCC · privacy-preserving execution</span>
+        </div>
+      </div>
+
+      <p class="flare-foot">
+        Source: Flare official figures. Wallet integrations include Xaman, Ledger, MetaMask, WalletConnect, Bifrost — and now D'CENT.
+      </p>
+    </div>
   </section>
 
   <!-- ============ FLARE SMART ACCOUNTS ============ -->
@@ -1015,57 +1080,6 @@
 
     <p class="fxrp-disclaimer">
       Flare Smart Accounts is operated by Flare Networks. Yields depend on each underlying program and market conditions — not guaranteed. FXRP is issued by Flare's FAssets protocol and subject to its minting/redemption fees and lot-size rules. D'CENT is a non-custodial wallet provider and does not custody, broker, or guarantee deposits or returns. Educational information only — not investment advice.
-    </p>
-  </section>
-
-  <!-- ============ ABOUT FLARE ============ -->
-  <section class="about-flare">
-    <div class="sec-head">
-      <span class="sec-kicker flare">About Flare</span>
-      <h2>The Compute Layer for<br><em class="flare">Programmable Capital.</em></h2>
-      <p class="deck">
-        <b>Flare</b> is an EVM Layer-1 purpose-built to make dormant capital productive.
-        Through <b>FAssets</b>, high-value assets like XRP and BTC become
-        <b>programmable financial collateral</b> — usable across DeFi while their underlying tokens stay on their native chains.
-      </p>
-    </div>
-
-    <div class="flare-stats" aria-label="Flare ecosystem traction">
-      <div class="fstat">
-        <span class="num">150M+</span>
-        <span class="lbl">FXRP minted</span>
-      </div>
-      <div class="fstat">
-        <span class="num">85%</span>
-        <span class="lbl">Deployed in DeFi</span>
-      </div>
-      <div class="fstat">
-        <span class="num">$160M+</span>
-        <span class="lbl">TVL on Flare</span>
-      </div>
-      <div class="fstat">
-        <span class="num">150+</span>
-        <span class="lbl">Ecosystem partners</span>
-      </div>
-    </div>
-
-    <div class="flare-stack">
-      <div class="fst">
-        <span class="fst-k">Data</span>
-        <span class="fst-v">FTSO oracle &amp; FDC connector</span>
-      </div>
-      <div class="fst">
-        <span class="fst-k">Interop</span>
-        <span class="fst-v">FAssets · Smart Accounts · cross-chain</span>
-      </div>
-      <div class="fst">
-        <span class="fst-k">Compute</span>
-        <span class="fst-v">FCC · privacy-preserving execution</span>
-      </div>
-    </div>
-
-    <p class="flare-foot">
-      Source: Flare official figures. Wallet integrations include Xaman, Ledger, MetaMask, WalletConnect, Bifrost — and now D'CENT.
     </p>
   </section>
 
