@@ -613,58 +613,67 @@
   }
   .why-card p b{color:var(--ink);font-weight:600}
 
-  /* ============ ALLIANCE FOOTER LINK ============ */
+  /* ============ ALLIANCE HUB LINK (visually distinct) ============ */
   .alliance-link{
-    margin:24px 0 0;padding:18px 18px;border-radius:14px;
-    background:linear-gradient(135deg, rgba(35,163,224,.08), rgba(255,56,82,.05));
-    border:1px solid rgba(93,220,255,.22);
-    display:flex;align-items:center;gap:14px;
-    transition:border-color .2s;
+    display:block;text-decoration:none;
+    margin:32px 0 6px;padding:22px 22px 20px;border-radius:18px;
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 70% 60% at 100% 0%, rgba(93,220,255,.22), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(255,56,82,.14), transparent 60%),
+      linear-gradient(135deg, #0A1424 0%, #060810 100%);
+    border:1px solid rgba(93,220,255,.34);
+    box-shadow:0 18px 40px rgba(35,163,224,.14), inset 0 1px 0 rgba(255,255,255,.05);
+    transition:transform .2s, border-color .2s, box-shadow .2s;
   }
-  .alliance-link:hover{border-color:rgba(93,220,255,.4)}
+  .alliance-link::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.55;
+    background-image:
+      radial-gradient(1.4px 1.4px at 14% 28%, rgba(93,220,255,.85), transparent 100%),
+      radial-gradient(1px 1px at 76% 18%, rgba(255,255,255,.55), transparent 100%),
+      radial-gradient(1.6px 1.6px at 88% 64%, rgba(255,56,82,.65), transparent 100%),
+      radial-gradient(1px 1px at 26% 80%, rgba(255,255,255,.6), transparent 100%),
+      radial-gradient(1.2px 1.2px at 58% 38%, rgba(93,220,255,.7), transparent 100%);
+  }
+  .alliance-link:hover{
+    transform:translateY(-2px);
+    border-color:rgba(93,220,255,.55);
+    box-shadow:0 24px 50px rgba(35,163,224,.22), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .al-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 11px;border-radius:99px;
+    background:rgba(255,255,255,.04);border:1px solid rgba(93,220,255,.32);
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.24em;
+    color:var(--xrp-hi);text-transform:uppercase;font-weight:700;
+    margin-bottom:14px;position:relative;z-index:1;
+  }
+  .al-tag-star{color:var(--flare-hi);font-size:11px}
+  .al-row{
+    display:flex;align-items:center;gap:14px;
+    position:relative;z-index:1;
+  }
   .alliance-link .al-ic{
-    width:42px;height:42px;border-radius:10px;flex-shrink:0;
-    background:rgba(93,220,255,.1);border:1px solid rgba(93,220,255,.3);
+    width:48px;height:48px;border-radius:12px;flex-shrink:0;
+    background:linear-gradient(145deg, rgba(93,220,255,.18), rgba(255,56,82,.08));
+    border:1px solid rgba(93,220,255,.42);
     display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);
+    box-shadow:0 6px 18px rgba(35,163,224,.2);
   }
   .alliance-link .al-body{flex:1;min-width:0}
   .alliance-link .al-body b{
-    display:block;font-size:13.5px;font-weight:600;color:var(--ink);
-    letter-spacing:-.005em;margin-bottom:2px;
+    display:block;font-size:15px;font-weight:600;color:var(--ink);
+    letter-spacing:-.01em;margin-bottom:3px;
   }
   .alliance-link .al-body small{
-    display:block;font-size:11.5px;color:var(--ink-2);font-weight:400;
-    letter-spacing:-.005em;
+    display:block;font-size:12px;color:var(--ink-2);font-weight:400;
+    letter-spacing:-.005em;line-height:1.4;
   }
-  .alliance-link .al-arr{color:var(--ink-3);font-size:18px}
-
-  /* ============ IMPORTANT NOTICE ============ */
-  .notice{
-    margin:30px 22px 0;padding:0;
+  .alliance-link .al-arr{
+    color:var(--xrp-hi);font-size:20px;font-weight:300;
+    transition:transform .2s;
   }
-  .notice-en{
-    font-size:11px;color:var(--ink-3);line-height:1.6;letter-spacing:-.005em;
-    margin-bottom:10px;
-  }
-  .notice-en b{color:var(--ink-2);font-weight:600}
-  .notice-kr{
-    font-size:10.5px;color:var(--ink-3);line-height:1.7;letter-spacing:-.005em;
-  }
-  .notice-kr b{color:var(--ink-2);font-weight:600}
-
-  /* ============ FOOTER ============ */
-  footer{
-    padding:32px 22px 36px;border-top:1px solid var(--rule);margin-top:24px;
-    text-align:center;
-  }
-  footer .legal{
-    font-size:10.5px;color:var(--ink-3);line-height:1.6;letter-spacing:-.005em;
-    max-width:360px;margin:0 auto 12px;
-  }
-  footer .copy{
-    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
-    color:var(--ink-3);text-transform:uppercase;font-weight:500;
-  }
+  .alliance-link:hover .al-arr{transform:translateX(4px)}
 
   /* ============ DESKTOP ============ */
   @media (min-width:720px){
@@ -1019,32 +1028,18 @@
     </div>
 
     <a href="xrp_alliance_dashboard.html" class="alliance-link">
-      <span class="al-ic"><svg width="22" height="22"><use href="#hub"/></svg></span>
-      <div class="al-body">
-        <b>The XRP Alliance · Hub</b>
-        <small>Hold XRP in D'CENT. New partners keep arriving.</small>
+      <span class="al-tag"><span class="al-tag-star">✦</span>XRP Alliance</span>
+      <div class="al-row">
+        <span class="al-ic"><svg width="24" height="24"><use href="#hub"/></svg></span>
+        <div class="al-body">
+          <b>Discover the Alliance Hub</b>
+          <small>Hold XRP in D'CENT. New partners keep arriving.</small>
+        </div>
+        <span class="al-arr">→</span>
       </div>
-      <span class="al-arr">→</span>
     </a>
   </section>
 
-  <!-- ============ IMPORTANT NOTICE ============ -->
-  <section class="notice">
-    <p class="notice-en">
-      Educational information only. D'CENT (IoTrust) is a non-custodial wallet provider and does not custody, broker, or solicit transactions in user funds. FXRP is issued by Flare's FAssets protocol. Stated reward amounts are subject to campaign rules and on-chain finality. Not investment advice.
-    </p>
-    <p class="notice-kr">
-      본 캠페인은 정보 제공 목적이며, 투자 권유 또는 가상자산 매매 중개에 해당하지 않습니다. D'CENT(IoTrust)는 비수탁 지갑 서비스 제공자로서 사용자 자산을 보관·중개하지 않습니다.
-    </p>
-  </section>
-
-  <!-- ============ FOOTER ============ -->
-  <footer>
-    <p class="legal">
-      D'CENT × Flare is the first XRP Alliance partner drop. Rewards distributed in XRP and FLR are subject to campaign terms and on-chain finality. FXRP is issued by Flare's FAssets protocol. Always do your own research before participating.
-    </p>
-    <p class="copy">© 2026 D'CENT · IoTrust · XRP Alliance</p>
-  </footer>
 
 </div>
 
