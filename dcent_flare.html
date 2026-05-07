@@ -425,75 +425,108 @@
   }
   .quest-note b{color:var(--ink);font-weight:600}
 
-  /* ============ FXRP INTRO ============ */
-  .fxrp{padding:46px 22px 36px;text-align:center}
-  .fxrp-mark{
-    display:inline-flex;align-items:center;gap:10px;margin-bottom:8px;
-  }
-  .fxrp-mark .badge{
-    width:32px;height:32px;border-radius:8px;
-    background:linear-gradient(135deg,#23A3E0 0%,#E5184D 100%);
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;
-    color:#fff;letter-spacing:-.01em;
-    box-shadow:0 8px 22px rgba(35,163,224,.3);
-  }
-  .fxrp-mark h2{
-    font-size:28px;font-weight:500;letter-spacing:-.03em;line-height:1;
-    color:var(--ink);
-  }
-  .fxrp .deck{
+  /* ============ FLARE SMART ACCOUNTS ============ */
+  .sa{padding:50px 22px 40px;text-align:center}
+  .sa h2{font-size:28px}
+  .sa .deck{
     font-size:14px;color:var(--ink-1);line-height:1.65;
-    max-width:380px;margin:14px auto 22px;
+    max-width:380px;margin:10px auto 0;letter-spacing:-.005em;
   }
-  .fxrp .deck b{color:var(--ink);font-weight:600}
-  .fxrp .deck .accent{color:var(--xrp-hi);font-weight:600}
-  .fxrp .deck .accent-flare{color:var(--flare-hi);font-weight:600}
+  .sa .deck b{color:var(--ink);font-weight:600}
 
-  .fxrp-flow{
-    display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;
-    margin:18px auto 24px;max-width:340px;
+  .sa-flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;
+    align-items:center;margin:24px auto 26px;max-width:380px;
   }
-  .ff-cell{
+  .sa-step{
     padding:14px 8px;border-radius:12px;
-    background:rgba(255,255,255,.02);border:1px solid var(--rule);
-    display:flex;flex-direction:column;align-items:center;gap:6px;
+    background:var(--panel);border:1px solid var(--rule);
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    transition:border-color .2s;
   }
-  .ff-cell.in{border-color:rgba(93,220,255,.3);background:rgba(93,220,255,.04)}
-  .ff-cell.out{border-color:rgba(255,56,82,.3);background:rgba(255,56,82,.04)}
-  .ff-cell .ic{
-    width:32px;height:32px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(0,0,0,.4);
+  .sa-step:hover{border-color:rgba(255,56,82,.3)}
+  .sa-step .sa-num{
+    font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
+    color:var(--flare-hi);font-weight:700;text-transform:uppercase;
+    margin-bottom:2px;
   }
-  .ff-cell.in .ic{color:var(--xrp-hi)}
-  .ff-cell.out .ic{color:var(--flare-hi)}
-  .ff-cell b{
-    font-family:'Geist Mono',monospace;font-size:13px;font-weight:700;
-    letter-spacing:-.01em;color:var(--ink);
+  .sa-step b{
+    font-size:13.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink);
   }
-  .ff-cell small{
-    font-size:10.5px;color:var(--ink-2);font-weight:500;letter-spacing:.04em;
+  .sa-step small{
+    font-size:10.5px;color:var(--ink-2);font-weight:500;letter-spacing:-.005em;
   }
-  .ff-arr{color:var(--ink-3);font-size:18px;font-weight:300}
+  .sa-arr{color:var(--ink-3);font-size:14px;font-weight:300;text-align:center}
 
-  .btn-learn-flare{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:13px 24px;border-radius:99px;
-    background:rgba(255,255,255,.04);color:var(--ink);
-    border:1px solid rgba(255,56,82,.32);
-    font-size:13.5px;font-weight:600;letter-spacing:-.005em;
-    transition:all .15s;
+  .sa-vaults{
+    margin-bottom:22px;
   }
-  .btn-learn-flare:hover{
-    border-color:var(--flare-hi);color:var(--flare-hi);
-    background:rgba(255,56,82,.06);
+  .sa-vaults-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:10px;padding:0 4px;
   }
+  .vh-label{
+    font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
+    color:var(--ink-2);text-transform:uppercase;font-weight:700;
+  }
+  .vh-live{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;
+    color:var(--green);text-transform:uppercase;font-weight:700;
+  }
+  .vh-live .dot{
+    width:5px;height:5px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 6px var(--green);animation:blink 1.8s ease-in-out infinite;
+  }
+
+  .vault-list{
+    display:flex;flex-direction:column;gap:8px;text-align:left;
+  }
+  .vault-card{
+    display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;
+    padding:14px 16px;border-radius:12px;
+    background:var(--panel);border:1px solid var(--rule);
+    transition:border-color .2s, transform .15s;
+  }
+  .vault-card:hover{border-color:rgba(255,56,82,.32);transform:translateX(2px)}
+  .v-mark{
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .v-mark.firelight{background:linear-gradient(135deg,#FF6A2A,#E62D11)}
+  .v-mark.upshift{background:linear-gradient(135deg,#1E1E1E,#000);border:1px solid rgba(255,255,255,.12);color:#fff}
+  .v-name{
+    font-size:13.5px;font-weight:600;letter-spacing:-.005em;color:var(--ink);
+    margin-bottom:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .v-tag{
+    font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:700;
+    padding:2px 7px;border-radius:5px;
+    background:rgba(255,56,82,.08);border:1px solid rgba(255,56,82,.28);
+    color:var(--flare-hi);
+  }
+  .v-meta{
+    display:flex;gap:14px;font-size:11.5px;color:var(--ink-1);flex-wrap:wrap;
+  }
+  .v-meta b{font-weight:700;color:var(--ink-3);margin-right:4px;letter-spacing:.04em;text-transform:uppercase;font-size:9.5px}
+  .v-arr{color:var(--ink-3);font-size:18px;line-height:1;font-weight:300}
+
+  .btn-deposit{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px 20px;border-radius:99px;
+    background:linear-gradient(120deg,#FF3852 0%,#E5184D 100%);
+    color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;
+    transition:transform .15s, box-shadow .15s;
+    border:0;cursor:pointer;
+  }
+  .btn-deposit:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(229,24,77,.4)}
+
   .fxrp-disclaimer{
-    margin:24px auto 0;padding:12px 14px;border-radius:10px;
+    margin:18px auto 0;padding:12px 14px;border-radius:10px;
     border:1px dashed rgba(255,255,255,.08);
     font-size:11px;color:var(--ink-3);line-height:1.5;
-    max-width:360px;letter-spacing:-.005em;
+    max-width:380px;letter-spacing:-.005em;text-align:left;
   }
 
   /* ============ COMPARISON ============ */
@@ -885,24 +918,85 @@
     </div>
   </section>
 
-  <!-- ============ FXRP INTRO ============ -->
-  <section class="fxrp">
-    <div class="fxrp-mark">
-      <span class="badge">Fx</span>
-      <h2>Meet FXRP</h2>
+  <!-- ============ FLARE SMART ACCOUNTS ============ -->
+  <section class="sa">
+    <div class="sec-head">
+      <span class="sec-kicker flare">Flare Smart Accounts</span>
+      <h2>Earn Yield on<br><em class="flare">Your XRP.</em></h2>
+      <p class="deck">
+        <b>Flare Smart Accounts</b> makes it easy to put your XRP to work.
+        Swap your XRP for FXRP, then deposit into a curated vault — <b>on-chain, self-custody</b>.
+      </p>
     </div>
-    <p class="deck">
-      Meet <b>FXRP</b>, the FAssets representation of XRP on Flare.
-      Discover how your XRP can work on-chain.
-    </p>
 
-    <a href="#" class="btn-learn-flare">
-      Learn More
+    <!-- 3-step flow -->
+    <div class="sa-flow" aria-hidden="true">
+      <div class="sa-step">
+        <span class="sa-num">01</span>
+        <b>Swap</b>
+        <small>XRP → FXRP</small>
+      </div>
+      <span class="sa-arr">→</span>
+      <div class="sa-step">
+        <span class="sa-num">02</span>
+        <b>Deposit</b>
+        <small>Pick a vault</small>
+      </div>
+      <span class="sa-arr">→</span>
+      <div class="sa-step">
+        <span class="sa-num">03</span>
+        <b>Earn</b>
+        <small>On-chain · 24/7</small>
+      </div>
+    </div>
+
+    <!-- Available vaults -->
+    <div class="sa-vaults">
+      <div class="sa-vaults-head">
+        <span class="vh-label">Available Vaults</span>
+        <span class="vh-live"><span class="dot"></span>Live</span>
+      </div>
+      <div class="vault-list">
+        <a href="#" class="vault-card">
+          <div class="v-mark firelight">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M12 2c-1 4-3 5-3 8a3 3 0 006 0c0-1.5-.5-2-1.5-3-.5 1-1 1.5-2 1.5-1 0-1.5-.5-1.5-1.5 0-2 2-3 2-5zM9 13c-1 .8-2 2-2 4a5 5 0 0010 0c0-1.5-.5-2.5-2-3.5-.5 1.5-1.5 2-2.5 2-1.5 0-2.5-1-2.5-2.5z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="v-body">
+            <div class="v-name">Firelight <span class="v-tag">FXRP Vault</span></div>
+            <div class="v-meta">
+              <span><b>Curator</b> Firelight</span>
+              <span><b>Risk</b> Low</span>
+            </div>
+          </div>
+          <span class="v-arr">→</span>
+        </a>
+        <a href="#" class="vault-card">
+          <div class="v-mark upshift">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+          </div>
+          <div class="v-body">
+            <div class="v-name">Upshift <span class="v-tag">FXRP Vault</span></div>
+            <div class="v-meta">
+              <span><b>Curator</b> Clearstar</span>
+              <span><b>Risk</b> Low</span>
+            </div>
+          </div>
+          <span class="v-arr">→</span>
+        </a>
+      </div>
+    </div>
+
+    <a href="#" class="btn-deposit">
+      Connect Wallet &amp; Earn
       <svg width="14" height="14"><use href="#arr"/></svg>
     </a>
 
     <p class="fxrp-disclaimer">
-      Educational information only. FXRP is issued by Flare's FAssets protocol and is subject to its minting/redemption fees and lot-size rules. D'CENT is a non-custodial wallet provider and does not issue, custody, or intermediate FXRP. This is not investment advice or a financial product endorsement.
+      Flare Smart Accounts is operated by Flare Networks. Vault yields depend on each curator's strategy and market conditions — not guaranteed. FXRP is issued by Flare's FAssets protocol and subject to its minting/redemption fees and lot-size rules. D'CENT is a non-custodial wallet provider and does not custody, broker, or guarantee vault deposits. Educational information only — not investment advice.
     </p>
   </section>
 
