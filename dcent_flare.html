@@ -500,6 +500,53 @@
     color:var(--ink-1);text-transform:uppercase;font-weight:600;
   }
 
+  .fxrp-steps{
+    display:flex;flex-direction:column;gap:10px;
+    margin:24px 0 6px;text-align:left;
+  }
+  .fxrp-step{
+    display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:flex-start;
+    padding:16px 16px;border-radius:13px;
+    background:var(--panel);border:1px solid var(--rule);
+    transition:border-color .2s, transform .15s;
+  }
+  .fxrp-step:hover{border-color:rgba(93,220,255,.3);transform:translateX(2px)}
+  .fxrp-step .num{
+    width:48px;height:48px;border-radius:12px;
+    background:linear-gradient(145deg, rgba(93,220,255,.08), rgba(255,56,82,.05));
+    border:1px solid rgba(93,220,255,.3);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Geist Mono',monospace;font-size:14px;font-weight:700;
+    color:var(--xrp-hi);letter-spacing:-.01em;
+  }
+  .fxrp-step.flare-step .num{
+    background:linear-gradient(145deg, rgba(255,56,82,.08), rgba(229,24,77,.04));
+    border-color:rgba(255,56,82,.32);
+    color:var(--flare-hi);
+  }
+  .fxrp-step.flare-step{border-color:rgba(255,56,82,.18)}
+  .fxrp-step.flare-step:hover{border-color:rgba(255,56,82,.36)}
+  .fxrp-step .body b{
+    display:block;font-size:14.5px;font-weight:600;letter-spacing:-.01em;
+    color:var(--ink);margin-bottom:4px;
+  }
+  .fxrp-step .body p{
+    font-size:12.5px;color:var(--ink-2);line-height:1.55;letter-spacing:-.005em;
+    margin:0;
+  }
+  .fxrp-step .body p .em{color:var(--flare-hi);font-weight:700}
+  .fxrp-step .body p .em-blue{color:var(--xrp-hi);font-weight:700}
+
+  .fxrp-bonus{
+    margin:18px 0 22px;padding:14px 16px;border-radius:12px;
+    background:linear-gradient(135deg, rgba(255,56,82,.08), rgba(229,24,77,.04));
+    border:1px solid rgba(255,56,82,.32);
+    font-size:12.5px;color:var(--ink);line-height:1.55;text-align:center;
+    letter-spacing:-.005em;
+  }
+  .fxrp-bonus .star{color:var(--flare-hi);margin:0 4px;font-size:11px}
+  .fxrp-bonus b{color:var(--flare-hi);font-weight:700}
+
   .fxrp-disclaimer{
     margin:24px auto 0;padding:12px 14px;border-radius:10px;
     border:1px dashed rgba(255,255,255,.08);
@@ -853,27 +900,6 @@
     </a>
   </section>
 
-  <!-- ============ FXRP INTRO ============ -->
-  <section class="fxrp">
-    <div class="fxrp-mark">
-      <span class="badge">Fx</span>
-      <h2>Meet FXRP</h2>
-    </div>
-    <p class="deck">
-      Meet <b>FXRP</b>, the FAssets representation of XRP on Flare.
-      Discover how your XRP can work on-chain.
-    </p>
-
-    <a href="#" class="btn-learn-flare">
-      Learn More
-      <svg width="14" height="14"><use href="#arr"/></svg>
-    </a>
-
-    <p class="fxrp-disclaimer">
-      Educational information only. FXRP is issued by Flare's FAssets protocol and is subject to its minting/redemption fees and lot-size rules. D'CENT is a non-custodial wallet provider and does not issue, custody, or intermediate FXRP. This is not investment advice or a financial product endorsement.
-    </p>
-  </section>
-
   <!-- ============ COMPARISON ============ -->
   <section class="compare">
     <div class="sec-head">
@@ -884,11 +910,11 @@
       <div class="cmp-cell win">
         <span class="cmp-tag win">FXRP on Flare</span>
         <div class="cmp-row">
-          <b>Composable in DeFi</b>
-          <span class="lbl">EVM-compatible</span>
+          <b>Productive in DeFi</b>
+          <span class="lbl">Earns yield · EVM-compatible</span>
         </div>
         <div class="cmp-row">
-          <b>Backed by XRP</b>
+          <b>Backed by escrowed XRP</b>
           <span class="lbl">FAssets · over-collateralized</span>
         </div>
       </div>
@@ -899,11 +925,62 @@
           <span class="lbl">No EVM DeFi</span>
         </div>
         <div class="cmp-row">
-          <b>Hold-only</b>
+          <b>Idle by design</b>
           <span class="lbl">No composability</span>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ============ FXRP DETAIL ============ -->
+  <section class="fxrp">
+    <div class="fxrp-mark">
+      <span class="badge">Fx</span>
+      <h2>Meet FXRP</h2>
+    </div>
+    <p class="deck">
+      <b>FXRP</b> is XRP wrapped on Flare through the <span class="accent-flare">FAssets</span> protocol —
+      so your XRP can move into <b>EVM DeFi</b> while the underlying XRP stays locked in verifiable on-chain escrow.
+    </p>
+
+    <div class="fxrp-steps">
+      <div class="fxrp-step">
+        <div class="num">01</div>
+        <div class="body">
+          <b>Mint FXRP</b>
+          <p>Lock XRP into FAssets escrow and receive FXRP on Flare. Minted in lots of <span class="em-blue">10 XRP</span> with a small protocol fee.</p>
+        </div>
+      </div>
+      <div class="fxrp-step flare-step">
+        <div class="num">02</div>
+        <div class="body">
+          <b>Earn yield on Flare DeFi</b>
+          <p>Deposit FXRP into Flare DeFi vaults — like <span class="em">Upshift</span> — to earn yield from on-chain strategies. Self-custody throughout.</p>
+        </div>
+      </div>
+      <div class="fxrp-step">
+        <div class="num">03</div>
+        <div class="body">
+          <b>Redeem back to XRP</b>
+          <p>Convert FXRP back to XRP at any time. Redemption is subject to <span class="em-blue">FAssets fees and lot rules</span>.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="fxrp-bonus">
+      <span class="star">✦</span>
+      <b>Bonus rewards during the campaign</b> — open the D'CENT App to see active quests and check eligibility.
+      <span class="star">✦</span>
+    </p>
+
+    <a href="#" class="btn-learn-flare">
+      Learn More
+      <svg width="14" height="14"><use href="#arr"/></svg>
+    </a>
+
+    <p class="fxrp-disclaimer">
+      Educational information only. FXRP is issued by Flare's FAssets protocol and is subject to its minting/redemption fees and lot rules. Yields from third-party DeFi vaults depend on market conditions and are not guaranteed. D'CENT is a non-custodial wallet provider and does not issue, custody, or intermediate FXRP or vault deposits. Not investment advice.
+    </p>
   </section>
 
   <!-- ============ WHY D'CENT ============ -->
