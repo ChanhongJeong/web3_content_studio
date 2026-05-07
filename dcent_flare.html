@@ -614,9 +614,10 @@
   .why-card p b{color:var(--ink);font-weight:600}
 
   /* ============ ALLIANCE HUB LINK (visually distinct) ============ */
+  .alliance-wrap{padding:18px 22px 4px}
   .alliance-link{
     display:block;text-decoration:none;
-    margin:32px 0 6px;padding:22px 22px 20px;border-radius:18px;
+    margin:0;padding:22px 22px 20px;border-radius:18px;
     position:relative;overflow:hidden;
     background:
       radial-gradient(ellipse 70% 60% at 100% 0%, rgba(93,220,255,.22), transparent 60%),
@@ -739,6 +740,11 @@
       <circle cx="20" cy="18" r="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
       <path d="M9.5 10.5L5 7M14.5 10.5L19 7M9.5 13.5L5 17M14.5 13.5L19 17" stroke="currentColor" stroke-width="1.4"/>
     </symbol>
+    <symbol id="airdrop" viewBox="0 0 24 24">
+      <path d="M3 9c0-3.5 4-6 9-6s9 2.5 9 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M3 9l9 5M21 9l-9 5M9 9l3 5M15 9l-3 5" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      <rect x="9" y="14" width="6" height="6" rx="1.2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+    </symbol>
   </defs>
 </svg>
 
@@ -786,6 +792,21 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ XRP ALLIANCE HUB LINK (top placement) ============ -->
+  <div class="alliance-wrap">
+    <a href="xrp_alliance_dashboard.html" class="alliance-link">
+      <span class="al-tag"><span class="al-tag-star">✦</span>XRP Alliance</span>
+      <div class="al-row">
+        <span class="al-ic"><svg width="24" height="24"><use href="#hub"/></svg></span>
+        <div class="al-body">
+          <b>What is the XRP Alliance?</b>
+          <small>D'CENT is the home for the entire Alliance. Discover the Hub →</small>
+        </div>
+        <span class="al-arr">→</span>
+      </div>
+    </a>
+  </div>
 
   <!-- ============ HARDWARE CASHBACK ============ -->
   <section class="cashback" id="cashback">
@@ -1022,22 +1043,11 @@
         <p>Hold <b>every token issued on XRPL</b> — RLUSD, stablecoins, dApp assets — natively via Trustline.</p>
       </div>
       <div class="why-card">
-        <div class="why-ic"><svg width="26" height="26"><use href="#coins"/></svg></div>
-        <p><b>One wallet, every chain</b> — XRPL, Flare, and 50+ networks beyond.</p>
+        <div class="why-ic"><svg width="26" height="26"><use href="#airdrop"/></svg></div>
+        <p><b>Airdrop chances, on repeat</b> — drops keep arriving across the XRPL ecosystem and the Alliance.</p>
       </div>
     </div>
 
-    <a href="xrp_alliance_dashboard.html" class="alliance-link">
-      <span class="al-tag"><span class="al-tag-star">✦</span>XRP Alliance</span>
-      <div class="al-row">
-        <span class="al-ic"><svg width="24" height="24"><use href="#hub"/></svg></span>
-        <div class="al-body">
-          <b>Discover the Alliance Hub</b>
-          <small>Hold XRP in D'CENT. New partners keep arriving.</small>
-        </div>
-        <span class="al-arr">→</span>
-      </div>
-    </a>
   </section>
 
 
