@@ -485,9 +485,9 @@
   }
 
   .sa-notice{
-    margin:0 auto 14px;padding:0 4px;
+    margin:14px auto 0;padding:0 4px;
     font-size:10px;color:var(--ink-3);line-height:1.55;
-    max-width:380px;letter-spacing:-.005em;text-align:left;
+    max-width:380px;letter-spacing:-.005em;text-align:center;
   }
 
   .btn-deposit{
@@ -590,87 +590,34 @@
     max-width:380px;margin:18px auto 0;font-style:italic;
   }
 
-  /* ============ ADVANTAGES (What's included) ============ */
-  .what{padding:50px 22px 30px;text-align:center}
-  .what h2{font-size:26px}
-  .what h2 em{
+  /* ============ WHY D'CENT ============ */
+  .why{padding:50px 22px 30px;text-align:center}
+  .why h2{font-size:24px}
+  .why h2 em{
     background:linear-gradient(120deg,#5DDCFF,#23A3E0);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-style:normal;font-weight:500;
   }
-  .what .deck{
-    font-size:13.5px;color:var(--ink-2);line-height:1.55;
-    margin:10px auto 0;letter-spacing:-.005em;
-  }
-  .advantages{
+  .why-grid{
     display:flex;flex-direction:column;gap:10px;margin-top:24px;text-align:left;
   }
-  .adv{
+  .why-card{
+    display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:center;
     padding:18px 18px;border-radius:14px;
     background:var(--panel);border:1px solid var(--rule);
     transition:border-color .2s, transform .15s;
   }
-  .adv:hover{border-color:rgba(93,220,255,.28);transform:translateX(2px)}
-  .adv-tag{
-    display:inline-block;padding:4px 10px;border-radius:99px;
-    background:linear-gradient(120deg,#23A3E0,#5DDCFF);color:#021724;
-    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;
-    font-weight:700;text-transform:uppercase;margin-bottom:10px;
+  .why-card:hover{border-color:rgba(93,220,255,.28);transform:translateX(2px)}
+  .why-ic{
+    width:60px;height:60px;border-radius:14px;
+    background:linear-gradient(145deg, rgba(93,220,255,.06), rgba(255,56,82,.04));
+    border:1px solid rgba(93,220,255,.18);
+    display:flex;align-items:center;justify-content:center;color:var(--xrp-hi);
   }
-  .adv h3{
-    font-size:16px;font-weight:600;letter-spacing:-.015em;line-height:1.25;
-    color:var(--ink);margin-bottom:6px;
+  .why-card p{
+    font-size:13.5px;color:var(--ink-1);line-height:1.55;letter-spacing:-.005em;
   }
-  .adv p{
-    font-size:13px;color:var(--ink-1);line-height:1.55;letter-spacing:-.005em;
-  }
-  .adv p b{color:var(--ink);font-weight:600}
-
-  /* ============ D'CENT vs EVERYONE ELSE ============ */
-  .vs{padding:40px 22px 30px;text-align:center}
-  .vs h2{font-size:24px;line-height:1.2}
-  .vs h2 em.multi{
-    background:linear-gradient(120deg,#7C8AFF 0%,#5DDCFF 60%,#23A3E0 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    font-style:normal;font-weight:500;
-  }
-  .vs .deck{
-    font-size:13px;color:var(--ink-2);line-height:1.6;
-    max-width:400px;margin:10px auto 0;letter-spacing:-.005em;
-  }
-  .vs-rows{
-    display:flex;flex-direction:column;gap:10px;margin-top:22px;text-align:left;
-  }
-  .vs-row{
-    padding:14px 14px 12px;border-radius:12px;
-    background:rgba(255,255,255,.015);border:1px solid var(--rule);
-  }
-  .vs-feat{
-    display:block;
-    font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.22em;
-    color:var(--ink-2);text-transform:uppercase;font-weight:700;
-    margin-bottom:9px;padding-left:2px;
-  }
-  .vs-cells{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .vs-cell{
-    padding:10px 12px;border-radius:9px;
-    display:flex;flex-direction:column;gap:3px;
-  }
-  .vs-cell.mine{
-    background:linear-gradient(135deg,rgba(35,163,224,.18),rgba(93,220,255,.06));
-    border:1px solid rgba(93,220,255,.34);
-    box-shadow:0 6px 18px rgba(35,163,224,.1);
-  }
-  .vs-cell.theirs{
-    background:rgba(0,0,0,.25);border:1px solid var(--rule);
-  }
-  .vs-cell b{
-    font-size:12.5px;font-weight:600;color:var(--ink);
-    letter-spacing:-.005em;line-height:1.3;
-  }
-  .vs-cell.theirs b{color:var(--ink-1)}
-  .vs-cell small{
-    font-size:10.5px;color:var(--ink-3);line-height:1.4;letter-spacing:-.005em;
-  }
+  .why-card p b{color:var(--ink);font-weight:600}
 
   /* ============ ALLIANCE FOOTER LINK ============ */
   .alliance-link{
@@ -820,7 +767,7 @@
 
       <p class="hero-tag">
         Buy a D'CENT wallet to get <b>$50 in XRP cashback</b>.<br>
-        Discover <span class="accent-flare">FXRP</span> with the <b>Flare</b> ecosystem.
+        Wake up your idle XRP with <span class="accent-flare">Flare</span>.
       </p>
 
       <div class="hero-window">
@@ -947,9 +894,9 @@
   <section class="compare">
     <div class="sec-head">
       <span class="sec-kicker flare">Flare</span>
-      <h2>The Compute Layer for<br><em class="flare">Programmable Capital.</em></h2>
+      <h2>Your XRP Doesn't Have<br><em class="flare">to Sit Idle.</em></h2>
       <p class="deck">
-        <b>Flare</b> is an EVM Layer-1 that turns assets like XRP into <b>programmable financial collateral</b> through <b>FAssets</b>. The underlying XRP stays escrowed on XRPL — while FXRP moves across DeFi.
+        Most XRP just sleeps in wallets. Through <b>Flare</b> and <b>FAssets</b>, your idle XRP can <b>earn yield</b> across DeFi — while the underlying XRP stays escrowed on XRPL, in your custody.
       </p>
     </div>
 
@@ -1015,9 +962,9 @@
   <section class="sa">
     <div class="sec-head">
       <span class="sec-kicker flare">Flare Smart Accounts</span>
-      <h2>Earn with Your XRP<br><em class="flare">in 1 Click.</em></h2>
+      <h2>Wake Up Your XRP<br><em class="flare">in 1 Click.</em></h2>
       <p class="deck">
-        Deposit your XRP and start earning yield on Flare — all in <b>one action</b>.
+        Don't let your XRP sit idle. Put it to work on Flare — in <b>one action</b>.
       </p>
     </div>
 
@@ -1045,155 +992,36 @@
       </div>
     </div>
 
-    <!-- Compact educational notice (above CTA, small text) -->
-    <p class="sa-notice">
-      Educational information only. D'CENT (IoTrust) is a non-custodial wallet provider and does not custody, broker, or solicit transactions in user funds. FXRP is issued by Flare's FAssets protocol. Stated reward amounts are subject to campaign rules and on-chain finality. Not investment advice.
-    </p>
-
-    <a href="#" class="btn-deposit">
-      Connect Wallet &amp; Earn
+    <a href="https://flare.network" target="_blank" rel="noopener noreferrer" class="btn-deposit">
+      Explore Flare
       <svg width="14" height="14"><use href="#arr"/></svg>
     </a>
+
+    <!-- Compact educational notice (below CTA, small) -->
+    <p class="sa-notice">
+      Educational only. D'CENT is a non-custodial wallet — does not custody or intermediate funds. Not investment advice.
+    </p>
   </section>
 
-  <!-- ============ ADVANTAGES (What's included) ============ -->
-  <section class="what">
+  <!-- ============ WHY D'CENT ============ -->
+  <section class="why">
     <div class="sec-head">
-      <span class="sec-kicker">What's Included</span>
-      <h2>Hold XRP in D'CENT.<br><em>This is what comes with it.</em></h2>
-      <p class="deck">Six advantages. One wallet. That's D'CENT.</p>
+      <span class="sec-kicker">Why D'CENT</span>
+      <h2>Built for the<br><em>XRP Army.</em></h2>
     </div>
 
-    <div class="advantages">
-      <article class="adv">
-        <span class="adv-tag">Advantage 1</span>
-        <h3>Biometric Security.</h3>
-        <p>Your private keys are locked by your fingerprint. A certified <b>EAL5+</b> Secure Element chip protects from physical tampering and network attacks. Authentic hardware, zero-trust design.</p>
-      </article>
-
-      <article class="adv">
-        <span class="adv-tag">Advantage 2</span>
-        <h3>Hold or send. Always free.</h3>
-        <p>No matter the size of your XRP — D'CENT charges <b>nothing</b> to hold it, <b>nothing</b> to send it.</p>
-      </article>
-
-      <article class="adv">
-        <span class="adv-tag">Advantage 3</span>
-        <h3>Cheapest swap on XRPL.</h3>
-        <p>When XRP needs to move, D'CENT routes it <b>cheaper</b> than any other wallet on the ledger.</p>
-      </article>
-
-      <article class="adv">
-        <span class="adv-tag">Advantage 4</span>
-        <h3>XRPL ecosystem, native.</h3>
-        <p>Every leading XRPL dApp, connected directly inside D'CENT. <b>Trustline-ready</b> for RLUSD, stablecoins, and every XRPL-issued asset.</p>
-      </article>
-
-      <article class="adv">
-        <span class="adv-tag">Advantage 5</span>
-        <h3>XRP that earns more XRP.</h3>
-        <p>Yield. Deposits. Ways for your stack to grow — while it stays in your wallet.</p>
-      </article>
-
-      <article class="adv">
-        <span class="adv-tag">Advantage 6</span>
-        <h3>Airdrop chances, on repeat.</h3>
-        <p>Hold XRP in D'CENT — and opportunities keep arriving across the <b>XRPL ecosystem</b> and the <b>Alliance</b>.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ D'CENT vs EVERYONE ELSE ============ -->
-  <section class="vs">
-    <div class="sec-head">
-      <span class="sec-kicker">D'CENT vs Everyone else</span>
-      <h2>Other wallets stop earlier.<br><em class="multi">Same XRP. Different outcome.</em></h2>
-      <p class="deck">Where you hold your XRP changes everything. Here's how the six advantages above stack up against the rest.</p>
-    </div>
-
-    <div class="vs-rows">
-      <div class="vs-row">
-        <span class="vs-feat">Hold &amp; send</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>Zero fees, ever</b>
-            <small>Hold or send free, any size</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>Fees stack up</b>
-            <small>Wallet add-ons or CEX charges</small>
-          </div>
-        </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#shield"/></svg></div>
+        <p>Sign transactions safely with your <b>unique fingerprint</b>.</p>
       </div>
-
-      <div class="vs-row">
-        <span class="vs-feat">XRPL swap</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>Cheapest on XRPL</b>
-            <small>Multi-provider routing per swap</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>You pay more</b>
-            <small>Single-route or CEX spread</small>
-          </div>
-        </div>
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#hub"/></svg></div>
+        <p>Whole <b>XRPL ecosystem</b> inside — Trustline-ready for RLUSD, stablecoins, and beyond.</p>
       </div>
-
-      <div class="vs-row">
-        <span class="vs-feat">XRPL ecosystem</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>Whole XRPL inside</b>
-            <small>Top dApps · RLUSD trustline-ready</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>Partial access</b>
-            <small>Per-wallet or custodial</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="vs-row">
-        <span class="vs-feat">Earn more XRP</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>More paths for holders</b>
-            <small>Yield + deposit access in-wallet</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>Mostly idle</b>
-            <small>Few options, manual setup</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="vs-row">
-        <span class="vs-feat">Airdrop chances</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>Holder-only drops</b>
-            <small>XRPL + Alliance, on repeat</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>Zero for holders</b>
-            <small>No program offered</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="vs-row">
-        <span class="vs-feat">Hardware + rewards</span>
-        <div class="vs-cells">
-          <div class="vs-cell mine">
-            <b>Biometric + bonus</b>
-            <small>EAL5+ certified · Alliance HW reward</small>
-          </div>
-          <div class="vs-cell theirs">
-            <b>No biometric, no bonus</b>
-            <small>Software or basic HW only</small>
-          </div>
-        </div>
+      <div class="why-card">
+        <div class="why-ic"><svg width="26" height="26"><use href="#vault"/></svg></div>
+        <p>A digital safe you can <b>set up in under 5 mins</b>.</p>
       </div>
     </div>
 
