@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soil Korea Type Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@400;600&family=Gothic+A1:wght@400;800&family=Nanum+Myeongjo:wght@400;800&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Hahmlet:wght@400;800&family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Gasoek+One&family=Nanum+Pen+Script&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column of specimen rows, each font shown live in Hangul, notes on the side at desktop width */
+:root {
+  --bg: #f6f7f4;
+  --surface: #ffffff;
+  --ink: #17201b;
+  --muted: #5d6a62;
+  --line: #dde2dc;
+  --accent: #1f6b4a;
+  --accent-soft: #e3efe8;
+  --warn: #9a4a12;
+  --warn-soft: #f8ebdf;
+  --f-ko: "Pretendard", "Pretendard Variable", "Noto Sans KR", system-ui, sans-serif;
+  --f-display: "Black Han Sans", "Noto Sans KR", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111613; --surface: #18201b; --ink: #e8eee9; --muted: #9aa89f;
+    --line: #2a352e; --accent: #6fcf9f; --accent-soft: #1d3127;
+    --warn: #f0a46b; --warn-soft: #33241a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111613; --surface: #18201b; --ink: #e8eee9; --muted: #9aa89f;
+  --line: #2a352e; --accent: #6fcf9f; --accent-soft: #1d3127;
+  --warn: #f0a46b; --warn-soft: #33241a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-ko); font-size: 16px; line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 80px;
+}
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 64px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+header { display: grid; gap: 18px; }
+.hero-ko { font-family: var(--f-display); font-size: clamp(44px, 9vw, 96px); line-height: 1.05; letter-spacing: -0.01em; color: var(--accent); }
+header h1 { font-size: clamp(24px, 3.4vw, 34px); font-weight: 700; letter-spacing: -0.01em; }
+header p { color: var(--muted); font-size: 17px; }
+
+section { display: grid; gap: 22px; }
+section > h2 { font-size: 26px; letter-spacing: -0.01em; }
+section > p.lead { color: var(--muted); }
+
+.pick { background: var(--accent-soft); border-radius: 14px; padding: 24px; display: grid; gap: 14px; }
+.pick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.pick-grid > div { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.pick-grid b { font-size: 18px; }
+.pick-grid span { color: var(--muted); font-size: 14px; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 12px; z-index: 5; border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.controls label { font-size: 13px; color: var(--muted); }
+.controls input[type="text"] { flex: 1 1 260px; min-width: 0; font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; padding: 9px 12px; border: 0; background: var(--surface); color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+.group { display: grid; gap: 0; }
+.group h3 { font-size: 15px; font-weight: 700; padding-block: 18px 10px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.group h3 small { font-weight: 400; color: var(--muted); font-size: 13px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; padding-block: 20px; border-top: 1px solid var(--line); }
+.spec { min-width: 0; overflow-wrap: anywhere; word-break: keep-all; line-height: 1.3; font-size: var(--spec-size, 40px); }
+.meta { display: grid; gap: 6px; align-content: start; font-size: 14px; min-width: 0; }
+.meta .name { font-weight: 700; font-size: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.meta p { color: var(--muted); }
+.tag { font-family: var(--f-mono); font-size: 11px; letter-spacing: .04em; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font-weight: 400; }
+.tag.top { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.tag.ext { border-style: dashed; }
+.fallback-note { font-size: 12px; color: var(--muted); font-family: var(--f-mono); }
+
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.rule h3 { font-size: 17px; }
+.rule p { color: var(--muted); font-size: 15px; }
+.rule code { font-family: var(--f-mono); font-size: 13px; background: var(--accent-soft); color: var(--ink); padding: 1px 5px; border-radius: 4px; }
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.demo div { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 15px; min-width: 0; }
+.demo .lbl { display: block; font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.bad .lbl { color: var(--warn); }
+.good .lbl { color: var(--accent); }
+
+.refs { display: grid; gap: 0; }
+.ref { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; padding-block: 16px; border-top: 1px solid var(--line); }
+.ref .who { display: grid; gap: 2px; align-content: start; }
+.ref .who b { font-size: 16px; }
+.ref .who span { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.ref p { color: var(--muted); font-size: 15px; }
+
+.dont { background: var(--warn-soft); border-radius: 14px; padding: 24px; display: grid; gap: 12px; }
+.dont h2 { font-size: 22px; color: var(--warn); }
+.dont ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 20px; }
+
+@media (max-width: 760px) {
+  .pick-grid, .rules { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; gap: 12px; }
+  .ref { grid-template-columns: 1fr; gap: 6px; }
+  .demo { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">For Michal P. · Soil Korea design handoff · Nov 2026</div>
+  <div class="hero-ko" lang="ko">한글은 이렇게</div>
+  <h1>Korean fonts, layout rules and references for Soil Korea</h1>
+  <p>Everything below is what Korean users see every day on banking, crypto and community apps. Use it as a starting kit for Naver blog images, KakaoTalk and X visuals, and the launch campaign.</p>
+</header>
+
+<section>
+  <h2>If you only read one thing</h2>
+  <div class="pick">
+    <div class="eyebrow">Recommended setup</div>
+    <div class="pick-grid">
+      <div><b>Pretendard</b><span>Main Korean font for everything: headlines, body, UI. Free (OFL). The most used font in Korean product design right now.</span></div>
+      <div><b>Gmarket Sans or Pretendard Black</b><span>For loud campaign headlines and banners. Gmarket Sans Bold is the classic "Korean promo" look.</span></div>
+      <div><b>Gowun Batang</b><span>Optional serif for quotes or warm, story-style lines in blog posts. Use sparingly.</span></div>
+    </div>
+    <p style="font-size:14px;color:var(--muted)">Keep Soil's own Latin brand font for English words and numbers if you have one. Pretendard is designed to sit next to Inter-style Latin, so mixing works well.</p>
+  </div>
+</section>
+
+<section aria-labelledby="fonts-h">
+  <h2 id="fonts-h">Font specimens</h2>
+  <p class="lead">Live previews. Fonts marked <span class="tag ext">not on Google Fonts</span> only render here if you have them installed; otherwise you see a fallback. Download links are in each note.</p>
+
+  <div class="controls">
+    <label for="sample">Sample text</label>
+    <input type="text" id="sample" lang="ko" value="XRP를 맡기고, 매일 쌓이는 보상">
+    <div class="seg" role="group" aria-label="Preview size">
+      <button type="button" data-size="24px" aria-pressed="false">S</button>
+      <button type="button" data-size="40px" aria-pressed="true">M</button>
+      <button type="button" data-size="64px" aria-pressed="false">L</button>
+    </div>
+  </div>
+
+  <div class="group" id="specimens"></div>
+</section>
+
+<section>
+  <h2>How Korean text behaves</h2>
+  <p class="lead">Hangul is denser and squarer than Latin. These are the settings Korean designers apply by default.</p>
+  <div class="rules">
+    <div class="rule">
+      <h3>Break lines by word, not by letter</h3>
+      <p>Browsers and some tools split Korean words in the middle. In CSS use <code>word-break: keep-all</code>. In Figma, add manual line breaks in headlines so a word never splits.</p>
+      <div class="demo" lang="ko">
+        <div class="bad"><span class="lbl">Split word</span>매일 쌓이는 보<br>상을 확인하세요</div>
+        <div class="good"><span class="lbl">Whole words</span>매일 쌓이는<br>보상을 확인하세요</div>
+      </div>
+    </div>
+    <div class="rule">
+      <h3>Tighter tracking on headlines</h3>
+      <p>Korean headlines usually get slightly negative letter-spacing, around <code>-0.02em</code> to <code>-0.04em</code>. Body text stays at 0 or <code>-0.01em</code>.</p>
+      <div class="demo" lang="ko">
+        <div class="bad"><span class="lbl">0em</span><span style="font-weight:800;font-size:20px;letter-spacing:0">안전하게 맡기는 XRP</span></div>
+        <div class="good"><span class="lbl">-0.03em</span><span style="font-weight:800;font-size:20px;letter-spacing:-0.03em">안전하게 맡기는 XRP</span></div>
+      </div>
+    </div>
+    <div class="rule">
+      <h3>More line height for body</h3>
+      <p>Use 1.6 to 1.8 for Korean body text. Headlines can go down to about 1.25. Hangul looks bigger than Latin at the same size, so Korean text often needs 1 to 2px less than the English version to feel equal.</p>
+    </div>
+    <div class="rule">
+      <h3>No italics, no all caps</h3>
+      <p>Hangul has no real italic, and slanted Korean looks broken. There is no uppercase either. For emphasis, use weight, color, or a highlighter underline (very common on Naver blogs).</p>
+      <div class="demo" lang="ko">
+        <div class="bad"><span class="lbl">Faux italic</span><span style="font-style:italic;font-synthesis:style">출금은 40일 후</span></div>
+        <div class="good"><span class="lbl">Highlight</span><span style="background:linear-gradient(transparent 60%, var(--accent-soft) 60%);font-weight:700">출금은 40일 후</span></div>
+      </div>
+    </div>
+    <div class="rule">
+      <h3>Make sure the font is set to Korean</h3>
+      <p>If a font has no Hangul, Figma or the browser swaps in a system font, sometimes a Japanese or Chinese one, and some shapes look slightly off to Koreans. Always check that the Korean text is really in your chosen font.</p>
+    </div>
+    <div class="rule">
+      <h3>Write dates and numbers the Korean way</h3>
+      <p>Dates: <code>2026.11.20 (금)</code> or <code>11월 20일</code>. Big amounts use 만 (10,000) and 억 (100,000,000), for example <code>1억 원</code>. Headlines have no period at the end. Use the middle dot <code>·</code> as a separator.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Visual references</h2>
+  <p class="lead">Korean apps and sites that set the tone users expect from finance and crypto. Open them on a phone, since almost all Korean users read on mobile.</p>
+  <div class="refs">
+    <div class="ref"><div class="who"><b>Toss</b><a href="https://toss.im" target="_blank" rel="noopener">toss.im</a></div><p>The benchmark for Korean fintech design. Big bold Korean headlines, short sentences, huge numbers, soft 3D icons, lots of white space. Their design and tech blog at <a href="https://toss.tech" target="_blank" rel="noopener">toss.tech</a> explains their thinking.</p></div>
+    <div class="ref"><div class="who"><b>KakaoBank</b><a href="https://www.kakaobank.com" target="_blank" rel="noopener">kakaobank.com</a></div><p>Friendly yellow brand, simple flat illustrations, very plain language. Good reference for explaining money to normal people.</p></div>
+    <div class="ref"><div class="who"><b>Upbit</b><a href="https://upbit.com" target="_blank" rel="noopener">upbit.com</a></div><p>The biggest Korean crypto exchange. Shows how Korean crypto users are used to seeing coins, numbers and notices: clean, dense, navy based.</p></div>
+    <div class="ref"><div class="who"><b>Banksalad</b><a href="https://www.banksalad.com" target="_blank" rel="noopener">banksalad.com</a></div><p>Personal finance app with colorful, playful illustrations. A softer, younger take on money topics.</p></div>
+    <div class="ref"><div class="who"><b>Daangn (Karrot)</b><a href="https://about.daangn.com" target="_blank" rel="noopener">about.daangn.com</a></div><p>Warm, local, community feeling. Useful for the meetup and community side of Soil Korea.</p></div>
+    <div class="ref"><div class="who"><b>Naver Blog</b><a href="https://blog.naver.com/soil_korea" target="_blank" rel="noopener">blog.naver.com/soil_korea</a></div><p>Our own blog. Korean blog style uses image cards with short text, quote blocks, dividers and small stickers. The style that worked so far: cream background with navy or dark green text cards.</p></div>
+    <div class="ref"><div class="who"><b>Noonnu</b><a href="https://noonnu.cc" target="_blank" rel="noopener">noonnu.cc</a></div><p>The go-to directory of free Korean fonts, with license info for each one. Filter by "commercial use OK".</p></div>
+    <div class="ref"><div class="who"><b>Notefolio</b><a href="https://notefolio.net" target="_blank" rel="noopener">notefolio.net</a></div><p>Korean Behance. Search for "금융", "핀테크" or "배너" to see current Korean graphic trends.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>What Korean promo visuals look like</h2>
+  <div class="rules">
+    <div class="rule"><h3>Headline first, big and short</h3><p>One bold Korean line, 2 lines max, takes most of the space. Sub copy is small. Korean banners can carry a bit more text than Western ones, but the headline must still read in one second.</p></div>
+    <div class="rule"><h3>Friendly over cool</h3><p>Rounded shapes, soft 3D objects, character-like icons. Dark "cyber" crypto visuals feel risky to Korean retail users. Trust and simplicity sell better.</p></div>
+    <div class="rule"><h3>Mobile size check</h3><p>Look at every image at phone size before export. Korean characters with fine strokes get muddy when small, so keep body text in images at a bold enough weight.</p></div>
+    <div class="rule"><h3>Real photos when possible</h3><p>Booth photos, team photos and real screenshots build more trust than generated images. Korean audiences spot AI images quickly.</p></div>
+  </div>
+</section>
+
+<div class="dont">
+  <h2>Please avoid</h2>
+  <ul>
+    <li>Yield or APY numbers in any visual. We do not show return figures in Korea marketing.</li>
+    <li>Fonts owned by brands, like Toss Product Sans, Samsung One or Hyundai Sans. You will see them in Korean apps, but they are not licensed for us.</li>
+    <li>Old default fonts like Gulim, Dotum or Batang. They look like 2005 government websites.</li>
+    <li>Machine translated Korean pasted into a design. Send me the layout and I will write or check the Korean copy.</li>
+    <li>Faux bold, faux italic or stretched Hangul.</li>
+  </ul>
+</div>
+
+<footer>Prepared by Tani (Soil Korea marketing). Questions on Korean copy or fonts: ping me on Slack.</footer>
+
+</div>
+
+<script>
+const FONTS = [
+  { group: "Workhorse sans", hint: "UI, body, most visuals", items: [
+    { name: "Pretendard", family: "'Pretendard','Pretendard Variable'", w: 700, top: true, ext: true,
+      note: "First choice. Clean, neutral, huge weight range, Latin based on Inter. Free for commercial use (OFL).",
+      link: "https://github.com/orioncactus/pretendard" },
+    { name: "Noto Sans KR", family: "'Noto Sans KR'", w: 700,
+      note: "Google's Korean sans. Safe and complete, a little more rounded and heavier than Pretendard. Good fallback.",
+      link: "https://fonts.google.com/specimen/Noto+Sans+KR" },
+    { name: "SUIT", family: "'SUIT','SUIT Variable'", w: 700, ext: true,
+      note: "Very similar mood to Pretendard, slightly more geometric. Popular with startups. Free (OFL).",
+      link: "https://sunn.us/suit/" },
+    { name: "Wanted Sans", family: "'Wanted Sans','Wanted Sans Variable'", w: 700, ext: true,
+      note: "From Wanted (Korean job platform). Modern and a bit wider, nice for headlines. Free (OFL).",
+      link: "https://github.com/wanteddev/wanted-sans" },
+    { name: "IBM Plex Sans KR", family: "'IBM Plex Sans KR'", w: 600,
+      note: "More technical and squared. Works if Soil wants a slightly engineered feel.",
+      link: "https://fonts.google.com/specimen/IBM+Plex+Sans+KR" },
+    { name: "Spoqa Han Sans Neo", family: "'Spoqa Han Sans Neo'", w: 700, ext: true,
+      note: "Was the startup standard before Pretendard. Still common, now feels a little older.",
+      link: "https://spoqa.github.io/spoqa-han-sans/" },
+  ]},
+  { group: "Display", hint: "campaign headlines, banners, thumbnails", items: [
+    { name: "Gmarket Sans", family: "'GmarketSans','Gmarket Sans','GmarketSansBold'", w: 700, ext: true,
+      note: "The classic Korean promo headline font. Bold, geometric, instantly reads as 'event'. Free for commercial use.",
+      link: "https://corp.gmarket.com/fonts/" },
+    { name: "Paperlogy", family: "'Paperlogy'", w: 800, ext: true,
+      note: "Newer free font, very popular in Korean presentation and promo design since 2024. 9 weights.",
+      link: "https://noonnu.cc" },
+    { name: "Black Han Sans", family: "'Black Han Sans'", w: 400,
+      note: "Very heavy, punchy. Good for one big word or number on a thumbnail. Not for sentences.",
+      link: "https://fonts.google.com/specimen/Black+Han+Sans" },
+    { name: "Do Hyeon", family: "'Do Hyeon'", w: 400,
+      note: "Bold and a bit retro (from the Baemin food delivery app). Fun, casual tone.",
+      link: "https://fonts.google.com/specimen/Do+Hyeon" },
+    { name: "Gasoek One", family: "'Gasoek One'", w: 400,
+      note: "Extra heavy, poster style. Only for short, loud statements.",
+      link: "https://fonts.google.com/specimen/Gasoek+One" },
+  ]},
+  { group: "Serif (Myeongjo)", hint: "quotes, stories, a calmer tone", items: [
+    { name: "Gowun Batang", family: "'Gowun Batang'", w: 700,
+      note: "Soft, warm serif. Nice for a quote card or an emotional line in a blog post.",
+      link: "https://fonts.google.com/specimen/Gowun+Batang" },
+    { name: "Nanum Myeongjo", family: "'Nanum Myeongjo'", w: 800,
+      note: "The traditional free serif from Naver. Classic, a bit formal.",
+      link: "https://fonts.google.com/specimen/Nanum+Myeongjo" },
+    { name: "Hahmlet", family: "'Hahmlet'", w: 800,
+      note: "Contemporary serif with strong contrast. Editorial look.",
+      link: "https://fonts.google.com/specimen/Hahmlet" },
+  ]},
+  { group: "Soft and handwritten", hint: "stickers, small accents, community posts", items: [
+    { name: "Gowun Dodum", family: "'Gowun Dodum'", w: 400,
+      note: "Rounded, gentle sans. Friendly for community or guide content.",
+      link: "https://fonts.google.com/specimen/Gowun+Dodum" },
+    { name: "Jua", family: "'Jua'", w: 400,
+      note: "Round and cute. Good for stickers or tags, too childish for main copy.",
+      link: "https://fonts.google.com/specimen/Jua" },
+    { name: "Nanum Pen Script", family: "'Nanum Pen Script'", w: 400,
+      note: "Handwriting style. Use for a tiny note or arrow label, never for a full sentence block.",
+      link: "https://fonts.google.com/specimen/Nanum+Pen+Script" },
+  ]},
+];
+
+const host = document.getElementById("specimens");
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+host.innerHTML = FONTS.map(g => `
+  <h3>${g.group} <small>${g.hint}</small></h3>
+  ${g.items.map(f => `
+    <div class="row">
+      <div class="spec" lang="ko" style="font-family:${f.family},'Noto Sans KR',sans-serif;font-weight:${f.w}" data-spec></div>
+      <div class="meta">
+        <div class="name">${f.name}${f.top ? ' <span class="tag top">first pick</span>' : ''}${f.ext ? ' <span class="tag ext">not on Google Fonts</span>' : ''}</div>
+        <p>${f.note}</p>
+        <a href="${f.link}" target="_blank" rel="noopener">Get the font</a>
+        ${f.ext ? '<span class="fallback-note">Shows Noto Sans KR here unless installed</span>' : ''}
+      </div>
+    </div>`).join("")}
+`).join("");
+
+const input = document.getElementById("sample");
+const specs = () => document.querySelectorAll("[data-spec]");
+function render() {
+  const t = input.value.trim() || "다람쥐 헌 쳇바퀴에 타고파";
+  specs().forEach(el => { el.textContent = t; });
+}
+input.addEventListener("input", render);
+render();
+
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  host.style.setProperty("--spec-size", b.dataset.size);
+}));
+</script>
+</body>
+</html>
