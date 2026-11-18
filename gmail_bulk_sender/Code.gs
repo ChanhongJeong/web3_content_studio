@@ -86,12 +86,13 @@ function sendAll(form) {
   const start = Date.now();
   const { sheet, values, headers, emailCol, statusCol } = getSheetInfo_();
   let sent = 0, failed = 0, stopped = false;
+  const perMail = 1 + (form.cc ? form.cc.split(',').filter(x => x.trim()).length : 0); // 참조도 발송량에 포함
 
   for (let i = 1; i < values.length; i++) {
     const row = values[i];
     const to = String(row[emailCol] || '').trim();
     if (!to || row[statusCol] === '완료') continue;
-    if (Date.now() - start > TIME_LIMIT_MS || MailApp.getRemainingDailyQuota() < 1) { stopped = true; break; }
+    if (Date.now() - start > TIME_LIMIT_MS || MailApp.getRemainingDailyQuota() < perMail) { stopped = true; break; }
 
     const cell = sheet.getRange(i + 1, statusCol + 1);
     try {
@@ -112,5 +113,6 @@ function send_(to, subject, html, form) {
   const opts = { htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6">' + html + '</div>' };
   if (form.senderName) opts.name = form.senderName;
   if (form.replyTo) opts.replyTo = form.replyTo;
+  if (form.cc) opts.cc = form.cc;
   GmailApp.sendEmail(to, subject, toText_(html), opts);
 }
