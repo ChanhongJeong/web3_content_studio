@@ -114,5 +114,8 @@ function send_(to, subject, html, form) {
   if (form.senderName) opts.name = form.senderName;
   if (form.replyTo) opts.replyTo = form.replyTo;
   if (form.cc) opts.cc = form.cc;
+  if (form.files && form.files.length) {
+    opts.attachments = form.files.map(f => Utilities.newBlob(Utilities.base64Decode(f.data), f.type || 'application/octet-stream', f.name));
+  }
   GmailApp.sendEmail(to, subject, toText_(html), opts);
 }
