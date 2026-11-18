@@ -13,7 +13,7 @@ function onOpen() {
 }
 
 function openDialog() {
-  const html = HtmlService.createHtmlOutputFromFile('Dialog').setWidth(560).setHeight(640);
+  const html = HtmlService.createHtmlOutputFromFile('Dialog').setWidth(800).setHeight(760);
   SpreadsheetApp.getUi().showModalDialog(html, '메일 개별 발송');
 }
 
@@ -35,18 +35,26 @@ function getSheetInfo_() {
   return { sheet, values, headers, emailCol, statusCol };
 }
 
-function fill_(tpl, headers, row) {
+function fill_(tpl, headers, row, html) {
   return tpl.replace(/\{\{\s*([^}]+?)\s*\}\}/g, (m, key) => {
-    const i = headers.indexOf(key);
-    return i >= 0 ? (row[i] || '') : m;
+    const i = headers.indexOf(key.replace(/&nbsp;/g, ' ').trim());
+    if (i < 0) return m;
+    const v = String(row[i] || '');
+    return html ? v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : v;
   });
 }
 
-function toHtml_(text) {
-  return text
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1">$1</a>')
-    .replace(/\n/g, '<br>');
+/** 서식 있는 본문(HTML) → 서식 없는 메일 앱용 텍스트 */
+function toText_(html) {
+  return html
+    .replace(/<a [^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '$2 ($1)')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|li|h\d)>/gi, '\n')
+    .replace(/<li[^>]*>/gi, '· ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
 /** 다이얼로그 초기 정보 */
@@ -69,7 +77,7 @@ function sendTest(form) {
   const row = values.slice(1).find(r => r[emailCol]);
   if (!row) throw new Error('명단이 비어 있어요.');
   const me = Session.getActiveUser().getEmail();
-  send_(me, '[테스트] ' + fill_(form.subject, headers, row), fill_(form.body, headers, row), form);
+  send_(me, '[테스트] ' + fill_(form.subject, headers, row), fill_(form.body, headers, row, true), form);
   return me;
 }
 
@@ -87,7 +95,7 @@ function sendAll(form) {
 
     const cell = sheet.getRange(i + 1, statusCol + 1);
     try {
-      send_(to, fill_(form.subject, headers, row), fill_(form.body, headers, row), form);
+      send_(to, fill_(form.subject, headers, row), fill_(form.body, headers, row, true), form);
       cell.setValue('완료');
       sent++;
     } catch (e) {
@@ -100,9 +108,9 @@ function sendAll(form) {
   return { sent, failed, stopped, remaining };
 }
 
-function send_(to, subject, body, form) {
-  const opts = { htmlBody: toHtml_(body) };
+function send_(to, subject, html, form) {
+  const opts = { htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6">' + html + '</div>' };
   if (form.senderName) opts.name = form.senderName;
   if (form.replyTo) opts.replyTo = form.replyTo;
-  GmailApp.sendEmail(to, subject, body, opts);
+  GmailApp.sendEmail(to, subject, toText_(html), opts);
 }
