@@ -24,6 +24,10 @@
   #body p { margin: 0 0 10px; }
   #body a { color: #1a73e8; }
 
+  .attach { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .attach .pick { padding: 6px 12px; border: 1px dashed #9aa0a6; border-radius: 6px; background: #fff; cursor: pointer; font: inherit; }
+  .file { background: #f1f3f4; border-radius: 16px; padding: 4px 6px 4px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+  .file button { border: none; background: #dadce0; border-radius: 50%; width: 18px; height: 18px; line-height: 18px; padding: 0; cursor: pointer; font-size: 11px; }
   .vars { margin-top: 6px; color: #5f6368; font-size: 12px; }
   .vars code { background: #e8f0fe; color: #1967d2; padding: 1px 6px; border-radius: 4px; cursor: pointer; margin-right: 4px; display: inline-block; margin-bottom: 3px; }
   .btns { display: flex; gap: 8px; margin-top: 16px; }
@@ -70,6 +74,13 @@
   </div>
   <div id="body" contenteditable="true" data-placeholder="안녕하세요 {{이름}}님,&#10;&#10;내용을 적거나, 웹페이지·구글 문서에서 복사해 붙여넣어도 굵게·링크가 그대로 들어와요."></div>
   <div class="vars">클릭해서 넣기: <span id="vars"></span></div>
+
+  <label>첨부파일 (선택)</label>
+  <div class="attach">
+    <button type="button" class="pick" onclick="document.getElementById('fileInput').click()">📎 파일 추가</button>
+    <input type="file" id="fileInput" multiple style="display:none">
+    <span id="fileList"></span>
+  </div>
 
   <div class="btns">
     <button id="testBtn" onclick="test()">나에게 테스트 발송</button>
@@ -177,10 +188,33 @@
   ['senderName', 'replyTo', 'cc', 'subject'].forEach(id => document.getElementById(id).addEventListener('input', saveDraft));
   bodyEl.addEventListener('input', saveDraft);
 
+  // 첨부파일 (모든 메일에 같은 파일이 첨부됨)
+  const MAX_BYTES = 20 * 1024 * 1024; // Gmail 한도 25MB, 인코딩 여유분 고려
+  let files = [];
+  document.getElementById('fileInput').addEventListener('change', e => {
+    Array.from(e.target.files).forEach(file => {
+      const total = files.reduce((a, f) => a + f.size, 0) + file.size;
+      if (total > MAX_BYTES) return show('첨부파일은 합쳐서 20MB까지만 넣을 수 있어요.', 'err');
+      const reader = new FileReader();
+      reader.onload = () => {
+        files.push({ name: file.name, type: file.type, size: file.size, data: reader.result.split(',')[1] });
+        renderFiles();
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = '';
+  });
+  function renderFiles() {
+    document.getElementById('fileList').innerHTML = files.map((f, i) =>
+      '<span class="file">' + escapeHtml(f.name) + ' (' + (f.size / 1024 / 1024).toFixed(1) + 'MB)<button type="button" onclick="removeFile(' + i + ')">✕</button></span>'
+    ).join(' ');
+  }
+  function removeFile(i) { files.splice(i, 1); renderFiles(); }
+
   function show(text, type) { const m = document.getElementById('msg'); m.className = type; m.innerHTML = text; }
   function v(id) { return document.getElementById(id).value.trim(); }
   function bodyHtml() { return bodyEl.textContent.trim() ? bodyEl.innerHTML : ''; }
-  function form() { return { subject: v('subject'), body: bodyHtml(), senderName: v('senderName'), replyTo: v('replyTo'), cc: v('cc') }; }
+  function form() { return { subject: v('subject'), body: bodyHtml(), senderName: v('senderName'), replyTo: v('replyTo'), cc: v('cc'), files: files.map(f => ({ name: f.name, type: f.type, data: f.data })) }; }
   function lock(on) { document.getElementById('testBtn').disabled = on; document.getElementById('sendBtn').disabled = on; }
   function fail(e) { lock(false); show('오류: ' + e.message, 'err'); }
 
@@ -210,7 +244,8 @@
     const f = form();
     if (!f.subject || !f.body) return show('제목과 본문을 입력해 주세요.', 'err');
     const n = document.getElementById('pending').textContent;
-    const ccNote = f.cc ? '\n메일마다 참조(CC): ' + f.cc : '';
+    const ccNote = (f.cc ? '\n메일마다 참조(CC): ' + f.cc : '') +
+      (files.length ? '\n첨부파일: ' + files.map(x => x.name).join(', ') : '\n첨부파일 없음');
     if (!confirm(n + '명에게 한 명씩 따로 발송합니다.' + ccNote + '\n진행할까요?')) return;
     lock(true); show('발송 중... 창을 닫지 말아 주세요. (시트의 "발송상태" 열에서 진행 상황이 보여요)', 'info');
     google.script.run.withSuccessHandler(r => {
