@@ -21,8 +21,11 @@ function getSheetInfo_() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const values = sheet.getDataRange().getDisplayValues();
   const headers = values[0].map(h => String(h).trim());
-  let emailCol = headers.findIndex(h => /(메일|email|e-mail|mail)/i.test(h));
-  if (emailCol < 0) throw new Error('1행에 "이메일" 열이 없어요.');
+  // 헤더 이름과 상관없이, 실제로 메일 주소(@)가 들어 있는 열을 찾음
+  const data = values.slice(1);
+  const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim());
+  const emailCol = headers.findIndex((h, c) => data.some(r => isEmail(r[c])));
+  if (emailCol < 0) throw new Error('메일 주소가 들어 있는 열을 찾지 못했어요. 2행부터 메일 주소를 넣어 주세요.');
   let statusCol = headers.indexOf(STATUS_HEADER);
   if (statusCol < 0) {
     statusCol = headers.length;
