@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; font-size: 13px; color: #202124; margin: 0; padding: 4px 2px; }
+  .stats { display: flex; gap: 8px; margin-bottom: 14px; }
+  .stat { flex: 1; background: #f1f3f4; border-radius: 8px; padding: 8px 10px; }
+  .stat b { display: block; font-size: 18px; }
+  .stat span { color: #5f6368; font-size: 11px; }
+  label { display: block; font-weight: 600; margin: 10px 0 4px; }
+  input, textarea { width: 100%; padding: 8px 10px; border: 1px solid #dadce0; border-radius: 6px; font: inherit; }
+  textarea { height: 200px; resize: vertical; line-height: 1.5; }
+  .row { display: flex; gap: 8px; }
+  .row > div { flex: 1; }
+  .vars { margin-top: 6px; color: #5f6368; font-size: 12px; }
+  .vars code { background: #e8f0fe; color: #1967d2; padding: 1px 6px; border-radius: 4px; cursor: pointer; margin-right: 4px; display: inline-block; margin-bottom: 3px; }
+  .btns { display: flex; gap: 8px; margin-top: 16px; }
+  button { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #dadce0; background: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  button.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  button:disabled { opacity: .5; cursor: default; }
+  #msg { margin-top: 12px; padding: 10px; border-radius: 6px; display: none; line-height: 1.5; }
+  #msg.ok { display: block; background: #e6f4ea; color: #137333; }
+  #msg.err { display: block; background: #fce8e6; color: #c5221f; }
+  #msg.info { display: block; background: #e8f0fe; color: #1967d2; }
+</style>
+</head>
+<body>
+  <div class="stats">
+    <div class="stat"><b id="total">-</b><span>전체 명단</span></div>
+    <div class="stat"><b id="pending">-</b><span>보낼 사람</span></div>
+    <div class="stat"><b id="quota">-</b><span>오늘 남은 발송량</span></div>
+  </div>
+
+  <div class="row">
+    <div><label>보내는 사람 이름 (선택)</label><input id="senderName" placeholder="예: 홍길동"></div>
+    <div><label>답장 받을 주소 (선택)</label><input id="replyTo" placeholder="비우면 내 주소"></div>
+  </div>
+
+  <label>제목</label>
+  <input id="subject" placeholder="예: {{이름}}님, 안내드립니다">
+
+  <label>본문</label>
+  <textarea id="body" placeholder="안녕하세요 {{이름}}님,&#10;&#10;내용을 적어주세요."></textarea>
+  <div class="vars">클릭해서 넣기: <span id="vars"></span></div>
+
+  <div class="btns">
+    <button id="testBtn" onclick="test()">나에게 테스트 발송</button>
+    <button id="sendBtn" class="primary" onclick="sendAll()">전체 발송</button>
+  </div>
+  <div id="msg"></div>
+
+<script>
+  let lastFocus = 'body';
+  ['subject', 'body'].forEach(id => document.getElementById(id).addEventListener('focus', () => lastFocus = id));
+
+  function show(text, type) { const m = document.getElementById('msg'); m.className = type; m.innerHTML = text; }
+  function form() {
+    return {
+      subject: v('subject'), body: v('body'),
+      senderName: v('senderName'), replyTo: v('replyTo')
+    };
+  }
+  function v(id) { return document.getElementById(id).value.trim(); }
+  function lock(on) { document.getElementById('testBtn').disabled = on; document.getElementById('sendBtn').disabled = on; }
+  function fail(e) { lock(false); show('오류: ' + e.message, 'err'); }
+
+  function refresh() {
+    google.script.run.withSuccessHandler(info => {
+      document.getElementById('total').textContent = info.total;
+      document.getElementById('pending').textContent = info.pending;
+      document.getElementById('quota').textContent = info.quota;
+      document.getElementById('vars').innerHTML = info.headers.map(h => '<code>{{' + h + '}}</code>').join('');
+      document.querySelectorAll('#vars code').forEach(c => c.onclick = () => insert(c.textContent));
+    }).withFailureHandler(fail).getInfo();
+  }
+
+  function insert(text) {
+    const el = document.getElementById(lastFocus);
+    const s = el.selectionStart, e = el.selectionEnd;
+    el.value = el.value.slice(0, s) + text + el.value.slice(e);
+    el.focus(); el.selectionStart = el.selectionEnd = s + text.length;
+  }
+
+  function test() {
+    const f = form();
+    if (!f.subject || !f.body) return show('제목과 본문을 입력해 주세요.', 'err');
+    lock(true); show('테스트 메일 보내는 중...', 'info');
+    google.script.run.withSuccessHandler(me => {
+      lock(false); show(me + ' 로 테스트 메일을 보냈어요. 받은편지함에서 확인해 보세요.', 'ok');
+    }).withFailureHandler(fail).sendTest(f);
+  }
+
+  function sendAll() {
+    const f = form();
+    if (!f.subject || !f.body) return show('제목과 본문을 입력해 주세요.', 'err');
+    const n = document.getElementById('pending').textContent;
+    if (!confirm(n + '명에게 한 명씩 따로 발송합니다. 진행할까요?')) return;
+    lock(true); show('발송 중... 창을 닫지 말아 주세요. (시트의 "발송상태" 열에서 진행 상황이 보여요)', 'info');
+    google.script.run.withSuccessHandler(r => {
+      lock(false); refresh();
+      let t = '<b>' + r.sent + '명 발송 완료</b>' + (r.failed ? ', 실패 ' + r.failed + '명 (시트에서 확인)' : '');
+      if (r.remaining > 0) t += '<br>아직 ' + r.remaining + '명 남았어요. ' +
+        (r.stopped ? '시간/발송량 제한으로 멈췄어요. 다시 "전체 발송"을 누르면 남은 사람부터 이어서 보내요.' : '');
+      show(t, r.failed ? 'err' : 'ok');
+    }).withFailureHandler(fail).sendAll(f);
+  }
+
+  refresh();
+</script>
+</body>
+</html>
