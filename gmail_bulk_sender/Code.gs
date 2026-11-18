@@ -21,7 +21,7 @@ function getSheetInfo_() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const values = sheet.getDataRange().getDisplayValues();
   const headers = values[0].map(h => String(h).trim());
-  let emailCol = headers.findIndex(h => /^(이메일|메일|email|e-mail|mail)$/i.test(h));
+  let emailCol = headers.findIndex(h => /(메일|email|e-mail|mail)/i.test(h));
   if (emailCol < 0) throw new Error('1행에 "이메일" 열이 없어요.');
   let statusCol = headers.indexOf(STATUS_HEADER);
   if (statusCol < 0) {

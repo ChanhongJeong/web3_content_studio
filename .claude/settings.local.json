@@ -3,7 +3,27 @@
     "allow": [
       "Bash(python3 salary_calculator.py)",
       "Bash(chmod +x \"/Users/aioteuleoseuteu/Desktop/클로드/연봉계산기.command\")",
-      "Bash(open \"/Users/aioteuleoseuteu/Desktop/클로드/index.html\")"
+      "Bash(open \"/Users/aioteuleoseuteu/Desktop/클로드/index.html\")",
+      "Bash(python3 -c ' *)",
+      "WebFetch",
+      "WebSearch",
+      "Bash(python3)",
+      "Bash(sips -g pixelWidth -g pixelHeight event_page_kr.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight event_page_en.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight event_page_kr.jpg)",
+      "Bash(sips -g pixelWidth -g pixelHeight event_page_en.jpg)",
+      "Bash(sed -i '' 's|event_page_kr\\\\.jpg|event_page_kr_u.png|g' referral_outreach_affiliate_kr.html)",
+      "Bash(sed -i '' 's|event_page_en\\\\.jpg|event_page_en_u.png|g' referral_outreach_affiliate_en.html)",
+      "Bash(sips -g pixelWidth -g pixelHeight 1.jpg)",
+      "Bash(open \"/Users/aioteuleoseuteu/Desktop/클로드/campaign/proposal_ault_partnership.html\")",
+      "Bash(open /Users/aioteuleoseuteu/Desktop/클로드/campaign/proposal_tether_partnership.html)",
+      "Bash(open -a \"Google Chrome\" /Users/aioteuleoseuteu/Desktop/클로드/cv/cv_chanhong_jeong_en.html)",
+      "Bash(open /Users/aioteuleoseuteu/Desktop/클로드/cv/cv_chanhong_jeong_en.html)",
+      "Bash(osascript -e 'tell application \"Google Chrome\" to reload active tab of window 1')",
+      "Bash(python3 -c \"import openpyxl; print\\('openpyxl OK'\\)\")",
+      "Bash(adb -s adb-R3CX503NP2J-LjgmIC._adb-tls-connect._tcp shell dumpsys SurfaceFlinger --display-id)",
+      "Bash(adb -s adb-R3CX503NP2J-LjgmIC._adb-tls-connect._tcp exec-out screencap -p -d 4630947175568309891)",
+      "Bash(adb -s adb-R3CX503NP2J-LjgmIC._adb-tls-connect._tcp exec-out screencap -p -d 4630946481096930692)"
     ]
   }
 }
