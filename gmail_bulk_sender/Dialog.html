@@ -10,15 +10,25 @@
   .stat b { display: block; font-size: 18px; }
   .stat span { color: #5f6368; font-size: 11px; }
   label { display: block; font-weight: 600; margin: 10px 0 4px; }
-  input, textarea { width: 100%; padding: 8px 10px; border: 1px solid #dadce0; border-radius: 6px; font: inherit; }
-  textarea { height: 200px; resize: vertical; line-height: 1.5; }
+  input { width: 100%; padding: 8px 10px; border: 1px solid #dadce0; border-radius: 6px; font: inherit; }
   .row { display: flex; gap: 8px; }
   .row > div { flex: 1; }
+
+  .toolbar { display: flex; gap: 4px; flex-wrap: wrap; padding: 6px; border: 1px solid #dadce0; border-bottom: none; border-radius: 6px 6px 0 0; background: #f8f9fa; }
+  .toolbar button { flex: none; padding: 4px 10px; font-size: 13px; font-weight: 500; border-radius: 4px; border: 1px solid transparent; background: none; }
+  .toolbar button:hover { background: #e8eaed; }
+  .toolbar .sep { width: 1px; background: #dadce0; margin: 2px 4px; }
+  #body { min-height: 300px; max-height: 420px; overflow-y: auto; padding: 12px 14px; border: 1px solid #dadce0; border-radius: 0 0 6px 6px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; outline: none; }
+  #body:focus { border-color: #1a73e8; }
+  #body:empty::before { content: attr(data-placeholder); color: #9aa0a6; white-space: pre-line; }
+  #body p { margin: 0 0 10px; }
+  #body a { color: #1a73e8; }
+
   .vars { margin-top: 6px; color: #5f6368; font-size: 12px; }
   .vars code { background: #e8f0fe; color: #1967d2; padding: 1px 6px; border-radius: 4px; cursor: pointer; margin-right: 4px; display: inline-block; margin-bottom: 3px; }
   .btns { display: flex; gap: 8px; margin-top: 16px; }
-  button { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #dadce0; background: #fff; font: inherit; font-weight: 600; cursor: pointer; }
-  button.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .btns button { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #dadce0; background: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  .btns button.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
   button:disabled { opacity: .5; cursor: default; }
   #msg { margin-top: 12px; padding: 10px; border-radius: 6px; display: none; line-height: 1.5; }
   #msg.ok { display: block; background: #e6f4ea; color: #137333; }
@@ -42,7 +52,20 @@
   <input id="subject" placeholder="예: {{이름}}님, 안내드립니다">
 
   <label>본문</label>
-  <textarea id="body" placeholder="안녕하세요 {{이름}}님,&#10;&#10;내용을 적어주세요."></textarea>
+  <div class="toolbar">
+    <button type="button" data-cmd="bold" title="굵게 (⌘B)"><b>B</b></button>
+    <button type="button" data-cmd="italic" title="기울임 (⌘I)"><i>I</i></button>
+    <button type="button" data-cmd="underline" title="밑줄 (⌘U)"><u>U</u></button>
+    <span class="sep"></span>
+    <button type="button" id="linkBtn" title="링크 넣기 (⌘K)">🔗 링크</button>
+    <button type="button" data-cmd="unlink" title="링크 빼기">링크 해제</button>
+    <span class="sep"></span>
+    <button type="button" data-cmd="insertUnorderedList">• 목록</button>
+    <button type="button" data-cmd="insertOrderedList">1. 목록</button>
+    <span class="sep"></span>
+    <button type="button" data-cmd="removeFormat" title="선택한 글자의 서식 지우기">서식 지우기</button>
+  </div>
+  <div id="body" contenteditable="true" data-placeholder="안녕하세요 {{이름}}님,&#10;&#10;내용을 적거나, 웹페이지·구글 문서에서 복사해 붙여넣어도 굵게·링크가 그대로 들어와요."></div>
   <div class="vars">클릭해서 넣기: <span id="vars"></span></div>
 
   <div class="btns">
@@ -52,17 +75,109 @@
   <div id="msg"></div>
 
 <script>
+  const DRAFT_KEY = 'gmail-bulk-draft-v2';
+  const bodyEl = document.getElementById('body');
   let lastFocus = 'body';
-  ['subject', 'body'].forEach(id => document.getElementById(id).addEventListener('focus', () => lastFocus = id));
+  let savedRange = null;
+
+  // 본문 커서 위치 기억 (툴바·변수 버튼 누를 때 선택 영역 유지)
+  document.addEventListener('selectionchange', () => {
+    const sel = window.getSelection();
+    if (sel.rangeCount && bodyEl.contains(sel.anchorNode)) savedRange = sel.getRangeAt(0).cloneRange();
+  });
+  function restoreRange() {
+    bodyEl.focus();
+    if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+  }
+  document.getElementById('subject').addEventListener('focus', () => lastFocus = 'subject');
+  bodyEl.addEventListener('focus', () => lastFocus = 'body');
+
+  // 툴바
+  document.querySelectorAll('.toolbar button').forEach(b => b.addEventListener('mousedown', e => e.preventDefault()));
+  document.querySelectorAll('.toolbar [data-cmd]').forEach(b => b.addEventListener('click', () => {
+    restoreRange(); document.execCommand(b.dataset.cmd, false, null); saveDraft();
+  }));
+  document.getElementById('linkBtn').addEventListener('click', addLink);
+  bodyEl.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); addLink(); }
+  });
+  function addLink() {
+    restoreRange();
+    const range = savedRange;
+    let url = prompt('링크 주소를 넣어 주세요', 'https://');
+    if (!url || url === 'https://') return;
+    if (!/^(https?:|mailto:)/i.test(url)) url = 'https://' + url;
+    restoreRange();
+    if (range && !range.collapsed) document.execCommand('createLink', false, url);
+    else document.execCommand('insertHTML', false, '<a href="' + url.replace(/"/g, '&quot;') + '">' + escapeHtml(url) + '</a>&nbsp;');
+    saveDraft();
+  }
+
+  // 붙여넣기: 굵게·기울임·밑줄·링크·목록만 남기고 글꼴·색 등은 정리
+  const KEEP = { B: 1, STRONG: 1, I: 1, EM: 1, U: 1, A: 1, BR: 1, P: 1, DIV: 1, UL: 1, OL: 1, LI: 1, H1: 1, H2: 1, H3: 1, H4: 1 };
+  bodyEl.addEventListener('paste', e => {
+    const html = e.clipboardData.getData('text/html');
+    if (!html) return; // 일반 텍스트는 기본 동작
+    e.preventDefault();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    document.execCommand('insertHTML', false, clean(doc.body));
+    saveDraft();
+  });
+  function clean(node) {
+    let out = '';
+    node.childNodes.forEach(n => {
+      if (n.nodeType === 3) { out += escapeHtml(n.textContent); return; }
+      if (n.nodeType !== 1) return;
+      const tag = n.tagName;
+      if (/^(STYLE|SCRIPT|META|TITLE|BUTTON)$/.test(tag)) return;
+      let inner = clean(n);
+      const st = n.style || {};
+      // 구글 문서처럼 span 스타일로 굵게/기울임을 주는 경우
+      if (/^(bold|[6-9]00)$/.test(st.fontWeight) && tag !== 'B' && tag !== 'STRONG' && !/^H\d$/.test(tag)) inner = '<b>' + inner + '</b>';
+      if (st.fontStyle === 'italic' && tag !== 'I' && tag !== 'EM') inner = '<i>' + inner + '</i>';
+      if (/underline/.test(st.textDecoration || st.textDecorationLine || '') && tag !== 'U' && tag !== 'A') inner = '<u>' + inner + '</u>';
+      if (!KEEP[tag]) { out += inner; return; }
+      if (tag === 'BR') { out += '<br>'; return; }
+      if (tag === 'A') { const h = n.getAttribute('href'); out += h ? '<a href="' + h.replace(/"/g, '&quot;') + '">' + inner + '</a>' : inner; return; }
+      const t = /^H\d$/.test(tag) ? 'p' : tag.toLowerCase();
+      out += /^H\d$/.test(tag) ? '<p><b>' + inner + '</b></p>' : '<' + t + '>' + inner + '</' + t + '>';
+    });
+    return out;
+  }
+  function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  // 변수 넣기
+  function insert(text) {
+    if (lastFocus === 'subject') {
+      const el = document.getElementById('subject');
+      const s = el.selectionStart, e = el.selectionEnd;
+      el.value = el.value.slice(0, s) + text + el.value.slice(e);
+      el.focus(); el.selectionStart = el.selectionEnd = s + text.length;
+    } else {
+      restoreRange(); document.execCommand('insertText', false, text);
+    }
+    saveDraft();
+  }
+
+  // 임시 저장 (창을 닫아도 작성 중인 내용 유지)
+  function saveDraft() {
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ senderName: v('senderName'), replyTo: v('replyTo'), subject: v('subject'), body: bodyEl.innerHTML })); } catch (e) {}
+  }
+  function loadDraft() {
+    try {
+      const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+      if (!d) return;
+      ['senderName', 'replyTo', 'subject'].forEach(k => document.getElementById(k).value = d[k] || '');
+      bodyEl.innerHTML = d.body || '';
+    } catch (e) {}
+  }
+  ['senderName', 'replyTo', 'subject'].forEach(id => document.getElementById(id).addEventListener('input', saveDraft));
+  bodyEl.addEventListener('input', saveDraft);
 
   function show(text, type) { const m = document.getElementById('msg'); m.className = type; m.innerHTML = text; }
-  function form() {
-    return {
-      subject: v('subject'), body: v('body'),
-      senderName: v('senderName'), replyTo: v('replyTo')
-    };
-  }
   function v(id) { return document.getElementById(id).value.trim(); }
+  function bodyHtml() { return bodyEl.textContent.trim() ? bodyEl.innerHTML : ''; }
+  function form() { return { subject: v('subject'), body: bodyHtml(), senderName: v('senderName'), replyTo: v('replyTo') }; }
   function lock(on) { document.getElementById('testBtn').disabled = on; document.getElementById('sendBtn').disabled = on; }
   function fail(e) { lock(false); show('오류: ' + e.message, 'err'); }
 
@@ -72,15 +187,11 @@
       document.getElementById('pending').textContent = info.pending;
       document.getElementById('quota').textContent = info.quota;
       document.getElementById('vars').innerHTML = info.headers.map(h => '<code>{{' + h + '}}</code>').join('');
-      document.querySelectorAll('#vars code').forEach(c => c.onclick = () => insert(c.textContent));
+      document.querySelectorAll('#vars code').forEach(c => {
+        c.addEventListener('mousedown', e => e.preventDefault());
+        c.onclick = () => insert(c.textContent);
+      });
     }).withFailureHandler(fail).getInfo();
-  }
-
-  function insert(text) {
-    const el = document.getElementById(lastFocus);
-    const s = el.selectionStart, e = el.selectionEnd;
-    el.value = el.value.slice(0, s) + text + el.value.slice(e);
-    el.focus(); el.selectionStart = el.selectionEnd = s + text.length;
   }
 
   function test() {
@@ -107,6 +218,7 @@
     }).withFailureHandler(fail).sendAll(f);
   }
 
+  loadDraft();
   refresh();
 </script>
 </body>
