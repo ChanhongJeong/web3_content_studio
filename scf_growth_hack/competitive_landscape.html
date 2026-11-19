@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DCENT Stellar Competitive Landscape</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+@page { size: 1123px 794px; margin: 0; }
+:root {
+  --green: #2EB372; --green-d: #0a8f4f; --green-soft: #e7f6ee;
+  --ink: #0f1e17; --body: #41534a; --muted: #7a8a81; --tint: #f5faf7; --line: #e4ede8; --gray: #a7b4ad;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 1123px; height: 794px; position: relative; overflow: hidden; page-break-after: always; background: #fff; }
+.page:last-child { page-break-after: auto; }
+.bar { height: 6px; background: var(--green); }
+.inner { padding: 30px 44px 0; }
+.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.kicker { font-size: 11px; font-weight: 800; letter-spacing: .2em; color: var(--green-d); text-transform: uppercase; }
+h1 { font-size: 32px; font-weight: 800; letter-spacing: -.022em; line-height: 1.12; margin-top: 8px; }
+h1 em { font-style: normal; color: var(--green); }
+.sub { font-size: 13px; color: var(--body); margin-top: 8px; max-width: 700px; line-height: 1.5; }
+.wordmark { display: block; width: 118px; margin-top: 4px; }
+.wordmark img { display: block; width: 100%; height: auto; }
+
+.grid1 { display: grid; grid-template-columns: 560px 1fr; gap: 36px; margin-top: 30px; }
+.map-wrap h3, .diff h3 { font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+svg.map { display: block; width: 560px; height: 482px; }
+svg.map text { font-family: 'Manrope', Arial, sans-serif; }
+
+.diff { display: grid; gap: 14px; align-content: start; }
+.d { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.d:last-child { border-bottom: 0; }
+.ico { width: 34px; height: 34px; border-radius: 9px; background: var(--green); display: grid; place-items: center; }
+.ico svg { width: 18px; height: 18px; }
+.d h4 { font-size: 14.5px; font-weight: 800; letter-spacing: -.01em; }
+.d p { font-size: 11.5px; color: var(--body); line-height: 1.45; margin-top: 3px; }
+.d p b { color: var(--ink); }
+
+.foot { position: absolute; left: 44px; right: 44px; bottom: 20px; display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.foot b { color: var(--green-d); font-weight: 800; }
+
+/* page 2 */
+table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 12px; }
+th { text-align: center; font-size: 11px; font-weight: 800; padding: 12px 10px; color: var(--ink); border-bottom: 2px solid var(--ink); line-height: 1.3; }
+th:first-child { text-align: left; width: 330px; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+th.us { background: var(--green); color: #fff; border-radius: 12px 12px 0 0; border-bottom-color: var(--green); }
+th small { display: block; font-size: 9.5px; font-weight: 600; color: var(--muted); margin-top: 2px; }
+th.us small { color: #dff5e9; }
+td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: center; color: var(--body); }
+td:first-child { text-align: left; color: var(--ink); font-weight: 700; }
+td:first-child span { display: block; font-weight: 500; color: var(--muted); font-size: 10.5px; margin-top: 1px; }
+td.us { background: var(--green-soft); }
+tr:last-child td.us { border-radius: 0 0 12px 12px; }
+.y, .p, .n { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: 800; }
+.y { background: var(--green); color: #fff; }
+.p { border: 2px solid var(--gray); color: var(--muted); font-size: 10px; }
+.n { color: #b9c4be; }
+.legend { display: flex; gap: 22px; margin-top: 12px; font-size: 10.5px; color: var(--body); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend .y, .legend .p, .legend .n { width: 18px; height: 18px; font-size: 10px; }
+
+.proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
+.pf { background: var(--tint); border-radius: 14px; padding: 14px 16px; }
+.pf .num { font-size: 24px; font-weight: 800; letter-spacing: -.02em; color: var(--green-d); }
+.pf .lbl { font-size: 11px; color: var(--body); line-height: 1.4; margin-top: 3px; }
+.note { font-size: 9.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="page">
+  <div class="bar"></div>
+  <div class="inner">
+    <div class="head">
+      <div>
+        <div class="kicker">Competitive landscape · Stellar in Korea</div>
+        <h1>Hardware-grade security <em>and</em> full Stellar DeFi, in one wallet</h1>
+        <p class="sub">Korean XLM holders today choose between safe storage and easy use. Exchanges are easy but custodial. Hardware wallets are safe but stop at send and receive. Software wallets reach Stellar DeFi but keep keys on a phone or browser. DCENT gives holders both.</p>
+      </div>
+      <div class="wordmark"><img src="logos/dcent_black.png" alt="DCENT"></div>
+    </div>
+
+    <div class="grid1">
+      <div class="map-wrap">
+        <h3>Where holders can go today</h3>
+        <svg class="map" viewBox="0 0 500 430">
+          <!-- quadrants -->
+          <rect x="40" y="10" width="225" height="190" fill="#f5faf7"/>
+          <rect x="265" y="10" width="225" height="190" fill="#e7f6ee"/>
+          <rect x="40" y="200" width="225" height="190" fill="#fafcfb"/>
+          <rect x="265" y="200" width="225" height="190" fill="#f5faf7"/>
+          <line x1="265" y1="10" x2="265" y2="390" stroke="#e4ede8" stroke-width="1.5"/>
+          <line x1="40" y1="200" x2="490" y2="200" stroke="#e4ede8" stroke-width="1.5"/>
+          <!-- axes -->
+          <line x1="40" y1="390" x2="490" y2="390" stroke="#0f1e17" stroke-width="1.5"/>
+          <line x1="40" y1="10" x2="40" y2="390" stroke="#0f1e17" stroke-width="1.5"/>
+          <path d="M484,385 L492,390 L484,395" fill="none" stroke="#0f1e17" stroke-width="1.5"/>
+          <path d="M35,16 L40,8 L45,16" fill="none" stroke="#0f1e17" stroke-width="1.5"/>
+          <text x="490" y="412" text-anchor="end" font-size="11" font-weight="800" fill="#0f1e17">Access to Stellar utility (dApps, swaps, vaults) →</text>
+          <text x="22" y="390" font-size="11" font-weight="800" fill="#0f1e17" transform="rotate(-90 22 390)">Key security (certified secure element, on-device approval) →</text>
+
+          <!-- exchanges -->
+          <circle cx="110" cy="330" r="9" fill="#a7b4ad"/>
+          <text x="124" y="327" font-size="12.5" font-weight="800" fill="#0f1e17">Korean exchanges</text>
+          <text x="124" y="342" font-size="10.5" fill="#7a8a81">Easy to buy, custodial,</text>
+          <text x="124" y="355" font-size="10.5" fill="#7a8a81">no on-chain Stellar use</text>
+          <!-- software wallets -->
+          <circle cx="345" cy="290" r="9" fill="#a7b4ad"/>
+          <text x="359" y="287" font-size="12.5" font-weight="800" fill="#0f1e17">Stellar software</text>
+          <text x="359" y="301" font-size="12.5" font-weight="800" fill="#0f1e17">wallets</text>
+          <text x="359" y="316" font-size="10.5" fill="#7a8a81">Reach Stellar DeFi, keys</text>
+          <text x="359" y="329" font-size="10.5" fill="#7a8a81">on a phone or browser</text>
+          <!-- other HW -->
+          <circle cx="105" cy="80" r="9" fill="#a7b4ad"/>
+          <text x="119" y="77" font-size="12.5" font-weight="800" fill="#0f1e17">Other hardware wallets</text>
+          <text x="119" y="92" font-size="10.5" fill="#7a8a81">Safe storage, Stellar mostly</text>
+          <text x="119" y="105" font-size="10.5" fill="#7a8a81">limited to send and receive</text>
+          <!-- dcent -->
+          <circle cx="420" cy="62" r="22" fill="#2EB372" fill-opacity=".18"/>
+          <circle cx="420" cy="62" r="12" fill="#2EB372"/>
+          <text x="420" y="104" text-anchor="middle" font-size="15" font-weight="800" fill="#0a8f4f">DCENT</text>
+          <text x="420" y="120" text-anchor="middle" font-size="10.5" fill="#41534a">Hardware security</text>
+          <text x="420" y="133" text-anchor="middle" font-size="10.5" fill="#41534a">+ full Stellar DeFi</text>
+        </svg>
+      </div>
+
+      <div class="diff">
+        <h3>What sets DCENT apart</h3>
+        <div class="d">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div><h4>Security first, so holders can actually use DeFi</h4><p>Keys stay in a certified secure element (EAL5+ to EAL6+) across the DCENT lineup. Every dApp, swap and vault action is approved on the device, and official vault routes sit inside the app to keep users away from phishing sites.</p></div>
+        </div>
+        <div class="d">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <div><h4>Full Stellar support on a hardware wallet</h4><p>Native Stellar dApps, Stellar and cross-chain swaps, and Soroban vaults (<b>Sentora</b>, <b>Upshift by Gami</b>) in one app. DCENT is the only hardware wallet supported by Sentora's Stellar vault.</p></div>
+        </div>
+        <div class="d">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          <div><h4>Start with zero XLM</h4><p>DCENT sponsors the base reserve and network fees, so a new holder can open a Stellar account, add trustlines and make a first move without buying XLM for gas.</p></div>
+        </div>
+        <div class="d">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/></svg></div>
+          <div><h4>A local playbook that already works</h4><p>DCENT moved Korean XRP holders into on-chain vaults through XRP Alliance, ran Stellar Night Seoul with SDF, and works with Korean crypto creators who already cover XLM.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>DCENT</b> · Competitive landscape · SCF Growth Hack application</span><span>01</span></div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page">
+  <div class="bar"></div>
+  <div class="inner">
+    <div class="head">
+      <div>
+        <div class="kicker">Feature comparison</div>
+        <h1>What a Korean XLM holder <em>can do</em>, by option</h1>
+      </div>
+      <div class="wordmark"><img src="logos/dcent_black.png" alt="DCENT"></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th class="us">DCENT<small>Hardware + app</small></th>
+          <th>Other hardware wallets<small>Global brands</small></th>
+          <th>Stellar software wallets<small>Mobile and browser</small></th>
+          <th>Korean exchanges<small>Custodial</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Self-custody<span>The user, not a company, controls the keys</span></td><td class="us"><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>Keys in a certified secure element<span>Isolated hardware, approval on the device</span></td><td class="us"><i class="y">✓</i></td><td><i class="y">✓</i></td><td><i class="n">✕</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>Stellar dApps in the wallet's own app<span>Connect and sign without a third-party wallet</span></td><td class="us"><i class="y">✓</i></td><td><i class="p">~</i></td><td><i class="y">✓</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>In-app access to Stellar vaults<span>Sentora, Upshift by Gami</span></td><td class="us"><i class="y">✓</i></td><td><i class="n">✕</i></td><td><i class="p">~</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>Start with zero XLM<span>Reserve and fees sponsored for new accounts</span></td><td class="us"><i class="y">✓</i></td><td><i class="n">✕</i></td><td><i class="p">~</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>Stellar and cross-chain swaps in app<span>Assets return to the user's own address</span></td><td class="us"><i class="y">✓</i></td><td><i class="p">~</i></td><td><i class="p">~</i></td><td><i class="n">✕</i></td></tr>
+        <tr><td>Korean-language guides and support<span>Local team, Korean content</span></td><td class="us"><i class="y">✓</i></td><td><i class="p">~</i></td><td><i class="n">✕</i></td><td><i class="y">✓</i></td></tr>
+        <tr><td>On-chain DeFi campaigns with local creators<span>Quests verified on-chain, Korean creator content</span></td><td class="us"><i class="y">✓</i></td><td><i class="n">✕</i></td><td><i class="n">✕</i></td><td><i class="p">~</i></td></tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <span><i class="y">✓</i>Supported</span>
+      <span><i class="p">~</i>Partial, or depends on the product</span>
+      <span><i class="n">✕</i>Not available</span>
+    </div>
+
+    <div class="proof">
+      <div class="pf"><div class="num">1M+</div><div class="lbl">DCENT users in 220+ countries, built by IoTrust in Seoul since 2017</div></div>
+      <div class="pf"><div class="num">60K+</div><div class="lbl">Stellar wallets in DCENT, holding 550M+ XLM</div></div>
+      <div class="pf"><div class="num">8.5M XRP</div><div class="lbl">deposited by 4,817 addresses in our 3-week Flare vault campaign, about 92% still there after 2 months</div></div>
+      <div class="pf"><div class="num">~1,000</div><div class="lbl">registrations for Stellar Night Seoul, SDF's first event in Korea, run by DCENT</div></div>
+    </div>
+    <p class="note">Comparison by product category, based on publicly available product information as of November 2026. Features vary by product within each category.</p>
+  </div>
+  <div class="foot"><span><b>DCENT</b> · Competitive landscape · SCF Growth Hack application</span><span>02</span></div>
+</section>
+
+</body>
+</html>
