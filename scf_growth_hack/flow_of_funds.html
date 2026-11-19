@@ -41,14 +41,15 @@ h1 em { font-style: normal; color: var(--green); }
 .left .node { height: 94px; }
 .right .node { height: 74px; padding: 10px 14px; }
 
-.hub { position: absolute; left: 385px; top: 0; width: 265px; height: 430px; border: 2px solid var(--green); border-radius: 22px; padding: 20px 20px 18px; display: flex; flex-direction: column; align-items: center; text-align: center; background: #fff; }
-.hub .k { font-size: 10px; font-weight: 800; letter-spacing: .2em; color: var(--green-d); text-transform: uppercase; }
-.device { display: block; width: 104px; margin-top: 12px; }
+.hub { position: absolute; left: 385px; top: 0; width: 265px; height: 430px; border: 2px solid var(--green); border-radius: 22px; padding: 18px 18px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; background: #141a17; color: #fff; }
+.hub .k { font-size: 10px; font-weight: 800; letter-spacing: .2em; color: var(--green); text-transform: uppercase; }
+.device { display: block; width: 225px; margin-top: 10px; border-radius: 12px; overflow: hidden; }
 .device img { display: block; width: 100%; height: auto; }
-.hub h2 { font-size: 19px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin-top: 14px; }
-.hub p { font-size: 11px; color: var(--body); line-height: 1.45; margin-top: 6px; }
+.hub h2 { font-size: 19px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin-top: 12px; color: #fff; }
+.hub p { font-size: 11px; color: #c3d1c9; line-height: 1.45; margin-top: 6px; }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-top: 10px; }
-.chip { font-size: 10px; font-weight: 700; color: var(--green-d); background: var(--green-soft); border-radius: 99px; padding: 3px 9px; }
+.chip { font-size: 10px; font-weight: 700; color: #7ee2ad; border: 1px solid #2EB372; border-radius: 99px; padding: 2px 9px; }
+.glyph.g { border: 0; background: var(--green); }
 
 svg.arrows { position: absolute; left: 0; top: 0; width: 1035px; height: 430px; overflow: visible; }
 svg.arrows text { font-family: 'Manrope', Arial, sans-serif; font-size: 10px; font-weight: 700; fill: var(--body); }
@@ -88,7 +89,7 @@ tr.grp td { padding: 12px 12px 4px; font-size: 9.5px; font-weight: 800; letter-s
       <div>
         <div class="kicker">Flow of funds · Stellar</div>
         <h1>Every flow starts and ends in <em>the user's own account</em></h1>
-        <p class="sub">DCENT is a self-custody hardware wallet. DCENT never holds, pools or moves user funds. Users confirm every transaction on the device screen and approve it with a fingerprint.</p>
+        <p class="sub">DCENT is a self-custody hardware wallet. DCENT never holds, pools or moves user funds. Users approve every transaction on their DCENT hardware wallet.</p>
       </div>
       <div class="wordmark"><img src="logos/dcent_black.png" alt="DCENT"></div>
     </div>
@@ -114,7 +115,7 @@ tr.grp td { padding: 12px 12px 4px; font-size: 9.5px; font-weight: 800; letter-s
           <text x="324" y="39">XLM · USDC</text>
           <text x="324" y="151">Transfer in</text>
           <text x="324" y="263">Reserve + fees</text>
-          <text x="324" y="375">XLM rewards</text>
+          <text x="324" y="375">Rewards</text>
         </g>
         <!-- right: out and back -->
         <g stroke="#2EB372" stroke-width="2" fill="none">
@@ -147,21 +148,21 @@ tr.grp td { padding: 12px 12px 4px; font-size: 9.5px; font-weight: 800; letter-s
           <div><h3>Exchanges and other wallets</h3><p>Holders move XLM and Stellar assets from exchanges such as Upbit into self-custody.</p></div>
         </div>
         <div class="node dcent" style="left:0;top:224px">
-          <div class="logo"><img src="logos/dcent_logo.png" alt=""></div>
+          <div class="glyph g"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h12M4 10h10M14 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V8l-3-3"/></svg></div>
           <div><h3>DCENT sponsor account</h3><p>Covers base reserve and network fees, so new users start with zero XLM. No control over the account.</p></div>
         </div>
         <div class="node dcent" style="left:0;top:336px">
-          <div class="logo"><img src="logos/dcent_logo.png" alt=""></div>
-          <div><h3>DCENT campaign wallet</h3><p>Sends XLM rewards to eligible users after on-chain verification, with a per-user cap.</p></div>
+          <div class="glyph g"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+          <div><h3>DCENT campaign wallet</h3><p>Sends campaign rewards (XLM, stablecoins or partner tokens) after on-chain verification, with a per-user cap.</p></div>
         </div>
       </div>
 
       <div class="hub">
         <div class="k">Self-custody</div>
-        <div class="device"><img src="device.png" alt="DCENT biometric hardware wallet"></div>
+        <div class="device"><img src="lineup.jpg" alt="DCENT hardware wallet lineup"></div>
         <h2>User's own Stellar account</h2>
-        <p>Private keys stay in the EAL5+ secure element. Nothing moves until the user checks it on screen and approves it with a fingerprint.</p>
-        <div class="chips"><span class="chip">Keys never leave the device</span><span class="chip">Fingerprint approval</span></div>
+        <p>Across the DCENT hardware lineup, private keys stay in a certified secure element (EAL5+ to EAL6+). Nothing moves until the user approves it on the device.</p>
+        <div class="chips"><span class="chip">Keys never leave the device</span><span class="chip">Approved on device</span></div>
       </div>
 
       <div class="right">
@@ -222,7 +223,7 @@ tr.grp td { padding: 12px 12px 4px; font-size: 9.5px; font-weight: 800; letter-s
         <tr><td>Fiat on-ramp</td><td>Card or bank → licensed partner → user's Stellar account</td><td>Partner (KYC and payment)</td><td>In-app integration only</td><td class="no">No</td></tr>
         <tr><td>Transfer in</td><td>Exchange or other wallet → user's Stellar account</td><td>Sender</td><td>Shows the address, adds trustlines</td><td class="no">No</td></tr>
         <tr><td>Zero-XLM start</td><td>DCENT sponsor account → Stellar network (reserve and fees)</td><td>DCENT and user (sponsorship)</td><td>Pays network costs through sponsored reserves and fee bumps</td><td class="no">No</td></tr>
-        <tr><td>Campaign rewards</td><td>DCENT campaign wallet → eligible user accounts</td><td>DCENT</td><td>Verifies actions on-chain, sends XLM rewards with a per-user cap</td><td class="no">No</td></tr>
+        <tr><td>Campaign rewards</td><td>DCENT campaign wallet → eligible user accounts</td><td>DCENT</td><td>Verifies actions on-chain, sends rewards (XLM, stablecoins or partner tokens) with a per-user cap</td><td class="no">No</td></tr>
         <tr class="grp"><td colspan="5">Out of the account, and back</td></tr>
         <tr><td>Vault deposit</td><td>User's account → Sentora or Upshift (by Gami) Soroban contract</td><td>User, on device</td><td>In-app access and signing</td><td class="no">No</td></tr>
         <tr><td>Vault withdraw</td><td>Vault contract → user's account</td><td>User, on device</td><td>In-app access and signing</td><td class="no">No</td></tr>
