@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DCENT Stellar Flow of Funds</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+@page { size: 1123px 794px; margin: 0; }
+:root {
+  --green: #2EB372; --green-d: #0a8f4f; --green-soft: #e7f6ee;
+  --ink: #0f1e17; --body: #41534a; --muted: #7a8a81; --tint: #f5faf7; --line: #e4ede8; --gray: #a7b4ad;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: 'Manrope', 'Helvetica Neue', Arial, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 1123px; height: 794px; position: relative; overflow: hidden; page-break-after: always; background: #fff; }
+.page:last-child { page-break-after: auto; }
+.bar { height: 6px; background: var(--green); }
+.inner { padding: 30px 44px 0; }
+.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.kicker { font-size: 11px; font-weight: 800; letter-spacing: .2em; color: var(--green-d); text-transform: uppercase; }
+h1 { font-size: 32px; font-weight: 800; letter-spacing: -.022em; line-height: 1.12; margin-top: 8px; }
+h1 em { font-style: normal; color: var(--green); }
+.sub { font-size: 13px; color: var(--body); margin-top: 8px; max-width: 690px; line-height: 1.5; }
+.wordmark { display: block; width: 118px; margin-top: 4px; }
+.wordmark img { display: block; width: 100%; height: auto; }
+
+/* diagram canvas: fixed geometry so arrows line up */
+.canvas { position: relative; width: 1035px; height: 430px; margin-top: 38px; }
+.col-label { position: absolute; top: -20px; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.node { position: absolute; width: 265px; background: var(--tint); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; }
+.node.dcent { background: #fff; border: 1.5px dashed var(--green-d); }
+.logo { flex: none; display: block; width: 34px; border-radius: 9px; overflow: hidden; }
+.logo img { display: block; width: 100%; height: auto; }
+.logos { flex: none; display: flex; gap: 4px; }
+.logos .logo { width: 26px; border-radius: 7px; }
+.glyph { flex: none; width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid var(--gray); display: grid; place-items: center; }
+.glyph svg { width: 18px; height: 18px; }
+.node h3 { font-size: 13.5px; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+.node p { font-size: 11px; color: var(--body); line-height: 1.4; margin-top: 3px; }
+.left .node { height: 94px; }
+.right .node { height: 74px; padding: 10px 14px; }
+
+.hub { position: absolute; left: 385px; top: 0; width: 265px; height: 430px; border: 2px solid var(--green); border-radius: 22px; padding: 20px 20px 18px; display: flex; flex-direction: column; align-items: center; text-align: center; background: #fff; }
+.hub .k { font-size: 10px; font-weight: 800; letter-spacing: .2em; color: var(--green-d); text-transform: uppercase; }
+.device { display: block; width: 104px; margin-top: 12px; }
+.device img { display: block; width: 100%; height: auto; }
+.hub h2 { font-size: 19px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin-top: 14px; }
+.hub p { font-size: 11px; color: var(--body); line-height: 1.45; margin-top: 6px; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-top: 10px; }
+.chip { font-size: 10px; font-weight: 700; color: var(--green-d); background: var(--green-soft); border-radius: 99px; padding: 3px 9px; }
+
+svg.arrows { position: absolute; left: 0; top: 0; width: 1035px; height: 430px; overflow: visible; }
+svg.arrows text { font-family: 'Manrope', Arial, sans-serif; font-size: 10px; font-weight: 700; fill: var(--body); }
+
+.legend { display: flex; gap: 26px; margin-top: 16px; font-size: 11px; color: var(--body); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend svg { width: 34px; height: 8px; }
+
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 16px; }
+.rule { border-top: 2px solid var(--green); padding-top: 9px; }
+.rule h4 { font-size: 13px; font-weight: 800; }
+.rule p { font-size: 11px; color: var(--body); line-height: 1.45; margin-top: 3px; }
+
+.foot { position: absolute; left: 44px; right: 44px; bottom: 20px; display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.foot b { color: var(--green-d); font-weight: 800; }
+
+/* page 2 */
+table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 11.5px; }
+th { text-align: left; font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 0 12px 9px; border-bottom: 2px solid var(--ink); }
+td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--body); line-height: 1.4; }
+td:first-child { color: var(--ink); font-weight: 800; white-space: nowrap; }
+td.no { color: var(--green-d); font-weight: 800; }
+tr.grp td { padding: 12px 12px 4px; font-size: 9.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--green-d); border-bottom: 0; }
+.never { margin-top: 16px; background: var(--tint); border-radius: 16px; padding: 16px 20px; display: grid; grid-template-columns: 170px 1fr 1fr 1fr; gap: 20px; align-items: start; }
+.never h4 { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.never div p { font-size: 11px; color: var(--body); line-height: 1.45; }
+.never div p b { display: block; color: var(--ink); font-size: 12px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section class="page">
+  <div class="bar"></div>
+  <div class="inner">
+    <div class="head">
+      <div>
+        <div class="kicker">Flow of funds · Stellar</div>
+        <h1>Every flow starts and ends in <em>the user's own account</em></h1>
+        <p class="sub">DCENT is a self-custody hardware wallet. DCENT never holds, pools or moves user funds. Users confirm every transaction on the device screen and approve it with a fingerprint.</p>
+      </div>
+      <div class="wordmark"><img src="logos/dcent_black.png" alt="DCENT"></div>
+    </div>
+
+    <div class="canvas">
+      <div class="col-label" style="left:0">Into the account</div>
+      <div class="col-label" style="left:770px">Out and back</div>
+
+      <svg class="arrows" viewBox="0 0 1035 430">
+        <defs>
+          <marker id="hg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2EB372"/></marker>
+          <marker id="hd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0a8f4f"/></marker>
+          <marker id="hx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a7b4ad"/></marker>
+        </defs>
+        <!-- left: into account -->
+        <g stroke-width="2" fill="none">
+          <line x1="269" y1="47" x2="380" y2="47" stroke="#a7b4ad" marker-end="url(#hx)"/>
+          <line x1="269" y1="159" x2="380" y2="159" stroke="#a7b4ad" marker-end="url(#hx)"/>
+          <line x1="269" y1="271" x2="380" y2="271" stroke="#0a8f4f" stroke-dasharray="5 4" marker-end="url(#hd)"/>
+          <line x1="269" y1="383" x2="380" y2="383" stroke="#0a8f4f" stroke-dasharray="5 4" marker-end="url(#hd)"/>
+        </g>
+        <g text-anchor="middle">
+          <text x="324" y="39">XLM · USDC</text>
+          <text x="324" y="151">Transfer in</text>
+          <text x="324" y="263">Reserve + fees</text>
+          <text x="324" y="375">XLM rewards</text>
+        </g>
+        <!-- right: out and back -->
+        <g stroke="#2EB372" stroke-width="2" fill="none">
+          <line x1="655" y1="30" x2="765" y2="30" marker-end="url(#hg)"/>
+          <line x1="765" y1="44" x2="655" y2="44" marker-end="url(#hg)"/>
+          <line x1="655" y1="119" x2="765" y2="119" marker-end="url(#hg)"/>
+          <line x1="765" y1="133" x2="655" y2="133" marker-end="url(#hg)"/>
+          <line x1="655" y1="208" x2="765" y2="208" marker-end="url(#hg)"/>
+          <line x1="765" y1="222" x2="655" y2="222" marker-end="url(#hg)"/>
+          <line x1="655" y1="297" x2="765" y2="297" marker-end="url(#hg)"/>
+          <line x1="765" y1="311" x2="655" y2="311" marker-end="url(#hg)"/>
+          <line x1="655" y1="393" x2="765" y2="393" marker-end="url(#hg)"/>
+        </g>
+        <g text-anchor="middle">
+          <text x="710" y="22">Deposit</text><text x="710" y="58">Withdraw</text>
+          <text x="710" y="111">Deposit</text><text x="710" y="147">Withdraw</text>
+          <text x="710" y="200">Asset out</text><text x="710" y="236">Asset back</text>
+          <text x="710" y="289">Connect · sign</text><text x="710" y="325">Result</text>
+          <text x="710" y="385">Send · cash out</text>
+        </g>
+      </svg>
+
+      <div class="left">
+        <div class="node" style="left:0;top:0">
+          <div class="logo"><img src="logos/banxa.png" alt=""></div>
+          <div><h3>Fiat on-ramp</h3><p>Licensed partner handles KYC and card or bank payment, then delivers to the user's address.</p></div>
+        </div>
+        <div class="node" style="left:0;top:112px">
+          <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#7a8a81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10V20M9 10V20M15 10V20M19 10V20M2 20h20M12 3 2 8h20z"/></svg></div>
+          <div><h3>Exchanges and other wallets</h3><p>Holders move XLM and Stellar assets from exchanges such as Upbit into self-custody.</p></div>
+        </div>
+        <div class="node dcent" style="left:0;top:224px">
+          <div class="logo"><img src="logos/dcent_logo.png" alt=""></div>
+          <div><h3>DCENT sponsor account</h3><p>Covers base reserve and network fees, so new users start with zero XLM. No control over the account.</p></div>
+        </div>
+        <div class="node dcent" style="left:0;top:336px">
+          <div class="logo"><img src="logos/dcent_logo.png" alt=""></div>
+          <div><h3>DCENT campaign wallet</h3><p>Sends XLM rewards to eligible users after on-chain verification, with a per-user cap.</p></div>
+        </div>
+      </div>
+
+      <div class="hub">
+        <div class="k">Self-custody</div>
+        <div class="device"><img src="device.png" alt="DCENT biometric hardware wallet"></div>
+        <h2>User's own Stellar account</h2>
+        <p>Private keys stay in the EAL5+ secure element. Nothing moves until the user checks it on screen and approves it with a fingerprint.</p>
+        <div class="chips"><span class="chip">Keys never leave the device</span><span class="chip">Fingerprint approval</span></div>
+      </div>
+
+      <div class="right">
+        <div class="node" style="left:770px;top:0">
+          <div class="logo"><img src="logos/sentora.png" alt=""></div>
+          <div><h3>Sentora vault</h3><p>Soroban vault. The position stays with the user's address.</p></div>
+        </div>
+        <div class="node" style="left:770px;top:89px">
+          <div class="logo"><img src="logos/upshift.png" alt=""></div>
+          <div><h3>Upshift vault by Gami</h3><p>Deposit and withdraw directly from the user's account.</p></div>
+        </div>
+        <div class="node" style="left:770px;top:178px">
+          <div class="logos"><div class="logo"><img src="logos/sushi.png" alt=""></div><div class="logo"><img src="logos/squid.png" alt=""></div></div>
+          <div><h3>Swap</h3><p>SushiSwap and Squid. Stellar and cross-chain.</p></div>
+        </div>
+        <div class="node" style="left:770px;top:267px">
+          <div class="logo"><img src="logos/stellar.png" alt=""></div>
+          <div><h3>Stellar dApps</h3><p>Opened natively in the DCENT in-app browser.</p></div>
+        </div>
+        <div class="node" style="left:770px;top:356px">
+          <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#7a8a81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></div>
+          <div><h3>Any address or exchange</h3><p>Pay, send to friends, or cash out.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><svg viewBox="0 0 34 8"><line x1="0" y1="4" x2="34" y2="4" stroke="#2EB372" stroke-width="2.5"/></svg>Signed by the user on the DCENT device</span>
+      <span><svg viewBox="0 0 34 8"><line x1="0" y1="4" x2="34" y2="4" stroke="#0a8f4f" stroke-width="2.5" stroke-dasharray="5 4"/></svg>Paid by DCENT, never taken from users</span>
+      <span><svg viewBox="0 0 34 8"><line x1="0" y1="4" x2="34" y2="4" stroke="#a7b4ad" stroke-width="2.5"/></svg>Sent by a partner or the user's other account</span>
+    </div>
+
+    <div class="rules">
+      <div class="rule"><h4>No custody</h4><p>Balances stay in the user's own Stellar account or in contracts the user chose. DCENT cannot move them.</p></div>
+      <div class="rule"><h4>Safe access to Stellar DeFi</h4><p>Official vault and dApp routes sit inside the app, and every action is checked on the device. This protects users from phishing and fake sites.</p></div>
+      <div class="rule"><h4>DCENT pays, never takes</h4><p>DCENT's own funds go out only as network costs for zero-XLM starts and as campaign rewards. DCENT takes nothing from vault returns.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>DCENT</b> · Flow of funds on Stellar · SCF Growth Hack application</span><span>01</span></div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page">
+  <div class="bar"></div>
+  <div class="inner">
+    <div class="head">
+      <div>
+        <div class="kicker">Flow by flow</div>
+        <h1>Who sends, who signs, <em>who holds</em></h1>
+      </div>
+      <div class="wordmark"><img src="logos/dcent_black.png" alt="DCENT"></div>
+    </div>
+
+    <table>
+      <thead><tr><th style="width:150px">Flow</th><th>From → To</th><th style="width:170px">Who signs</th><th>DCENT's role</th><th style="width:110px">DCENT holds funds?</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="5">Into the user's account</td></tr>
+        <tr><td>Fiat on-ramp</td><td>Card or bank → licensed partner → user's Stellar account</td><td>Partner (KYC and payment)</td><td>In-app integration only</td><td class="no">No</td></tr>
+        <tr><td>Transfer in</td><td>Exchange or other wallet → user's Stellar account</td><td>Sender</td><td>Shows the address, adds trustlines</td><td class="no">No</td></tr>
+        <tr><td>Zero-XLM start</td><td>DCENT sponsor account → Stellar network (reserve and fees)</td><td>DCENT and user (sponsorship)</td><td>Pays network costs through sponsored reserves and fee bumps</td><td class="no">No</td></tr>
+        <tr><td>Campaign rewards</td><td>DCENT campaign wallet → eligible user accounts</td><td>DCENT</td><td>Verifies actions on-chain, sends XLM rewards with a per-user cap</td><td class="no">No</td></tr>
+        <tr class="grp"><td colspan="5">Out of the account, and back</td></tr>
+        <tr><td>Vault deposit</td><td>User's account → Sentora or Upshift (by Gami) Soroban contract</td><td>User, on device</td><td>In-app access and signing</td><td class="no">No</td></tr>
+        <tr><td>Vault withdraw</td><td>Vault contract → user's account</td><td>User, on device</td><td>In-app access and signing</td><td class="no">No</td></tr>
+        <tr><td>Swap</td><td>User's account → SushiSwap or Squid → user's account</td><td>User, on device</td><td>Routes to third-party protocols</td><td class="no">No</td></tr>
+        <tr><td>Stellar dApps</td><td>User's account ⇄ dApp contract</td><td>User, on device</td><td>Wallet connection and signing</td><td class="no">No</td></tr>
+        <tr><td>Transfer out</td><td>User's account → any Stellar address or exchange</td><td>User, on device</td><td>Builds the transaction, supports memos</td><td class="no">No</td></tr>
+      </tbody>
+    </table>
+
+    <div class="never">
+      <h4>What DCENT never does</h4>
+      <div><p><b>Hold user keys</b>Keys are created and stored on the hardware wallet. DCENT has no copy and no recovery access.</p></div>
+      <div><p><b>Pool or route user funds</b>There is no DCENT omnibus account. Every transaction goes straight from the user's address.</p></div>
+      <div><p><b>Take a cut of vault returns</b>Vault returns go to the user. Campaign rewards are paid on top, from DCENT's own wallet.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>DCENT</b> · Flow of funds on Stellar · SCF Growth Hack application</span><span>02</span></div>
+</section>
+
+</body>
+</html>
