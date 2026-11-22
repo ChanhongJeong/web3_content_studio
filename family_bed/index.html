@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리집 패밀리침대 후보</title>
+<meta name="description" content="가드 포함 260 × 210 자리에 들어가는 패밀리침대 후보 정리">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#FAF7F2; --card:#FFFFFF; --ink:#2B2621; --sub:#7A7068; --line:#ECE5DB;
+    --accent:#C9895B; --accent-soft:#F6E9DD; --ok:#5E9C76; --ok-soft:#E5F1E9;
+    --warn:#C7873A; --warn-soft:#FBEEDB; --room:#EFE8DE; --bed:#D9B08C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 16px 80px}
+  header{text-align:center;margin-bottom:36px}
+  .tag{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+  h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+  header p{color:var(--sub);margin-top:10px;font-size:15px}
+  section{margin-top:44px}
+  h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+  .lead{color:var(--sub);font-size:14px;margin:-6px 0 16px}
+
+  .space{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .space svg{flex:0 0 220px;max-width:100%}
+  .space ul{flex:1 1 260px;list-style:none;display:grid;gap:10px;font-size:15px}
+  .space li b{color:var(--accent)}
+
+  .picks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .pick{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+  .pick .k{font-size:12px;font-weight:700;color:var(--accent)}
+  .pick .n{font-size:17px;font-weight:800;margin:4px 0 6px;letter-spacing:-.01em}
+  .pick p{font-size:13.5px;color:var(--sub)}
+
+  .list{display:grid;gap:14px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
+  .fit svg{width:100%;height:auto;display:block}
+  .fit .cap{font-size:11.5px;color:var(--sub);text-align:center;margin-top:6px}
+  .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .brand{font-size:13px;color:var(--sub);font-weight:600}
+  .badge{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .b-best{background:var(--accent-soft);color:var(--accent)}
+  .b-ok{background:var(--ok-soft);color:var(--ok)}
+  .b-warn{background:var(--warn-soft);color:var(--warn)}
+  .name{font-size:18px;font-weight:800;letter-spacing:-.01em;margin:4px 0 10px}
+  .specs{display:grid;grid-template-columns:repeat(4,auto);gap:6px 18px;justify-content:start;font-size:13.5px}
+  .specs dt{color:var(--sub);font-size:12px}
+  .specs dd{font-weight:700}
+  .note{font-size:13.5px;color:var(--sub);margin-top:10px}
+  .note b{color:var(--ink)}
+  .links{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .links a{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--bg)}
+  .links a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .out{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 20px}
+  .out div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .out div:last-child{border-bottom:0}
+  .out span:last-child{color:var(--sub);text-align:right}
+
+  .check{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px 22px;list-style:none;display:grid;gap:12px;font-size:14.5px}
+  .check li{padding-left:26px;position:relative}
+  .check li::before{content:"✓";position:absolute;left:0;top:0;color:var(--ok);font-weight:800}
+
+  footer{margin-top:48px;text-align:center;font-size:12.5px;color:var(--sub)}
+
+  @media (max-width:720px){
+    h1{font-size:25px}
+    .picks{grid-template-columns:1fr}
+    .item{grid-template-columns:1fr;gap:14px}
+    .fit{max-width:200px;margin:0 auto}
+    .specs{grid-template-columns:repeat(2,auto)}
+    .space{flex-direction:column;align-items:stretch}
+    .space svg{flex:none;width:100%;max-width:260px;margin:0 auto}
+    .space ul{flex:none}
+  }
+  .item>div,.pick,.space ul{min-width:0}
+  .name,.note,.out span{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">🛏️ 우리집 패밀리침대</span>
+  <h1>우리 자리에 들어가는<br>패밀리침대 골라봤어</h1>
+  <p>가드까지 포함해서 <b>가로 260 × 세로 210cm</b> 안에 들어가는 것만 모았어요</p>
+</header>
+
+<section>
+  <h2>우리 침대 자리</h2>
+  <div class="space">
+    <svg viewBox="0 0 300 260" role="img" aria-label="가로 260, 세로 210 침대 자리">
+      <rect x="20" y="20" width="260" height="210" rx="6" fill="#EFE8DE" stroke="#C9895B" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="150" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#2B2621">260cm</text>
+      <text x="10" y="125" text-anchor="middle" font-size="14" font-weight="700" fill="#2B2621" transform="rotate(-90 10 125)">210cm</text>
+      <text x="150" y="130" text-anchor="middle" font-size="15" fill="#7A7068">여기에 쏙</text>
+    </svg>
+    <ul>
+      <li>📏 처음 잰 건 205cm, <b>최대 210cm까지는 가능</b></li>
+      <li>⚠️ 문제는 <b>세로</b>예요. 대부분 패밀리침대가 머리판, 가드 때문에 세로 220~230cm라 안 들어가요</li>
+      <li>🙅 한샘 스테디2(SS+SS)도 242 × 229라서 탈락</li>
+      <li>✅ 프레임 있고 가드 있는 것만 골랐어요</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>한 줄 추천</h2>
+  <div class="picks">
+    <div class="pick"><div class="k">리뷰 제일 믿을 만한</div><div class="n">한샘 샘키즈 범퍼형</div><p>한샘몰 4.9점(12개). 대신 제일 비싸요</p></div>
+    <div class="pick"><div class="k">세로 여유 제일 많은</div><div class="n">동서가구 엘리시스 편백</div><p>세로 201cm라 9cm 남아요. 편백 원목</p></div>
+    <div class="pick"><div class="k">가성비</div><div class="n">꿈꾸는요셉 앙팡</div><p>40만 원대에 사이드가드 기본</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>들어가는 후보 8개</h2>
+  <p class="lead">그림의 점선이 우리 자리(260 × 210), 색칠된 부분이 침대예요</p>
+  <div class="list" id="list"></div>
+</section>
+
+<section>
+  <h2>아깝게 뺀 것</h2>
+  <div class="out">
+    <div><span>아이엔지홈 모리 기본형 SS+SS (220 × 206)</span><span>가드 없는 기본형</span></div>
+    <div><span>한샘 스테디2 SS+SS</span><span>242 × 229, 세로 초과</span></div>
+    <div><span>인홈 라온 슬림 · 모리 데이베드 · 장인가구 하랑</span><span>세로 211~212, 살짝 초과</span></div>
+    <div><span>삼익 해온 · 지베스 슬림둥지</span><span>세로 220 넘음</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>사기 전에 체크할 것</h2>
+  <ul class="check">
+    <li><b>바닥 높이에서</b> 다시 재보기. 걸레받이가 튀어나와 있으면 실제 폭이 1~2cm 줄어요</li>
+    <li>매트리스는 따로 사야 해요. <b>SS+SS면 SS 2개(110×200)</b>, <b>S+Q면 S(100×200) + Q(150×200)</b></li>
+    <li>방문, 옷장 문 여닫히는지 확인. 침대가 꽉 차면 시트 갈 때 힘들어요</li>
+    <li>판매처에 "외경 사이즈가 가드 포함 실측인지" 한 번 물어보기</li>
+    <li>오늘의집, 쿠팡, 네이버 리뷰도 꼭 같이 보기 (자동으로는 못 가져와서 직접 봐야 해요)</li>
+  </ul>
+</section>
+
+<footer>가격은 2026년 11월 22일 다나와 최저가 기준 · 매트리스 별도 가격이에요</footer>
+</div>
+
+<script>
+const beds = [
+  {brand:"한샘", name:"샘키즈 저상형 범퍼형 SS+SS (한쪽가드)", w:228, d:208, h:80.5, price:"약 126만 원", review:"한샘몰 4.9점 (12개)", badge:["b-best","리뷰 최고"],
+   note:"7.5cm 쿠션 가드라 아이 부딪혀도 덜 아파요. <b>양쪽가드형도 236 × 208이라 들어가요.</b> 단, 데이베드 옵션은 세로 216이라 안 돼요.",
+   links:[["한샘몰","https://store.hanssem.com/goods/1081745"],["다나와","https://prod.danawa.com/info/?pcode=74006372"]]},
+  {brand:"동서가구", name:"엘리시스 편백 패밀리침대 S+Q", w:252, d:201, h:50, price:"약 91만 원", review:"다나와 4.7점 (4개)", badge:["b-best","세로 여유 최고"],
+   note:"세로 201이라 <b>9cm나 남아요</b>. 높이도 50cm로 제일 낮고, 편백 원목이라 냄새도 좋아요.",
+   links:[["다나와","https://prod.danawa.com/info/?pcode=10829103"]]},
+  {brand:"꿈꾸는요셉", name:"앙팡 어린이 패밀리침대 SS+SS", w:230, d:205, h:60.5, price:"약 44.6만 원", review:"다나와 5.0점 (2개)", badge:["b-best","가성비"],
+   note:"사이드가드 기본. 앞쪽까지 막는 <b>전면가드 2개 버전은 약 51.9만 원</b>이에요. 리뷰는 아직 적어요.",
+   links:[["다나와","https://prod.danawa.com/info/?pcode=30622160"],["전면가드 버전","https://prod.danawa.com/info/?pcode=30622253"]]},
+  {brand:"지베스", name:"쿠시 슬림가드 패밀리침대 SS+SS", w:227.5, d:207.5, h:62, price:"약 76만 원", review:"리뷰 확인 못 함", badge:["b-ok","들어감"],
+   note:"슬림한 패브릭 가드. 매트 포함(폼텍스) 세트는 약 109만 원.",
+   links:[["다나와","https://prod.danawa.com/info/?pcode=78609185"]]},
+  {brand:"상일리베가구", name:"르몽 원목 패밀리침대 SS+SS", w:236, d:207, h:100, price:"약 51만 원", review:"리뷰 확인 못 함", badge:["b-ok","들어감"],
+   note:"원목이고 가격 좋아요. 대신 <b>높이가 100cm로 높은 편</b>이라 방이 좀 답답해 보일 수 있어요. 수납형도 같은 사이즈.",
+   links:[["다나와","https://prod.danawa.com/info/?pcode=69056312"]]},
+  {brand:"BIF보루네오 · 가이온", name:"아르메 한쪽형 / 꽃잠 가드1형 S+Q", w:256, d:206, h:81, price:"약 53~57만 원", review:"리뷰 확인 못 함", badge:["b-ok","들어감"],
+   note:"두 제품이 <b>같은 프레임</b>으로 보여요. 가이온 꽃잠이 조금 더 싸요(약 52.8만 원). 가로를 거의 꽉 채워요.",
+   links:[["아르메","https://prod.danawa.com/info/?pcode=65366294"],["꽃잠","https://prod.danawa.com/info/?pcode=72062054"]]},
+  {brand:"일룸", name:"쿠시노 저상형 패밀리침대 Q+S (인조가죽)", w:255.4, d:206.5, h:82.5, price:"약 121.6만 원", review:"일룸몰 4.9점 (130개)", badge:["b-warn","가드 포함 여부 확인"],
+   note:"<b>리뷰 수는 제일 많아요.</b> 다만 구성품이 '침대 프레임'으로만 나와 있어서 사이드 가드가 들어 있는지는 일룸에 꼭 물어봐야 해요.",
+   links:[["일룸몰","https://www.iloom.com/product/detail.do?productCd=HB722501"]]},
+  {brand:"삼익가구", name:"루시 슬림형 SS+Q (가드 2 + 풋가드)", w:260, d:206, h:80, price:"가격 표기 이상함", review:"리뷰 확인 못 함", badge:["b-warn","가로 꽉 참"],
+   note:"가로가 <b>딱 260이라 여유 0cm</b>. 제일 넓게 쓸 수 있지만 설치가 빡빡할 수 있어요. 다나와 가격이 들쭉날쭉해서 판매처 확인 필요.",
+   links:[["다나와","https://prod.danawa.com/info/?pcode=20139227"]]},
+];
+
+const W=260, D=210, S=0.52, P=6;
+function fitSvg(b){
+  const vw=W*S+P*2, vh=D*S+P*2;
+  const bw=b.w*S, bd=b.d*S;
+  return `<svg viewBox="0 0 ${vw} ${vh}" aria-label="${b.w} × ${b.d}">
+    <rect x="${P}" y="${P}" width="${W*S}" height="${D*S}" rx="4" fill="var(--room)" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <rect x="${P}" y="${P}" width="${bw}" height="${bd}" rx="4" fill="var(--bed)"/>
+    <text x="${P+bw/2}" y="${P+bd/2+5}" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">${b.w}×${b.d}</text>
+  </svg>`;
+}
+const fmt=n=>Number.isInteger(n)?n:n.toFixed(1);
+document.getElementById("list").innerHTML = beds.map(b=>`
+  <article class="item">
+    <div class="fit">${fitSvg(b)}<div class="cap">남는 공간 가로 ${fmt(W-b.w)} · 세로 ${fmt(D-b.d)}cm</div></div>
+    <div>
+      <div class="top"><span class="brand">${b.brand}</span><span class="badge ${b.badge[0]}">${b.badge[1]}</span></div>
+      <div class="name">${b.name}</div>
+      <dl class="specs">
+        <div><dt>크기 (가로×세로×높이)</dt><dd>${b.w} × ${b.d} × ${b.h}</dd></div>
+        <div><dt>가격 (매트 별도)</dt><dd>${b.price}</dd></div>
+        <div><dt>리뷰</dt><dd>${b.review}</dd></div>
+      </dl>
+      <p class="note">${b.note}</p>
+      <div class="links">${b.links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t} →</a>`).join("")}</div>
+    </div>
+  </article>`).join("");
+</script>
+</body>
+</html>
