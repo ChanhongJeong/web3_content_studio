@@ -93,16 +93,49 @@
 
   footer{margin-top:48px;text-align:center;font-size:12.5px;color:var(--sub)}
 
+  .nav{display:none}
+  .gcards{display:none}
+  .gcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+  .gcard .gh{font-size:16px;font-weight:800}
+  .gcard .gh span{font-size:12.5px;color:var(--sub);font-weight:600;margin-right:6px}
+  .gcard .gi{font-size:13px;color:var(--sub);margin:4px 0 10px}
+  .gcard .gs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .gcard .gs div{border-radius:10px;padding:8px 6px;text-align:center;font-size:12px;line-height:1.35}
+  .gcard .gs b{display:block;font-size:13.5px;font-variant-numeric:tabular-nums}
+  .gs .y{background:var(--ok-soft);color:var(--ok)}
+  .gs .n{background:var(--no-soft);color:var(--no)}
+  .gs .na{background:var(--bg);color:var(--sub)}
+  .gs .full{grid-column:1/-1}
+
   @media (max-width:720px){
-    h1{font-size:25px}
-    .picks{grid-template-columns:1fr}
-    .item{grid-template-columns:1fr;gap:14px}
-    .fit{max-width:200px;margin:0 auto}
-    .space{flex-direction:column;align-items:stretch}
-    .space svg{flex:none;width:100%;max-width:260px;margin:0 auto}
-    .space ul{flex:none}
+    body{font-size:15px}
+    .wrap{padding:20px 16px 60px}
+    header{margin-bottom:20px}
+    h1{font-size:24px}
+    header p{font-size:14px}
+    section{margin-top:32px;scroll-margin-top:64px}
+    h2{font-size:19px}
+    .nav{display:flex;gap:6px;position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 16px;margin:0 -16px;overflow-x:auto;border-bottom:1px solid var(--line)}
+    .nav a{flex:none;font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+    .picks{grid-template-columns:1fr;gap:10px}
+    .pick{padding:14px 16px}
+    .item{grid-template-columns:1fr;gap:10px;padding:16px}
+    .fit{width:150px;margin:0 auto}
+    .space{flex-direction:column;align-items:stretch;padding:18px;gap:14px}
+    .space svg{flex:none;width:100%;max-width:200px;margin:0 auto}
+    .space ul{flex:none;font-size:14.5px}
+    .tablewrap,.gtable-note{display:none}
+    .gcards{display:grid;gap:10px}
+    .name{font-size:17px}
+    .sizes div{grid-template-columns:1fr auto;row-gap:2px;padding:9px 12px}
+    .sizes .lbl{grid-column:1/-1;font-size:12.5px}
+    .guard{padding:12px}
+    .guard ul li{line-height:1.5}
+    .links a{padding:9px 14px;font-size:14px}
+    .out{padding:4px 16px}
     .out div{flex-direction:column;gap:2px}
-    .out span:last-child{text-align:left}
+    .out span:last-child{text-align:left;font-size:13px}
+    .check{padding:16px 18px}
   }
   .item>div,.pick,.space ul{min-width:0}
   .name,.note,.out span{overflow-wrap:anywhere}
@@ -116,6 +149,10 @@
   <h1>우리 자리에 들어가는<br>패밀리침대 골라봤어</h1>
   <p>가드까지 포함해서 <b>가로 260 × 세로 210cm</b> 안에 들어가는 것만 모았어요</p>
 </header>
+
+<nav class="nav">
+  <a href="#pick">⭐ 추천</a><a href="#compare">🛡️ 가드 비교</a><a href="#list-sec">🛏️ 후보 6개</a><a href="#out-sec">🙅 탈락</a><a href="#check-sec">✓ 체크</a>
+</nav>
 
 <section>
   <h2>우리 침대 자리</h2>
@@ -135,7 +172,7 @@
   </div>
 </section>
 
-<section>
+<section id="pick">
   <h2>한 줄 추천</h2>
   <div class="picks">
     <div class="pick"><div class="k">리뷰 · 가드 제일 튼튼한</div><div class="n">한샘 샘키즈 범퍼형</div><p>7.5cm 쿠션 가드, 양쪽가드도 들어가요. 4.9점(12개). 대신 제일 비싸요</p></div>
@@ -144,18 +181,20 @@
   </div>
 </section>
 
-<section>
+<section id="compare">
   <h2>가드 한눈에 비교</h2>
+  <p class="lead">전부 <b>가드 두께까지 더한 바깥 사이즈</b>예요 · 초록 = 들어감, 빨강 = 넘침</p>
+  <div class="gcards" id="gcards"></div>
   <div class="tablewrap">
     <table>
       <thead><tr><th>제품</th><th>가드 종류</th><th>두께</th><th>높이 (바닥에서)</th><th>가드 없이</th><th>한쪽 가드</th><th>양쪽 가드</th></tr></thead>
       <tbody id="gtable"></tbody>
     </table>
   </div>
-  <p class="lead" style="margin-top:10px">전부 <b>가드 두께까지 더한 바깥 사이즈</b>예요 · 초록 = 들어감, 빨강 = 안 들어감 · "약"은 가드 두께로 계산한 값이에요</p>
+  <p class="lead" style="margin-top:10px">"약"은 가드 두께로 계산한 값이에요</p>
 </section>
 
-<section>
+<section id="list-sec">
   <h2>들어가는 후보 6개</h2>
   <div class="legend">
     <span><i style="border:1.5px dashed var(--accent);background:var(--room)"></i>우리 자리 260 × 210</span>
@@ -165,7 +204,7 @@
   <div class="list" id="list"></div>
 </section>
 
-<section>
+<section id="out-sec">
   <h2>가드 붙이면 탈락하는 것</h2>
   <div class="out">
     <div><span>일룸 쿠시노 Q+S (리뷰 4.9점 · 130개)</span><span>가드 별도 구매. 한쪽만 붙여도 261.4cm로 1.4cm 초과</span></div>
@@ -177,7 +216,7 @@
   </div>
 </section>
 
-<section>
+<section id="check-sec">
   <h2>사기 전에 체크할 것</h2>
   <ul class="check">
     <li><b>바닥 높이에서</b> 다시 재보기. 걸레받이가 튀어나와 있으면 실제 폭이 1~2cm 줄어요</li>
@@ -281,6 +320,24 @@ document.getElementById("gtable").innerHTML = beds.map(b=>{
     <td>${b.guard.type}</td><td>${b.guard.thick}</td><td>${b.guard.height}</td>
     ${fixed?`<td colspan="3">${fixedCell}</td>`:`<td>${cell(b,/가드 없이/)}</td><td>${cell(b,/^한쪽/)}</td><td>${cell(b,/^양쪽/)}</td>`}
   </tr>`;}).join("");
+
+// 폰용 가드 비교 카드
+const pill=(b,re,label)=>{
+  const s=b.sizes.find(x=>re.test(x[0]));
+  if(!s) return `<div class="na">${label}<b>없음</b></div>`;
+  const [,w,d,a]=s;
+  return `<div class="${fits(w,d)?'y':'n'}">${label}<b>${a?'약 ':''}${fmt(w)}×${fmt(d)}</b></div>`;
+};
+document.getElementById("gcards").innerHTML = beds.map(b=>{
+  const [,w,d]=b.sizes[0], extra=b.sizes.find(x=>x[4]);
+  const sizes = b.guardSides===0
+    ? `<div class="y full">가드 일체형<b>${fmt(w)} × ${fmt(d)}</b></div>${extra?`<div class="na full">${extra[0]}<b>세로 ${extra[4]} (확인 필요)</b></div>`:''}`
+    : pill(b,/가드 없이/,"가드 없이")+pill(b,/^한쪽/,"한쪽 가드")+pill(b,/^양쪽/,"양쪽 가드");
+  return `<div class="gcard">
+    <div class="gh"><span>${b.brand}</span>${b.name.split(" ")[0]}</div>
+    <div class="gi">🛡️ ${b.guard.type} · 두께 ${b.guard.thick} · 높이 ${b.guard.height}</div>
+    <div class="gs">${sizes}</div>
+  </div>`;}).join("");
 </script>
 </body>
 </html>
