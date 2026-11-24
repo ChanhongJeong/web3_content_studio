@@ -29,7 +29,7 @@
   .space ul{flex:1 1 260px;list-style:none;display:grid;gap:10px;font-size:15px}
   .space li b{color:var(--accent)}
 
-  .picks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .picks{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .pick{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
   .pick .k{font-size:12px;font-weight:700;color:var(--accent)}
   .pick .n{font-size:17px;font-weight:800;margin:4px 0 6px;letter-spacing:-.01em}
@@ -151,7 +151,7 @@
 </header>
 
 <nav class="nav">
-  <a href="#pick">⭐ 추천</a><a href="#compare">🛡️ 가드 비교</a><a href="#list-sec">🛏️ 후보 5개</a><a href="#maybe-sec">🔍 확인 필요</a><a href="#out-sec">🙅 탈락</a><a href="#check-sec">✓ 체크</a>
+  <a href="#pick">⭐ 추천</a><a href="#compare">🛡️ 가드 비교</a><a href="#list-sec">🛏️ 후보 6개</a><a href="#out-sec">🙅 탈락</a><a href="#check-sec">✓ 체크</a>
 </nav>
 
 <section>
@@ -167,7 +167,7 @@
       <li>📏 처음 잰 건 205cm, <b>최대 210cm까지는 가능</b></li>
       <li>⚠️ 문제는 <b>세로</b>예요. 대부분 패밀리침대가 머리판, 가드 때문에 세로 220~230cm라 안 들어가요</li>
       <li>🛡️ 가드는 보통 <b>한 면에 6~7.5cm</b>씩 폭을 늘려요. 그래서 <b>가드 붙인 사이즈</b>로 다시 확인했어요</li>
-      <li>✅ 가드까지 붙여도 들어가는 건 <b>5개</b>예요 (한샘 샘키즈는 품절이라 뺐어요)</li>
+      <li>✅ 가드까지 붙여도 들어가는 건 <b>6개</b>예요 (한샘 샘키즈는 품절이라 뺐어요)</li>
     </ul>
   </div>
 </section>
@@ -176,6 +176,7 @@
   <h2>한 줄 추천</h2>
   <div class="picks">
     <div class="pick"><div class="k">리뷰 제일 많은</div><div class="n">가이온 꽃잠 가드1형 S+Q</div><p>오늘의집 4.7점, 리뷰 191개. 257 × 207로 가로를 꽉 채워요. 52.8만 원</p></div>
+    <div class="pick"><div class="k">가드 제일 높은</div><div class="n">레이디가구 레브 슬림헤드</div><p>SS+SS에 측면가드 추가, 227 × 207. 가드가 매트 위로 54cm 이상. 4.9점</p></div>
     <div class="pick"><div class="k">원목 · 가성비</div><div class="n">상일리베 헤이 높은가드</div><p>43.9만 원 원목, 236 × 207. 펜스가 붙어 있어요. 오늘의집 4.8점</p></div>
     <div class="pick"><div class="k">제일 저렴한</div><div class="n">꿈꾸는요셉 앙팡</div><p>40만 원대. 머리 쪽이랑 양옆 벽이 기본으로 붙어 있어요</p></div>
   </div>
@@ -195,7 +196,7 @@
 </section>
 
 <section id="list-sec">
-  <h2>들어가는 후보 5개</h2>
+  <h2>들어가는 후보 6개</h2>
   <div class="legend">
     <span><i style="border:1.5px dashed var(--accent);background:var(--room)"></i>우리 자리 260 × 210</span>
     <span><i style="background:var(--bed)"></i>침대</span>
@@ -204,20 +205,13 @@
   <div class="list" id="list"></div>
 </section>
 
-<section id="maybe-sec">
-  <h2>판매처에 물어보면 들어갈 수도 있는 것</h2>
-  <p class="lead">사이즈가 정확히 안 나와 있어서 계산으로 추정한 거예요. 사기 전에 꼭 물어봐야 해요</p>
-  <div class="out">
-    <div><span><b>레이디가구 레브 슬림헤드 SS+SS</b> + 하이가드 85cm<br><small style="color:var(--sub)">리뷰 많음 (레브 데이베드 4.7점 · 1,774개)</small></span><span>침대 220 × 207 확인. 가드 붙이면 <b>약 234 × 207</b> 추정 · 46.9만 + 가드 약 21.9만 원</span></div>
-    <div><span><b>상일리베 큐브 틈새방지 가드형 2.5m</b><br><small style="color:var(--sub)">오늘의집 4.6~4.7점 · 리뷰 45개</small></span><span>가로 약 250은 OK, <b>세로 확인 필요</b> · 프레임만 27.9만 원부터</span></div>
-  </div>
-</section>
-
 <section id="out-sec">
   <h2>탈락한 것</h2>
   <div class="out">
     <div><span>한샘 샘키즈 범퍼형 SS+SS</span><span>사이즈는 OK (236 × 208)인데 <b>품절</b></span></div>
     <div><span>보니애가구 큐브 저상 패밀리침대 (오늘의집 리뷰 732개)</span><span>세로 216, 초과</span></div>
+    <div><span>도담 마루 슬림헤드 (오늘의집 리뷰 669개)</span><span>232 × 212, 세로 2cm 초과</span></div>
+    <div><span>상일리베 큐브 틈새방지 가드형</span><span>세로 230, 초과</span></div>
     <div><span>위드홈 코이 LED 패밀리침대 (리뷰 225개)</span><span>세로 225, 초과</span></div>
     <div><span>홈앤힐 아루 트윈 (리뷰 200개)</span><span>232 × 214, 세로 초과</span></div>
     <div><span>도담 슬림 코지 (리뷰 344개)</span><span>프레임 206 + 머리판 6 = 약 212, 초과</span></div>
@@ -257,6 +251,11 @@ const beds = [
    sizes:[["가드 없이 (S+Q)",250,207],["한쪽 가드 (S+Q)",257,207],["양쪽 가드 (S+Q)",264,207],["한쪽 가드 (싱글+싱글)",207,207],["양쪽 가드 (싱글+싱글)",214,207]], draw:1, base:250, guardSides:1,
    note:"오늘의집 공식 사이즈표로 확인했어요. 리뷰 191개 중 5점이 158개예요. 싱글+싱글 산 분은 \"가드를 세게 흔들면 조금 흔들리지만 가격 대비 좋다\"고 했어요. <b>싱글+싱글은 매트가 100cm짜리 2개</b>라 SS+SS보다 20cm 좁아요.",
    links:[["오늘의집","https://store.ohou.se/goods/1868627"],["G마켓 (아르메)","https://item.gmarket.co.kr/Item?goodsCode=3620723109"],["다나와 꽃잠","https://prod.danawa.com/info/?pcode=27609137"]]},
+  {brand:"레이디가구", name:"레브 슬림헤드 SS+SS + 측면가드", price:"프레임 44.9만 + 측면가드 19.9만 원 (한쪽)", review:"오늘의집 4.9점 (27개)", badge:["b-best","가드 제일 높음"],
+   guard:{type:"패브릭 쿠션 가드 (추가 구매)", thick:"약 7cm", height:"85cm (매트 위로 54~58cm)", sides:"측면가드를 한쪽 또는 양쪽에. 풋가드는 세로가 늘어나서 빼야 해요"},
+   sizes:[["가드 없이",220,207],["한쪽 가드",227,207,true],["양쪽 가드",234,207,true],["발쪽 풋가드 추가",234,214,true]], draw:1, base:220, guardSides:1,
+   note:"오늘의집 공식 사이즈표(220 × 207)와 판매자 Q&A(머리판, 가드 두께 약 7cm)로 확인했어요. 가드가 매트 위로 54~58cm 올라와서 후보 중 제일 높아요. <b>풋가드를 붙이면 세로가 약 214라 넘쳐요.</b> 양쪽 가드로 하면 약 84.7만 원이에요.",
+   links:[["오늘의집","https://store.ohou.se/goods/1576166"]]},
   {brand:"꿈꾸는요셉", name:"앙팡 어린이 패밀리침대 SS+SS", price:"약 44.6만 원", review:"다나와 5.0점 (2개)", badge:["b-best","최저가"],
    guard:{type:"프레임 일체형 벽 (PB + LPM 마감)", thick:"프레임에 포함", height:"약 60.5~65cm", sides:"머리 + 양옆 기본. 앞쪽 전면가드는 1개 3.9만 원"},
    sizes:[["기본 (머리 + 양옆 벽)",230,205],["앞쪽 전면가드 추가",230,205,false,"205 + 가드 두께"]], draw:0, base:230, guardSides:0,
